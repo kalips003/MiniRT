@@ -3,48 +3,88 @@
 /*                                                        :::      ::::::::   */
 /*   Y_init.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: umosse <umosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 06:21:51 by kalipso           #+#    #+#             */
-/*   Updated: 2024/09/07 16:35:11 by umosse           ###   ########.fr       */
+/*   Updated: 2024/10/30 13:23:18 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/minirt.h"
 
-int			initialization(int ac, char **av, char **env, t_data *data);
-static void	copy_env(t_data *data, char **env);
+typedef int (*t_ft_object)(t_data *data, char **split);
+
+typedef struct s_dico_pair
+{
+	char		*name;
+	t_ft_object	exe;
+}	t_dico_pair;
+
+static const t_dico_pair	dico[] = {
+{"A", parse_A},
+{"C", parse_C},
+{"L", parse_L},
+{"pl", parse_pl},
+{"sp", parse_sp},
+{"cy", parse_cy},
+{NULL, NULL}
+};
+
+///////////////////////////////////////////////////////////////////////////////]
+
+int	initialization(int ac, char **av, char **env, t_data *data);
+int	ft_parse_line(t_data *data, char *line);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // ini
 int	initialization(int ac, char **av, char **env, t_data *data)
 {
-	srand(time(NULL));
+	if (ac != 2)
+		(put(ERR2"Wrong number of args\n"), exit(1));
+	int dot = wii('.', av[1]);
+	if (dot == -1 || !same_str("rt", &av[1][dot]))
+		(put(ERR1"MiniRT takes a single map with .rt extension as argument\n"), exit(1));
+	int fd = open(av[1], O_RDONLY);
+	if (fd < 0)
+		(perror(ERR9"Cant open file"), exit(1));
 	ft_memset(data, 0, sizeof(t_data));
-	copy_env(data, env);
-	data->fd_in_original = dup(STDIN_FILENO);
-	if (ac == 3 && same_str(av[1], "-c"))
+
+	char *line;
+	while (1)
 	{
-		if (ft_parsing_v2(data, av[2]))
-			data->exit_code = 0x0100;
-		ft_father(data);
-		end(data, (WEXITSTATUS(data->exit_code)));
+		line = gnl(fd);
+		if (!line)
+			break ;
+		if (ft_parse_line(data, line))
+			(close(fd), end(data, 1));
 	}
-	else if (ac != 1)
-		return (put(ERR"Wrong number of arguments\n"), exit(0), 1);
-	rl_event_hook = (void *)fakesig;
-	sigemptyset(&data->sig_int.sa_mask);
-	sigemptyset(&data->sig_quit.sa_mask);
-	return (0);
+	close(fd);
 }
 
-static void	copy_env(t_data *data, char **env)
+int	ft_parse_line(t_data *data, char *line)
 {
-	int		i;
+// if line empty, skip it
+	if (!line[0])
+		return (free_s(line), 0);
 
-	if (!env)
-		return ;
+// split the raw
+	char **param = split(line, " \t");
+	if (!param)
+		(put(ERRM"split\n"), exit(2));
+
+// find the identifier in the dico, process the object with the appropriate function
+	int	i;
 	i = -1;
-	while (env[++i])
-		data->env = expand_tab(data->env, str("%1s", env[i]));
+	int rtrn;
+	while (dico[++i].name)
+	{
+		if (same_str(param[0], dico[i].name))
+			rtrn = dico[i].exe(data, split + 1);
+		if (rtrn)
+			;// parsing return error
+	}
+
+
+	line = free_s(line);
+	return (0);
 }

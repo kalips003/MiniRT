@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:54:09 by kalipso           #+#    #+#             */
-/*   Updated: 2024/09/08 13:42:34 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/10/30 15:12:37 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,69 @@
 ///////////////////////////////////////////////////////////////////////////////]
 
 
+
+///////////////////////////////////////////////////////////////////////////////]
+double	ft_atof(char *string, int *error)
+{
+	double rtrn = 0.0;
+
+	char **tab = split(string, ".");
+	if (!tab || tab_size(tab) > 2)
+		return (free_tab(tab), put(ERR6"(%s) not a correct number\n", string), (*error)++, rtrn);
+	int err = 0;
+	rtrn = (double)ft_atoi(tab[0], &err);
+	if (err)
+		return (put(ERR7"(%s) not a correct number\n", string), free_tab(tab), (*error)++, rtrn);
+	if (tab[1])
+	{
+		double fraction = ft_atoi(tab[1], &err);
+		if (err || fraction < 0)
+			return (put(ERR8"(%s) bad fractional part\n", tab[1]), free_tab(tab), (*error)++, rtrn);
+		int	frac_len = len(tab[1]);
+		double div = 1.0;
+		while (frac_len-- != 0)
+			div *= 10.0;
+		rtrn += fraction / div;
+	}
+	free_tab(tab);
+	return (rtrn);
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+// 		......../....*
+// 		........*..../
+int	main(int ac, char **av, char **env)
+{
+	int err = 0;
+	char *string = "-123123";
+	double abc = ft_atof(string, &err);
+	put("%s = %f\n", string, abc / 1000.0);
+	
+	
+	
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+// MAIN 1
+
+	// t_folder	*folder;
+
+	// folder = new_folder(NULL, str("/"));
+	// if (!folder)
+	// 	return (1);
+	// print_folder(folder);
+	// clean_folder(folder);
+
+
+	// DIR 		*dir = opendir("/");
+	// put("%p\n", dir);
+	return (0);
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	MAIN 1
 typedef struct s_folder
 {
 	DIR 		*dir;
@@ -50,7 +113,7 @@ t_folder	*new_folder(t_folder *previous, char *folder_path)
 		return (NULL);
 	if (previous)
 	{
-		folder->floor = previous->next + 1;
+		folder->floor = previous->floor + 1;
 		previous->next = (t_folder **)expand_tab((char **)previous->next, (char *)folder);
 	}
 	folder->folder_path = folder_path;
@@ -112,28 +175,5 @@ void	print_folder(t_folder *first)
 			print_folder(*p_leaf);
 	}
 }
-///////////////////////////////////////////////////////////////////////////////]
-// 		......../....*
-// 		........*..../
-int	main(int ac, char **av, char **env)
-{
-	t_folder	*folder;
-
-	folder = new_folder(NULL, str("/"));
-	if (!folder)
-		return (1);
-	print_folder(folder);
-	clean_folder(folder);
-
-
-	// DIR 		*dir = opendir("/");
-	// put("%p\n", dir);
-	return (0);
-}
-
-///////////////////////////////////////////////////////////////////////////////]
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
