@@ -10,7 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#include "../../inc/libft.h"
+
+void	clean_buff(char *buff, int sw);
+void	free_all(t_gnl **first_list);
+int		is_there_n(t_gnl *node);
+char	*f_rtrn_2(t_gnl *first_list, char *rtrn, int size);
 
 ///////////////////////////////////////////////////////
 // #	RESET TEMP || CLEAN BUFFER

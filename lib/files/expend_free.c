@@ -10,8 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#include "../../inc/libft.h"
 
+void	*expand(void *ptr, int size, int add);
+char	**expand_tab(char **tab, char *new_line);
+void	*free_tab(char **tab);
+void	*free_s(void *ptr);
+
+///////////////////////////////////////////////////////////////////////////////]
 void	*expand(void *ptr, int size, int add)
 {
 	void	*rtrn;
@@ -48,11 +54,12 @@ char	**expand_tab(char **tab, char *new_line)
 	}
 	new_tab[i] = new_line;
 	new_tab[i + 1] = NULL;
-	if (tab)
-		free(tab);
+	free_s(tab);
 	return (new_tab);
 }
 
+///////////////////////////////////////////////////////////////////////////////]
+// yes, its secure for NULL tab
 void	*free_tab(char **tab)
 {
 	int	i;

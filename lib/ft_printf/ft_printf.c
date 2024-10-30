@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agallon <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 16:06:22 by agallon           #+#    #+#             */
-/*   Updated: 2024/06/26 16:58:35 by agallon          ###   ########.fr       */
+/*   Updated: 2024/08/26 16:09:01 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,19 @@ static int	f_1(const char *str, int *i, va_list args, int fd)
 	return (rtrn);
 }
 
-////////////////////////////////////////////////////////////
-//	#
+///////////////////////////////////////////////////////////////////////////////]
+/*******************************************************************************
+	%t
+		[ %.*S ] > put * \t in front of the tab
+		[ %-S ] > dont put \n after each line (for gnl return)
+	%S
+		[ % S ] > spacing, show white space
+		[ %*S ] > print memory
+		[ %.*S ] > \n sizeof (bit)
+		[ %#S ] > hexadecimal
+		[ %-#S ] > no 2 precision for hexa
+		[ %+S ] > colors +128
+******************************************************************************/
 int	put(const char *str, ...)
 {
 	va_list	args;
@@ -122,6 +133,7 @@ int	print_fd(int fd, const char *str, ...)
  * 		PRINT CAT RANDOM COLOR
  * bit[1, .] = cls
  * bit[., 1] = stops
+ * bit[1, ., .] = free string2
 ******************************************************************************/
 int	ft_print_cat(int num, char *string2, int bit)
 {
@@ -138,7 +150,7 @@ int	ft_print_cat(int num, char *string2, int bit)
 	put("\033[38;5;%dm\
 	\tにゃ~\033[38;5;%dm\t⠀╱|、\n\
 	\t\t(˚ˎ。7⠀⠀⠀\033[38;5;%dm~ %d ~\033[38;5;%dm\n\
-	\t\t⠀|、˜\\\t\t\t\033[38;5;%dm~ %s\033[38;5;%dm\n\
+	\t\t⠀|、˜\\\t\t\t\033[38;5;%dm~%s~\033[38;5;%dm\n\
 	\t\t⠀じしˍ)ノ\n", \
 	color2, color1, color2, num, color1, color2, string2, color1);
 	if ((bit >> 0) & 1)
@@ -147,5 +159,7 @@ int	ft_print_cat(int num, char *string2, int bit)
 			RESET, color3);
 		free_333(gnl(0));
 	}
+	if ((bit >> 2) & 1)
+		free_333(string2);
 	return (color3);
 }

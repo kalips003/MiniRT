@@ -10,8 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#include "../../inc/libft.h"
 
+///////////////////////////////////////////////////////////////////////////////]
+int	len(char *s);
+int	len_m(char *s, char *dico);
+int	len_n(char *s, char *dico);
+int	wii(char c, char *dico);
+int	tab_size(char **tab);
+
+///////////////////////////////////////////////////////////////////////////////]
 int	len(char *s)
 {
 	int		i;
@@ -36,6 +44,24 @@ int	len_m(char *s, char *dico)
 	while (s[i] && wii(s[i], dico) < 0)
 		i++;
 	return (i);
+}
+
+////////////////////////////////////////////////////////
+//  return lenght, skips char in the dico
+int	len_n(char *s, char *dico)
+{
+	int		len;
+
+	len = 0;
+	if (!s)
+		return (-1);
+	while (*s)
+	{
+		if (wii(*s, dico) < 0)
+			len++;
+		s++;
+	}
+	return (len);
 }
 
 ////////////////////////////////////////////////////////

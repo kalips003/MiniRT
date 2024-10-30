@@ -10,8 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#include "../../inc/libft.h"
 
+int	abs(int num);
+int	min(int a, int b);
+int	max(int a, int b);
+int	min_all(int how_many, ...);
+int	max_all(int how_many, ...);
+
+///////////////////////////////////////////////////////////////////////////////]
 int	abs(int num)
 {
 	if (num == -2147483648)
@@ -35,6 +42,7 @@ int	max(int a, int b)
 	return (b);
 }
 
+///////////////////////////////////////////////////////////////////////////////]
 int	min_all(int how_many, ...)
 {
 	va_list	args;

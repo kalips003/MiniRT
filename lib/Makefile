@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agallon <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/12 14:57:56 by agallon           #+#    #+#              #
-#    Updated: 2024/06/26 17:35:33 by agallon          ###   ########.fr        #
+#    Updated: 2024/07/02 00:48:43 by kalipso          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -g -fPIE -I$(HEADER_FOLDER)
 
 # PATHs
-HEADER_FOLDER = ../include
+HEADER_FOLDER = ../inc
 FILES_PATH = files
 PRINTF_PATH = ft_printf
 OBJ_FOLDER = obj

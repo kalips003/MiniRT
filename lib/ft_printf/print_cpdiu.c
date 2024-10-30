@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_cpdiu.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agallon <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 16:06:53 by agallon           #+#    #+#             */
-/*   Updated: 2024/06/03 17:35:14 by agallon          ###   ########.fr       */
+/*   Updated: 2024/07/12 03:19:08 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	ft_string(va_list args, t_flags *f)
 		space = f_spacing(f, size);
 	i = 0;
 	if (!str && size >= 6)
-		write(1, "(null)", size);
+		write(f->fd, "(null)", size);
 	else if (str)
 		while (str[i] && i < size)
-			write(1, &str[i++], 1);
+			write(f->fd, &str[i++], 1);
 	if (f->minus)
 		space = f_spacing(f, size);
 	return (size + space);
@@ -52,7 +52,7 @@ int	ft_char(va_list args, t_flags *f)
 		size = f_spacing(f, f->preci);
 	i = -1;
 	while (++i < f->preci)
-		write(1, &c, 1);
+		write(f->fd, &c, 1);
 	if (f->minus)
 		size = f_spacing(f, f->preci);
 	return (f->preci + size);
@@ -78,7 +78,7 @@ int	ft_pointer(va_list args, t_flags *f)
 		size += ft_putnbr_base_un(f->fd, p, "0123456789abcdef");
 	}
 	else
-		size += write(1, "(nil)", 5);
+		size += write(f->fd, "(nil)", 5);
 	if (f->minus)
 		size += f_spacing(f, num_size + size_format_num_un(p, f, num_size));
 	return (size);

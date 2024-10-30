@@ -49,7 +49,7 @@ char	*join(char *begin, char *append, int bit, int size)
 	return (str);
 }
 
-////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////]
 //	#	[scpiduxX%bofeES]
 t_str	g_tab[] = {NULL,
 	pt_string,
@@ -69,7 +69,7 @@ t_str	g_tab[] = {NULL,
 	NULL,
 	NULL};
 
-////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////]
 static char	*le(char *s, char *app, int *inc)
 {
 	int		i;
@@ -82,7 +82,7 @@ static char	*le(char *s, char *app, int *inc)
 	return (s);
 }
 
-////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////]
 //	#	CREATE STRUCT
 char	*f_2(char *str, int *i, va_list args)
 {
@@ -108,11 +108,9 @@ char	*f_2(char *str, int *i, va_list args)
 
 ///////////////////////////////////////////////////////////////////////////////]
 /*******************************************************************************
-	(char *)printf
+	%1s !
 		return NULL on error
 ******************************************************************************/
-//	#	(char *)printf
-
 char	*str(char *str, ...)
 {
 	va_list	args;
@@ -131,7 +129,7 @@ char	*str(char *str, ...)
 		else
 			rtrn = le(rtrn, &str[i], &i);
 		if (!rtrn)
-			return (NULL);
+			return (put(ERRM), NULL);
 	}
 	va_end(args);
 	return (rtrn);

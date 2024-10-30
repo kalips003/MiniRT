@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agallon <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:54:09 by kalipso           #+#    #+#             */
-/*   Updated: 2024/06/26 17:37:14 by agallon          ###   ########.fr       */
+/*   Updated: 2024/09/08 13:42:34 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
-#include "../include/so_long_bonus.h"
+#include "../inc/libft.h"
+// #include "../inc/minishell.h"
+#include <dirent.h>
 
 /*******************************************************************************
 ******************************************************************************/
@@ -27,125 +28,112 @@
 			╚═╝░░╚═╝  ╚═╝░░░░░╚═╝░░╚═╝╚═╝╚═╝░░╚═╝╚══════╝
 
 
-
-
-
-
-
-<?> .PHONY: test - This declares that test is a phony target,
-	meaning it's not associated with a file. </?>
-
-// MACRO
-// #define funct(ap, type)    (*(type *)((ap += sizeof(type)) - sizeof(type)))
 ******************************************************************************/
-#define PI 3.14159265358979323846
-
 ///////////////////////////////////////////////////////////////////////////////]
-int	main(int ac, char **av, char **env)
-{
-	int		a;
-	int		b;
-	int		i;
-	char	*string;
 
-	put("we want:\n\
-		→ 0: cos=1, sin =0\n\
-		↓ 1: cos=0, sin =1\n\
-		← 2: cos=-1, sin =0\n\
-		↑ 3: cos=0, sin =-1\n");
-	i = -1;
-	while (++i < 4)
+
+typedef struct s_folder
+{
+	DIR 		*dir;
+	struct dirent *entry;
+	char		**all_files;
+	char 		*folder_path;
+	int			floor;
+	struct s_folder **next;
+
+}	t_folder;
+
+t_folder	*new_folder(t_folder *previous, char *folder_path)
+{
+	t_folder	(*folder) = (t_folder *)mem(0, sizeof(t_folder));
+	if (!folder)
+		return (NULL);
+	if (previous)
 	{
-		b = (int)sin(i * PI / 2);
-		a = (int)cos(i * PI / 2);
-		printf("%d: cos= %.1d, sin = %.1d\n", i, a, b);
+		folder->floor = previous->next + 1;
+		previous->next = (t_folder **)expand_tab((char **)previous->next, (char *)folder);
 	}
-	printf("--->%d\n\n\n\n", (int)round(0.49));
-	string = str("asdf%dalosdif", 123);
-	put("=%s=\n", string);
-	ft_print_cat(i, string, 0b01);
-	free(string);
-	put("HELLO AGAIN=\n");
-	return (0);
+	folder->folder_path = folder_path;
+	folder->dir = opendir(folder_path);
+	if (!folder->dir)
+	{
+		put("adsfhsjklljkjkjkjkjkjkjkjkjk");
+		return (perror("opendir"), NULL);
+	}
+	folder->entry = 1;
+	while (folder->entry)
+	{
+		folder->entry = readdir(folder->dir);
+		if (!folder->entry || same_str(folder->entry->d_name, ".") || same_str(folder->entry->d_name, ".."))
+			continue;
+		folder->all_files = expand_tab(folder->all_files, str("%1s", folder->entry->d_name));
+		if (folder->entry->d_type == DT_DIR || folder->entry->d_type == DT_LNK)
+		{
+			char *full_path = str("%1s/%1s", folder_path, folder->entry->d_name);
+			if (!access(full_path, F_OK | R_OK | X_OK))// if 0, access ok
+				new_folder(folder, full_path);
+			else
+				full_path = free_s(full_path);
+		}
+	}
+	closedir(folder->dir);
+	return (folder);
+}
+
+void	*clean_folder(t_folder *first)
+{
+	if (!first)
+		return (NULL);
+	free_tab(first->all_files);
+	free_s(first->folder_path);
+	t_folder	(**p_leaf) = first->next;
+	if (p_leaf)
+	{
+		p_leaf = first->next - 1;
+		while (*(++p_leaf))
+			clean_folder(*p_leaf);
+	}
+	free_s(first->next);
+	free_s(first);
+	return (NULL);
+}
+
+void	print_folder(t_folder *first)
+{
+	if (!first)
+		return ;
+	put(ERR0"FOLDER: %s\n", first->folder_path);
+	put("%#-.1t", first->all_files);
+	t_folder	(**p_leaf) = first->next;
+	if (p_leaf)
+	{
+		p_leaf = first->next - 1;
+		while (*(++p_leaf))
+			print_folder(*p_leaf);
+	}
 }
 ///////////////////////////////////////////////////////////////////////////////]
+// 		......../....*
+// 		........*..../
+int	main(int ac, char **av, char **env)
+{
+	t_folder	*folder;
 
+	folder = new_folder(NULL, str("/"));
+	if (!folder)
+		return (1);
+	print_folder(folder);
+	clean_folder(folder);
+
+
+	// DIR 		*dir = opendir("/");
+	// put("%p\n", dir);
+	return (0);
+}
+
+///////////////////////////////////////////////////////////////////////////////]
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
+
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-//  			GITHUB
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-git pull
-git log > navigate snapshots in time
-git log --pretty=fuller
-git log --pretty=oneline --abbrev-commit --date=short
-git log --since="2022-01-01" --until="2022-12-31"
-git checkout <commit-hash>
-	Use the hash from the log output.
-	save a good commit hash is Makefile Makerestore
-To reset the repository to a specific commit:
-	git reset --hard <commit-hash>
-git push origin feature-branch:main
-
-
-// Stash Changes: Use git stash to stash your changes.
-	git stash
-// Switch Branches: After stashing your changes, you can switch branches.
-	git checkout <branch-name>
-// Apply Stashed Changes: you can apply your stashed changes to the new branch.
-	git stash apply
-// Pop Stashed Changes: you can apply and remove the stashed changes in one step
-	git stash pop
-// List Stashes: To see a list of stashed changes, you can use:
-	git stash list
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-//  			BIWISE
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-while (((condition1) & bit) || ((condition2) & ~bit))
-
-   Setting a Bit at N: (counting from 0)
-x |= (1 << N);
-
-   Clearing a Bit at N:
-x &= ~(1 << N);
-
-	Toggling a Bit at N:
-x ^= (1 << N);
-
-	Toggle a specific range of bits, end (inclusive)
-x ^= ((1 << (end - start + 1)) - 1) << start;
-
-	Checking if Bit N is Set:
-if (x & (1 << N)) {
-	// Bit is set }
-
-	Checking if a Bit is Clear:
-if (!(x & (1 << N))) {
-	// Bit is clear}
-
-	Setting Multiple Bits at Once:
-x |= (1 << 1) | (1 << 3) | (1 << 5);
-
-	Extracting Specific Bits: (3 least)
-int	extractedBits = x & 0b111;
-
-	Swapping Two Variables without Using a Temporary Variable:
-a ^= b;
-b ^= a;
-a ^= b;
-
-	Checking if an Integer is Even or Odd: (faster than % 2)
-if (num & 1)
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
-/*
-Common flags used with open():
-
-    O_RDONLY: Open for reading only.
-    O_WRONLY: Open for writing only.
-    O_RDWR: Open for reading and writing.
-    O_APPEND: Open in append mode (writes are added to the end of the file).
-    O_CREAT: Create the file if it does not exist.
-    O_TRUNC: Truncate the file to zero length if it already exists.
-*/

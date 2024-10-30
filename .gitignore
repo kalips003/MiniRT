@@ -1,0 +1,8 @@
+*.o
+so_long
+so_long_bonus
+a.out
+.vscode
+.dist
+sujet.pdf
+libft/libft.a
