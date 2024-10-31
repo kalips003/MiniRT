@@ -28,7 +28,7 @@ int	parse_A(t_data *data, char **raw_split)
 	t_ambient_light	*light = mem(0, sizeof(t_ambient_light));
 	if (!light)
 		return (put(ERRM), 2);
-	data->light = expand_tab(data->light, light);
+	data->light = (t_ambient_light **)expand_tab((void **)data->light, light);
 	
 	if (tab_size(raw_split) != 2)
 		return (put(ERR1"bad number of args (AMBIENT LIGHT)\n"), 1);
@@ -51,14 +51,14 @@ int	parse_C(t_data *data, char **raw_split)
 	t_camera	*camera = mem(0, sizeof(t_camera));
 	if (!camera)
 		return (put(ERRM), 2);
-	data->camera = expand_tab(data->camera, camera);
+	data->camera = (t_camera **)expand_tab((void **)data->camera, camera);
 	
 	if (tab_size(raw_split) != 3)
 		return (put(ERR1"bad number of args (CAMERA)\n"), 1);
 	
 	int	err = 0;
 	camera->fov = ft_atoi(raw_split[2], &err);
-	if (err || ato_coor(raw_split[0], &(camera->xyz)) || ato_coor(raw_split[1], &(camera->direction)))
+	if (err || ato_coor(raw_split[0], &(camera->xyz)) || ato_coor(raw_split[1], (t_coor *)&camera->direction))
 		return (1);
 
 	if (camera->fov < 0 || camera->fov > 180)
@@ -82,7 +82,7 @@ int	parse_L(t_data *data, char **raw_split)
 	t_light	*light = mem(0, sizeof(t_camera));
 	if (!light)
 		return (put(ERRM), 2);
-	data->light_source = expand_tab(data->light_source, light);
+	data->light_source = (t_light **)expand_tab((void **)data->light_source, light);
 	
 	if (tab_size(raw_split) != 3)
 		return (put(ERR1"bad number of args (LIGHT SOURCE)\n"), 1);
@@ -108,12 +108,12 @@ int	parse_pl(t_data *data, char **raw_split)
 	t_plane	*plane = mem(0, sizeof(t_plane));
 	if (!plane)
 		return (put(ERRM), 2);
-	data->planes = expand_tab(data->planes, plane);
+	data->planes = (t_plane **)expand_tab((void **)data->planes, plane);
 
 	if (tab_size(raw_split) != 3)
 		return (put(ERR1"bad number of args (PLANES OBJECT)\n"), 1);
 
-	if (ato_coor(raw_split[0], &(plane->xyz)) || ato_coor(raw_split[1], &(plane->direction)) || ato_rgb(raw_split[2], &(plane->color)))
+	if (ato_coor(raw_split[0], &(plane->xyz)) || ato_coor(raw_split[1], (t_coor *)&plane->direction) || ato_rgb(raw_split[2], &(plane->color)))
 		return (1);
 
 	if (plane->direction.dx < -1.0 || plane->direction.dx > 1.0 || 
@@ -133,7 +133,7 @@ int	parse_sp(t_data *data, char **raw_split)
 	t_sphere	*sphere = mem(0, sizeof(t_sphere));
 	if (!sphere)
 		return (put(ERRM), 2);
-	data->spheres = expand_tab(data->spheres, sphere);
+	data->spheres = (t_sphere **)expand_tab((void **)data->spheres, sphere);
 
 	if (tab_size(raw_split) != 3)
 		return (put(ERR1"bad number of args (SPHERE OBJECT)\n"), 1);
@@ -158,7 +158,7 @@ int	parse_cy(t_data *data, char **raw_split)
 	t_cylinder	*cylinder = mem(0, sizeof(t_cylinder));
 	if (!cylinder)
 		return (put(ERRM), 2);
-	data->cylinders = expand_tab(data->cylinders, cylinder);
+	data->cylinders = (t_cylinder **)expand_tab((void **)data->cylinders, cylinder);
 
 	if (tab_size(raw_split) != 5)
 		return (put(ERR1"bad number of args (CYLINDER OBJECT)\n"), 1);
@@ -167,7 +167,7 @@ int	parse_cy(t_data *data, char **raw_split)
 	cylinder->diameter = ft_atof(raw_split[2], &err);
 	cylinder->height = ft_atof(raw_split[3], &err);
 
-	if (err || ato_coor(raw_split[0], &(cylinder->xyz)) || ato_coor(raw_split[1], &(cylinder->direction)) || ato_rgb(raw_split[4], &(cylinder->color)))
+	if (err || ato_coor(raw_split[0], &(cylinder->xyz)) || ato_coor(raw_split[1], (t_coor *)&cylinder->direction) || ato_rgb(raw_split[4], &(cylinder->color)))
 		return (1);
 
 	if (cylinder->direction.dx < -1.0 || cylinder->direction.dx > 1.0 || 

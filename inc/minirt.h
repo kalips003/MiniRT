@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/31 13:35:11 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/10/31 15:38:37 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ typedef struct s_norm_vect
 ////////////////////////////////////////////]
 typedef struct s_data
 {
+	void	*mlx;
+	void	*win;
+	
 	t_ambient_light	**light;
 	t_camera	**camera;
 	t_light		**light_source;
@@ -153,7 +156,7 @@ int		ato_rgb(char *str, t_rgb *rgb);
 /********************************
 		Y
 ********************************/
-void	initialization(int ac, char **av, char **env, t_data *data);
+void	initialization(int ac, char **av, t_data *data);
 // 
 
 int	parse_A(t_data *data, char **raw_split);

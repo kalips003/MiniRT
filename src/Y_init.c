@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 06:21:51 by kalipso           #+#    #+#             */
-/*   Updated: 2024/10/31 14:00:12 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/10/31 15:41:56 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static const t_dico_pair	dico[] = {
 
 ///////////////////////////////////////////////////////////////////////////////]
 
-void	initialization(int ac, char **av, char **env, t_data *data);
+void	initialization(int ac, char **av, t_data *data);
 int	ft_parse_line(t_data *data, char *line);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // ini
-void	initialization(int ac, char **av, char **env, t_data *data)
+void	initialization(int ac, char **av, t_data *data)
 {
 	if (ac != 2)
 		(put(ERR2"Wrong number of args\n"), exit(1));
@@ -59,6 +59,10 @@ void	initialization(int ac, char **av, char **env, t_data *data)
 			(close(fd), end(data, 0));
 	}
 	close(fd);
+
+// MLX
+	
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////]

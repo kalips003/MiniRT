@@ -88,7 +88,8 @@ SRC_FOLDER = src
 OBJ_FOLDER = src/obj
 HEADER_FOLDER = inc
 
-ADD_FLAGS = -lm -lreadline -lncurses
+ADD_FLAGS = -lm
+# ADD_FLAGS = -lm -lreadline -lncurses
 
 # ╭──────────────────────────────────────────────────────────────────────╮
 # │                  	 	        Libft                      	         │
@@ -107,19 +108,28 @@ libtest:
 	@make -sC lib test_color
 
 # ╭──────────────────────────────────────────────────────────────────────╮
+# │                  	 	       MLX		                   	         │
+# ╰──────────────────────────────────────────────────────────────────────╯
+
+FLAGS_MLX = -Lmlx_linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lz
+
+mlx:
+	@make -sC ./mlx_linux/
+
+# ╭──────────────────────────────────────────────────────────────────────╮
 # │                  	 	       PROJECT                   	         │
 # ╰──────────────────────────────────────────────────────────────────────╯
 
-$(NAME): libft $(OBJ) main.c
+$(NAME): mlx libft $(OBJ) main.c
 	@clear
-	@if ! $(CC) $(FLAGS) $(OBJ) main.c lib/libft.a $(ADD_FLAGS) -o $(NAME); then \
+	@if ! $(CC) $(FLAGS) $(OBJ) main.c lib/libft.a ./mlx_linux/libmlx.a $(FLAGS_MLX) $(ADD_FLAGS) -o $(NAME); then \
 		$(call print_cat, "", $(RED), $(GOLD), $(RED_L), $(call pad_word, 10, "ERROR"), $(call pad_word, 12, "COMPILING..")); \
 		exit 1; \
 	fi
 	$(call print_cat, $(CLEAR), $(GOLD), $(GREEN1), $(GREEN1), $(call pad_word, 10, $(NAME)), $(call pad_word, 12, "Compiled~"));
 
-abc: fclean libft $(OBJ) main.c
-	$(CC) $(FLAGS) $(OBJ) main.c lib/libft.a $(ADD_FLAGS) -o $(NAME)
+abc: fclean mlx libft $(OBJ) main.c
+	$(CC) $(FLAGS) $(OBJ) main.c lib/libft.a ./mlx_linux/libmlx.a $(FLAGS_MLX) $(ADD_FLAGS) -o $(NAME)
 
 src/obj/%.o: src/%.c inc/$(NAME).h
 	@if [ ! -e $(OBJ_FOLDER) ]; then\
