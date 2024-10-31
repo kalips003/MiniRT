@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: umosse <umosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 20:06:26 by agallon           #+#    #+#             */
-/*   Updated: 2024/09/03 17:42:42 by umosse           ###   ########.fr       */
+/*   Updated: 2024/10/31 13:34:36 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int			ft_atoi(char *str, int *error);
 int			ft_atoi_v2(char *str, int *i, int *error);
 //
 void		*expand(void *ptr, int size, int add);
-char		**expand_tab(char **tab, char *new_line);
+void		**expand_tab(void **tab, void *new_line);
 void		*free_tab(char **tab);
 void		*free_s(void *ptr);
 //

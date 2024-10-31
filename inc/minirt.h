@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/30 16:00:39 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/10/31 13:35:11 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,16 @@
 // typedef struct s_data			t_data;
 // typedef struct s_cmd			t_cmd;
 // typedef int						(*t_builtin)(t_data *data, t_cmd *cmd);
+typedef struct s_rgb		t_rgb;
+typedef struct s_coor		t_coor;
+typedef struct s_norm_vect		t_norm_vect;
+typedef struct s_ambient_light		t_ambient_light;
+typedef struct s_camera		t_camera;
+typedef struct s_light		t_light;
+typedef struct s_sphere		t_sphere;
+typedef struct s_plane		t_plane;
+typedef struct s_cylinder		t_cylinder;
+typedef struct s_square		t_square;
 
 typedef struct s_rgb
 {
@@ -53,17 +63,17 @@ typedef struct s_rgb
 
 typedef struct s_coor
 {
-	double	x;
-	double	y;
-	double	z;
+	float	x;
+	float	y;
+	float	z;
 }	t_coor;
 
 // range [-1, 1]
 typedef struct s_norm_vect
 {
-	double	x;
-	double	y;
-	double	z;
+	float	dx;
+	float	dy;
+	float	dz;
 }	t_norm_vect;
 
 ////////////////////////////////////////////]
@@ -82,7 +92,7 @@ typedef struct s_data
 ////////////////////////////////////////////]
 typedef struct s_ambient_light
 {
-	double	ratio;
+	float	ratio;
 	t_rgb	color;
 }	t_ambient_light;//		A
 
@@ -96,14 +106,14 @@ typedef struct s_camera
 typedef struct s_light
 {
 	t_coor	xyz;
-	double	ratio;
+	float	ratio;
 	t_rgb	color;
 }	t_light;//		L
 
 typedef struct s_sphere
 {
 	t_coor	xyz;
-	double	radius;
+	float	diameter;
 	t_rgb	color;
 }	t_sphere;//		sp
 
@@ -119,8 +129,8 @@ typedef struct s_cylinder
 {
 	t_coor	xyz;
 	t_norm_vect	direction;
-	double	diameter;
-	double	height;
+	float	diameter;
+	float	height;
 	t_rgb	color;
 }	t_cylinder;//		pl
 
@@ -129,21 +139,21 @@ typedef struct s_square
 {
 	t_coor	center;
 	t_norm_vect	direction;
-	double	diameter;
-	double	height;
+	float	diameter;
+	float	height;
 	t_rgb	color;
 }	t_square;//		sq
 ///////////////////////////////////////////////////////////////////////////////]
 /********************************
 		T	Tools
 ********************************/
-double	ft_atof(char *string, int *error);
+float	ft_atof(char *string, int *error);
 int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
 /********************************
 		Y
 ********************************/
-int			initialization(int ac, char **av, char **env, t_data *data);
+void	initialization(int ac, char **av, char **env, t_data *data);
 // 
 
 int	parse_A(t_data *data, char **raw_split);

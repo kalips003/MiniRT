@@ -1,0 +1,13 @@
+==252912== Memcheck, a memory error detector
+==252912== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==252912== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==252912== Command: ./minirt map/scene1.rt
+==252912== 
+==252912== 
+==252912== HEAP SUMMARY:
+==252912==     in use at exit: 0 bytes in 0 blocks
+==252912==   total heap usage: 35 allocs, 35 frees, 524 bytes allocated
+==252912== 
+==252912== All heap blocks were freed -- no leaks are possible
+==252912== 
+==252912== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

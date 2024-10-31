@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/10/30 11:39:12 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/10/31 14:10:30 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ int	main(int ac, char **av, char **env)
 	t_data	data;
 
 	initialization(ac, av, env, &data);
+	put("x>  %f\n", data.camera[0]->direction.dx);
+	put("y>  %f\n", data.camera[0]->direction.dy);
+	put("z>  %f\n", data.camera[0]->direction.dz);
 
 	end(&data, 0);
 	return (0);

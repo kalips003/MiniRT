@@ -1,9 +1,9 @@
-NAME = minishell
-NAME_BONUS = minishell_b
+NAME = minirt
+NAME_BONUS = minirt_b
 
 CC = cc
-# FLAGS = -Wextra -Wall -g -fPIE -I$(HEADER_FOLDER)
-FLAGS = -Wextra -Wall -Werror -g -fPIE -I$(HEADER_FOLDER)
+FLAGS = -Wextra -Wall -g -fPIE -I$(HEADER_FOLDER)
+# FLAGS = -Wextra -Wall -Werror -g -fPIE -I$(HEADER_FOLDER)
 
 all: $(NAME)
 
@@ -22,32 +22,23 @@ all: $(NAME)
 # ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
-NAMEE = minishell
-NAMEE_BONUS = minishell_b
+NAMEE = minirt
+
+MAP = map/scene1.rt
 
 # RUN MINISHELL
-a: $(NAMEE) small_clean
-	@$(call random_shmol_cat, teshting ... $@: minishell, 'hav fun ね? ($(word 1, $^))', $(CLS), );
-	./$(word 1, $^)
-
-# RUN MINISHELL & BASH TERMINAL
-b: $(NAMEE) small_clean
-	gnome-terminal -- bash --posix &
-	@$(call random_shmol_cat, teshting ... $@: minishell, 'hav fun ね? ($(word 1, $^))', $(CLS), );
-	./$(word 1, $^)
-
-# RUN BASH
-t:
-	gnome-terminal -- bash --posix &
+a: $(NAMEE)
+	@$(call random_shmol_cat, teshting ... $@: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), );
+	./$(word 1, $^) $(MAP)
 
 # RUN MINISHELL & VALGRING 2> out/valgrind
-v: $(NAMEE) small_clean
+v: $(NAMEE)
 	@$(call random_shmol_cat, "vlgrininnng ... $(word 1, $^)!", "$(ARG2)", $(CLS), );
-	-$(VALGRIND) ./$(word 1, $^) 2> out/valgrind
+	-$(VALGRIND) ./$(word 1, $^) $(MAP) 2> valgrind.log
 
 # RUN TESTS IN data/TESTS UNTIL EMPTY LINE
 # RUN MINISHELL & VALGRING 2> out/valgrind
-m: $(NAMEE) small_clean
+m: $(NAMEE)
 	@while IFS= read -r line; do \
 		if [ -z "$$line" ]; then break; fi; \
 		$(call random_shmol_cat, "teshiing ... $(word 1, $^)!", "$$line", $(CLS), ); \
@@ -59,7 +50,7 @@ m: $(NAMEE) small_clean
 	done < data/TESTS
 
 # CHECK FD
-maieul: $(NAMEE) small_clean
+maieul: $(NAMEE)
 	@$(call random_shmol_cat, "teshiing ... $(word 1, $^)!", "lets find tis fd", $(CLS), )
 	@if [ ! -e traces ]; then \
 		mkdir -p traces; \
@@ -68,11 +59,6 @@ maieul: $(NAMEE) small_clean
 	./minishell -c "cat | sleep 50 | ls"; \
 	strace-log-merge traces/trace | batcat -lstrace;
 
-small_clean:
-	-@rm -rf ./out traces
-	@if [ ! -e out ]; then \
-		mkdir -p out; \
-	fi;
 
 ULIMIT = 3000
 m2: $(NAMEE)
@@ -190,8 +176,8 @@ srcb/obj/%.o: srcb/%.c inc/$(NAME).h
 # ╰────────────────────────────────────────────────────────────────────────────╯
 
 # --------------------------------------------------------------------------------- >
-# VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s --track-fds=yes
-VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s --trace-children=yes --track-fds=yes $(V_FLAG)
+# VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s --track-fds=yes --trace-children=yes
+VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s
 VALGRIND_OTHER = valgrind --vgdb=yes
 V_FLAG = --suppressions="data/ignore_valgrind"
 HELLGRIND = valgrind --tool=helgrind ?-g3?
