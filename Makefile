@@ -34,7 +34,7 @@ a: $(NAMEE)
 # RUN MINISHELL & VALGRING 2> out/valgrind
 v: $(NAMEE)
 	@$(call random_shmol_cat, "vlgrininnng ... $(word 1, $^)!", "$(ARG2)", $(CLS), );
-	-$(VALGRIND) ./$(word 1, $^) $(MAP) 2> valgrind.log
+	-$(VALGRIND) ./$(word 1, $^) $(MAP)
 
 # RUN TESTS IN data/TESTS UNTIL EMPTY LINE
 # RUN MINISHELL & VALGRING 2> out/valgrind

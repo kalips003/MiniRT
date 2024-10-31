@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 06:21:51 by kalipso           #+#    #+#             */
-/*   Updated: 2024/10/31 15:41:56 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/10/31 16:38:08 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ typedef struct s_dico_pair
 }	t_dico_pair;
 
 static const t_dico_pair	dico[] = {
-{"A", parse_A},
-{"C", parse_C},
-{"L", parse_L},
-{"pl", parse_pl},
-{"sp", parse_sp},
-{"cy", parse_cy},
-{NULL, NULL}
+	{"A", parse_A},
+	{"C", parse_C},
+	{"L", parse_L},
+	{"pl", parse_pl},
+	{"sp", parse_sp},
+	{"cy", parse_cy},
+	{NULL, NULL}
 };
 
 ///////////////////////////////////////////////////////////////////////////////]
 
 void	initialization(int ac, char **av, t_data *data);
-int	ft_parse_line(t_data *data, char *line);
+int		ft_parse_line(t_data *data, char *line);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // ini
@@ -61,15 +61,25 @@ void	initialization(int ac, char **av, t_data *data)
 	close(fd);
 
 // MLX
-	
-
+	data->mlx = mlx_init();
+	if (!data->mlx)
+		(put(ERRM"MLX fait de la merde\n"), end(data, 1));
+	data->win = mlx_new_window(data->mlx, SIZEX, SIZEY, "miniRT");
+	data->buffer.img = mlx_new_image(data->mlx, SIZEX, SIZEY);
+	if (!data->win || !data->buffer.img)
+		(put(ERRM"Problem initalisazing mlx (2)\n"), end(data, 1));
+	data->buffer.addr = mlx_get_data_addr(data->buffer.img, &data->buffer.bpp, &data->buffer.ll, &data->buffer.end);
+	mlx_loop_hook(data->mlx, &ft_loop, data);
+	mlx_hook(data->win, KeyPress, KeyPressMask, &key_press, data);
+	mlx_hook(data->win, KeyRelease, KeyReleaseMask, &key_release, data);
+	mlx_hook(data->win, 17, 0, &end2, data);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
 int	ft_parse_line(t_data *data, char *line)
 {
 // if line empty, skip it
-	if (line[0] == '\n')
+	if (line[0] == '\n' || line[0] == '#')
 		return (free_s(line), 0);
 // split the raw
 	char **params = split(line, " \t");

@@ -1,7 +1,18 @@
-A 0.2 255,255,255    
-C -50,0,20 0,0,0 70
-L -40,0,30 0.7 255,255,255
-L -40,0,30 0.7 255,255,255
-pl 0,0,0 0,1.0,0 255,0,225
-sp 0,0,20 20 255,0,0
-cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
+
+# (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+A 						0.2 					255,255,255
+
+# (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
+C 						-50,0,20 			0,0,0 					70
+
+# (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+L 						-40,0,30 			0.7 					255,255,255
+
+# (pl) Plane:			POSITION (xyz)		VECTOR [-1.0, 1.0]		COLOR_rgb [0, 255]
+pl 						0,0,0 				0,1.0,0 				255,0,225
+pl 						0,0,0 				0,1.0,0 				255,0,225
+pl 						0,0,0 				0,1.0,0 				255,0,225
+# (sp) Sphere:			POSITION (xyz)		DIAMETER				COLOR_rgb [0, 255]
+sp 						0,0,20 				20 						255,0,0
+# (sy) Cylinder:		POSITION (xyz)		VECTOR [-1.0, 1.0]		DIAMETER		HEIGHT		COLOR_rgb [0, 255]
+cy 						50.0,0.0,20.6 		0,0,1.0 				14.2 			21.42 		10,0,255
