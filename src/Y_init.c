@@ -55,13 +55,13 @@ int	initialization(int ac, char **av, char **env, t_data *data)
 		line = gnl(fd);
 		if (!line)
 			break ;
-		if (ft_parse_line(data, line))
+		if (ft_parse_line(data, &line))
 			(close(fd), end(data, 1));
 	}
 	close(fd);
 }
 
-int	ft_parse_line(t_data *data, char *line)
+int	ft_parse_line(t_data *data, char **line)//		line = 0 char **
 {
 // if line empty, skip it
 	if (!line[0])
@@ -70,21 +70,25 @@ int	ft_parse_line(t_data *data, char *line)
 // split the raw
 	char **param = split(line, " \t");
 	if (!param)
-		(put(ERRM"split\n"), exit(2));
+		return (put(ERRM"split\n"), free_s(line), 2);
+	line = free_s(line);
 
 // find the identifier in the dico, process the object with the appropriate function
 	int	i;
 	i = -1;
-	int rtrn;
 	while (dico[++i].name)
 	{
 		if (same_str(param[0], dico[i].name))
-			rtrn = dico[i].exe(data, split + 1);
-		if (rtrn)
-			;// parsing return error
+		{
+			if (dico[i].exe(data, split + 1))
+				return (free_tab(param), put(ERR3"parsing error\n"), 1);
+			else
+				break ;
+		}
 	}
+	free_tab(param);
+	if (!dico[i].name)
+		return (put(ERR4"unknown object\n"), 1);
 
-
-	line = free_s(line);
 	return (0);
 }
