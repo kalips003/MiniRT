@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 06:21:51 by kalipso           #+#    #+#             */
-/*   Updated: 2024/10/31 16:38:08 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/06 13:16:27 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	initialization(int ac, char **av, t_data *data)
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		(put(ERRM"MLX fait de la merde\n"), end(data, 1));
-	data->win = mlx_new_window(data->mlx, SIZEX, SIZEY, "miniRT");
-	data->buffer.img = mlx_new_image(data->mlx, SIZEX, SIZEY);
+	data->win = mlx_new_window(data->mlx, SIZE_SCREEN_X, SIZE_SCREEN_Y, "miniRT");
+	data->buffer.img = mlx_new_image(data->mlx, SIZE_SCREEN_X, SIZE_SCREEN_Y);
 	if (!data->win || !data->buffer.img)
 		(put(ERRM"Problem initalisazing mlx (2)\n"), end(data, 1));
 	data->buffer.addr = mlx_get_data_addr(data->buffer.img, &data->buffer.bpp, &data->buffer.ll, &data->buffer.end);
@@ -73,6 +73,14 @@ void	initialization(int ac, char **av, t_data *data)
 	mlx_hook(data->win, KeyPress, KeyPressMask, &key_press, data);
 	mlx_hook(data->win, KeyRelease, KeyReleaseMask, &key_release, data);
 	mlx_hook(data->win, 17, 0, &end2, data);
+
+// CHECK GOOD NUMBER OF CAMERA AND SO ON...
+
+// DATA
+	data->px = data->camera[0]->fov * (PI / 180) / SIZE_SCREEN_X;
+	data->eye = data->camera[0];
+	data->x0 = -(SIZE_SCREEN_X / 2) * data->px;
+	data->y0 = -(SIZE_SCREEN_Y / 2) * data->px;
 }
 
 ///////////////////////////////////////////////////////////////////////////////]

@@ -58,15 +58,15 @@ int	parse_C(t_data *data, char **raw_split)
 	
 	int	err = 0;
 	camera->fov = ft_atoi(raw_split[2], &err);
-	if (err || ato_coor(raw_split[0], &(camera->xyz)) || ato_coor(raw_split[1], (t_coor *)&camera->direction))
+	if (err || ato_coor(raw_split[0], &(camera->xyz)) || ato_coor(raw_split[1], (t_coor *)&camera->abc))
 		return (1);
 
 	if (camera->fov < 0 || camera->fov > 180)
 		return (put(ERR1"(%s) camera fov should be [0, 180]\n", raw_split[0]), 1);
 
-	if (camera->direction.dx < -1.0 || camera->direction.dx > 1.0 || 
-			camera->direction.dy < -1.0 || camera->direction.dy > 1.0 || 
-			camera->direction.dz < -1.0 || camera->direction.dz > 1.0)
+	if (camera->abc.dx < -1.0 || camera->abc.dx > 1.0 || 
+			camera->abc.dy < -1.0 || camera->abc.dy > 1.0 || 
+			camera->abc.dz < -1.0 || camera->abc.dz > 1.0)
 		return (put(ERR1"(%s) vector should be [-1.0,1.0]\n", raw_split[0]), 1);
 		
 	return (0);
@@ -103,6 +103,11 @@ int	parse_L(t_data *data, char **raw_split)
 // 		XYZ = float
 // 		xyz vector [-1,1] float
 // 		RGB [0, 255] int
+// 
+//	a.(x-x0) + b(y-y0) + c(z-z0) + d = 0
+// d is dependant of the plane:
+// 		ax + by + cz + d = 0
+// 		d = -(ax + by + cz)
 int	parse_pl(t_data *data, char **raw_split)
 {
 	t_plane	*plane = mem(0, sizeof(t_plane));
@@ -113,15 +118,17 @@ int	parse_pl(t_data *data, char **raw_split)
 	if (tab_size(raw_split) != 3)
 		return (put(ERR1"bad number of args (PLANES OBJECT)\n"), 1);
 
-	if (ato_coor(raw_split[0], &(plane->xyz)) || ato_coor(raw_split[1], (t_coor *)&plane->direction) || ato_rgb(raw_split[2], &(plane->color)))
+	if (ato_coor(raw_split[0], &(plane->xyz)) || ato_coor(raw_split[1], (t_coor *)&plane->abc) || ato_rgb(raw_split[2], &(plane->color)))
 		return (1);
 
-	if (plane->direction.dx < -1.0 || plane->direction.dx > 1.0 || 
-			plane->direction.dy < -1.0 || plane->direction.dy > 1.0 || 
-			plane->direction.dz < -1.0 || plane->direction.dz > 1.0)
+	if (plane->abc.dx < -1.0 || plane->abc.dx > 1.0 || 
+			plane->abc.dy < -1.0 || plane->abc.dy > 1.0 || 
+			plane->abc.dz < -1.0 || plane->abc.dz > 1.0)
 		return (put(ERR1"(%s) vector should be [-1.0,1.0]\n", raw_split[0]), 1);
+	plane->d = -(plane->abc.dx * plane->xyz.x + plane->abc.dy * plane->xyz.y + plane->abc.dz * plane->xyz.z);
 	return (0);
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////]
 // 			SPHERE
@@ -140,6 +147,7 @@ int	parse_sp(t_data *data, char **raw_split)
 
 	int	err = 0;
 	sphere->diameter = ft_atof(raw_split[1], &err);
+	sphere->radius = sphere->diameter / 2;
 	if (err || ato_coor(raw_split[0], &(sphere->xyz)) || ato_rgb(raw_split[2], &(sphere->color)))
 		return (1);
 
@@ -167,12 +175,12 @@ int	parse_cy(t_data *data, char **raw_split)
 	cylinder->diameter = ft_atof(raw_split[2], &err);
 	cylinder->height = ft_atof(raw_split[3], &err);
 
-	if (err || ato_coor(raw_split[0], &(cylinder->xyz)) || ato_coor(raw_split[1], (t_coor *)&cylinder->direction) || ato_rgb(raw_split[4], &(cylinder->color)))
+	if (err || ato_coor(raw_split[0], &(cylinder->xyz)) || ato_coor(raw_split[1], (t_coor *)&cylinder->abc) || ato_rgb(raw_split[4], &(cylinder->color)))
 		return (1);
 
-	if (cylinder->direction.dx < -1.0 || cylinder->direction.dx > 1.0 || 
-			cylinder->direction.dy < -1.0 || cylinder->direction.dy > 1.0 || 
-			cylinder->direction.dz < -1.0 || cylinder->direction.dz > 1.0)
+	if (cylinder->abc.dx < -1.0 || cylinder->abc.dx > 1.0 || 
+			cylinder->abc.dy < -1.0 || cylinder->abc.dy > 1.0 || 
+			cylinder->abc.dz < -1.0 || cylinder->abc.dz > 1.0)
 		return (put(ERR1"(%s) vector should be [-1.0,1.0]\n", raw_split[0]), 1);
 	return (0);
 }

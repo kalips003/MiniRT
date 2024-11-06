@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/31 16:37:08 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/06 16:46:39 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 # include "../mlx_linux/mlx.h"
 # include <X11/X.h>
+# include <math.h>
 # include <X11/keysym.h>
 
 # include "libft.h"
@@ -41,14 +42,15 @@
 ///////////////////////////////////////////////////////////////////////////////]
 
 # define PI 3.14159265358979323846
-# define SIZEX 500
-# define SIZEY 500
+# define SIZE_SCREEN_X 500
+# define SIZE_SCREEN_Y 500
+
 
 // typedef int	(*t_builtin)(t_data *data, t_cmd *cmd);
 
 typedef struct s_rgb			t_rgb;
 typedef struct s_coor			t_coor;
-typedef struct s_norm_vect		t_norm_vect;
+typedef struct s_norm_vect		t_vect;
 typedef struct s_ambient_light	t_ambient_light;
 typedef struct s_camera			t_camera;
 typedef struct s_light			t_light;
@@ -56,6 +58,7 @@ typedef struct s_sphere			t_sphere;
 typedef struct s_plane			t_plane;
 typedef struct s_cylinder		t_cylinder;
 typedef struct s_square			t_square;
+typedef struct s_calcul			t_calcul;
 typedef struct s_img			t_img;
 
 typedef struct s_rgb
@@ -67,18 +70,18 @@ typedef struct s_rgb
 
 typedef struct s_coor
 {
-	float	x;
-	float	y;
-	float	z;
+	double	x;
+	double	y;
+	double	z;
 }	t_coor;
 
 // range [-1, 1]
-typedef struct s_norm_vect
+typedef struct s_vect
 {
-	float	dx;
-	float	dy;
-	float	dz;
-}	t_norm_vect;
+	double	dx;
+	double	dy;
+	double	dz;
+}	t_vect;
 
 typedef struct s_img
 {
@@ -91,6 +94,7 @@ typedef struct s_img
 	int		sz_x;
 	int		sz_y;
 }	t_img;
+////////////////////////////////////////////]
 ////////////////////////////////////////////]
 typedef struct s_data
 {
@@ -106,9 +110,33 @@ typedef struct s_data
 	t_sphere	**spheres;
 	t_plane		**planes;
 	t_cylinder	**cylinders;
+
+// unit angle in radians per pixel
+	double		px;
+// position of upper-left screen (rotation in radian)
+	double		x0;
+	double		y0;
+// shortcut to the vector camera
+	t_camera	*eye;
+
 }	t_data;
+////////////////////////////////////////////]
+////////////////////////////////////////////]
 
+typedef struct s_calcul
+{
+	t_rgb	px_color;
+	t_rgb	tmp_color;
 
+	double	dist;
+	double	tmp_dist;
+
+	t_coor	inter_point;
+
+	t_sphere 	*sphere;
+	t_plane		*plane;
+	t_cylinder	*cylinder;
+}	t_calcul;
 ////////////////////////////////////////////]
 typedef struct s_ambient_light
 {
@@ -119,7 +147,7 @@ typedef struct s_ambient_light
 typedef struct s_camera
 {
 	t_coor		xyz;
-	t_norm_vect	direction;
+	t_vect	abc;
 	int			fov;
 }	t_camera;//			C
 
@@ -134,21 +162,23 @@ typedef struct s_sphere
 {
 	t_coor	xyz;
 	float	diameter;
+	float	radius;
 	t_rgb	color;
 }	t_sphere;//		sp
 
 typedef struct s_plane
 {
 	t_coor	xyz;
-	t_norm_vect	direction;
+	t_vect	abc;
 	t_rgb	color;
+	double	d;
 }	t_plane;//		pl
 
 
 typedef struct s_cylinder
 {
 	t_coor	xyz;
-	t_norm_vect	direction;
+	t_vect	abc;
 	float	diameter;
 	float	height;
 	t_rgb	color;
@@ -158,7 +188,7 @@ typedef struct s_cylinder
 typedef struct s_square
 {
 	t_coor	center;
-	t_norm_vect	direction;
+	t_vect	abc;
 	float	diameter;
 	float	height;
 	t_rgb	color;

@@ -15,6 +15,7 @@
 float	ft_atof(char *string, int *error);
 int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
+void	put_pixel_buffer(t_data *data, int x, int y, unsigned int color);
 
 ///////////////////////////////////////////////////////////////////////////////]
 float	ft_atof(char *string, int *error)
@@ -75,6 +76,21 @@ int	ato_rgb(char *str, t_rgb *rgb)
 		return (put(ERR8"(%s) rgb value should be [0-255]\n", str), 1);
 	
 	return (0);
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////]
+void	put_pixel_buffer(t_data *data, int x, int y, unsigned int color)
+{
+	char	*dst;
+	int		offset;
+
+	if (x < 0 || y < 0 || x >= data->buffer.sz_x || y >= data->buffer.sz_y)
+		return ;
+	offset = (y * data->buffer.ll + x * (data->buffer.bpp / 8));
+	dst = data->buffer.addr + offset;
+	*(unsigned int *)dst = color;
 }
 
 // float	atof_wrapper(char *string, float min, float max)
