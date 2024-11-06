@@ -42,15 +42,15 @@
 ///////////////////////////////////////////////////////////////////////////////]
 
 # define PI 3.14159265358979323846
-# define SIZE_SCREEN_X 500
-# define SIZE_SCREEN_Y 500
+# define SIZE_SCREEN_X 100
+# define SIZE_SCREEN_Y 100
 
 
 // typedef int	(*t_builtin)(t_data *data, t_cmd *cmd);
 
 typedef struct s_rgb			t_rgb;
 typedef struct s_coor			t_coor;
-typedef struct s_norm_vect		t_vect;
+typedef struct s_vect		t_vect;
 typedef struct s_ambient_light	t_ambient_light;
 typedef struct s_camera			t_camera;
 typedef struct s_light			t_light;
@@ -194,7 +194,12 @@ typedef struct s_square
 	t_rgb	color;
 }	t_square;//		sq
 ///////////////////////////////////////////////////////////////////////////////]
-
+/********************************
+		A
+********************************/
+t_rgb	calculate_pixel_color(t_data *data, t_vect *v);
+double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v);
+double	distance_from_plane(t_data *data, t_calcul *c, t_vect *v);
 /********************************
 		B
 ********************************/
@@ -207,6 +212,7 @@ int		key_release(int keysym, t_data *data);
 float	ft_atof(char *string, int *error);
 int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
+void	put_pixel_buffer(t_data *data, int x, int y, t_rgb color);
 /********************************
 		Y
 ********************************/

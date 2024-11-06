@@ -22,13 +22,15 @@ int		key_release(int keysym, t_data *data);
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int	ft_loop(t_data *data)
 {
-	int x = -1;
+	int x;
 	int y = -1;
 	double	angle_α;
 	double	angle_β;
 	t_vect v;
 
 	while (++y < SIZE_SCREEN_Y)
+	{
+		x = -1;
 		while (++x < SIZE_SCREEN_X)
 		{
 			// where α is a rotation around the Y axis == screen width
@@ -42,12 +44,17 @@ int	ft_loop(t_data *data)
 			v.dy = data->eye->abc.dy * cos(angle_β) - data->eye->abc.dz * sin(angle_β);
 			v.dz = -data->eye->abc.dx * sin(angle_α) + data->eye->abc.dy * cos(angle_α) * sin(angle_β) + data->eye->abc.dz * cos(angle_α) * cos(angle_β);
 
+			// printf("vector coor = %f,%f,%f\n", v.dx, v.dy, v.dz );
 			//>	for each object, calculate if there is colision, if there is, calcul the closest intersection point, retrun color?
-			t_rgb color = calculate_pixel_color(data, v);
+			t_rgb color = calculate_pixel_color(data, &v);
+			put("color rgb: [%d,%d] %d,%d,%d\n", x, y, color.r, color.g, color.b);
 			//> apply color at pixel pos x.y
 			put_pixel_buffer(data, x, y, color);
 		
 		}
+		// put("------------> HELLOOOOOOOOOOO Y=%d\n", y);
+	}
+	put("---------------------------------------> \n");
 
 	mlx_put_image_to_window(data->mlx, data->win, data->buffer.img, 0, 0);
 

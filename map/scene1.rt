@@ -1,12 +1,13 @@
 
 # (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
-A 						0.2 					255,255,255
+A 						0.2 					255,0,255
 
 # (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
-C 						-50,-50,-50			0.2,0.2,0.2 					70
+C 						-150,-150,-150			0.2,0.2,0.2 					100
 
 # (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
 L 						-40,0,30 			0.7 					255,255,255
 
 # (sp) Sphere:			POSITION (xyz)		DIAMETER				COLOR_rgb [0, 255]
-sp 						0,0,0 				10 						255,0,0
+sp 						0,0,0 				10 						200,0,0
+sp 						5,10,5 			10 						123,123,123

@@ -34,9 +34,9 @@ int	main(int ac, char **av)
 	t_data	data;
 
 	initialization(ac, av, &data);
-	put("x>  %f\n", data.camera[0]->direction.dx);
-	put("y>  %f\n", data.camera[0]->direction.dy);
-	put("z>  %f\n", data.camera[0]->direction.dz);
+	put("x>  %f\n", data.camera[0]->abc.dx);
+	put("y>  %f\n", data.camera[0]->abc.dy);
+	put("z>  %f\n", data.camera[0]->abc.dz);
 
 	mlx_loop(data.mlx);
 
