@@ -19,12 +19,61 @@ double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v);
 double	distance_from_plane(t_data *data, t_calcul *c, t_vect *v);
 
 ///////////////////////////////////////////////////////////////////////////////]
+double calculate_angle(t_coor *intersection, t_coor *light, t_vect *normal)
+{
+    // Calculate Light Direction vector
+    double lx = light->x - intersection->x;
+    double ly = light->y - intersection->y;
+    double lz = light->z - intersection->z;
+
+    // Normalize Light Direction
+    double light_magnitude = sqrt(lx * lx + ly * ly + lz * lz);
+    lx /= light_magnitude;
+    ly /= light_magnitude;
+    lz /= light_magnitude;
+
+    // Normalize Normal vector
+    double normal_magnitude = sqrt(normal->dx * normal->dx + normal->dy * normal->dy + normal->dz * normal->dz);
+    double nx = normal->dx / normal_magnitude;
+    double ny = normal->dy / normal_magnitude;
+    double nz = normal->dz / normal_magnitude;
+
+    // Dot product of Light Direction and Normal
+    double cos_theta = lx * nx + ly * ny + lz * nz;
+
+    // Return the angle in radians
+    return acos(cos_theta);
+}
+
+
+t_rgb	apply_shadow(t_rgb *rgb_surface, t_rgb *light_color, double light_intensity)
+{
+	rgb_surface->r = fmin(255, rgb_surface->r * light_color->r / 255 * light_intensity);
+	rgb_surface->g = fmin(255, rgb_surface->g * light_color->g / 255 * light_intensity);
+	rgb_surface->b = fmin(255, rgb_surface->b * light_color->b / 255 * light_intensity);
+
+	return (*rgb_surface);
+}
+
+
+t_rgb apply_shadow2(t_rgb *rgb_surface, t_rgb *light_color, double light_intensity, double angle)
+{
+    // Adjust light intensity based on angle (diffuse lighting)
+    double adjusted_intensity = light_intensity * fmax(0.0, cos(angle));
+
+    rgb_surface->r = fmin(255, rgb_surface->r * light_color->r / 255 * adjusted_intensity);
+    rgb_surface->g = fmin(255, rgb_surface->g * light_color->g / 255 * adjusted_intensity);
+    rgb_surface->b = fmin(255, rgb_surface->b * light_color->b / 255 * adjusted_intensity);
+
+    return *rgb_surface;
+}
+
 t_rgb	calculate_pixel_color(t_data *data, t_vect *v)
 {
 	t_calcul	c;
 	void **ptr;
+	ft_memset(&c, 0, sizeof(t_calcul));
 	c.dist = -1;
-	ft_memset(&c.px_color, 0, sizeof(t_rgb));
 
 	ptr = (void **)data->spheres - 1;
 	while (++ptr && *ptr)
@@ -35,6 +84,7 @@ t_rgb	calculate_pixel_color(t_data *data, t_vect *v)
 		{
 			c.dist = c.tmp_dist;
 			c.px_color = c.sphere->color;
+			c.vect_norm = (t_vect){c.inter_point.x - c.sphere->xyz.x, c.inter_point.y - c.sphere->xyz.y, c.inter_point.z - c.sphere->xyz.z};
 		}
 	}
 
@@ -47,6 +97,7 @@ t_rgb	calculate_pixel_color(t_data *data, t_vect *v)
 		{
 			c.dist = c.tmp_dist;
 			c.px_color = c.plane->color;
+			c.vect_norm = c.plane->abc;
 		}
 	}
 
@@ -59,8 +110,19 @@ t_rgb	calculate_pixel_color(t_data *data, t_vect *v)
 	// 		c.px_color = c.sphere->color;
 	// }
 
+	// c.inter_point.x;
+
+	double angle;
 	if (c.dist < 0)
-		c.px_color = data->light[0]->color;
+	{
+		c.px_color = (t_rgb){255, 255, 255};
+		c.px_color = apply_shadow(&c.px_color, &data->light[0]->color, data->light[0]->ratio);
+	}
+	else
+	{
+		angle = calculate_angle(&c.inter_point, &data->light_source[0]->xyz, &c.vect_norm);
+		c.px_color = apply_shadow2(&c.px_color, &data->light_source[0]->color, data->light_source[0]->ratio, angle);
+	}
 	return (c.px_color);
 }
 
@@ -94,7 +156,7 @@ double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v)
 
 	double Δ = b * b - 4 * a * c;
 
-	if (Δ < 0)
+	if (Δ < 0 || !a)
 		return (-1.0);
 
 	double	det1 = (-b + sqrt(Δ)) / (2 * a);

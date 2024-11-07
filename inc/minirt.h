@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/07 02:12:01 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/07 16:16:07 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,10 +132,12 @@ typedef struct s_calcul
 	double	tmp_dist;
 
 	t_coor	inter_point;
+	t_vect	vect_norm;
 
 	t_sphere 	*sphere;
 	t_plane		*plane;
 	t_cylinder	*cylinder;
+
 }	t_calcul;
 ////////////////////////////////////////////]
 typedef struct s_ambient_light
