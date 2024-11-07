@@ -42,8 +42,8 @@
 ///////////////////////////////////////////////////////////////////////////////]
 
 # define PI 3.14159265358979323846
-# define SIZE_SCREEN_X 500
-# define SIZE_SCREEN_Y 500
+# define SIZE_SCREEN_X 800
+# define SIZE_SCREEN_Y 800
 
 
 // typedef int	(*t_builtin)(t_data *data, t_cmd *cmd);
@@ -199,22 +199,26 @@ typedef struct s_square
 /********************************
 		A
 ********************************/
+int	ft_render_rt(t_data *data);
+double calculate_angle(t_coor *intersection, t_coor *light, t_vect *normal);
+t_rgb	apply_shadow(t_rgb *rgb_surface, t_rgb *light_color, double light_intensity);
+t_rgb apply_shadow2(t_rgb *rgb_surface, t_rgb *light_color, double light_intensity, double angle);
 t_rgb	calculate_pixel_color(t_data *data, t_vect *v);
 double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v);
 double	distance_from_plane(t_data *data, t_calcul *c, t_vect *v);
 /********************************
 		B
 ********************************/
-int		ft_loop(t_data *data);
+int		ft_loop_empty(t_data *data);
 int		key_press(int keysym, t_data *data);
 int		key_release(int keysym, t_data *data);
 /********************************
-		T	Tools
+		T	Tools atof
 ********************************/
 float	ft_atof(char *string, int *error);
 int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
-void	put_pixel_buffer(t_data *data, int x, int y, t_rgb color);
+// void	put_pixel_buffer(t_data *data, int x, int y, t_rgb color);
 /********************************
 		Y
 ********************************/

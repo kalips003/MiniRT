@@ -15,7 +15,6 @@
 float	ft_atof(char *string, int *error);
 int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
-void	put_pixel_buffer(t_data *data, int x, int y, t_rgb color);
 
 ///////////////////////////////////////////////////////////////////////////////]
 float	ft_atof(char *string, int *error)
@@ -93,31 +92,3 @@ int	ato_rgb(char *str, t_rgb *rgb)
 // 	*(unsigned int *)dst = color;
 // }
 
-void	put_pixel_buffer(t_data *data, int x, int y, t_rgb color)
-{
-	char	*dst;
-	int		offset;
-
-	if (x < 0 || y < 0 || x >= data->buffer.sz_x || y >= data->buffer.sz_y)
-		return ;
-	offset = (y * data->buffer.ll + x * (data->buffer.bpp / 8));
-	dst = data->buffer.addr + offset;
-	*(unsigned int *)dst = color.r << 16 | color.g << 8 | color.b;
-}
-// float	atof_wrapper(char *string, float min, float max)
-// {
-// 	float a;
-// 	int err = 0;
-
-// 	a = ft_atof(string, &err);
-// 	if (err)
-// 		return (1);
-// 	if (a < min || a > max)
-// 	{
-// 		put(ERR3"(%f) not in range [%.1f, %.1f]\n", a, min, max);
-// 		return (1);
-// 	}
-
-
-// 	return (0);
-// }

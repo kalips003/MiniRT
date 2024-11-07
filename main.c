@@ -38,7 +38,7 @@ int	main(int ac, char **av)
 	put("y>  %f\n", data.camera[0]->abc.dy);
 	put("z>  %f\n", data.camera[0]->abc.dz);
 
-	ft_loop(&data);
+	ft_render_rt(&data);
 	mlx_loop(data.mlx);
 	ft_print_cat(0, "is workking?", 0b1);
 

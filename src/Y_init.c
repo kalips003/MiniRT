@@ -33,16 +33,10 @@ static const t_dico_pair	dico[] = {
 ///////////////////////////////////////////////////////////////////////////////]
 
 void	initialization(int ac, char **av, t_data *data);
-int		ft_parse_line(t_data *data, char *line);
+static int		ft_parse_line(t_data *data, char *line);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // ini
-
-int 	ft_loop_empty(t_data *data)
-{
-	(void)data;
-	return 0;
-}
 void	initialization(int ac, char **av, t_data *data)
 {
 	if (ac != 2)
@@ -93,7 +87,7 @@ void	initialization(int ac, char **av, t_data *data)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-int	ft_parse_line(t_data *data, char *line)
+static int	ft_parse_line(t_data *data, char *line)
 {
 // if line empty, skip it
 	if (line[0] == '\n' || line[0] == '#')
