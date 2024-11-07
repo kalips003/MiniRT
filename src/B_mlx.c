@@ -20,6 +20,18 @@ int		key_release(int keysym, t_data *data);
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void	put_pixel_bufferv2(t_data *data, int x, int y, unsigned int color)
+{
+	char	*dst;
+	int		offset;
+
+	if (x < 0 || y < 0 || x >= data->buffer.sz_x || y >= data->buffer.sz_y)
+		return ;
+	offset = (y * data->buffer.ll + x * (data->buffer.bpp / 8));
+	dst = data->buffer.addr + offset;
+	*(unsigned int *)dst = color;
+}
+
 int	ft_loop(t_data *data)
 {
 	int x;
@@ -27,6 +39,7 @@ int	ft_loop(t_data *data)
 	double	angle_α;
 	double	angle_β;
 	t_vect v;
+	t_rgb color;
 
 	while (++y < SIZE_SCREEN_Y)
 	{
@@ -44,19 +57,17 @@ int	ft_loop(t_data *data)
 			v.dy = data->eye->abc.dy * cos(angle_β) - data->eye->abc.dz * sin(angle_β);
 			v.dz = -data->eye->abc.dx * sin(angle_α) + data->eye->abc.dy * cos(angle_α) * sin(angle_β) + data->eye->abc.dz * cos(angle_α) * cos(angle_β);
 
-			// printf("vector coor = %f,%f,%f\n", v.dx, v.dy, v.dz );
 			//>	for each object, calculate if there is colision, if there is, calcul the closest intersection point, retrun color?
-			t_rgb color = calculate_pixel_color(data, &v);
-			put("color rgb: [%d,%d] %d,%d,%d\n", x, y, color.r, color.g, color.b);
+			color = calculate_pixel_color(data, &v);
+			// printf("color rgb: [%d,%d] %d,%d,%d   vector coor = %f,%f,%f\n", x, y, color.r, color.g, color.b, v.dx, v.dy, v.dz);
 			//> apply color at pixel pos x.y
-			put_pixel_buffer(data, x, y, color);
-		
+			mlx_pixel_put(data->mlx, data->win, x, y, color.r << 16 | color.g << 8 | color.b);
+			// put_pixel_buffer(data, x, y, color);
 		}
-		// put("------------> HELLOOOOOOOOOOO Y=%d\n", y);
 	}
-	put("---------------------------------------> \n");
 
-	mlx_put_image_to_window(data->mlx, data->win, data->buffer.img, 0, 0);
+
+	// mlx_put_image_to_window(data->mlx, data->win, data->buffer.img, 0, 0);
 
 	return (0);
 }

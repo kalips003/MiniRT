@@ -50,8 +50,6 @@ t_rgb	calculate_pixel_color(t_data *data, t_vect *v)
 		}
 	}
 
-	if (c.dist < 0)
-		c.px_color = data->light[0]->color;
 	// ptr = data->cylinders - 1;
 	// while (++ptr && *ptr)
 	// {
@@ -60,9 +58,10 @@ t_rgb	calculate_pixel_color(t_data *data, t_vect *v)
 	// 	if (c.tmp_dist > 0 && (c.tmp_dist < c.dist || c.dist < 0))
 	// 		c.px_color = c.sphere->color;
 	// }
+
+	if (c.dist < 0)
+		c.px_color = data->light[0]->color;
 	return (c.px_color);
-
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -81,7 +80,7 @@ static double h_smalest_Δ(double a, double b)
 double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v)
 {
 	t_coor	xyz = data->camera[0]->xyz;
-	t_vect	abc = data->camera[0]->abc;
+	// t_vect	abc = data->camera[0]->abc;
 	t_sphere *s = calc->sphere;
 
 //	diff center sphere and center camera
@@ -89,9 +88,9 @@ double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v)
 	double y0 = xyz.y - s->xyz.y;
 	double z0 = xyz.z - s->xyz.z;
 
-	double a = abc.dx * abc.dx + abc.dy * abc.dy + abc.dz * abc.dz;
-	double b = 2 * (abc.dx * x0 + abc.dy * y0 + abc.dz * z0);
-	double c = x0 * x0 + y0 * y0 + z0 * z0 - s->radius;
+	double a = v->dx * v->dx + v->dy * v->dy + v->dz * v->dz;
+	double b = 2 * (v->dx * x0 + v->dy * y0 + v->dz * z0);
+	double c = x0 * x0 + y0 * y0 + z0 * z0 - s->radius * s->radius;
 
 	double Δ = b * b - 4 * a * c;
 
@@ -106,9 +105,9 @@ double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v)
 	if (det < 0)
 		return (-1.0);
 
-	calc->inter_point.x = xyz.x + abc.dx * det;
-	calc->inter_point.y = xyz.y + abc.dy * det;
-	calc->inter_point.z = xyz.z + abc.dz * det;
+	calc->inter_point.x = xyz.x + v->dx * det;
+	calc->inter_point.y = xyz.y + v->dy * det;
+	calc->inter_point.z = xyz.z + v->dz * det;
 
 	return (det);
 }
@@ -124,11 +123,11 @@ double	distance_from_plane(t_data *data, t_calcul *c, t_vect *v)
 	double bot;
 
 	t_coor	xyz = data->camera[0]->xyz;
-	t_vect	abc = data->camera[0]->abc;
+	// t_vect	abc = data->camera[0]->abc;
 	t_plane *p = c->plane;
 
 	top = -(p->abc.dx * xyz.x + p->abc.dy * xyz.y + p->abc.dz * xyz.z + p->d);
-	bot = p->abc.dx * abc.dx + p->abc.dy * abc.dy + p->abc.dz * abc.dz;
+	bot = p->abc.dx * v->dx + p->abc.dy * v->dy + p->abc.dz * v->dz;
 
 	if (!top || !bot)
 		return (-1.0);
@@ -138,9 +137,9 @@ double	distance_from_plane(t_data *data, t_calcul *c, t_vect *v)
 	if (det < 0)
 		return (-1.0);
 
-	c->inter_point.x = xyz.x + abc.dx * det;
-	c->inter_point.y = xyz.y + abc.dy * det;
-	c->inter_point.z = xyz.z + abc.dz * det;
+	c->inter_point.x = xyz.x + v->dx * det;
+	c->inter_point.y = xyz.y + v->dy * det;
+	c->inter_point.z = xyz.z + v->dz * det;
 
 	return (det);
 }

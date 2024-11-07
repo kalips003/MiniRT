@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/06 16:46:39 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/07 02:12:01 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@
 ///////////////////////////////////////////////////////////////////////////////]
 
 # define PI 3.14159265358979323846
-# define SIZE_SCREEN_X 100
-# define SIZE_SCREEN_Y 100
+# define SIZE_SCREEN_X 500
+# define SIZE_SCREEN_Y 500
 
 
 // typedef int	(*t_builtin)(t_data *data, t_cmd *cmd);
@@ -140,7 +140,7 @@ typedef struct s_calcul
 ////////////////////////////////////////////]
 typedef struct s_ambient_light
 {
-	float	ratio;
+	double	ratio;
 	t_rgb	color;
 }	t_ambient_light;//		A
 
@@ -154,15 +154,15 @@ typedef struct s_camera
 typedef struct s_light
 {
 	t_coor	xyz;
-	float	ratio;
+	double	ratio;
 	t_rgb	color;
 }	t_light;//		L
 
 typedef struct s_sphere
 {
 	t_coor	xyz;
-	float	diameter;
-	float	radius;
+	double	diameter;
+	double	radius;
 	t_rgb	color;
 }	t_sphere;//		sp
 
@@ -179,8 +179,8 @@ typedef struct s_cylinder
 {
 	t_coor	xyz;
 	t_vect	abc;
-	float	diameter;
-	float	height;
+	double	diameter;
+	double	height;
 	t_rgb	color;
 }	t_cylinder;//		pl
 
@@ -189,8 +189,8 @@ typedef struct s_square
 {
 	t_coor	center;
 	t_vect	abc;
-	float	diameter;
-	float	height;
+	double	diameter;
+	double	height;
 	t_rgb	color;
 }	t_square;//		sq
 ///////////////////////////////////////////////////////////////////////////////]

@@ -88,7 +88,7 @@ SRC_FOLDER = src
 OBJ_FOLDER = src/obj
 HEADER_FOLDER = inc
 
-ADD_FLAGS = -lm
+ADD_FLAGS = -lm ./mlx_linux/libmlx.a $(FLAGS_MLX)
 # ADD_FLAGS = -lm -lreadline -lncurses
 
 # ╭──────────────────────────────────────────────────────────────────────╮
@@ -122,7 +122,7 @@ mlx:
 
 $(NAME): mlx libft $(OBJ) main.c
 	@clear
-	@if ! $(CC) $(FLAGS) $(OBJ) main.c lib/libft.a ./mlx_linux/libmlx.a $(FLAGS_MLX) $(ADD_FLAGS) -o $(NAME); then \
+	@if ! $(CC) $(FLAGS) $(OBJ) main.c lib/libft.a $(ADD_FLAGS) -o $(NAME); then \
 		$(call print_cat, "", $(RED), $(GOLD), $(RED_L), $(call pad_word, 10, "ERROR"), $(call pad_word, 12, "COMPILING..")); \
 		exit 1; \
 	fi
@@ -144,7 +144,6 @@ src/obj/%.o: src/%.c inc/$(NAME).h
 # │                  	 	       BONUS	                   	         │
 # ╰──────────────────────────────────────────────────────────────────────╯
 
-FLAGS_MLX = -Lmlx_linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lz
 SRC_B = $(wildcard srcb/*.c)
 OBJ_B = $(patsubst srcb/%.c, srcb/obj/%.o, $(SRC_B))
 
@@ -237,12 +236,12 @@ vtest:	libft
 
 FLAGS_TEST = -g -fPIE -I$(HEADER_FOLDER)
 
-t2:	libft $(OBJ) inc/$(NAME).h
+t2:	mlx libft $(OBJ) inc/$(NAME).h
 	@rm -f ./lib/a.out
 	@clear
 	@$(CC) $(FLAGS_TEST) $(OBJ) ./lib/test.c lib/libft.a $(ADD_FLAGS) -o ./lib/a.out
 	@$(call random_cat, $(call pad_word, 12, "TESTING"), $(call pad_word, 14, "SCIENCE"), $(CLS), $(RESET));
-	@ lib/a.out
+	@lib/a.out $(MAP)
 
 vt2:	libft $(OBJ) inc/$(NAME).h
 	@rm -f ./lib/a.out

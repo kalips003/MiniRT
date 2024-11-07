@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 06:21:51 by kalipso           #+#    #+#             */
-/*   Updated: 2024/11/06 13:16:27 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/07 01:31:58 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ int		ft_parse_line(t_data *data, char *line);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // ini
+
+int 	ft_loop_empty(t_data *data)
+{
+	(void)data;
+	return 0;
+}
 void	initialization(int ac, char **av, t_data *data)
 {
 	if (ac != 2)
@@ -69,7 +75,10 @@ void	initialization(int ac, char **av, t_data *data)
 	if (!data->win || !data->buffer.img)
 		(put(ERRM"Problem initalisazing mlx (2)\n"), end(data, 1));
 	data->buffer.addr = mlx_get_data_addr(data->buffer.img, &data->buffer.bpp, &data->buffer.ll, &data->buffer.end);
-	mlx_loop_hook(data->mlx, &ft_loop, data);
+	if (!data->buffer.addr)
+		(put(ERRM"Problem initalisazing mlx (3)\n"), end(data, 1));
+	mlx_loop_hook(data->mlx, &ft_loop_empty, data);
+	// mlx_loop_hook(data->mlx, &ft_loop, data);
 	mlx_hook(data->win, KeyPress, KeyPressMask, &key_press, data);
 	mlx_hook(data->win, KeyRelease, KeyReleaseMask, &key_release, data);
 	mlx_hook(data->win, 17, 0, &end2, data);
