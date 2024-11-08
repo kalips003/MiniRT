@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/07 16:16:07 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/08 02:00:12 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ typedef struct s_data
 	double		y0;
 // shortcut to the vector camera
 	t_camera	*eye;
+	int			current_camera;
 
 }	t_data;
 ////////////////////////////////////////////]
