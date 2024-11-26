@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 06:21:51 by kalipso           #+#    #+#             */
-/*   Updated: 2024/10/31 16:36:56 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/26 12:10:53 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	end(t_data *data, int exit_code)
 	free_tab((char **)data->spheres);
 	free_tab((char **)data->planes);
 	free_tab((char **)data->cylinders);
-	if (data->buffer.img)
-		mlx_destroy_image(data->mlx, data->buffer.img);
+	// if (data->buffer.img)
+	// 	mlx_destroy_image(data->mlx, data->buffer.img);
 	if (data->mlx)
 	{
 		if (data->win)
@@ -44,8 +44,8 @@ int	end2(t_data *data)
 	free_tab((char **)data->spheres);
 	free_tab((char **)data->planes);
 	free_tab((char **)data->cylinders);
-	if (data->buffer.img)
-		mlx_destroy_image(data->mlx, data->buffer.img);
+	// if (data->buffer.img)
+	// 	mlx_destroy_image(data->mlx, data->buffer.img);
 	if (data->mlx)
 	{
 		if (data->win)

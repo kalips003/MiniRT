@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/11/07 01:32:23 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/26 11:48:43 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,17 @@ int	main(int ac, char **av)
 	t_data	data;
 
 	initialization(ac, av, &data);
-	put("x>  %f\n", data.camera[0]->abc.dx);
-	put("y>  %f\n", data.camera[0]->abc.dy);
-	put("z>  %f\n", data.camera[0]->abc.dz);
+	put("view x>  %f\n", data.camera[0]->view.dx);
+	put("view y>  %f\n", data.camera[0]->view.dy);
+	put("view z>  %f\n", data.camera[0]->view.dz);
+	put("up x>  %f\n", data.camera[0]->up.dx);
+	put("up y>  %f\n", data.camera[0]->up.dy);
+	put("up z>  %f\n", data.camera[0]->up.dz);
+	put("right x>  %f\n", data.camera[0]->right.dx);
+	put("right y>  %f\n", data.camera[0]->right.dy);
+	put("right z>  %f\n", data.camera[0]->right.dz);
 
-	ft_render_rt(&data);
+	// ft_render_rt(&data);
 	mlx_loop(data.mlx);
 	ft_print_cat(0, "is workking?", 0b1);
 

@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/08 02:00:12 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/26 17:53:10 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_cylinder		t_cylinder;
 typedef struct s_square			t_square;
 typedef struct s_calcul			t_calcul;
 typedef struct s_img			t_img;
+typedef struct s_eye			t_eye;
 
 typedef struct s_rgb
 {
@@ -96,12 +97,37 @@ typedef struct s_img
 }	t_img;
 ////////////////////////////////////////////]
 ////////////////////////////////////////////]
+
+typedef struct s_eye
+{
+	t_camera	*c;
+// unit angle in radians per pixel
+	double		px;
+// position of upper-left screen (rotation in radian)
+	double		px0;
+	double		py0;
+
+// 6 Const value f(camera) to compute temp rotation vector V'
+	// (X) = cos²Cx + sin²(Cx(Ux²-Uy²-Uz²)+2Ux(UyCy+UzCz)) + 2cossin(UyCz-UzCy) == cos²Cx + sin² * (A1x) + (B1x)
+	// (Y) = cos²Cy + sin²(Cx(-Ux²+Uy²-Uz²)+2Uy(UxCx+UzCz)) + 2cossin(UzCx-UxCz) == cos²Cy + sin² * (A1y) + (B1y)
+	// (Z) = cos²Cz + sin²(Cx(-Ux²-Uy²+Uz²)+2Uz(UxCx+UyCy)) + 2cossin(UxCy-UyCx) == cos²Cz + sin² * (A1z) + (B1z)
+	double A1x = data->eye->view.dx * (data->eye->up.dx * data->eye->up.dx - data->eye->up.dy * data->eye->up.dy - data->eye->up.dz * data->eye->up.dz) + 2 * data->eye->up.dx * (data->eye->up.dy * data->eye->view.dy + data->eye->up.dz * data->eye->view.dz);
+	double A1y = data->eye->view.dy * (-data->eye->up.dx * data->eye->up.dx + data->eye->up.dy * data->eye->up.dy - data->eye->up.dz * data->eye->up.dz) + 2 * data->eye->up.dy * (data->eye->up.dx * data->eye->view.dx + data->eye->up.dz * data->eye->view.dz);
+	double A1z = data->eye->view.dz * (-data->eye->up.dx * data->eye->up.dx - data->eye->up.dy * data->eye->up.dy + data->eye->up.dz * data->eye->up.dz) + 2 * data->eye->up.dz * (data->eye->up.dx * data->eye->view.dx + data->eye->up.dy * data->eye->view.dy);
+
+	double B1x = 2 * (data->eye->up.dy * data->eye->view.dz - data->eye->up.dz * data->eye->view.dy);
+	double B1y = 2 * (data->eye->up.dz * data->eye->view.dx - data->eye->up.dx * data->eye->view.dz);
+	double B1z = 2 * (data->eye->up.dx * data->eye->view.dy - data->eye->up.dy * data->eye->view.dx);
+
+
+}	t_eye;
+
 typedef struct s_data
 {
 	void	*mlx;
 	void	*win;
 
-	t_img	buffer;
+	// t_img	buffer; <---- buffer not used, all buffer lines commented
 
 	t_ambient_light	**light;
 	t_camera	**camera;
@@ -111,14 +137,11 @@ typedef struct s_data
 	t_plane		**planes;
 	t_cylinder	**cylinders;
 
-// unit angle in radians per pixel
-	double		px;
-// position of upper-left screen (rotation in radian)
-	double		x0;
-	double		y0;
 // shortcut to the vector camera
 	t_camera	*eye;
+	t_eye		e;
 	int			current_camera;
+	int		is_not_moving;
 
 }	t_data;
 ////////////////////////////////////////////]
@@ -126,20 +149,24 @@ typedef struct s_data
 
 typedef struct s_calcul
 {
+	// ce quon voit:
+	t_coor	inter_point;
+	t_vect	vect_norm;
+	
+	
 	t_rgb	px_color;
 	t_rgb	tmp_color;
 
 	double	dist;
 	double	tmp_dist;
 
-	t_coor	inter_point;
-	t_vect	vect_norm;
 
-	t_sphere 	*sphere;
-	t_plane		*plane;
-	t_cylinder	*cylinder;
+	// t_sphere 	*sphere;
+	// t_plane		*plane;
+	// t_cylinder	*cylinder;
 
 }	t_calcul;
+
 ////////////////////////////////////////////]
 typedef struct s_ambient_light
 {
@@ -150,7 +177,9 @@ typedef struct s_ambient_light
 typedef struct s_camera
 {
 	t_coor		xyz;
-	t_vect	abc;
+	t_vect		view;
+	t_vect		up;
+	t_vect		right;
 	int			fov;
 }	t_camera;//			C
 
@@ -200,13 +229,8 @@ typedef struct s_square
 /********************************
 		A
 ********************************/
-int	ft_render_rt(t_data *data);
-double calculate_angle(t_coor *intersection, t_coor *light, t_vect *normal);
-t_rgb	apply_shadow(t_rgb *rgb_surface, t_rgb *light_color, double light_intensity);
-t_rgb apply_shadow2(t_rgb *rgb_surface, t_rgb *light_color, double light_intensity, double angle);
-t_rgb	calculate_pixel_color(t_data *data, t_vect *v);
-double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v);
-double	distance_from_plane(t_data *data, t_calcul *c, t_vect *v);
+int	ft_render_frame(t_data *data);
+
 /********************************
 		B
 ********************************/
@@ -214,12 +238,33 @@ int		ft_loop_empty(t_data *data);
 int		key_press(int keysym, t_data *data);
 int		key_release(int keysym, t_data *data);
 /********************************
+		R	ray-tracing
+********************************/
+int	ft_render_rt(t_data *data);
+int	ft_render_rc(t_data *data);
+t_rgb	calculate_pixel_color(t_data *data, t_vect *v);
+int	ft_find_pixel_colision(t_data *data, t_calcul *c, t_vect *v);
+
+
+// tools
+double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v, t_sphere *sphere);
+double	distance_from_plane(t_data *data, t_calcul *c, t_vect *v, t_plane *plane);
+/********************************
+		S	shadows
+********************************/
+void	ft_handle_shadows(t_data *data, t_calcul *c);
+void	ft_handle_sky(t_data *data, t_calcul *c);
+/********************************
 		T	Tools atof
 ********************************/
 float	ft_atof(char *string, int *error);
 int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
 // void	put_pixel_buffer(t_data *data, int x, int y, t_rgb color);
+// 
+int		ft_normalize_vect(t_vect *vect);
+double calculate_angle(t_coor *intersection, t_coor *light, t_vect *normal);
+
 /********************************
 		Y
 ********************************/

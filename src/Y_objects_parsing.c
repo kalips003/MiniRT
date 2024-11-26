@@ -14,6 +14,7 @@
 
 int	parse_A(t_data *data, char **raw_split);
 int	parse_C(t_data *data, char **raw_split);
+void	h_camera(t_camera *camera);
 int	parse_L(t_data *data, char **raw_split);
 int	parse_pl(t_data *data, char **raw_split);
 int	parse_sp(t_data *data, char **raw_split);
@@ -43,12 +44,15 @@ int	parse_A(t_data *data, char **raw_split)
 
 ///////////////////////////////////////////////////////////////////////////////]
 // 			CAMERA
-// 		XYZ = float
-// 		xyz vector [-1,1] float							//			bug cast ato_coor
+// 		position XYZ = float
+// 		vector camera [-1,1] float							//			bug cast ato_coor?
 // 		FOV [0, 180] int
 int	parse_C(t_data *data, char **raw_split)
 {
-	t_camera	*camera = mem(0, sizeof(t_camera));
+	t_camera	*camera;
+	int	err;
+	
+	camera = mem(0, sizeof(t_camera));
 	if (!camera)
 		return (put(ERRM), 2);
 	data->camera = (t_camera **)expand_tab((void **)data->camera, camera);
@@ -56,22 +60,54 @@ int	parse_C(t_data *data, char **raw_split)
 	if (tab_size(raw_split) != 3)
 		return (put(ERR1"bad number of args (CAMERA)\n"), 1);
 	
-	int	err = 0;
+	err = 0;
 	camera->fov = ft_atoi(raw_split[2], &err);
-	if (err || ato_coor(raw_split[0], &(camera->xyz)) || ato_coor(raw_split[1], (t_coor *)&camera->abc))
+	if (err || ato_coor(raw_split[0], &(camera->xyz)) || ato_coor(raw_split[1], (t_coor *)&camera->view))
 		return (1);
 
 	if (camera->fov < 0 || camera->fov > 180)
 		return (put(ERR1"(%s) camera fov should be [0, 180]\n", raw_split[0]), 1);
 
-	if (camera->abc.dx < -1.0 || camera->abc.dx > 1.0 || 
-			camera->abc.dy < -1.0 || camera->abc.dy > 1.0 || 
-			camera->abc.dz < -1.0 || camera->abc.dz > 1.0)
+	if (camera->view.dx < -1.0 || camera->view.dx > 1.0 || 
+			camera->view.dy < -1.0 || camera->view.dy > 1.0 || 
+			camera->view.dz < -1.0 || camera->view.dz > 1.0)
 		return (put(ERR1"(%s) vector should be [-1.0,1.0]\n", raw_split[0]), 1);
-		
+	ft_normalize_vect(&camera->view);
+	h_camera(camera);
+
 	return (0);
 }
 
+///////////////////////////////////////////////////////////////////////////////]
+// 	Compute the Up and Right vector for each camera
+// recalculate everytime the camera is rotated
+void	h_camera(t_camera *camera)
+{
+// Plane = Camera x Y = {-Cz, 0, Cx}
+// Up = Camera x Plane = {-CxCy, Cx²+Cz², -CyCz}
+// Right = Camera x Up = {Cz(Cx²+Cy²+Cz²), 0, -Cx(Cx²+Cy²+Cz²)}
+
+	// Cx²+Cy²+Cz²
+	double temp_dist;
+	temp_dist = camera->view.dx * camera->view.dx + camera->view.dy * camera->view.dy + camera->view.dz + camera->view.dz;
+
+// if camera vector is == Y vector
+	if (camera->view.dx == 0.0 && camera->view.dy == 1.0 && camera->view.dz == 0.0)
+	{
+		camera->up = (t_vect){0.0, 0.0, -1.0};
+		camera->right = (t_vect){1.0, 0.0, 0.0};
+	}
+
+	camera->up.dx = -camera->view.dx * camera->view.dy;
+	camera->up.dy = camera->view.dx * camera->view.dx + camera->view.dz * camera->view.dz;
+	camera->up.dz = -camera->view.dy * camera->view.dz;
+	ft_normalize_vect(&camera->up);
+
+	camera->right.dx = camera->view.dz * temp_dist;
+	camera->right.dy = 0;
+	camera->right.dz = -camera->view.dx * temp_dist;
+	ft_normalize_vect(&camera->right);
+}
 ///////////////////////////////////////////////////////////////////////////////]
 // 			LIGHT
 // 		XYZ = float
@@ -126,6 +162,7 @@ int	parse_pl(t_data *data, char **raw_split)
 			plane->abc.dz < -1.0 || plane->abc.dz > 1.0)
 		return (put(ERR1"(%s) vector should be [-1.0,1.0]\n", raw_split[0]), 1);
 	plane->d = -(plane->abc.dx * plane->xyz.x + plane->abc.dy * plane->xyz.y + plane->abc.dz * plane->xyz.z);
+	ft_normalize_vect(&plane->abc);
 	return (0);
 }
 
@@ -182,5 +219,6 @@ int	parse_cy(t_data *data, char **raw_split)
 			cylinder->abc.dy < -1.0 || cylinder->abc.dy > 1.0 || 
 			cylinder->abc.dz < -1.0 || cylinder->abc.dz > 1.0)
 		return (put(ERR1"(%s) vector should be [-1.0,1.0]\n", raw_split[0]), 1);
+	ft_normalize_vect(&cylinder->abc);
 	return (0);
 }
