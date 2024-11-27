@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:54:09 by kalipso           #+#    #+#             */
-/*   Updated: 2024/11/07 01:21:55 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/27 14:06:58 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,50 +65,38 @@ Uppercase: Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ 
 ///////////////////////////////////////////////////////////////////////////////]
 // 		......../....*
 // 		........*..../
-int	render(t_data *data)
+double	ft_atof(char *string, int *error)
 {
-	int x;
-	int y = -1;
-	unsigned int color;
-	while (++y < SIZE_SCREEN_Y)
+	double rtrn = 0.0;
+
+	char **tab = split(string, ".");
+	if (!tab || tab_size(tab) > 2)
+		return (free_tab(tab), put(ERR6"(%s) not a correct number\n", string), (*error)++, rtrn);
+	int err = 0;
+	rtrn = ft_atoi(tab[0], &err);
+	if (err < 0)
+		return (put(ERR7"(%s) not a correct number\n", string), free_tab(tab), (*error)++, rtrn);
+	if (tab[1])
 	{
-		x = -1;
-		while (++x < SIZE_SCREEN_X)
-		{
-			color = 123 << 16 | (x % 256) << 8 | (y % 256);
-			mlx_pixel_put(data->mlx, data->win, x, y, color);
-			// put_pixel_bufferv2(data, x, y, color);
-		}
+		double fraction = ft_atoi(tab[1], &err);
+		if (err < 0 || fraction < 0)
+			return (put(ERR8"(%s) bad fractional part\n", tab[1]), free_tab(tab), (*error)++, rtrn);
+		int	frac_len = len(tab[1]);
+		while (frac_len-- != 0)
+			fraction /= 10.0;
+		rtrn += fraction;
 	}
-	mlx_put_image_to_window(data->mlx, data->win, data->buffer.img, 0, 0);
-	return 0;
+	free_tab(tab);
+	if (err == 1 && rtrn > 0)
+		rtrn *= -1;
+	return (rtrn);
 }
 
 int	main(int ac, char **av, char **env)
 {
-	t_data	data;
-
-	if (ac != 2)
-		return (put(ERR "bad arguments\n"), 1);
-
-	ft_memset(&data, 0, sizeof(t_data));
-	data.mlx = mlx_init();
-	if (!data.mlx)
-		(put("--->MLX fait de la merde\n"), end(&data, 1));
-	data.win = mlx_new_window(data.mlx, SIZE_SCREEN_X, SIZE_SCREEN_Y, "miniRT");
-	data.buffer.img = mlx_new_image(data.mlx, SIZE_SCREEN_X, SIZE_SCREEN_Y);
-	if (!data.win || !data.buffer.img)
-		(put(ERRM"Problem initalisazing mlx (2)\n"), end(&data, 1));
-	data.buffer.addr = mlx_get_data_addr(data.buffer.img, &data.buffer.bpp, &data.buffer.ll, &data.buffer.end);
-	if (!data.buffer.addr)
-		(put(ERRM"Problem initalisazing mlx (3)\n"), end(&data, 1));
-
-	mlx_loop_hook(data.mlx, &render, &data);
-	mlx_hook(data.win, KeyPress, KeyPressMask, &key_press, &data);
-	mlx_hook(data.win, 17, 0, &end2, &data);
-
-	mlx_loop(data.mlx);
-	end(&data, 0);
+	int err;
+	double abc = ft_atof("-0.456", &err);
+	printf("\t = %f\n", abc);
 	
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // MAIN 1

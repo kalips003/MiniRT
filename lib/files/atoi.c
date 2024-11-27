@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 20:34:49 by agallon           #+#    #+#             */
-/*   Updated: 2024/07/16 02:09:49 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/27 14:05:28 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ int	ft_atoi(char *str, int *error)
 	sign = 1;
 	if (!str || wii(str[0], "0123456789+-") < 0)
 		*error = -1;
-	if (str[0] == '-' && ++i)
-		sign = -1;
-	else if (str[0] == '+')
-		i++;
+	if (((str[0] == '-' && ++*error) || str[0] == '+') && ++i)
+		sign -= (str[0] == '-');
 	if (!(str[i] >= '0' && str[i] <= '9'))
 		*error = -4;
 	while (str[i] >= '0' && str[i] <= '9')

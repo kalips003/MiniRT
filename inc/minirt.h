@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/26 17:53:10 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/27 17:13:44 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@
 ///////////////////////////////////////////////////////////////////////////////]
 
 # define PI 3.14159265358979323846
-# define SIZE_SCREEN_X 800
-# define SIZE_SCREEN_Y 800
+# define SIZE_SCREEN_X 500
+# define SIZE_SCREEN_Y 500
 
 
 // typedef int	(*t_builtin)(t_data *data, t_cmd *cmd);
@@ -111,14 +111,13 @@ typedef struct s_eye
 	// (X) = cos²Cx + sin²(Cx(Ux²-Uy²-Uz²)+2Ux(UyCy+UzCz)) + 2cossin(UyCz-UzCy) == cos²Cx + sin² * (A1x) + (B1x)
 	// (Y) = cos²Cy + sin²(Cx(-Ux²+Uy²-Uz²)+2Uy(UxCx+UzCz)) + 2cossin(UzCx-UxCz) == cos²Cy + sin² * (A1y) + (B1y)
 	// (Z) = cos²Cz + sin²(Cx(-Ux²-Uy²+Uz²)+2Uz(UxCx+UyCy)) + 2cossin(UxCy-UyCx) == cos²Cz + sin² * (A1z) + (B1z)
-	double A1x = data->eye->view.dx * (data->eye->up.dx * data->eye->up.dx - data->eye->up.dy * data->eye->up.dy - data->eye->up.dz * data->eye->up.dz) + 2 * data->eye->up.dx * (data->eye->up.dy * data->eye->view.dy + data->eye->up.dz * data->eye->view.dz);
-	double A1y = data->eye->view.dy * (-data->eye->up.dx * data->eye->up.dx + data->eye->up.dy * data->eye->up.dy - data->eye->up.dz * data->eye->up.dz) + 2 * data->eye->up.dy * (data->eye->up.dx * data->eye->view.dx + data->eye->up.dz * data->eye->view.dz);
-	double A1z = data->eye->view.dz * (-data->eye->up.dx * data->eye->up.dx - data->eye->up.dy * data->eye->up.dy + data->eye->up.dz * data->eye->up.dz) + 2 * data->eye->up.dz * (data->eye->up.dx * data->eye->view.dx + data->eye->up.dy * data->eye->view.dy);
+	double A1x;
+	double A1y;
+	double A1z;
 
-	double B1x = 2 * (data->eye->up.dy * data->eye->view.dz - data->eye->up.dz * data->eye->view.dy);
-	double B1y = 2 * (data->eye->up.dz * data->eye->view.dx - data->eye->up.dx * data->eye->view.dz);
-	double B1z = 2 * (data->eye->up.dx * data->eye->view.dy - data->eye->up.dy * data->eye->view.dx);
-
+	double B1x;
+	double B1y;
+	double B1z;
 
 }	t_eye;
 
@@ -230,6 +229,11 @@ typedef struct s_square
 		A
 ********************************/
 int	ft_render_frame(t_data *data);
+void	h_camera(t_camera *camera);
+void	h_eye(t_data *data);
+void	h_angle(t_data *data, double angle, t_vect *rtrn);
+double	vect_dot_product(t_vect *a, t_vect *b);
+void	h_eye(t_data *data);
 
 /********************************
 		B
@@ -257,7 +261,7 @@ void	ft_handle_sky(t_data *data, t_calcul *c);
 /********************************
 		T	Tools atof
 ********************************/
-float	ft_atof(char *string, int *error);
+double	ft_atof(char *string, int *error);
 int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
 // void	put_pixel_buffer(t_data *data, int x, int y, t_rgb color);

@@ -14,7 +14,6 @@
 
 int	parse_A(t_data *data, char **raw_split);
 int	parse_C(t_data *data, char **raw_split);
-void	h_camera(t_camera *camera);
 int	parse_L(t_data *data, char **raw_split);
 int	parse_pl(t_data *data, char **raw_split);
 int	parse_sp(t_data *data, char **raw_split);
@@ -78,36 +77,6 @@ int	parse_C(t_data *data, char **raw_split)
 	return (0);
 }
 
-///////////////////////////////////////////////////////////////////////////////]
-// 	Compute the Up and Right vector for each camera
-// recalculate everytime the camera is rotated
-void	h_camera(t_camera *camera)
-{
-// Plane = Camera x Y = {-Cz, 0, Cx}
-// Up = Camera x Plane = {-CxCy, Cx²+Cz², -CyCz}
-// Right = Camera x Up = {Cz(Cx²+Cy²+Cz²), 0, -Cx(Cx²+Cy²+Cz²)}
-
-	// Cx²+Cy²+Cz²
-	double temp_dist;
-	temp_dist = camera->view.dx * camera->view.dx + camera->view.dy * camera->view.dy + camera->view.dz + camera->view.dz;
-
-// if camera vector is == Y vector
-	if (camera->view.dx == 0.0 && camera->view.dy == 1.0 && camera->view.dz == 0.0)
-	{
-		camera->up = (t_vect){0.0, 0.0, -1.0};
-		camera->right = (t_vect){1.0, 0.0, 0.0};
-	}
-
-	camera->up.dx = -camera->view.dx * camera->view.dy;
-	camera->up.dy = camera->view.dx * camera->view.dx + camera->view.dz * camera->view.dz;
-	camera->up.dz = -camera->view.dy * camera->view.dz;
-	ft_normalize_vect(&camera->up);
-
-	camera->right.dx = camera->view.dz * temp_dist;
-	camera->right.dy = 0;
-	camera->right.dz = -camera->view.dx * temp_dist;
-	ft_normalize_vect(&camera->right);
-}
 ///////////////////////////////////////////////////////////////////////////////]
 // 			LIGHT
 // 		XYZ = float

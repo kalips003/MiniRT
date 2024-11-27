@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 06:21:51 by kalipso           #+#    #+#             */
-/*   Updated: 2024/11/26 12:43:43 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/27 13:26:40 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	initialization(int ac, char **av, t_data *data)
 
 	data->eye = data->camera[0];
 	data->e.c = data->camera[0];
+
 // DATA CAMERA, should be recalculated at each change in camera
 	data->e.px = data->e.c->fov * (PI / 180) / SIZE_SCREEN_X;
 	data->e.px0 = -(SIZE_SCREEN_X / 2) * data->e.px;

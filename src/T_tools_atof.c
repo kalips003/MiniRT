@@ -12,26 +12,26 @@
 
 #include "../inc/minirt.h"
 
-float	ft_atof(char *string, int *error);
+double	ft_atof(char *string, int *error);
 int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
 
 ///////////////////////////////////////////////////////////////////////////////]
-float	ft_atof(char *string, int *error)
+double	ft_atof(char *string, int *error)
 {
-	float rtrn = 0.0;
+	double rtrn = 0.0;
 
 	char **tab = split(string, ".");
 	if (!tab || tab_size(tab) > 2)
 		return (free_tab(tab), put(ERR6"(%s) not a correct number\n", string), (*error)++, rtrn);
 	int err = 0;
 	rtrn = ft_atoi(tab[0], &err);
-	if (err)
+	if (err < 0)
 		return (put(ERR7"(%s) not a correct number\n", string), free_tab(tab), (*error)++, rtrn);
 	if (tab[1])
 	{
-		float fraction = ft_atoi(tab[1], &err);
-		if (err || fraction < 0)
+		double fraction = ft_atoi(tab[1], &err);
+		if (err < 0 || fraction < 0)
 			return (put(ERR8"(%s) bad fractional part\n", tab[1]), free_tab(tab), (*error)++, rtrn);
 		int	frac_len = len(tab[1]);
 		while (frac_len-- != 0)
@@ -39,6 +39,8 @@ float	ft_atof(char *string, int *error)
 		rtrn += fraction;
 	}
 	free_tab(tab);
+	if (err == 1 && rtrn > 0)
+		rtrn *= -1;
 	return (rtrn);
 }
 

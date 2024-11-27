@@ -21,7 +21,7 @@ int 	ft_loop_empty(t_data *data);
 int 	ft_loop_empty(t_data *data)
 {
 	if (!data->is_not_moving)
-		ft_render_rc(data);
+		ft_render_frame(data);
 	return 0;
 }
 
