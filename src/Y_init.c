@@ -53,6 +53,7 @@ void	initialization(int ac, char **av, t_data *data)
 	data->e.px = data->e.c->fov * (PI / 180) / SIZE_SCREEN_X;
 	data->e.px0 = -(SIZE_SCREEN_X / 2) * data->e.px;
 	data->e.py0 = -(SIZE_SCREEN_Y / 2) * data->e.px;
+	printf("----------->pxo, py0 = [%f, %f]\n", data->e.px0, data->e.py0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]

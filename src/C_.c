@@ -79,7 +79,6 @@ int	ft_render_frame(t_data *data)
 		// Calculate cos & sin for angle A (x)
 		t_vect Vα;
 		h_angle(data, data->e.px0 + x * data->e.px, &Vα);
-		printf("X=%d, Y=%d; V_temp = [%f,%f,%f]\n", x, y, Vα.dx, Vα.dy, Vα.dz);
 		printf("\tangle = %f\n", data->e.px0 + x * data->e.px);
 		t_temp_calc	c2;
 		calculate_const_y(data, &c2, &Vα);
@@ -90,6 +89,7 @@ int	ft_render_frame(t_data *data)
 			t_vect Vβ;
 			h_angle_2(data, data->e.py0 + y * data->e.px, &Vβ, &c2, &Vα);
 
+			printf("X=%d, Y=%d; V FINAL = [%f,%f,%f]\n", x, y, Vβ.dx, Vβ.dy, Vβ.dz);
 			ft_find_pixel_colision(data, &c, &Vβ);
 			t_rgb color;
 			color = calculate_pixel_color(data, &Vβ);

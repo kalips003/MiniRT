@@ -42,8 +42,8 @@
 ///////////////////////////////////////////////////////////////////////////////]
 
 # define PI 3.14159265358979323846
-# define SIZE_SCREEN_X 500
 # define SIZE_SCREEN_Y 500
+# define SIZE_SCREEN_X 500
 
 
 // typedef int	(*t_builtin)(t_data *data, t_cmd *cmd);

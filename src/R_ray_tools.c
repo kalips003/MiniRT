@@ -45,9 +45,9 @@ double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v, t_sphere *s
 	t_sphere_calc	c;
 
 //	diff center sphere and center camera
-	c.x0 = data->camera[0]->xyz.x - sphere->xyz.x;
-	c.y0 = data->camera[0]->xyz.y - sphere->xyz.y;
-	c.z0 = data->camera[0]->xyz.z - sphere->xyz.z;
+	c.x0 = data->e.c->xyz.x - sphere->xyz.x;
+	c.y0 = data->e.c->xyz.y - sphere->xyz.y;
+	c.z0 = data->e.c->xyz.z - sphere->xyz.z;
 
 // RESOLVE ((t.Vx + EYEx) - x0)² + ((t.Vy + EYEy) - y0)² + ((t.Vz + EYEz) - z0)² = R²
 // ==> At² + Bt + C = 0; 
