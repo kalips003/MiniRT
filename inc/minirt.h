@@ -42,8 +42,14 @@
 ///////////////////////////////////////////////////////////////////////////////]
 
 # define PI 3.14159265358979323846
-# define SIZE_SCREEN_Y 600
-# define SIZE_SCREEN_X 600
+# define COS_ROTA 0.99619469809174554520
+# define COS_ROTA2 0.99240387650610406567
+# define SIN_ROTA 0.08715574274765816587
+# define SIN_ROTA2 0.00759612349389596903
+# define COSSIN_ROTA 0.08682408883346516559
+
+# define SIZE_SCREEN_Y 900
+# define SIZE_SCREEN_X 1100
 
 
 // typedef int	(*t_builtin)(t_data *data, t_cmd *cmd);

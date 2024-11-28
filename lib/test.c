@@ -92,11 +92,17 @@ double	ft_atof(char *string, int *error)
 	return (rtrn);
 }
 
+# define PI 3.14159265358979323846
+// COS (pi / 36)
+# define COS_ROTA 0.99619469809174554520
+# define COS_ROTA2 0.99240387650610406567
+# define SIN_ROTA 0.08715574274765816587
+# define SIN_ROTA2 0.00759612349389596903
+# define COSSIN_ROTA 0.08682408883346516559
+
 int	main(int ac, char **av, char **env)
 {
-	int err;
-	int abc = ft_atoi("-10", &err);
-	printf("\t = %d\n", abc);
+	printf("\t = %.20f\n", cos(PI / 36) * sin(PI / 36));
 	
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // MAIN 1

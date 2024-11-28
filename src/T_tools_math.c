@@ -219,8 +219,16 @@ int	ft_render_frame_v45(t_data *data)
 	return (0);
 }
 
-void	rotation_camera(t_data *data, t_vect *axis_rota, double angle, t_vect *rtrn)
+// rotate the camera (eye) vector of fixed angle
+void	rotation_camera(t_data *data, t_vect *axis_rota, int posi_neg)
 {
-
+	t_vect *c = &data->e.c->view;
 	
+	double Vx2 = axis_rota->dx * axis_rota->dx;
+	double Vy2 = axis_rota->dy * axis_rota->dy;
+	double Vz2 = axis_rota->dz * axis_rota->dz;
+
+	c->dx = COS_ROTA2 * c->dx + SIN_ROTA2 * (c->dx * (Vx2 - Vy2 - Vz2) + 2 * axis_rota->dx * (axis_rota->dy * c->dy + axis_rota->d * c->d));
+	c->dy = COS_ROTA2 * c->dy + SIN_ROTA2 * (c->dy * (Vy2 - Vx2 - Vz2) + 2 * axis_rota->dy * (axis_rota->d * c->d + axis_rota->d * c->d));
+	c->dz = COS_ROTA2 * c->dz + SIN_ROTA2 * (c->dz * (Vz2 - Vx2 - Vy2) + 2 * axis_rota->dz * (axis_rota->d * c->d + axis_rota->d * c->d));
 }
