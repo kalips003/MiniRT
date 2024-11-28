@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/11/26 12:58:40 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/28 16:25:14 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	key_press(int keysym, t_data *data)
 {
 	if (keysym == XK_Escape)
 		end2(data);
-	// if (data->player.time)
-	// 	return (0);
 	if (keysym == XK_KP_Enter)
 	{
 		data->is_not_moving = 1;
@@ -32,13 +30,30 @@ int	key_press(int keysym, t_data *data)
 		data->is_not_moving = 0;
 
 	if (keysym == XK_Up)
-		data->eye->xyz.z += 15.0;
+	{
+		data->e.c->xyz.x += 5.0 * data->e.c->view.dx;
+		data->e.c->xyz.y += 5.0 * data->e.c->view.dy;
+		data->e.c->xyz.z += 5.0 * data->e.c->view.dz;
+	}
 	else if (keysym == XK_Down)
-		data->eye->xyz.z -= 15.0;
+	{
+		data->e.c->xyz.x -= 5.0 * data->e.c->view.dx;
+		data->e.c->xyz.y -= 5.0 * data->e.c->view.dy;
+		data->e.c->xyz.z -= 5.0 * data->e.c->view.dz;
+	}
 	else if (keysym == XK_Right)
-		data->eye->xyz.x += 15.0;
+	{
+		data->e.c->xyz.x += 5.0 * data->e.c->right.dx;
+		data->e.c->xyz.y += 5.0 * data->e.c->right.dy;
+		data->e.c->xyz.z += 5.0 * data->e.c->right.dz;
+	}
 	else if (keysym == XK_Left)
-		data->eye->xyz.x -= 15.0;
+	{
+		data->e.c->xyz.x -= 5.0 * data->e.c->right.dx;
+		data->e.c->xyz.y -= 5.0 * data->e.c->right.dy;
+		data->e.c->xyz.z -= 5.0 * data->e.c->right.dz;
+	}
+
 	else if (keysym == XK_d)
 		data->eye->view.dx += 15 * data->e.px;
 	else if (keysym == XK_s)

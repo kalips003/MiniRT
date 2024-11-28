@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:54:09 by kalipso           #+#    #+#             */
-/*   Updated: 2024/11/27 14:06:58 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/28 16:49:24 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ double	ft_atof(char *string, int *error)
 int	main(int ac, char **av, char **env)
 {
 	int err;
-	double abc = ft_atof("-0.456", &err);
-	printf("\t = %f\n", abc);
+	int abc = ft_atoi("-10", &err);
+	printf("\t = %d\n", abc);
 	
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // MAIN 1

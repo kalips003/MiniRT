@@ -21,7 +21,7 @@ void	ft_handle_shadows(t_data *data, t_calcul *c)
 {
 	double angle;
 
-	angle = calculate_angle(&c->inter_point, &data->light_source[0]->xyz, &c->vect_norm);
+	angle = calculate_light_angle(&c->inter_point, &data->light_source[0]->xyz, &c->vect_norm);
 
 	// light is behind the surface
 	if (angle < 0)

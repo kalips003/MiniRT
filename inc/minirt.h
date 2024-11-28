@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/27 17:13:44 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/28 16:53:00 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@
 ///////////////////////////////////////////////////////////////////////////////]
 
 # define PI 3.14159265358979323846
-# define SIZE_SCREEN_Y 500
-# define SIZE_SCREEN_X 500
+# define SIZE_SCREEN_Y 600
+# define SIZE_SCREEN_X 600
 
 
 // typedef int	(*t_builtin)(t_data *data, t_cmd *cmd);
@@ -228,12 +228,13 @@ typedef struct s_square
 /********************************
 		A
 ********************************/
+int	ft_render_frame_v45(t_data *data);
+/********************************
+		C
+********************************/
+
 int	ft_render_frame(t_data *data);
-void	h_camera(t_camera *camera);
-void	h_eye(t_data *data);
-void	h_angle(t_data *data, double angle, t_vect *rtrn);
-double	vect_dot_product(t_vect *a, t_vect *b);
-void	h_eye(t_data *data);
+
 
 /********************************
 		B
@@ -266,8 +267,12 @@ int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
 // void	put_pixel_buffer(t_data *data, int x, int y, t_rgb color);
 // 
-int		ft_normalize_vect(t_vect *vect);
-double calculate_angle(t_coor *intersection, t_coor *light, t_vect *normal);
+int	ft_normalize_vect(t_vect *vect);
+double calculate_light_angle(t_coor *intersection, t_coor *light, t_vect *normal);
+void	h_camera_calc_up_right_vect(t_camera *camera);
+void	h_eye_compute_const_var(t_data *data);
+void	compute_temp_vect(t_data *data, double angle, t_vect *rtrn);
+double	ft_vect_dot_product(t_vect *a, t_vect *b);
 
 /********************************
 		Y

@@ -72,7 +72,7 @@ int	parse_C(t_data *data, char **raw_split)
 			camera->view.dz < -1.0 || camera->view.dz > 1.0)
 		return (put(ERR1"(%s) vector should be [-1.0,1.0]\n", raw_split[0]), 1);
 	ft_normalize_vect(&camera->view);
-	h_camera(camera);
+	h_camera_calc_up_right_vect(camera);
 
 	return (0);
 }
@@ -156,7 +156,7 @@ int	parse_sp(t_data *data, char **raw_split)
 	sphere->radius = sphere->diameter / 2;
 	if (err || ato_coor(raw_split[0], &(sphere->xyz)) || ato_rgb(raw_split[2], &(sphere->color)))
 		return (1);
-
+	printf("Spher coor = [%f,%f,%f]\n", sphere->xyz.x, sphere->xyz.y, sphere->xyz.z);
 	return (0);
 }
 

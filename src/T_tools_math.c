@@ -13,9 +13,12 @@
 #include "../inc/minirt.h"
 
 int	ft_normalize_vect(t_vect *vect);
-double calculate_angle(t_coor *intersection, t_coor *light, t_vect *normal);
-void	h_camera(t_camera *camera);
-void	h_eye(t_data *data);
+double calculate_light_angle(t_coor *intersection, t_coor *light, t_vect *normal);
+void	h_camera_calc_up_right_vect(t_camera *camera);
+void	h_eye_compute_const_var(t_data *data);
+void	compute_temp_vect(t_data *data, double angle, t_vect *rtrn);
+double	ft_vect_dot_product(t_vect *a, t_vect *b);
+
 
 ///////////////////////////////////////////////////////////////////////////////]
 // Normalize vector
@@ -33,8 +36,8 @@ int	ft_normalize_vect(t_vect *vect)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-// for light direction?
-double calculate_angle(t_coor *intersection, t_coor *light, t_vect *normal)
+// calculate angle between camera ray and light source at intersection
+double calculate_light_angle(t_coor *intersection, t_coor *light, t_vect *normal)
 {
 	t_vect	l;
 	double cos_theta;
@@ -58,7 +61,7 @@ double calculate_angle(t_coor *intersection, t_coor *light, t_vect *normal)
 ///////////////////////////////////////////////////////////////////////////////]
 // 	Compute the Up and Right vector for each camera
 // recalculate everytime the camera is rotated
-void	h_camera(t_camera *camera)
+void	h_camera_calc_up_right_vect(t_camera *camera)
 {
 // if camera vector is == Y vector
 	if (camera->view.dx == 0.0 && camera->view.dz == 0.0)
@@ -90,34 +93,50 @@ void	h_camera(t_camera *camera)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-// 6 Const value f(camera) to compute temp rotation vector V'
-// (X) = cos²Cx + sin²(Cx(Ux²-Uy²-Uz²)+2Ux(UyCy+UzCz)) + 2cossin(UyCz-UzCy) == cos²Cx + sin²(A1x) + cossin(B1x)
-// (Y) = cos²Cy + sin²(Cx(-Ux²+Uy²-Uz²)+2Uy(UxCx+UzCz)) + 2cossin(UzCx-UxCz) == cos²Cy + sin²(A1y) + cossin(B1y)
-// (Z) = cos²Cz + sin²(Cx(-Ux²-Uy²+Uz²)+2Uz(UxCx+UyCy)) + 2cossin(UxCy-UyCx) == cos²Cz + sin²(A1z) + cossin(B1z)
-void	h_eye(t_data *data)
+/// compute 6 Const value f(Camera, UP) to compute temp rotation vector V'
+/// compute 6 Const value f(Camera, Right) to compute temp rotation vector V'
+/// (X) = cos²Cx + sin²(Cx(Ux²-Uy²-Uz²)+2Ux(UyCy+UzCz)) + 2cossin(UyCz-UzCy) == cos²Cx + sin²(A1x) + cossin(B1x)
+/// (Y) = cos²Cy + sin²(Cx(-Ux²+Uy²-Uz²)+2Uy(UxCx+UzCz)) + 2cossin(UzCx-UxCz) == cos²Cy + sin²(A1y) + cossin(B1y)
+/// (Z) = cos²Cz + sin²(Cx(-Ux²-Uy²+Uz²)+2Uz(UxCx+UyCy)) + 2cossin(UxCy-UyCx) == cos²Cz + sin²(A1z) + cossin(B1z)
+void	h_eye_compute_const_var(t_data *data)
 {
-	double Ux2 = data->e.c->up.dx * data->e.c->up.dx;
-	double Uy2 = data->e.c->up.dy * data->e.c->up.dy;
-	double Uz2 = data->e.c->up.dz * data->e.c->up.dz;
+	double Ux2 = data->e.c->right.dx * data->e.c->right.dx;
+	double Uy2 = data->e.c->right.dy * data->e.c->right.dy;
+	double Uz2 = data->e.c->right.dz * data->e.c->right.dz;
 	
-	data->e.A1x = data->e.c->view.dx * (Ux2 - Uy2 - Uz2) + 2 * data->e.c->up.dx * (data->e.c->up.dy * data->e.c->view.dy + data->e.c->up.dz * data->e.c->view.dz);
-	data->e.A1y = data->e.c->view.dy * (-Ux2 + Uy2 - Uz2) + 2 * data->e.c->up.dy * (data->e.c->up.dx * data->e.c->view.dx + data->e.c->up.dz * data->e.c->view.dz);
-	data->e.A1z = data->e.c->view.dz * (-Ux2 - Uy2 + Uz2) + 2 * data->e.c->up.dz * (data->e.c->up.dx * data->e.c->view.dx + data->e.c->up.dy * data->e.c->view.dy);
+	data->e.A1x = data->e.c->view.dx * (Ux2 - Uy2 - Uz2) + 2 * data->e.c->right.dx * (data->e.c->right.dy * data->e.c->view.dy + data->e.c->right.dz * data->e.c->view.dz);
+	data->e.A1y = data->e.c->view.dy * (-Ux2 + Uy2 - Uz2) + 2 * data->e.c->right.dy * (data->e.c->right.dx * data->e.c->view.dx + data->e.c->right.dz * data->e.c->view.dz);
+	data->e.A1z = data->e.c->view.dz * (-Ux2 - Uy2 + Uz2) + 2 * data->e.c->right.dz * (data->e.c->right.dx * data->e.c->view.dx + data->e.c->right.dy * data->e.c->view.dy);
 
-	data->e.B1x = 2 * (data->e.c->up.dy * data->e.c->view.dz - data->e.c->up.dz * data->e.c->view.dy);
-	data->e.B1y = 2 * (data->e.c->up.dz * data->e.c->view.dx - data->e.c->up.dx * data->e.c->view.dz);
-	data->e.B1z = 2 * (data->e.c->up.dx * data->e.c->view.dy - data->e.c->up.dy * data->e.c->view.dx);
+	data->e.B1x = 2 * (data->e.c->right.dy * data->e.c->view.dz - data->e.c->right.dz * data->e.c->view.dy);
+	data->e.B1y = 2 * (data->e.c->right.dz * data->e.c->view.dx - data->e.c->right.dx * data->e.c->view.dz);
+	data->e.B1z = 2 * (data->e.c->right.dx * data->e.c->view.dy - data->e.c->right.dy * data->e.c->view.dx);
 }
 
+// void	h_eye_compute_const_var(t_data *data)
+// {
+// 	double Ux2 = data->e.c->up.dx * data->e.c->up.dx;
+// 	double Uy2 = data->e.c->up.dy * data->e.c->up.dy;
+// 	double Uz2 = data->e.c->up.dz * data->e.c->up.dz;
+	
+// 	data->e.A1x = data->e.c->view.dx * (Ux2 - Uy2 - Uz2) + 2 * data->e.c->up.dx * (data->e.c->up.dy * data->e.c->view.dy + data->e.c->up.dz * data->e.c->view.dz);
+// 	data->e.A1y = data->e.c->view.dy * (-Ux2 + Uy2 - Uz2) + 2 * data->e.c->up.dy * (data->e.c->up.dx * data->e.c->view.dx + data->e.c->up.dz * data->e.c->view.dz);
+// 	data->e.A1z = data->e.c->view.dz * (-Ux2 - Uy2 + Uz2) + 2 * data->e.c->up.dz * (data->e.c->up.dx * data->e.c->view.dx + data->e.c->up.dy * data->e.c->view.dy);
+
+// 	data->e.B1x = 2 * (data->e.c->up.dy * data->e.c->view.dz - data->e.c->up.dz * data->e.c->view.dy);
+// 	data->e.B1y = 2 * (data->e.c->up.dz * data->e.c->view.dx - data->e.c->up.dx * data->e.c->view.dz);
+// 	data->e.B1z = 2 * (data->e.c->up.dx * data->e.c->view.dy - data->e.c->up.dy * data->e.c->view.dx);
+// }
+
+///////////////////////////////////////////////////////////////////////////////]
+/// compute from the angle α the rotated vector in the horizontal
 // cos²Cx + sin²(A1x) + cossin(B1x)
 // cos²Cy + sin²(A1y) + cossin(B1y)
 // cos²Cz + sin²(A1z) + cossin(B1z)
-void	h_angle(t_data *data, double angle, t_vect *rtrn)
+void	compute_temp_vect(t_data *data, double angle, t_vect *rtrn)
 {
-	// double	angle_α = data->e.px0 + x * data->e.px;
-
-	double cos2A = cos(angle);
-	double sin2A = sin(angle);
+	double cos2A = cos(angle / 2);
+	double sin2A = sin(angle / 2);
 	double cossinA = cos2A * sin2A;
 	cos2A = cos2A * cos2A;
 	sin2A = sin2A * sin2A;
@@ -130,7 +149,78 @@ void	h_angle(t_data *data, double angle, t_vect *rtrn)
 	ft_normalize_vect(rtrn);
 }
 
-double	vect_dot_product(t_vect *a, t_vect *b)
+// void	compute_temp_vect(t_data *data, double angle, t_vect *rtrn)
+// {
+// 	double cos2A = cos(angle / 2);
+// 	double sin2A = sin(angle / 2);
+// 	double cossinA = cos2A * sin2A;
+// 	cos2A = cos2A * cos2A;
+// 	sin2A = sin2A * sin2A;
+
+// 	printf("A1x=%f; A1y=%f; A1z=%f; B1x=%f; B1y=%f; B1z=%f\n", data->e.A1x, data->e.A1y, data->e.A1z, data->e.B1x, data->e.B1y, data->e.B1z);
+// 	rtrn->dx = cos2A * data->e.c->view.dx + sin2A * data->e.A1x + cossinA * data->e.B1x;
+// 	rtrn->dy = cos2A * data->e.c->view.dy + sin2A * data->e.A1y + cossinA * data->e.B1y;
+// 	rtrn->dz = cos2A * data->e.c->view.dz + sin2A * data->e.A1z + cossinA * data->e.B1z;
+
+// 	ft_normalize_vect(rtrn);
+// }
+
+double	ft_vect_dot_product(t_vect *a, t_vect *b)
 {
 	return (a->dx * b->dx + a->dy * b->dy + a->dz * b->dz);
+}
+
+void	f_calculate_combined_quaternion(t_data *data, double angle_α, double angle_β, t_vect *rtrn)
+{
+	t_camera *c = data->e.c;
+	
+	double cosA = cos(angle_α / 2);
+	double sinA = sin(angle_α / 2);
+	double cosB = cos(angle_β / 2);
+	double sinB = sin(angle_β / 2);
+
+	double Qw = cosA*cosB - sinA*sinB * (c->right.dx * c->up.dx + c->right.dy * c->up.dy + c->right.dz * c->up.dz);
+	double Qi = cosB*sinA * c->up.dx + cosA*sinB * c->right.dx + sinA*sinB*(c->right.dy * c->up.dz - c->right.dz * c->up.dy);
+	double Qj = cosB*sinA * c->up.dy + cosA*sinB * c->right.dy + sinA*sinB*(c->right.dz * c->up.dx - c->right.dx * c->up.dz);
+	double Qk = cosB*sinA * c->up.dz + cosA*sinB * c->right.dz + sinA*sinB*(c->right.dx * c->up.dy - c->right.dy * c->up.dx);
+
+	rtrn->dx = c->view.dx * (Qw * Qw + Qi * Qi - Qj * Qj - Qk * Qk) + 2*c->view.dy * (Qi*Qj - Qw*Qk) + 2*c->view.dz * (Qi*Qk + Qw*Qj);
+	rtrn->dy = c->view.dy * (Qw * Qw + Qj * Qj - Qi * Qi - Qk * Qk) + 2*c->view.dz * (Qj*Qk - Qw*Qi) + 2*c->view.dx * (Qi*Qj + Qw*Qk);
+	rtrn->dz = c->view.dz * (Qw * Qw + Qk * Qk - Qi * Qi - Qj * Qj) + 2*c->view.dx * (Qi*Qk - Qw*Qj) + 2*c->view.dy * (Qj*Qk + Qw*Qi);
+
+	ft_normalize_vect(rtrn);
+}
+
+int	ft_render_frame_v45(t_data *data)
+{
+	int y = -1;
+	int x;
+	t_calcul c;
+
+
+	while (++y < SIZE_SCREEN_Y)
+	{
+		x = -1;
+		while (++x < SIZE_SCREEN_X)
+		{
+
+			t_vect v_final;
+			f_calculate_combined_quaternion(data, data->e.px0 + x * data->e.px, data->e.py0 + y * data->e.px, &v_final);
+			ft_find_pixel_colision(data, &c, &v_final);
+			t_rgb color;
+			color = calculate_pixel_color(data, &v_final);
+			mlx_pixel_put(data->mlx, data->win, x, y, color.r << 16 | color.g << 8 | color.b);
+
+			// mlx_pixel_put(data->mlx, data->win, x, y, c.px_color.r << 16 | c.px_color.g << 8 | c.px_color.b);
+		}
+	}
+	// end(data, 0);
+	// printf("----------------------------------------------\n");
+	return (0);
+}
+
+void	rotation_camera(t_data *data, t_vect *axis_rota, double angle, t_vect *rtrn)
+{
+
+	
 }
