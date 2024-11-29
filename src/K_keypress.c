@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/11/28 16:25:14 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/11/29 03:50:39 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ int	key_press(int keysym, t_data *data)
 	}
 
 	else if (keysym == XK_d)
+		rotation_camera(data, &data->e.c->up, 1);
+	else if (keysym == XK_a)
 		rotation_camera(data, &data->e.c->up, -1);
 	else if (keysym == XK_s)
 		rotation_camera(data, &data->e.c->right, -1);
-	else if (keysym == XK_a)
-		rotation_camera(data, &data->e.c->up, 1);
 	else if (keysym == XK_w)
 		rotation_camera(data, &data->e.c->right, 1);
 	else if (keysym == XK_n)

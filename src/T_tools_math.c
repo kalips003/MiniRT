@@ -58,6 +58,7 @@ double calculate_light_angle(t_coor *intersection, t_coor *light, t_vect *normal
 	return acos(cos_theta);
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////]
 // 	Compute the Up and Right vector for each camera
 // recalculate everytime the camera is rotated
@@ -170,14 +171,15 @@ double	ft_vect_dot_product(t_vect *a, t_vect *b)
 	return (a->dx * b->dx + a->dy * b->dy + a->dz * b->dz);
 }
 
+// Q rotation combined = qβ.qα
 void	f_calculate_combined_quaternion(t_data *data, double angle_α, double angle_β, t_vect *rtrn)
 {
 	t_camera *c = data->e.c;
 	
 	double cosA = cos(angle_α / 2);
 	double sinA = sin(angle_α / 2);
-	double cosB = cos(angle_β / 2);
-	double sinB = sin(angle_β / 2);
+	double cosB = cos(-angle_β / 2);
+	double sinB = sin(-angle_β / 2);
 
 	double Qw = cosA*cosB - sinA*sinB * (c->right.dx * c->up.dx + c->right.dy * c->up.dy + c->right.dz * c->up.dz);
 	double Qi = cosB*sinA * c->up.dx + cosA*sinB * c->right.dx + sinA*sinB*(c->right.dy * c->up.dz - c->right.dz * c->up.dy);

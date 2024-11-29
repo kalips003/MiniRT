@@ -66,7 +66,7 @@ double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v, t_sphere *s
 	c.det2 = (-c.b - sqrt(c.Δ)) / (2 * c.a);
 	c.dist = h_smalest_Δ(c.det1, c.det2);
 
-// if Δ < 0, the view_vector touch the sphere but behind
+// if c.dist < 0, the view_vector touch the sphere but behind
 	if (c.dist <= 0.0)
 		return (-1.0);
 
@@ -76,9 +76,9 @@ double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v, t_sphere *s
 		// calc->inter_point.x = data->camera[0]->xyz.x + v->dx * c.dist;
 		// calc->inter_point.y = data->camera[0]->xyz.y + v->dy * c.dist;
 		// calc->inter_point.z = data->camera[0]->xyz.z + v->dz * c.dist;
-		calc->inter_point = (t_coor){data->camera[0]->xyz.x + v->dx * c.dist
-			, data->camera[0]->xyz.y + v->dy * c.dist
-			, data->camera[0]->xyz.z + v->dz * c.dist};
+		calc->inter_point = (t_coor){data->e.c->xyz.x + v->dx * c.dist
+			, data->e.c->xyz.y + v->dy * c.dist
+			, data->e.c->xyz.z + v->dz * c.dist};
 			
 		calc->dist = c.dist;
 		calc->px_color = sphere->color;
