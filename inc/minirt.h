@@ -235,6 +235,7 @@ typedef struct s_square
 		A
 ********************************/
 int	ft_render_frame_v45(t_data *data);
+void	rotation_camera(t_data *data, t_vect *axis_rota, int posi_neg);
 /********************************
 		C
 ********************************/

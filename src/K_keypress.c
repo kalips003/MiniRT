@@ -55,13 +55,13 @@ int	key_press(int keysym, t_data *data)
 	}
 
 	else if (keysym == XK_d)
-		data->eye->view.dx += 15 * data->e.px;
+		rotation_camera(data, &data->e.c->up, -1);
 	else if (keysym == XK_s)
-		data->eye->view.dz -= 15 * data->e.px;
+		rotation_camera(data, &data->e.c->right, -1);
 	else if (keysym == XK_a)
-		data->eye->view.dx -= 15 * data->e.px;
+		rotation_camera(data, &data->e.c->up, 1);
 	else if (keysym == XK_w)
-		data->eye->view.dz += 15 * data->e.px;
+		rotation_camera(data, &data->e.c->right, 1);
 	else if (keysym == XK_n)
 	{
 		data->current_camera++;
