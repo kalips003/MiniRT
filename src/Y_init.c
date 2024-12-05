@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 06:21:51 by kalipso           #+#    #+#             */
-/*   Updated: 2024/11/27 13:26:40 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/01 13:33:17 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,12 @@ void	initialization(int ac, char **av, t_data *data)
 // CHECK GOOD NUMBER OF CAMERA AND SO ON... <----------------------------------------------A FAIRE
 	ini_mlx(data);
 
-	data->eye = data->camera[0];
-	data->e.c = data->camera[0];
-
+	data->eye.c = data->camera[0];
 // DATA CAMERA, should be recalculated at each change in camera
-	data->e.px = data->e.c->fov * (PI / 180) / SIZE_SCREEN_X;
-	data->e.px0 = -(SIZE_SCREEN_X / 2) * data->e.px;
-	data->e.py0 = -(SIZE_SCREEN_Y / 2) * data->e.px;
-	printf("----------->pxo, py0 = [%f, %f]\n", data->e.px0, data->e.py0);
+	data->eye.px = data->eye.c->fov * (PI / 180) / SIZE_SCREEN_X;
+	data->eye.px0 = -(SIZE_SCREEN_X / 2) * data->eye.px;
+	data->eye.py0 = -(SIZE_SCREEN_Y / 2) * data->eye.px;
+	// printf("----------->pxo, py0 = [%f, %f]\n", data->eye.px0, data->eye.py0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -133,5 +131,6 @@ static void		ini_mlx(t_data *data)
 	// mlx_loop_hook(data->mlx, &ft_loop, data);
 	mlx_hook(data->win, KeyPress, KeyPressMask, &key_press, data);
 	mlx_hook(data->win, KeyRelease, KeyReleaseMask, &key_release, data);
+	mlx_hook(data->win, ButtonPress, ButtonPressMask, &mouse_clic, data);
 	mlx_hook(data->win, 17, 0, &end2, data);
 }

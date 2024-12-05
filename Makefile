@@ -31,6 +31,10 @@ a: $(NAMEE)
 	@$(call random_shmol_cat, teshting ... $@: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), );
 	./$(word 1, $^) $(MAP)
 
+b: $(NAMEE)
+	@$(call random_shmol_cat, teshting ... $@: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), );
+	./$(word 1, $^) map/scene2.rt
+
 # RUN MINISHELL & VALGRING 2> out/valgrind
 v: $(NAMEE)
 	@$(call random_shmol_cat, "vlgrininnng ... $(word 1, $^)!", "$(ARG2)", $(CLS), );

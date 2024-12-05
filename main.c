@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/11/28 11:30:01 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:11:37 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ int	main(int ac, char **av)
 	t_data	data;
 
 	initialization(ac, av, &data);
-	printf("view >\t [%f,%f,%f]\n", data.e.c->view.dx, data.e.c->view.dy, data.e.c->view.dz);
-	printf("up >\t [%f,%f,%f]\n", data.e.c->up.dx, data.e.c->up.dy, data.e.c->up.dz);
-	printf("right >\t [%f,%f,%f]\n", data.e.c->right.dx, data.e.c->right.dy, data.e.c->right.dz);
-	printf("view.up; view.right; right.up = [%f,%f,%f]\n", ft_vect_dot_product(&data.e.c->view, &data.e.c->up), ft_vect_dot_product(&data.e.c->view, &data.e.c->right), ft_vect_dot_product(&data.e.c->right, &data.e.c->up));
+	// printf("view >\t [%f,%f,%f]\n", data.eye.c->view.dx, data.eye.c->view.dy, data.eye.c->view.dz);
+	// printf("up >\t [%f,%f,%f]\n", data.eye.c->up.dx, data.eye.c->up.dy, data.eye.c->up.dz);
+	// printf("right >\t [%f,%f,%f]\n", data.eye.c->right.dx, data.eye.c->right.dy, data.eye.c->right.dz);
+	// printf("view.up; view.right; right.up = [%f,%f,%f]\n", ft_vect_dot_product(&data.eye.c->view, &data.eye.c->up), ft_vect_dot_product(&data.eye.c->view, &data.eye.c->right), ft_vect_dot_product(&data.eye.c->right, &data.eye.c->up));
 	
 
 	// ft_render_rt(&data);
+	ft_render_frame_plus(&data);
 	mlx_loop(data.mlx);
 	ft_print_cat(0, "is workking?", 0b1);
 

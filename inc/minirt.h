@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/28 16:53:00 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/02 19:57:59 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,17 +113,7 @@ typedef struct s_eye
 	double		px0;
 	double		py0;
 
-// 6 Const value f(camera) to compute temp rotation vector V'
-	// (X) = cos²Cx + sin²(Cx(Ux²-Uy²-Uz²)+2Ux(UyCy+UzCz)) + 2cossin(UyCz-UzCy) == cos²Cx + sin² * (A1x) + (B1x)
-	// (Y) = cos²Cy + sin²(Cx(-Ux²+Uy²-Uz²)+2Uy(UxCx+UzCz)) + 2cossin(UzCx-UxCz) == cos²Cy + sin² * (A1y) + (B1y)
-	// (Z) = cos²Cz + sin²(Cx(-Ux²-Uy²+Uz²)+2Uz(UxCx+UyCy)) + 2cossin(UxCy-UyCx) == cos²Cz + sin² * (A1z) + (B1z)
-	double A1x;
-	double A1y;
-	double A1z;
-
-	double B1x;
-	double B1y;
-	double B1z;
+	int			current_camera;
 
 }	t_eye;
 
@@ -143,9 +133,7 @@ typedef struct s_data
 	t_cylinder	**cylinders;
 
 // shortcut to the vector camera
-	t_camera	*eye;
-	t_eye		e;
-	int			current_camera;
+	t_eye		eye;
 	int		is_not_moving;
 
 }	t_data;
@@ -158,12 +146,15 @@ typedef struct s_calcul
 	t_coor	inter_point;
 	t_vect	vect_norm;
 	
+	t_coor	origin;
 	
 	t_rgb	px_color;
 	t_rgb	tmp_color;
 
 	double	dist;
 	double	tmp_dist;
+
+	t_vect	v_rotated;
 
 
 	// t_sphere 	*sphere;
@@ -234,59 +225,57 @@ typedef struct s_square
 /********************************
 		A
 ********************************/
-int	ft_render_frame_v45(t_data *data);
-void	rotation_camera(t_data *data, t_vect *axis_rota, int posi_neg);
-/********************************
-		C
-********************************/
-
-int	ft_render_frame(t_data *data);
 
 
 /********************************
-		B
+		B - Loop
 ********************************/
-int		ft_loop_empty(t_data *data);
+int 	ft_loop_empty(t_data *data);
+int		ft_render_frame(t_data *data);
+int		ft_render_frame_plus(t_data *data);
+void	f_calculate_combined_quaternion(t_data *data, double angle_α, double angle_β, t_vect *rtrn);
+
+/********************************
+		K - key press
+********************************/
 int		key_press(int keysym, t_data *data);
 int		key_release(int keysym, t_data *data);
+int mouse_clic(int button, int x, int y, void *data);
+void	rotation_camera(t_data *data, t_vect *axis_rota, int posi_neg);
 /********************************
 		R	ray-tracing
 ********************************/
-int	ft_render_rt(t_data *data);
-int	ft_render_rc(t_data *data);
-t_rgb	calculate_pixel_color(t_data *data, t_vect *v);
-int	ft_find_pixel_colision(t_data *data, t_calcul *c, t_vect *v);
+void	calculate_pixel_color(t_data *data, t_calcul *c);
+void	calculate_pixel_color_simple(t_data *data, t_calcul *c);
+int	ft_find_pixel_colision(t_data *data, t_calcul *c);
 
-
-// tools
-double	distance_from_sphere(t_data *data, t_calcul *calc, t_vect *v, t_sphere *sphere);
-double	distance_from_plane(t_data *data, t_calcul *c, t_vect *v, t_plane *plane);
 /********************************
 		S	shadows
 ********************************/
 void	ft_handle_shadows(t_data *data, t_calcul *c);
-void	ft_handle_sky(t_data *data, t_calcul *c);
+double calculate_light_angle(t_coor *intersection, t_coor *light, t_vect *normal);
 /********************************
-		T	Tools atof
+		T	Tools
 ********************************/
+// - camera
+void	h_camera_calc_up_right_vect(t_camera *camera);
+void	f_recalculate_camera(t_data *data);
+// - colision
+double	distance_from_sphere(t_data *data, t_calcul *calc, t_sphere *sphere);
+double	distance_from_plane(t_data *data, t_calcul *calc, t_plane *p);
+double	distance_from_cylinder(t_data *data, t_calcul *calc, t_cylinder *cy);
+// - vector operations
+int	ft_normalize_vect(t_vect *vect);
+double	ft_vect_dot_product(t_vect *a, t_vect *b);
+// - atof, parsing
 double	ft_atof(char *string, int *error);
 int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
-// void	put_pixel_buffer(t_data *data, int x, int y, t_rgb color);
-// 
-int	ft_normalize_vect(t_vect *vect);
-double calculate_light_angle(t_coor *intersection, t_coor *light, t_vect *normal);
-void	h_camera_calc_up_right_vect(t_camera *camera);
-void	h_eye_compute_const_var(t_data *data);
-void	compute_temp_vect(t_data *data, double angle, t_vect *rtrn);
-double	ft_vect_dot_product(t_vect *a, t_vect *b);
-
 /********************************
 		Y
 ********************************/
 void	initialization(int ac, char **av, t_data *data);
 // 
-
 int	parse_A(t_data *data, char **raw_split);
 int	parse_C(t_data *data, char **raw_split);
 int	parse_L(t_data *data, char **raw_split);

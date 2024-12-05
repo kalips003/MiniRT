@@ -54,7 +54,7 @@ int	ato_coor(char *str, t_coor *xyz)
 	xyz->x = ft_atof(spl[0], &err);
 	xyz->y = ft_atof(spl[1], &err);
 	xyz->z = ft_atof(spl[2], &err);
-	printf("coor xyz = [%f,%f,%f]\n", xyz->x, xyz->y, xyz->z);
+	// printf("coor xyz = [%f,%f,%f]\n", xyz->x, xyz->y, xyz->z);
 	free_tab(spl);
 	if (err)
 		return (put(ERR8"(%s) bad coordonates\n", str), 1);

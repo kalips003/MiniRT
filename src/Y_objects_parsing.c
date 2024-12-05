@@ -156,7 +156,7 @@ int	parse_sp(t_data *data, char **raw_split)
 	sphere->radius = sphere->diameter / 2;
 	if (err || ato_coor(raw_split[0], &(sphere->xyz)) || ato_rgb(raw_split[2], &(sphere->color)))
 		return (1);
-	printf("Spher coor = [%f,%f,%f]\n", sphere->xyz.x, sphere->xyz.y, sphere->xyz.z);
+	// printf("Spher coor = [%f,%f,%f]\n", sphere->xyz.x, sphere->xyz.y, sphere->xyz.z);
 	return (0);
 }
 
