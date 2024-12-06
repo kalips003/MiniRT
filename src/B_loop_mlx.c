@@ -41,9 +41,11 @@ int	ft_render_frame(t_data *data)
 	t_calcul c;
 	ft_memset(&c, 0, sizeof(t_calcul));
 	c.origin = data->eye.c->xyz;
+	double fov_cst = tan(data->eye.c->fov / 2 * PI / 180);
 
 	while (++y < SIZE_SCREEN_Y)
 	{
+		double angleB = atan((y - SIZE_SCREEN_Y / 2) * 2 * fov_cst / SIZE_SCREEN_Y);
 		x = -1;
 		while (++x < SIZE_SCREEN_X)
 		{
@@ -55,8 +57,10 @@ int	ft_render_frame(t_data *data)
 			// double angleA = atan(tan(data->eye.px0) + tx * tan(data->eye.px));
 			// double angleB = atan(tan(data->eye.py0) + ty * tan(data->eye.px));
 
-			double angleA = data->eye.px0 + x * data->eye.px;
-			double angleB = data->eye.py0 + y * data->eye.px;
+			double angleA = atan((x - SIZE_SCREEN_X / 2) * 2 * fov_cst / SIZE_SCREEN_X);
+
+			// double angleA = data->eye.px0 + x * data->eye.px;
+			// double angleB = data->eye.py0 + y * data->eye.px;
 			
 			f_calculate_combined_quaternion(data, angleA, angleB, &c.v_rotated);
 			calculate_pixel_color_simple(data, &c);

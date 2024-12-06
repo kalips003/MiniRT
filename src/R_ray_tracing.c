@@ -84,9 +84,9 @@ int	ft_find_pixel_colision(t_data *data, t_calcul *c)
 	while (++plane_ptr && *plane_ptr)
 		distance_from_plane(data, c, *plane_ptr);
 
-	cyl_ptr = data->cylinders - 1;
-	while (++cyl_ptr && *cyl_ptr)
-		distance_from_cylinder(data, c, *cyl_ptr);
+	// cyl_ptr = data->cylinders - 1;
+	// while (++cyl_ptr && *cyl_ptr)
+	// 	distance_from_cylinder(data, c, *cyl_ptr);
 	
 	return (c->dist != -1.0);
 }

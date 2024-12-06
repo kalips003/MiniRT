@@ -163,6 +163,19 @@ typedef struct s_calcul
 
 }	t_calcul;
 
+typedef struct s_calcul2
+{
+	double	dist;
+	t_rgb	px_color;
+
+	t_coor	c0;
+	t_vect	c_vect;
+	
+	t_coor	inter;
+	t_vect	v_normal;
+
+}	t_calcul2;
+
 ////////////////////////////////////////////]
 typedef struct s_ambient_light
 {
@@ -192,7 +205,7 @@ typedef struct s_sphere
 	double	diameter;
 	double	radius;
 	t_rgb	color;
-}	t_sphere;//		sp
+}	t_sphere;//		sphere
 
 typedef struct s_plane
 {
@@ -200,7 +213,7 @@ typedef struct s_plane
 	t_vect	abc;
 	t_rgb	color;
 	double	d;
-}	t_plane;//		pl
+}	t_plane;//		plane
 
 
 typedef struct s_cylinder
@@ -210,7 +223,15 @@ typedef struct s_cylinder
 	double	diameter;
 	double	height;
 	t_rgb	color;
-}	t_cylinder;//		pl
+}	t_cylinder;//		cylinder
+
+typedef struct s_cicle
+{
+	t_coor	c0;
+	t_vect	v;
+	double	radius;
+	t_rgb	color;
+}	t_cicle;//		circle
 
 
 typedef struct s_square
@@ -220,7 +241,7 @@ typedef struct s_square
 	double	diameter;
 	double	height;
 	t_rgb	color;
-}	t_square;//		sq
+}	t_square;//		square
 ///////////////////////////////////////////////////////////////////////////////]
 /********************************
 		A

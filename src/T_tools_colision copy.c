@@ -12,9 +12,9 @@
 
 #include "../inc/minirt.h"
 
-double	distance_from_sphere(t_data *data, t_calcul *calc, t_sphere *sphere);
-double	distance_from_plane(t_data *data, t_calcul *calc, t_plane *p);
-double	distance_from_cylinder(t_data *data, t_calcul *calc, t_cylinder *cy);
+double	distance_from_sphere2(t_data *data, t_calcul *calc, t_sphere *sphere);
+double	distance_from_plane2(t_data *data, t_calcul *calc, t_plane *p);
+double	distance_from_cylinder2(t_data *data, t_calcul *calc, t_cylinder *cy);
 static double h_smalest_Δ(double a, double b);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -34,109 +34,148 @@ typedef struct s_sphere_calc {
 
 	double dist;
 } t_sphere_calc;
-
-
 ///////////////////////////////////////////////////////////////////////////////]
 // 		if colition, fills in the xyz position of the closest positive contact point
 // 	return dist from sphere, -1 if no colosion or not in sight
 //	(x-x0)² + (y-y0)² + (z-z0)² = R²
-double	distance_from_sphere(t_data *data, t_calcul *calc, t_sphere *sphere)
+double	distance_from_sphere2(t_data *data, t_calcul2 *calcul, t_sphere *sphere)
 {
 	t_sphere_calc	c;
 
 //	diff center sphere and center camera
-	c.x0 = calc->origin.x - sphere->xyz.x;
-	c.y0 = calc->origin.y - sphere->xyz.y;
-	c.z0 = calc->origin.z - sphere->xyz.z;
+	c.x0 = calcul->c0.x - sphere->xyz.x;
+	c.y0 = calcul->c0.y - sphere->xyz.y;
+	c.z0 = calcul->c0.z - sphere->xyz.z;
 
 // RESOLVE ((t.Vx + EYEx) - x0)² + ((t.Vy + EYEy) - y0)² + ((t.Vz + EYEz) - z0)² = R²
 // ==> At² + Bt + C = 0; 
-	c.a = calc->v_rotated.dx * calc->v_rotated.dx + calc->v_rotated.dy * calc->v_rotated.dy + calc->v_rotated.dz * calc->v_rotated.dz;
-	c.b = 2 * (calc->v_rotated.dx * c.x0 + calc->v_rotated.dy * c.y0 + calc->v_rotated.dz * c.z0);
+	c.a = calcul->c_vect.dx * calcul->c_vect.dx + calcul->c_vect.dy * calcul->c_vect.dy + calcul->c_vect.dz * calcul->c_vect.dz;
+	c.b = 2 * (calcul->c_vect.dx * c.x0 + calcul->c_vect.dy * c.y0 + calcul->c_vect.dz * c.z0);
 	c.c = c.x0 * c.x0 + c.y0 * c.y0 + c.z0 * c.z0 - sphere->radius * sphere->radius;
 
 	c.Δ = c.b * c.b - 4 * c.a * c.c;
 
-// if a = 0, the view_vector only touch the sphere
+// if Δ = 0, the view_vector only touch the sphere
 // if Δ < 0, the view_vector doesnt colide the sphere
 	if (c.Δ < 0.0 || !c.a)
 		return (-1.0);
 
 	c.det1 = (-c.b + sqrt(c.Δ)) / (2 * c.a);
 	c.det2 = (-c.b - sqrt(c.Δ)) / (2 * c.a);
-	//  what if in the sphere (light source also in)
-	// if (c.det1 < 0.0 || c.det2 < 0.0)
-	// 	return (-1.0);
-	// c.dist = fmin(c.det1, c.det2);
+
 	c.dist = h_smalest_Δ(c.det1, c.det2);
 // if c.dist < 0, the view_vector touch the sphere but behind
 	if (c.dist <= 0.0)
 		return (-1.0);
 
-
-	if (c.dist < calc->dist || calc->dist < 0.0)
+	if (c.dist < calcul->dist || calcul->dist < 0.0)
 	{
-		calc->inter_point = (t_coor){calc->origin.x + calc->v_rotated.dx * c.dist
-			, calc->origin.y + calc->v_rotated.dy * c.dist
-			, calc->origin.z + calc->v_rotated.dz * c.dist};
-			
-		calc->dist = c.dist;
-		calc->px_color = sphere->color;
-		calc->vect_norm = (t_vect){calc->inter_point.x - sphere->xyz.x
-			, calc->inter_point.y - sphere->xyz.y
-			, calc->inter_point.z - sphere->xyz.z};
+		calcul->dist = c.dist;
+		calcul->px_color = sphere->color;
+	
+		calcul->inter = (t_coor){
+			calcul->c0.x + calcul->c_vect.dx * c.dist, 
+			calcul->c0.y + calcul->c_vect.dy * c.dist, 
+			calcul->c0.z + calcul->c_vect.dz * c.dist};
+
+		calcul->v_normal = (t_vect){
+			calcul->inter.x - sphere->xyz.x, 
+			calcul->inter.y - sphere->xyz.y, 
+			calcul->inter.z - sphere->xyz.z};
+		// calcul->v_reflected
 		if (c.det1 < 0.0 || c.det2 < 0.0)
-			calc->vect_norm = (t_vect){-calc->vect_norm.dx, -calc->vect_norm.dy, -calc->vect_norm.dz};
-		ft_normalize_vect(&calc->vect_norm);
+			calcul->v_normal = (t_vect){-calcul->v_normal.dx, -calcul->v_normal.dy, -calcul->v_normal.dz};
+		ft_normalize_vect(&calcul->v_normal);
 	}
 	return (c.dist);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
+typedef struct s_plane_calc {
+	double	top;
+	double	bot;
+
+	double	dist;
+} t_plane_calc;
+///////////////////////////////////////////////////////////////////////////////]
 //	a.(x-x0) + b(y-y0) + c(z-z0) + d = 0
 // d is dependant of the plane:
 // 		ax + by + cz + d = 0
 // 		d = -(ax + by + cz)
-double	distance_from_plane(t_data *data, t_calcul *calc, t_plane *p)
+double	distance_from_plane(t_data *data, t_calcul2 *calcul, t_plane *p)
 {
-	double	top;
-	double	bot;
-	double	dist;
-	t_coor	xyz;
-
-	// xyz = data->camera[0]->xyz;
-	xyz = calc->origin;
+	t_plane_calc	c;
 
 // RESOLVE A(t.Vx + EYEx) + B(t.Vy + EYEy) + C(t.Vz + EYEz) + D = 0
-// ==> t = top / bot; 
-	top = -(p->abc.dx * xyz.x + p->abc.dy * xyz.y + p->abc.dz * xyz.z + p->d);
-	bot = p->abc.dx * calc->v_rotated.dx + p->abc.dy * calc->v_rotated.dy + p->abc.dz * calc->v_rotated.dz;
+// ==> t = top / bot;
+	c.top = -(p->abc.dx * calcul->c0.x + p->abc.dy * calcul->c0.y + p->abc.dz * calcul->c0.z + p->d);
+	c.bot = p->abc.dx * calcul->c_vect.dx + p->abc.dy * calcul->c_vect.dy + p->abc.dz * calcul->c_vect.dz;
 
 // if top = 0, the camera is on the plane
 // if bot = 0, the view_vector is parallele to the plane
-	if (!top || !bot)
+	if (!c.top || !c.bot)
 		return (-1.0);
 
-	dist = top / bot;
+	c.dist = c.top / c.bot;
 // if dist < 0, the view_vector touch the sphere but behind
-	if (dist <= 0)
+	if (c.dist <= 0)
 		return (-1.0);
 
-	if (dist < calc->dist || calc->dist < 0)
+	if (c.dist < calcul->dist || calcul->dist < 0)
 	{
-		calc->inter_point = (t_coor){xyz.x + calc->v_rotated.dx * dist
-			, xyz.y + calc->v_rotated.dy * dist
-			, xyz.z + calc->v_rotated.dz * dist};
+		calcul->dist = c.dist;
+		calcul->px_color = p->color;
+
+		calcul->inter = (t_coor){
+			calcul->c0.x + calcul->c_vect.dx * c.dist,
+			calcul->c0.y + calcul->c_vect.dy * c.dist,
+			calcul->c0.z + calcul->c_vect.dz * c.dist};
 			
-		calc->dist = dist;
-		calc->px_color = p->color;
-		if (ft_vect_dot_product(&calc->v_rotated, &p->abc) < 0.0)
-			calc->vect_norm = p->abc;
-		else
-			calc->vect_norm = (t_vect){-p->abc.dx, -p->abc.dy, -p->abc.dz};
-		ft_normalize_vect(&calc->vect_norm);
+		calcul->v_normal = p->abc;
+		if (ft_vect_dot_product(&calcul->c_vect, &p->abc) > 0.0)
+			calcul->v_normal = (t_vect){-calcul->v_normal.dx, -calcul->v_normal.dy, -calcul->v_normal.dz};
+		ft_normalize_vect(&calcul->v_normal);
 	}
-	return (dist);
+	return (c.dist);
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+double	distance_from_cicle(t_data *data, t_calcul2 *calcul, t_cicle circle)
+{
+	t_plane_calc	c;
+
+// RESOLVE A(t.Vx + EYEx) + B(t.Vy + EYEy) + C(t.Vz + EYEz) + D = 0
+// ==> t = top / bot;
+	c.top = -(circle.v.dx * calcul->c0.x + circle.v.dy * calcul->c0.y + circle.v.dz * calcul->c0.z + p->d);
+	c.bot = circle.v.dx * calcul->c_vect.dx + circle.v.dy * calcul->c_vect.dy + circle.v.dz * calcul->c_vect.dz;
+
+// if top = 0, the camera is on the plane
+// if bot = 0, the view_vector is parallele to the plane
+	if (!c.top || !c.bot)
+		return (-1.0);
+
+	c.dist = c.top / c.bot;
+// if dist < 0, the view_vector touch the sphere but behind
+	if (c.dist <= 0)
+		return (-1.0);
+
+	double temp_dist = sqrt();
+	if (c.dist < calcul->dist || calcul->dist < 0)
+	{
+		calcul->dist = c.dist;
+		calcul->px_color = p->color;
+
+		calcul->inter = (t_coor){
+			calcul->c0.x + calcul->c_vect.dx * c.dist,
+			calcul->c0.y + calcul->c_vect.dy * c.dist,
+			calcul->c0.z + calcul->c_vect.dz * c.dist};
+			
+		calcul->v_normal = circle.v;
+		if (ft_vect_dot_product(&calcul->c_vect, &circle.v) > 0.0)
+			calcul->v_normal = (t_vect){-calcul->v_normal.dx, -calcul->v_normal.dy, -calcul->v_normal.dz};
+		ft_normalize_vect(&calcul->v_normal);
+	}
+	return (c.dist);
 }
 
 // ||(P - E) - ((P - E).W) * W||² = R²
