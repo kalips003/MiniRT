@@ -13,7 +13,7 @@
 #include "../inc/minirt.h"
 
 void	h_camera_calc_up_right_vect(t_camera *camera);
-void	f_recalculate_camera(t_data *data);
+void	rotation_camera(t_data *data, t_vect *axis_rota, int posi_neg);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // 	Compute the Up and Right vector for each camera
@@ -21,17 +21,19 @@ void	f_recalculate_camera(t_data *data);
 void	h_camera_calc_up_right_vect(t_camera *camera)
 {
 // if camera vector is == Y vector
-	if (camera->view.dx == 0.0 && camera->view.dz == 0.0)
+	if (fabs(camera->view.dx) < EPSILON && fabs(camera->view.dz) < EPSILON)
 	{
 		if (camera->view.dy > 0)
 		{
 			camera->up = (t_vect){0.0, 0.0, -1.0};
 			camera->right = (t_vect){1.0, 0.0, 0.0};
+			return ;
 		}
 		else
 		{
 			camera->up = (t_vect){0.0, 0.0, 1.0};
 			camera->right = (t_vect){-1.0, 0.0, 0.0};
+			return ;
 		}
 	}
 
@@ -46,14 +48,27 @@ void	h_camera_calc_up_right_vect(t_camera *camera)
 	camera->up.dy = camera->view.dx * camera->view.dx + camera->view.dz * camera->view.dz;
 	camera->up.dz = -camera->view.dy * camera->view.dz;
 	ft_normalize_vect(&camera->up);
-
 }
 
-void	f_recalculate_camera(t_data *data)
+
+///////////////////////////////////////////////////////////////////////////////]
+// rotate the camera (eye) vector of fixed angle
+void	rotation_camera(t_data *data, t_vect *axis_rota, int posi_neg)
 {
-		data->eye.c = data->camera[0];
-// DATA CAMERA, should be recalculated at each change in camera
-	data->eye.px = data->eye.c->fov * (PI / 180) / SIZE_SCREEN_X;
-	data->eye.px0 = -(SIZE_SCREEN_X / 2) * data->eye.px;
-	data->eye.py0 = -(SIZE_SCREEN_Y / 2) * data->eye.px;
+	t_vect *c = &data->eye.c->view;
+	
+	double Vx2 = axis_rota->dx * axis_rota->dx;
+	double Vy2 = axis_rota->dy * axis_rota->dy;
+	double Vz2 = axis_rota->dz * axis_rota->dz;
+
+
+	double resultx = COS_ROTA2 * c->dx + SIN_ROTA2 * (c->dx * (Vx2 - Vy2 - Vz2) + 2 * axis_rota->dx * (axis_rota->dy * c->dy + axis_rota->dz * c->dz)) + 2 * (posi_neg) * COSSIN_ROTA * (axis_rota->dy * c->dz - axis_rota->dz * c->dy);
+	double resulty = COS_ROTA2 * c->dy + SIN_ROTA2 * (c->dy * (Vy2 - Vx2 - Vz2) + 2 * axis_rota->dy * (axis_rota->dx * c->dx + axis_rota->dz * c->dz)) + 2 * (posi_neg) * COSSIN_ROTA * (axis_rota->dz * c->dx - axis_rota->dx * c->dz);
+	double resultz = COS_ROTA2 * c->dz + SIN_ROTA2 * (c->dz * (Vz2 - Vx2 - Vy2) + 2 * axis_rota->dz * (axis_rota->dx * c->dx + axis_rota->dy * c->dy)) + 2 * (posi_neg) * COSSIN_ROTA * (axis_rota->dx * c->dy - axis_rota->dy * c->dx);
+	c->dx = resultx;
+	c->dy = resulty;
+	c->dz = resultz;
+
+	ft_normalize_vect(c);
+	h_camera_calc_up_right_vect(data->eye.c);
 }

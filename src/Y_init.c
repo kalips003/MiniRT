@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 06:21:51 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/01 13:33:17 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/13 13:20:45 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,49 +34,49 @@ static const t_dico_pair	dico[] = {
 
 void		initialization(int ac, char **av, t_data *data);
 static int	ft_parse_line(t_data *data, char *line);
-static void	read_file(int ac, char **av, t_data *data);
+void	read_file(int ac, char **av, t_data *data);
 static void		ini_mlx(t_data *data);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // ini
 void	initialization(int ac, char **av, t_data *data)
 {
+	struct stat file_stat;
+
 	ft_memset(data, 0, sizeof(t_data));
+	data->av = av;
 	read_file(ac, av, data);
+
 // CHECK GOOD NUMBER OF CAMERA AND SO ON... <----------------------------------------------A FAIRE
 	ini_mlx(data);
 
+	stat(data->av[1], &file_stat);
+	data->last_modif_time = file_stat.st_mtime;
 	data->eye.c = data->camera[0];
-// DATA CAMERA, should be recalculated at each change in camera
-	data->eye.px = data->eye.c->fov * (PI / 180) / SIZE_SCREEN_X;
-	data->eye.px0 = -(SIZE_SCREEN_X / 2) * data->eye.px;
-	data->eye.py0 = -(SIZE_SCREEN_Y / 2) * data->eye.px;
-	// printf("----------->pxo, py0 = [%f, %f]\n", data->eye.px0, data->eye.py0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static void	read_file(int ac, char **av, t_data *data)
+void	read_file(int ac, char **av, t_data *data)
 {
 	char *line;
 	int dot;
 	int fd;
 
 	if (ac != 2)
-		(put(ERR2"Wrong number of args\n"), exit(1));
+		(put(ERR2"Wrong number of args\n"), end(data, 1, 1));
 	dot = wii('.', av[1]);
 	if (dot == -1 || !same_str(".rt", &av[1][dot]))
-		(put(ERR1"MiniRT takes a single map with .rt extension as argument\n"), exit(1));
+		(put(ERR1"MiniRT takes a single map with .rt extension as argument\n"), end(data, 1, 1));
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
-		(perror(ERR9"Cant open file"), exit(1));
-
+		(perror(ERR9"Cant open file"), end(data, 1, 1));
 	while (1)
 	{
 		line = gnl(fd);
 		if (!line)
 			break ;
 		if (ft_parse_line(data, line))
-			(close(fd), end(data, 0));
+			(close(fd), end(data, 1, 1));
 	}
 	close(fd);
 }
@@ -85,6 +85,7 @@ static void	read_file(int ac, char **av, t_data *data)
 // input line = "# C 	0,0,-100		0,0,1	70"
 static int	ft_parse_line(t_data *data, char *line)
 {
+	// put("IN PARSE LINE\n");
 	char **params;
 	int	i;
 // if line empty, skip it
@@ -118,16 +119,16 @@ static void		ini_mlx(t_data *data)
 {
 	data->mlx = mlx_init();
 	if (!data->mlx)
-		(put(ERRM"MLX fait de la merde\n"), end(data, 1));
+		(put(ERRM"MLX fait de la merde\n"), end(data, 1, 1));
 	data->win = mlx_new_window(data->mlx, SIZE_SCREEN_X, SIZE_SCREEN_Y, "miniRT");
 	// data->buffer.img = mlx_new_image(data->mlx, SIZE_SCREEN_X, SIZE_SCREEN_Y);
 	// if (!data->win || !data->buffer.img)
 	if (!data->win)
-		(put(ERRM"Problem initalisazing mlx (2)\n"), end(data, 1));
+		(put(ERRM"Problem initalisazing mlx (2)\n"), end(data, 1, 1));
 	// data->buffer.addr = mlx_get_data_addr(data->buffer.img, &data->buffer.bpp, &data->buffer.ll, &data->buffer.end);
 	// if (!data->buffer.addr)
 	// 	(put(ERRM"Problem initalisazing mlx (3)\n"), end(data, 1));
-	mlx_loop_hook(data->mlx, &ft_loop_empty, data);
+	mlx_loop_hook(data->mlx, &ft_loop_empty_v2, data);
 	// mlx_loop_hook(data->mlx, &ft_loop, data);
 	mlx_hook(data->win, KeyPress, KeyPressMask, &key_press, data);
 	mlx_hook(data->win, KeyRelease, KeyReleaseMask, &key_release, data);

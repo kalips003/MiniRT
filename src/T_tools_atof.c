@@ -17,6 +17,7 @@ int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
 
 ///////////////////////////////////////////////////////////////////////////////]
+// err redondant?
 double	ft_atof(char *string, int *error)
 {
 	double rtrn = 0.0;
@@ -54,7 +55,6 @@ int	ato_coor(char *str, t_coor *xyz)
 	xyz->x = ft_atof(spl[0], &err);
 	xyz->y = ft_atof(spl[1], &err);
 	xyz->z = ft_atof(spl[2], &err);
-	// printf("coor xyz = [%f,%f,%f]\n", xyz->x, xyz->y, xyz->z);
 	free_tab(spl);
 	if (err)
 		return (put(ERR8"(%s) bad coordonates\n", str), 1);
@@ -79,19 +79,3 @@ int	ato_rgb(char *str, t_rgb *rgb)
 	
 	return (0);
 }
-
-
-
-///////////////////////////////////////////////////////////////////////////////]
-// void	put_pixel_buffer(t_data *data, int x, int y, unsigned int color)
-// {
-// 	char	*dst;
-// 	int		offset;
-
-// 	if (x < 0 || y < 0 || x >= data->buffer.sz_x || y >= data->buffer.sz_y)
-// 		return ;
-// 	offset = (y * data->buffer.ll + x * (data->buffer.bpp / 8));
-// 	dst = data->buffer.addr + offset;
-// 	*(unsigned int *)dst = color;
-// }
-

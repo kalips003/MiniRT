@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/02 19:57:59 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/14 15:20:10 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <X11/keysym.h>
 
 # include "libft.h"
+# include "minirt_struct.h"
 
 ///////////////////////////////////////////////////////////////////////////////]
 //
@@ -47,12 +48,14 @@
 # define SIN_ROTA 0.08715574274765816587
 # define SIN_ROTA2 0.00759612349389596903
 # define COSSIN_ROTA 0.08682408883346516559
+# define EPSILON 1e-6
+# define SCALAR_LIGHT_DIST 7000.0
+# define SCALAR_REFLECTION 0.4
+# define SCALAR_SHINY 10.0
 
-# define SIZE_SCREEN_Y 900
-# define SIZE_SCREEN_X 1100
+# define SIZE_SCREEN_Y 500
+# define SIZE_SCREEN_X 600
 
-
-// typedef int	(*t_builtin)(t_data *data, t_cmd *cmd);
 
 typedef struct s_rgb			t_rgb;
 typedef struct s_coor			t_coor;
@@ -64,239 +67,86 @@ typedef struct s_sphere			t_sphere;
 typedef struct s_plane			t_plane;
 typedef struct s_cylinder		t_cylinder;
 typedef struct s_square			t_square;
-typedef struct s_calcul			t_calcul;
+typedef struct s_calcul_px			t_calcul_px;
 typedef struct s_img			t_img;
 typedef struct s_eye			t_eye;
-
-typedef struct s_rgb
-{
-	int	r;
-	int	g;
-	int	b;
-}	t_rgb;
-
-typedef struct s_coor
-{
-	double	x;
-	double	y;
-	double	z;
-}	t_coor;
-
-// range [-1, 1]
-typedef struct s_vect
-{
-	double	dx;
-	double	dy;
-	double	dz;
-}	t_vect;
-
-typedef struct s_img
-{
-	void	*img;
-	char	*addr;
-
-	int		bpp;
-	int		ll;
-	int		end;
-	int		sz_x;
-	int		sz_y;
-}	t_img;
-////////////////////////////////////////////]
-////////////////////////////////////////////]
-
-typedef struct s_eye
-{
-	t_camera	*c;
-// unit angle in radians per pixel
-	double		px;
-// position of upper-left screen (rotation in radian)
-	double		px0;
-	double		py0;
-
-	int			current_camera;
-
-}	t_eye;
-
-typedef struct s_data
-{
-	void	*mlx;
-	void	*win;
-
-	// t_img	buffer; <---- buffer not used, all buffer lines commented
-
-	t_ambient_light	**light;
-	t_camera	**camera;
-	t_light		**light_source;
-	
-	t_sphere	**spheres;
-	t_plane		**planes;
-	t_cylinder	**cylinders;
-
-// shortcut to the vector camera
-	t_eye		eye;
-	int		is_not_moving;
-
-}	t_data;
-////////////////////////////////////////////]
-////////////////////////////////////////////]
-
-typedef struct s_calcul
-{
-	// ce quon voit:
-	t_coor	inter_point;
-	t_vect	vect_norm;
-	
-	t_coor	origin;
-	
-	t_rgb	px_color;
-	t_rgb	tmp_color;
-
-	double	dist;
-	double	tmp_dist;
-
-	t_vect	v_rotated;
+typedef struct s_data			t_data;
 
 
-	// t_sphere 	*sphere;
-	// t_plane		*plane;
-	// t_cylinder	*cylinder;
-
-}	t_calcul;
-
-typedef struct s_calcul2
-{
-	double	dist;
-	t_rgb	px_color;
-
-	t_coor	c0;
-	t_vect	c_vect;
-	
-	t_coor	inter;
-	t_vect	v_normal;
-
-}	t_calcul2;
-
-////////////////////////////////////////////]
-typedef struct s_ambient_light
-{
-	double	ratio;
-	t_rgb	color;
-}	t_ambient_light;//		A
-
-typedef struct s_camera
-{
-	t_coor		xyz;
-	t_vect		view;
-	t_vect		up;
-	t_vect		right;
-	int			fov;
-}	t_camera;//			C
-
-typedef struct s_light
-{
-	t_coor	xyz;
-	double	ratio;
-	t_rgb	color;
-}	t_light;//		L
-
-typedef struct s_sphere
-{
-	t_coor	xyz;
-	double	diameter;
-	double	radius;
-	t_rgb	color;
-}	t_sphere;//		sphere
-
-typedef struct s_plane
-{
-	t_coor	xyz;
-	t_vect	abc;
-	t_rgb	color;
-	double	d;
-}	t_plane;//		plane
-
-
-typedef struct s_cylinder
-{
-	t_coor	xyz;
-	t_vect	abc;
-	double	diameter;
-	double	height;
-	t_rgb	color;
-}	t_cylinder;//		cylinder
-
-typedef struct s_cicle
-{
-	t_coor	c0;
-	t_vect	v;
-	double	radius;
-	t_rgb	color;
-}	t_cicle;//		circle
-
-
-typedef struct s_square
-{
-	t_coor	center;
-	t_vect	abc;
-	double	diameter;
-	double	height;
-	t_rgb	color;
-}	t_square;//		square
 ///////////////////////////////////////////////////////////////////////////////]
 /********************************
 		A
 ********************************/
 
+/********************************
+		B
+********************************/
+int	ft_loop_empty_v2(t_data *data);
+int	ft_loop_empty(t_data *data);
+int	ft_render_frame(t_data *data);
+int	ft_render_frame_plus(t_data *data);
+void	calculate_pixel_color(t_data *data, t_calcul_px *c);
+/********************************
+		C
+********************************/
+int	ft_find_pixel_colision(t_data *data, t_calcul_px *c);
 
 /********************************
-		B - Loop
+		D
 ********************************/
-int 	ft_loop_empty(t_data *data);
-int		ft_render_frame(t_data *data);
-int		ft_render_frame_plus(t_data *data);
-void	f_calculate_combined_quaternion(t_data *data, double angle_α, double angle_β, t_vect *rtrn);
+double	distance_from_sphere(t_calcul_px *calcul, t_sphere *sphere);
+double	distance_from_plane(t_calcul_px *calcul, t_plane *p);
+double	distance_from_cicle(t_calcul_px *calcul, t_circle circle);
+double	distance_from_cylinder(t_calcul_px *calcul, t_cylinder *cy);
 
 /********************************
-		K - key press
+		E
 ********************************/
-int		key_press(int keysym, t_data *data);
-int		key_release(int keysym, t_data *data);
-int mouse_clic(int button, int x, int y, void *data);
-void	rotation_camera(t_data *data, t_vect *axis_rota, int posi_neg);
-/********************************
-		R	ray-tracing
-********************************/
-void	calculate_pixel_color(t_data *data, t_calcul *c);
-void	calculate_pixel_color_simple(t_data *data, t_calcul *c);
-int	ft_find_pixel_colision(t_data *data, t_calcul *c);
-
-/********************************
-		S	shadows
-********************************/
-void	ft_handle_shadows(t_data *data, t_calcul *c);
+void	ft_handle_shadows(t_data *data, t_calcul_px *c);
+void	ft_handle_shadows_v2(t_data *data, t_calcul_px *c);
+t_coor	ft_ambient(t_data *data, t_calcul_px *c);
+void	ft_diffuse_and_reflected(t_data *data, t_calcul_px *c, t_light *light);
+t_coor	ft_diffuse(t_data *data, t_calcul_px *c);
+t_coor	ft_reflected(t_data *data, t_calcul_px *c);
+// 
 double calculate_light_angle(t_coor *intersection, t_coor *light, t_vect *normal);
+int something_block_the_light(t_data *data, t_calcul_px *c, t_light *light);
+// 
+int	in_shadow_of_sphere(t_calcul_px *calcul, t_sphere *sphere);
+int	in_shadow_of_plane(t_calcul_px *calcul, t_plane *p);
+int	in_shadow_of_cicle(t_calcul_px *calcul, t_circle circle);
+int	in_shadow_of_cylinder(t_calcul_px *calcul, t_cylinder *cy);
+/********************************
+		K
+********************************/
+int	key_press(int keysym, t_data *data);
+int	key_release(int keysym, t_data *data);
+int	mouse_clic(int button, int x, int y, void *data);
+void	print_clic(t_data *data, int x, int y);
 /********************************
 		T	Tools
 ********************************/
-// - camera
-void	h_camera_calc_up_right_vect(t_camera *camera);
-void	f_recalculate_camera(t_data *data);
-// - colision
-double	distance_from_sphere(t_data *data, t_calcul *calc, t_sphere *sphere);
-double	distance_from_plane(t_data *data, t_calcul *calc, t_plane *p);
-double	distance_from_cylinder(t_data *data, t_calcul *calc, t_cylinder *cy);
-// - vector operations
-int	ft_normalize_vect(t_vect *vect);
-double	ft_vect_dot_product(t_vect *a, t_vect *b);
-// - atof, parsing
+// atof
 double	ft_atof(char *string, int *error);
 int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
+// camera
+void	h_camera_calc_up_right_vect(t_camera *camera);
+void	rotation_camera(t_data *data, t_vect *axis_rota, int posi_neg);
+// math
+int	ft_normalize_vect(t_vect *vect);
+double	ft_vect_dot_product(t_vect *a, t_vect *b);
+double	dist_two_points(t_coor *a, t_coor *b);
+void	f_calculate_combined_quaternion(t_data *data, double angle_α, double angle_β, t_vect *rtrn);
+double h_smalest_Δ(double a, double b);
+
 /********************************
 		Y
 ********************************/
 void	initialization(int ac, char **av, t_data *data);
+void	read_file(int ac, char **av, t_data *data);
 // 
+
 int	parse_A(t_data *data, char **raw_split);
 int	parse_C(t_data *data, char **raw_split);
 int	parse_L(t_data *data, char **raw_split);
@@ -306,7 +156,7 @@ int	parse_cy(t_data *data, char **raw_split);
 /********************************
 		Z
 ********************************/
-void	end(t_data *data, int exit_code);
+void	end(t_data *data, int exit_code, int full_clean);
 int	end2(t_data *data);
 
 
