@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/14 15:27:38 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/15 19:49:30 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,14 @@ typedef struct s_rgb
 	int	g;
 	int	b;
 }	t_rgb;
+
+typedef struct s_rgb2
+{
+	unsigned char	t;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}	t_rgb2;
 
 typedef struct s_coor
 {
@@ -146,7 +154,7 @@ typedef struct s_data
 	t_plane		**planes;
 	t_cylinder	**cylinders;
 
-	
+	t_img		**textures;
 // shortcut to the vector camera
 	t_eye_v2	eye;
 	int			current_camera;
@@ -156,7 +164,6 @@ typedef struct s_data
 	time_t last_modif_time;
 
 }	t_data;
-////////////////////////////////////////////]
 ////////////////////////////////////////////]
 
 ////////////////////////////////////////////]
@@ -184,40 +191,73 @@ typedef struct s_light
 	t_rgb	color;
 }	t_light;//		L
 
+////////////////////////////////////////////]
 typedef struct s_sphere
 {
-	t_coor	xyz;
+	t_coor	c0;
+	t_rgb	color;
+
+	double	shiny;
+	double	mirror;
+	double transparence;
+	double gamma;
+	t_img	*texture;
+	t_img	*normal_map;
+
 	double	diameter;
 	double	radius;
-	t_rgb	color;
 }	t_sphere;//		sp
 
 typedef struct s_plane
 {
-	t_coor	xyz;
-	t_vect	abc;
+	t_coor	c0;
 	t_rgb	color;
+
+	double	shiny;
+	double	mirror;
+	double transparence;
+	double gamma;
+	t_img	*texture;
+	t_img	*normal_map;
+
+	t_vect	abc;
 	double	d;
 }	t_plane;//		pl
 
 
 typedef struct s_cylinder
 {
-	t_coor	xyz;
+	t_coor	c0;
+	t_rgb	color;
+
+	double	shiny;
+	double	mirror;
+	double transparence;
+	double gamma;
+	t_img	*texture;
+	t_img	*normal_map;
+
+	t_vect	v;
 	t_coor	xyz_other;
-	t_vect	abc;
 	double	diameter;
 	double	height;
 	double	radius;
-	t_rgb	color;
 }	t_cylinder;//		pl
 
 typedef struct s_cicle
 {
 	t_coor	c0;
-	t_vect	v;
-	double	radius;
 	t_rgb	color;
+
+	double	shiny;
+	double	mirror;
+	double transparence;
+	double gamma;
+	t_img	*texture;
+	t_img	*normal_map;
+
+	double	radius;
+	t_vect	v;
 }	t_circle;//		circle
 
 
@@ -229,6 +269,20 @@ typedef struct s_square
 	double	height;
 	t_rgb	color;
 }	t_square;//		sq
+
+
+typedef struct s_obj
+{
+	double	shiny;
+	double	mirror;
+
+	double transparence;
+	double gamma;
+
+	t_img	*texture;
+	t_img	*normal_map;
+
+}	t_obj;//		objeccts param
 ///////////////////////////////////////////////////////////////////////////////]
 
 typedef struct s_calcul_px

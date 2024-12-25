@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 06:21:51 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/13 13:20:45 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/15 14:31:34 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void	initialization(int ac, char **av, t_data *data)
 
 	ft_memset(data, 0, sizeof(t_data));
 	data->av = av;
+	ini_mlx(data);
 	read_file(ac, av, data);
 
 // CHECK GOOD NUMBER OF CAMERA AND SO ON... <----------------------------------------------A FAIRE
-	ini_mlx(data);
 
 	stat(data->av[1], &file_stat);
 	data->last_modif_time = file_stat.st_mtime;
@@ -92,7 +92,7 @@ static int	ft_parse_line(t_data *data, char *line)
 	if (line[0] == '\n' || line[0] == '#')
 		return (free_s(line), 0);
 // split the raw
-	params = split(line, " \t");
+	params = split(line, " \t\n");
 	free_s(line);
 	if (!params)
 		return (put(ERRM"split\n"), 2);

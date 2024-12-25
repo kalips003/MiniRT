@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/14 15:53:23 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/16 12:45:58 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	print_clic(t_data *data, int x, int y)
 	double angleA = atan((x - SIZE_SCREEN_X / 2) * data->eye.c->fov_cst_x);
 
 	f_calculate_combined_quaternion(data, angleA, angleB, &c.v_view);
-	calculate_pixel_color(data, &c);
+	calculate_pixel_color_simple(data, &c);
 
 	
 	printf("Mouse clicked at position (%d, %d)\n", x, y);

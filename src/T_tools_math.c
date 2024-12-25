@@ -75,11 +75,11 @@ void	f_calculate_combined_quaternion(t_data *data, double angle_α, double angle
 // 	return smalest positive
 double h_smalest_Δ(double a, double b)
 {
-	if (a < 0 && b < 0)
+	if (a < EPSILON && b < EPSILON)
 		return (-1.0);
-	if (a < 0)
+	if (a < EPSILON)
 		return (b);
-	if (b < 0)
+	if (b < EPSILON)
 		return (a);
 	return (a * (a < b) + b * (b < a));
 }

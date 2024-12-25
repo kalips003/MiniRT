@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/14 16:01:24 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/14 20:28:49 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	in_shadow_of_sphere(t_calcul_px *calcul, t_sphere *sphere)
 	t_sphere_calc	c;
 
 //	diff center sphere and center camera
-	c.x0 = calcul->c0.x - sphere->xyz.x;
-	c.y0 = calcul->c0.y - sphere->xyz.y;
-	c.z0 = calcul->c0.z - sphere->xyz.z;
+	c.x0 = calcul->c0.x - sphere->c0.x;
+	c.y0 = calcul->c0.y - sphere->c0.y;
+	c.z0 = calcul->c0.z - sphere->c0.z;
 
 // RESOLVE ((t.Vx + EYEx) - x0)² + ((t.Vy + EYEy) - y0)² + ((t.Vz + EYEz) - z0)² = R²
 // ==> At² + Bt + C = 0; 
@@ -119,16 +119,16 @@ int	in_shadow_of_cylinder(t_calcul_px *calcul, t_cylinder *cy)
 
 	c.radius = cy->diameter / 2;
 	// (P - E).W = At + B
-	c.A = calcul->v_view.dx * cy->abc.dx + calcul->v_view.dy * cy->abc.dy + calcul->v_view.dz * cy->abc.dz;
-	c.B = cy->abc.dx * (calcul->c0.x - cy->xyz.x) + cy->abc.dy * (calcul->c0.y - cy->xyz.y) + cy->abc.dz * (calcul->c0.z - cy->xyz.z);
+	c.A = calcul->v_view.dx * cy->v.dx + calcul->v_view.dy * cy->v.dy + calcul->v_view.dz * cy->v.dz;
+	c.B = cy->v.dx * (calcul->c0.x - cy->c0.x) + cy->v.dy * (calcul->c0.y - cy->c0.y) + cy->v.dz * (calcul->c0.z - cy->c0.z);
 	
 	// (P - E) - ((P - E).W) * W = {X0t + X1, Y0t + Y1, Z0t + Z1};
-	c.x0 = calcul->v_view.dx - c.A * cy->abc.dx;
-	c.y0 = calcul->v_view.dy - c.A * cy->abc.dy;
-	c.z0 = calcul->v_view.dz - c.A * cy->abc.dz;
-	c.x1 = calcul->c0.x - c.B * cy->abc.dx - cy->xyz.x;
-	c.y1 = calcul->c0.y - c.B * cy->abc.dy - cy->xyz.y;
-	c.z1 = calcul->c0.z - c.B * cy->abc.dz - cy->xyz.z;
+	c.x0 = calcul->v_view.dx - c.A * cy->v.dx;
+	c.y0 = calcul->v_view.dy - c.A * cy->v.dy;
+	c.z0 = calcul->v_view.dz - c.A * cy->v.dz;
+	c.x1 = calcul->c0.x - c.B * cy->v.dx - cy->c0.x;
+	c.y1 = calcul->c0.y - c.B * cy->v.dy - cy->c0.y;
+	c.z1 = calcul->c0.z - c.B * cy->v.dz - cy->c0.z;
 
 	c.a = c.x0 * c.x0 + c.y0 * c.y0 + c.z0 * c.z0;
 	c.b = 2 * (c.x0 * c.x1 + c.y0 * c.y1 + c.z0 * c.z1);

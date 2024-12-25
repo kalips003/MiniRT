@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/14 15:32:04 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/16 12:47:38 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	ft_loop_empty_v2(t_data *data);
 int	ft_loop_empty(t_data *data);
 int	ft_render_frame(t_data *data);
 int	ft_render_frame_plus(t_data *data);
-void	calculate_pixel_color(t_data *data, t_calcul_px *c);
+void	calculate_pixel_color_simple(t_data *data, t_calcul_px *c);
+void	calculate_pixel_color_plus(t_data *data, t_calcul_px *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // mainn loop doesnt need to do anything, just open for key press
@@ -72,7 +73,7 @@ int	ft_render_frame(t_data *data)
 		{
 			angleA = atan((x - SIZE_SCREEN_X / 2) * data->eye.c->fov_cst_x);
 			f_calculate_combined_quaternion(data, angleA, angleB, &c.v_view);
-			calculate_pixel_color(data, &c);
+			calculate_pixel_color_simple(data, &c);
 			mlx_pixel_put(data->mlx, data->win, x, y, c.px_color.r << 16 | c.px_color.g << 8 | c.px_color.b);
 		}
 	}
@@ -100,7 +101,7 @@ int	ft_render_frame_plus(t_data *data)
 		{
 			angleA = atan((x - SIZE_SCREEN_X / 2) * data->eye.c->fov_cst_x);
 			f_calculate_combined_quaternion(data, angleA, angleB, &c.v_view);
-			calculate_pixel_color(data, &c);
+			calculate_pixel_color_plus(data, &c);
 			mlx_pixel_put(data->mlx, data->win, x, y, c.px_color.r << 16 | c.px_color.g << 8 | c.px_color.b);
 		}
 	}
@@ -108,7 +109,19 @@ int	ft_render_frame_plus(t_data *data)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	calculate_pixel_color(t_data *data, t_calcul_px *c)
+void	calculate_pixel_color_simple(t_data *data, t_calcul_px *c)
+{
+	if (!ft_find_pixel_colision(data, c))
+	{
+		c->px_color.r = (int)(round(data->bg_light[0]->color.r * data->bg_light[0]->ratio));
+		c->px_color.g = (int)(round(data->bg_light[0]->color.g * data->bg_light[0]->ratio));
+		c->px_color.b = (int)(round(data->bg_light[0]->color.b * data->bg_light[0]->ratio));
+	}
+	else
+		ft_handle_shadows_simple(data, c);
+}
+
+void	calculate_pixel_color_plus(t_data *data, t_calcul_px *c)
 {
 	if (!ft_find_pixel_colision(data, c))
 	{

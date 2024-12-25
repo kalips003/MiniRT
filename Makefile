@@ -24,7 +24,7 @@ all: $(NAME)
 
 NAMEE = minirt
 
-MAP = map/scene1.rt
+MAP = map/scene2.rt
 
 # RUN MINISHELL
 a: $(NAMEE)
@@ -92,7 +92,7 @@ SRC_FOLDER = src
 OBJ_FOLDER = src/obj
 HEADER_FOLDER = inc
 
-ADD_FLAGS = -lm ./mlx_linux/libmlx.a $(FLAGS_MLX)
+ADD_FLAGS = -lm $(FLAGS_MLX)
 # ADD_FLAGS = -lm -lreadline -lncurses
 
 # ╭──────────────────────────────────────────────────────────────────────╮
@@ -115,7 +115,7 @@ libtest:
 # │                  	 	       MLX		                   	         │
 # ╰──────────────────────────────────────────────────────────────────────╯
 
-FLAGS_MLX = -Lmlx_linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lz
+FLAGS_MLX = -Lmlx_linux -lmlx -lXext -lX11 -lz
 
 mlx:
 	@make -sC ./mlx_linux/
@@ -133,7 +133,7 @@ $(NAME): mlx libft $(OBJ) main.c
 	$(call print_cat, $(CLEAR), $(GOLD), $(GREEN1), $(GREEN1), $(call pad_word, 10, $(NAME)), $(call pad_word, 12, "Compiled~"));
 
 abc: fclean mlx libft $(OBJ) main.c
-	$(CC) $(FLAGS) $(OBJ) main.c lib/libft.a ./mlx_linux/libmlx.a $(FLAGS_MLX) $(ADD_FLAGS) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJ) main.c lib/libft.a $(FLAGS_MLX) $(ADD_FLAGS) -o $(NAME)
 
 src/obj/%.o: src/%.c inc/$(NAME).h
 	@if [ ! -e $(OBJ_FOLDER) ]; then\

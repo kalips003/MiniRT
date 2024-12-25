@@ -131,14 +131,14 @@ int	parse_pl(t_data *data, char **raw_split)
 	if (tab_size(raw_split) != 3)
 		return (put(ERR1"bad number of args (PLANES OBJECT)\n"), 1);
 
-	if (ato_coor(raw_split[0], &(plane->xyz)) || ato_coor(raw_split[1], (t_coor *)&plane->abc) || ato_rgb(raw_split[2], &(plane->color)))
+	if (ato_coor(raw_split[0], &(plane->c0)) || ato_coor(raw_split[1], (t_coor *)&plane->abc) || ato_rgb(raw_split[2], &(plane->color)))
 		return (1);
 
 	if (plane->abc.dx < -1.0 || plane->abc.dx > 1.0 || 
 			plane->abc.dy < -1.0 || plane->abc.dy > 1.0 || 
 			plane->abc.dz < -1.0 || plane->abc.dz > 1.0)
 		return (put(ERR1"(%s) vector should be [-1.0,1.0]\n", raw_split[1]), 1);
-	plane->d = -(plane->abc.dx * plane->xyz.x + plane->abc.dy * plane->xyz.y + plane->abc.dz * plane->xyz.z);
+	plane->d = -(plane->abc.dx * plane->c0.x + plane->abc.dy * plane->c0.y + plane->abc.dz * plane->c0.z);
 	ft_normalize_vect(&plane->abc);
 	return (0);
 }
@@ -159,13 +159,17 @@ int	parse_sp(t_data *data, char **raw_split)
 		return (put(ERRM), 2);
 	data->spheres = (t_sphere **)expand_tab((void **)data->spheres, sphere);
 
-	if (tab_size(raw_split) != 3)
+	// if (tab_size(raw_split) != 3)
+	// 	return (put(ERR1"bad number of args (SPHERE OBJECT)\n"), 1);
+	if (tab_size(raw_split) < 3)
 		return (put(ERR1"bad number of args (SPHERE OBJECT)\n"), 1);
+	else if (raw_split[3])
+		parse_reste(data, &raw_split[3], (void*)sphere);
 
 	err = 0;
 	sphere->diameter = ft_atof(raw_split[1], &err);
 	sphere->radius = sphere->diameter / 2;
-	if (err || ato_coor(raw_split[0], &(sphere->xyz)) || ato_rgb(raw_split[2], &(sphere->color)))
+	if (err || ato_coor(raw_split[0], &(sphere->c0)) || ato_rgb(raw_split[2], &(sphere->color)))
 		return (1);
 	return (0);
 }
@@ -187,98 +191,29 @@ int	parse_cy(t_data *data, char **raw_split)
 		return (put(ERRM), 2);
 	data->cylinders = (t_cylinder **)expand_tab((void **)data->cylinders, cylinder);
 
-	if (tab_size(raw_split) != 5)
+	// if (tab_size(raw_split) != 5)
+	// 	return (put(ERR1"bad number of args (CYLINDER OBJECT)\n"), 1);
+	if (tab_size(raw_split) < 5)
 		return (put(ERR1"bad number of args (CYLINDER OBJECT)\n"), 1);
-
+	else if (raw_split[5])
+		parse_reste(data, &raw_split[5], (void*)cylinder);
+// 
 	err = 0;
 	cylinder->diameter = ft_atof(raw_split[2], &err);
 	cylinder->radius = cylinder->diameter / 2;
 	cylinder->height = ft_atof(raw_split[3], &err);
 
-	if (err || ato_coor(raw_split[0], &(cylinder->xyz)) || ato_coor(raw_split[1], (t_coor *)&cylinder->abc) || ato_rgb(raw_split[4], &(cylinder->color)))
+	if (err || ato_coor(raw_split[0], &(cylinder->c0)) || ato_coor(raw_split[1], (t_coor *)&cylinder->v) || ato_rgb(raw_split[4], &(cylinder->color)))
 		return (1);
 
-	if (cylinder->abc.dx < -1.0 || cylinder->abc.dx > 1.0 || 
-			cylinder->abc.dy < -1.0 || cylinder->abc.dy > 1.0 || 
-			cylinder->abc.dz < -1.0 || cylinder->abc.dz > 1.0)
+	if (cylinder->v.dx < -1.0 || cylinder->v.dx > 1.0 || 
+			cylinder->v.dy < -1.0 || cylinder->v.dy > 1.0 || 
+			cylinder->v.dz < -1.0 || cylinder->v.dz > 1.0)
 		return (put(ERR1"(%s) vector should be [-1.0,1.0]\n", raw_split[0]), 1);
 	cylinder->xyz_other = (t_coor){
-		cylinder->xyz.x + cylinder->height * cylinder->abc.dx,
-		cylinder->xyz.y + cylinder->height * cylinder->abc.dy,
-		cylinder->xyz.z + cylinder->height * cylinder->abc.dz};
-	ft_normalize_vect(&cylinder->abc);
+		cylinder->c0.x + cylinder->height * cylinder->v.dx,
+		cylinder->c0.y + cylinder->height * cylinder->v.dy,
+		cylinder->c0.z + cylinder->height * cylinder->v.dz};
+	ft_normalize_vect(&cylinder->v);
 	return (0);
-}
-///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
-typedef struct s_obj
-{
-	double	shiny;
-	double	mirror;
-
-	double transparence;
-	double gamma;
-
-	
-
-	t_coor	c0;
-	t_vect	v;
-	t_rgb	color;
-}	t_obj;//		circle
-
-// (Shininess) S=20.0
-// (Transparence, gamma) T=[0,1],[-PI/2, PI/2]
-// (Mirroir) M=[0,1]
-// (Texture) X="sphere_texture.xpm"
-// (Normal Map) N="sphere_normal.xpm"
-double	ft_parse_shininess(char *raw);
-double	ft_parse_transparence(char *raw, double *gamma);
-
-int	parse_reste(t_data *data, char **raw_split, void *obj)
-{
-	while (raw_split && *raw_split)
-	{
-		if (**raw_split == 'S')
-			((t_obj *)obj)->shiny = ft_parse_shininess(*((*raw_split) + 2));
-		else if (**raw_split == 'T')
-			((t_obj *)obj)->transparence = ft_parse_transparence(*((*raw_split) + 2), &((t_obj *)obj)->gamma);
-		else if (**raw_split == 'M')
-			((t_obj *)obj)->mirror = ft_parse_shininess(*((*raw_split) + 2));
-		else if (**raw_split == 'X');
-		else if (**raw_split == 'N');
-		else
-			return (put(ERR7"(%s) UNKNNOWN PARAMETER\n", *raw_split), 1);
-	}
-}
-
-double	ft_parse_shininess(char *raw)
-{
-	double	shiny;
-	int		err;
-
-	err = 0;
-	shiny = ft_atof(raw, &err);
-	if (err)
-		shiny = 0.0;
-	return (shiny);
-}
-
-double	ft_parse_transparence(char *raw, double *gamma)
-{
-	double	transparence;
-	int		err;
-	char	**split_tg;
-
-	err = 0;
-	split_tg = split(raw, ",");
-	if (split_tg)
-	{
-		transparence = ft_atof(split_tg[0], &err);
-		*gamma = ft_atof(split_tg[1], &err);
-	}
-	if (err)
-		transparence = 0.0;
-
-	transparence = fmin(0.0, fmax(1.0, transparence));
-	*gamma = fmin(-PI / 2, fmax(PI / 2, *gamma));
-	return (transparence);
 }

@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/14 15:05:22 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/16 12:44:11 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ double calculate_light_angle(t_coor *intersection, t_coor *light, t_vect *normal
 	// ft_normalize_vect(normal);
 	if(ft_normalize_vect(&l) || ft_normalize_vect(normal))
 		return (put(ERR9 "vector NULL?\n"), -1.0);
+	// if(ft_normalize_vect(&l))
+	// 	return (put(ERR9 "vector NULL?\n"), -1.0);
+	// if(ft_normalize_vect(normal))
+	// 	return (put(ERR9 "vector NULL2?\n"), -1.0);
 
 // Dot product of Light Direction and Normal
 	cos_theta = l.dx * normal->dx + l.dy * normal->dy + l.dz * normal->dz;
@@ -82,8 +86,12 @@ int something_block_the_light(t_data *data, t_calcul_px *c, t_light *light)
 		if (*cyl_ptr == c->object)
 			continue;
 		if (in_shadow_of_cylinder(&calcul, *cyl_ptr) ||
-			in_shadow_of_cicle(c, (t_circle){(*cyl_ptr)->xyz, (*cyl_ptr)->abc, (*cyl_ptr)->radius, (*cyl_ptr)->color}) ||
-			in_shadow_of_cicle(c, (t_circle){(*cyl_ptr)->xyz_other, (*cyl_ptr)->abc, (*cyl_ptr)->radius, (*cyl_ptr)->color}))
+				in_shadow_of_cicle(c, (t_circle){(*cyl_ptr)->c0, (*cyl_ptr)->color,
+					(*cyl_ptr)->shiny, (*cyl_ptr)->mirror, (*cyl_ptr)->transparence, (*cyl_ptr)->gamma,
+					(*cyl_ptr)->texture, (*cyl_ptr)->normal_map, (*cyl_ptr)->radius, (*cyl_ptr)->v}) ||
+				in_shadow_of_cicle(c, (t_circle){(*cyl_ptr)->xyz_other, (*cyl_ptr)->color,
+					(*cyl_ptr)->shiny, (*cyl_ptr)->mirror, (*cyl_ptr)->transparence, (*cyl_ptr)->gamma,
+					(*cyl_ptr)->texture, (*cyl_ptr)->normal_map, (*cyl_ptr)->radius, (*cyl_ptr)->v}))
 			return (1);
 	}
 	return (0);

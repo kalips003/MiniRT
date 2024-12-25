@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/14 15:20:10 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/16 13:35:50 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 # define SIN_ROTA2 0.00759612349389596903
 # define COSSIN_ROTA 0.08682408883346516559
 # define EPSILON 1e-6
-# define SCALAR_LIGHT_DIST 7000.0
+# define SCALAR_LIGHT_DIST 1000.0
 # define SCALAR_REFLECTION 0.4
 # define SCALAR_SHINY 10.0
 
@@ -77,6 +77,7 @@ typedef struct s_data			t_data;
 /********************************
 		A
 ********************************/
+void	ft_handle_shadows_simple(t_data *data, t_calcul_px *c);
 
 /********************************
 		B
@@ -85,7 +86,8 @@ int	ft_loop_empty_v2(t_data *data);
 int	ft_loop_empty(t_data *data);
 int	ft_render_frame(t_data *data);
 int	ft_render_frame_plus(t_data *data);
-void	calculate_pixel_color(t_data *data, t_calcul_px *c);
+void	calculate_pixel_color_simple(t_data *data, t_calcul_px *c);
+void	calculate_pixel_color_plus(t_data *data, t_calcul_px *c);
 /********************************
 		C
 ********************************/
@@ -146,13 +148,14 @@ double h_smalest_Δ(double a, double b);
 void	initialization(int ac, char **av, t_data *data);
 void	read_file(int ac, char **av, t_data *data);
 // 
-
 int	parse_A(t_data *data, char **raw_split);
 int	parse_C(t_data *data, char **raw_split);
 int	parse_L(t_data *data, char **raw_split);
 int	parse_pl(t_data *data, char **raw_split);
 int	parse_sp(t_data *data, char **raw_split);
 int	parse_cy(t_data *data, char **raw_split);
+// 
+int	parse_reste(t_data *data, char **raw_split, void *obj);
 /********************************
 		Z
 ********************************/

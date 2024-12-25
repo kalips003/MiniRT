@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   D_dist_objects2.c                                  :+:      :+:    :+:   */
+/*   D_dist_objects.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/14 15:19:40 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/15 19:09:44 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ double	distance_from_sphere(t_calcul_px *calcul, t_sphere *sphere)
 	t_sphere_calc	c;
 
 //	diff center sphere and center camera
-	c.x0 = calcul->c0.x - sphere->xyz.x;
-	c.y0 = calcul->c0.y - sphere->xyz.y;
-	c.z0 = calcul->c0.z - sphere->xyz.z;
+	c.x0 = calcul->c0.x - sphere->c0.x;
+	c.y0 = calcul->c0.y - sphere->c0.y;
+	c.z0 = calcul->c0.z - sphere->c0.z;
 
 // RESOLVE ((t.Vx + EYEx) - x0)² + ((t.Vy + EYEy) - y0)² + ((t.Vz + EYEz) - z0)² = R²
 // ==> At² + Bt + C = 0; 
@@ -49,7 +49,7 @@ double	distance_from_sphere(t_calcul_px *calcul, t_sphere *sphere)
 
 	c.dist = h_smalest_Δ(c.det1, c.det2);
 // if c.dist < 0, the view_vector touch the sphere but behind
-	if (c.dist <= 0.0)
+	if (c.dist < 0.0)
 		return (-1.0);
 
 	if (c.dist < calcul->dist || calcul->dist < 0.0)
@@ -63,9 +63,9 @@ double	distance_from_sphere(t_calcul_px *calcul, t_sphere *sphere)
 			calcul->c0.z + calcul->v_view.dz * c.dist};
 
 		calcul->v_normal = (t_vect){
-			calcul->inter.x - sphere->xyz.x, 
-			calcul->inter.y - sphere->xyz.y, 
-			calcul->inter.z - sphere->xyz.z};
+			calcul->inter.x - sphere->c0.x, 
+			calcul->inter.y - sphere->c0.y, 
+			calcul->inter.z - sphere->c0.z};
 		// calcul->v_reflected
 		if (c.det1 < 0.0 || c.det2 < 0.0)
 			calcul->v_normal = (t_vect){-calcul->v_normal.dx, -calcul->v_normal.dy, -calcul->v_normal.dz};
@@ -171,16 +171,16 @@ double	distance_from_cylinder(t_calcul_px *calcul, t_cylinder *cy)
 
 	c.radius = cy->diameter / 2;
 	// (P - E).W = At + B
-	c.A = calcul->v_view.dx * cy->abc.dx + calcul->v_view.dy * cy->abc.dy + calcul->v_view.dz * cy->abc.dz;
-	c.B = cy->abc.dx * (calcul->c0.x - cy->xyz.x) + cy->abc.dy * (calcul->c0.y - cy->xyz.y) + cy->abc.dz * (calcul->c0.z - cy->xyz.z);
+	c.A = calcul->v_view.dx * cy->v.dx + calcul->v_view.dy * cy->v.dy + calcul->v_view.dz * cy->v.dz;
+	c.B = cy->v.dx * (calcul->c0.x - cy->c0.x) + cy->v.dy * (calcul->c0.y - cy->c0.y) + cy->v.dz * (calcul->c0.z - cy->c0.z);
 	
 	// (P - E) - ((P - E).W) * W = {X0t + X1, Y0t + Y1, Z0t + Z1};
-	c.x0 = calcul->v_view.dx - c.A * cy->abc.dx;
-	c.y0 = calcul->v_view.dy - c.A * cy->abc.dy;
-	c.z0 = calcul->v_view.dz - c.A * cy->abc.dz;
-	c.x1 = calcul->c0.x - c.B * cy->abc.dx - cy->xyz.x;
-	c.y1 = calcul->c0.y - c.B * cy->abc.dy - cy->xyz.y;
-	c.z1 = calcul->c0.z - c.B * cy->abc.dz - cy->xyz.z;
+	c.x0 = calcul->v_view.dx - c.A * cy->v.dx;
+	c.y0 = calcul->v_view.dy - c.A * cy->v.dy;
+	c.z0 = calcul->v_view.dz - c.A * cy->v.dz;
+	c.x1 = calcul->c0.x - c.B * cy->v.dx - cy->c0.x;
+	c.y1 = calcul->c0.y - c.B * cy->v.dy - cy->c0.y;
+	c.z1 = calcul->c0.z - c.B * cy->v.dz - cy->c0.z;
 
 	c.a = c.x0 * c.x0 + c.y0 * c.y0 + c.z0 * c.z0;
 	c.b = 2 * (c.x0 * c.x1 + c.y0 * c.y1 + c.z0 * c.z1);
@@ -207,7 +207,7 @@ double	distance_from_cylinder(t_calcul_px *calcul, t_cylinder *cy)
 
 		calcul->dist = c.dist;
 		calcul->px_color = cy->color; //(t_rgb){0,0,0};
-		c.projec_point = (t_coor){cy->xyz.x + c.dist_h * cy->abc.dx, cy->xyz.y + c.dist_h * cy->abc.dy, cy->xyz.z + c.dist_h * cy->abc.dz};
+		c.projec_point = (t_coor){cy->c0.x + c.dist_h * cy->v.dx, cy->c0.y + c.dist_h * cy->v.dy, cy->c0.z + c.dist_h * cy->v.dz};
 		calcul->v_normal = (t_vect){
 			calcul->inter.x - c.projec_point.x,
 			calcul->inter.y - c.projec_point.y,

@@ -1,18 +1,22 @@
+# (Shininess) S=20.0		(Transparence, gamma) T=[0,1],[-PI/2, PI/2]		(Mirroir) M=[0,1]	(Texture) X="sphere_texture.xpm"		(Normal Map) N="sphere_normal.xpm"
 
 # (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
 A 						0.2 					255,255,255
 
 # (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
-C 						-50,0,20 			0,0,0 					70
-
+C 						0,10,-50 			0,0,1 					70
+C	-61.138539,28.552648,-44.166311	0.751561,-0.275639,0.599315	70
 # (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
-L 						-40,0,30 			0.7 					255,255,255
+L 						10,30,-30 			0.7 					255,255,255
 
 # (pl) Plane:			POSITION (xyz)		VECTOR [-1.0, 1.0]		COLOR_rgb [0, 255]
-# pl 						0,0,0 				0,1.0,0 				255,0,225
-# pl 						0,0,0 				0,1.0,0 				255,0,225
-# pl 						0,0,0 				0,1.0,0 				255,0,225
+pl 						0,0,0 				0,1,0 					55,66,22
+
 # (sp) Sphere:			POSITION (xyz)		DIAMETER				COLOR_rgb [0, 255]
-# sp 						0,0,20 				20 						255,0,0
+sp 						0,0,0 				200 					255,0,0 X=texture/football_texture.xpm
+sp 						0,0,0 				200 					255,0,0 X=texture/football_texture.xpm
 # (sy) Cylinder:		POSITION (xyz)		VECTOR [-1.0, 1.0]		DIAMETER		HEIGHT		COLOR_rgb [0, 255]
-cy 						0.0,0.0,0 		0,1,0 				10 			10 		10,0,255
+# cy 						0,0,0 				0,1,0 					8.0 			21.42 		10,96,12	X=texture/big_ball.xpm M=0.1 N=texture/football_vector_map.xpm T=0.3,1.1 S=30
+cy 						10,0,0 				0,1,0 					8.0 			21.42 		120,12,212
+cy 						-10,0,0 			0,1,0 					8.0 			21.42 		12,120,212
+cy 						-20,0,0 			0,1,0 					8.0 			21.42 		212,120,12

@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:54:09 by kalipso           #+#    #+#             */
-/*   Updated: 2024/11/28 16:49:24 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/15 14:21:05 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ double	ft_atof(char *string, int *error)
 
 int	main(int ac, char **av, char **env)
 {
-	printf("\t = %.20f\n", cos(PI / 36) * sin(PI / 36));
+	if (access("texture/big_ball.xpm", R_OK) != -1)
+    	printf("File is readable\n");
+	else
+    	perror("File is not readable");
 	
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // MAIN 1

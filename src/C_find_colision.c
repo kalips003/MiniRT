@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/14 15:58:03 by kalipso          ###   ########.fr       */
+/*   Updated: 2024/12/15 09:27:57 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,14 @@ int	ft_find_pixel_colision(t_data *data, t_calcul_px *c)
 	while (++cyl_ptr && *cyl_ptr)
 	{
 		distance_from_cylinder(c, *cyl_ptr);
-		distance_from_cicle(c, (t_circle){(*cyl_ptr)->xyz, (*cyl_ptr)->abc, (*cyl_ptr)->radius, (*cyl_ptr)->color});
-		distance_from_cicle(c, (t_circle){(*cyl_ptr)->xyz_other, (*cyl_ptr)->abc, (*cyl_ptr)->radius, (*cyl_ptr)->color});
+		distance_from_cicle(c, (t_circle){
+			(*cyl_ptr)->c0, (*cyl_ptr)->color,
+			(*cyl_ptr)->shiny, (*cyl_ptr)->mirror, (*cyl_ptr)->transparence, (*cyl_ptr)->gamma,
+			(*cyl_ptr)->texture, (*cyl_ptr)->normal_map, (*cyl_ptr)->radius, (*cyl_ptr)->v});
+		distance_from_cicle(c, (t_circle){
+			(*cyl_ptr)->xyz_other, (*cyl_ptr)->color,
+			(*cyl_ptr)->shiny, (*cyl_ptr)->mirror, (*cyl_ptr)->transparence, (*cyl_ptr)->gamma,
+			(*cyl_ptr)->texture, (*cyl_ptr)->normal_map, (*cyl_ptr)->radius, (*cyl_ptr)->v});
 	}
 	return (c->dist != -1.0);
 }
