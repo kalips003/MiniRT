@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/16 13:35:50 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/01/14 11:14:55 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ double	distance_from_cylinder(t_calcul_px *calcul, t_cylinder *cy);
 /********************************
 		E
 ********************************/
-void	ft_handle_shadows(t_data *data, t_calcul_px *c);
+void	ft_handle_shadows_plus(t_data *data, t_calcul_px *c);
 void	ft_handle_shadows_v2(t_data *data, t_calcul_px *c);
 t_coor	ft_ambient(t_data *data, t_calcul_px *c);
 void	ft_diffuse_and_reflected(t_data *data, t_calcul_px *c, t_light *light);

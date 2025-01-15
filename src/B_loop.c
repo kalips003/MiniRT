@@ -6,27 +6,29 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/16 12:47:38 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/01/14 11:14:55 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-int	ft_loop_empty_v2(t_data *data);
 int	ft_loop_empty(t_data *data);
+int	ft_loop_empty_v2(t_data *data);
 int	ft_render_frame(t_data *data);
 int	ft_render_frame_plus(t_data *data);
 void	calculate_pixel_color_simple(t_data *data, t_calcul_px *c);
 void	calculate_pixel_color_plus(t_data *data, t_calcul_px *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
-// mainn loop doesnt need to do anything, just open for key press
+// main loop doesnt need to do anything, just open for key press
 int 	ft_loop_empty(t_data *data)
 {
 	(void)data;
 	return (0);
 }
 
+///////////////////////////////////////////////////////////////////////////////]
+// main loop refresh if file is changed
 int 	ft_loop_empty_v2(t_data *data)
 {
 	struct stat file_stat;
@@ -47,7 +49,7 @@ int 	ft_loop_empty_v2(t_data *data)
 	}
 	else
 		perror("stat");
-	return 0;
+	return (0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -121,6 +123,7 @@ void	calculate_pixel_color_simple(t_data *data, t_calcul_px *c)
 		ft_handle_shadows_simple(data, c);
 }
 
+///////////////////////////////////////////////////////////////////////////////]
 void	calculate_pixel_color_plus(t_data *data, t_calcul_px *c)
 {
 	if (!ft_find_pixel_colision(data, c))
@@ -130,5 +133,5 @@ void	calculate_pixel_color_plus(t_data *data, t_calcul_px *c)
 		c->px_color.b = (int)(round(data->bg_light[0]->color.b * data->bg_light[0]->ratio));
 	}
 	else
-		ft_handle_shadows(data, c);
+		ft_handle_shadows_plus(data, c);
 }

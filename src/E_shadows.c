@@ -6,13 +6,13 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/14 15:08:56 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/01/14 11:14:55 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-void	ft_handle_shadows(t_data *data, t_calcul_px *c);
+void	ft_handle_shadows_plus(t_data *data, t_calcul_px *c);
 void	ft_handle_shadows_v2(t_data *data, t_calcul_px *c);
 t_coor	ft_ambient(t_data *data, t_calcul_px *c);
 void	ft_diffuse_and_reflected(t_data *data, t_calcul_px *c, t_light *light);
@@ -20,7 +20,7 @@ t_coor	ft_diffuse(t_data *data, t_calcul_px *c);
 t_coor	ft_reflected(t_data *data, t_calcul_px *c);
 
 ///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
-void	ft_handle_shadows(t_data *data, t_calcul_px *c)
+void	ft_handle_shadows_plus(t_data *data, t_calcul_px *c)
 {
 	t_coor ambient;
 

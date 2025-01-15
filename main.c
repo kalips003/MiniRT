@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/14 15:04:17 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/01/15 13:26:36 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ mlx_hook(window,  ConfigureNotify, StructureNotifyMask, handle_resize, data);
 
 >>> MULTI THREAD
 
-
+if radius sphere, cylinnder == 0?
 
 >>> colors:
 Ambient lighting:
