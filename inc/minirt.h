@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/14 11:14:55 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/01/16 16:46:42 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,9 @@ typedef struct s_data			t_data;
 		A
 ********************************/
 void	ft_handle_shadows_simple(t_data *data, t_calcul_px *c);
-
+double	distance_from_cylinder_v2(t_calcul_px *calcul, t_cylinder *cy);
+void	h_dist_cylinder(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc *c);
+t_rgb	ft_textures_cylinder(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc *c);
 /********************************
 		B
 ********************************/
@@ -96,7 +98,6 @@ int	ft_find_pixel_colision(t_data *data, t_calcul_px *c);
 /********************************
 		D
 ********************************/
-double	distance_from_sphere(t_calcul_px *calcul, t_sphere *sphere);
 double	distance_from_plane(t_calcul_px *calcul, t_plane *p);
 double	distance_from_cicle(t_calcul_px *calcul, t_circle circle);
 double	distance_from_cylinder(t_calcul_px *calcul, t_cylinder *cy);
@@ -125,6 +126,15 @@ int	key_press(int keysym, t_data *data);
 int	key_release(int keysym, t_data *data);
 int	mouse_clic(int button, int x, int y, void *data);
 void	print_clic(t_data *data, int x, int y);
+/********************************
+		O	Objects
+********************************/
+// 	SPHERE
+double	distance_from_sphere(t_calcul_px *calcul, t_sphere *sphere);
+double	distance_from_sphere_v2(t_calcul_px *calcul, t_sphere *sphere);
+void	h_dist_sphere(t_calcul_px *calcul, t_sphere *sphere, double dist, int inside);
+t_rgb	ft_txt_sphere(t_calcul_px *calcul);
+t_vect	ft_nmap_sphere(t_calcul_px *calcul);
 /********************************
 		T	Tools
 ********************************/

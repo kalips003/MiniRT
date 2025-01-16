@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/15 09:27:57 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/01/16 16:46:52 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_find_pixel_colision(t_data *data, t_calcul_px *c)
 	c->dist = -1.0;
 	sphere_ptr = data->spheres - 1;
 	while (++sphere_ptr && *sphere_ptr)
-		distance_from_sphere(c, *sphere_ptr);
+		distance_from_sphere_v2(c, *sphere_ptr);
 
 	plane_ptr = data->planes - 1;
 	while (++plane_ptr && *plane_ptr)

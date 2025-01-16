@@ -29,11 +29,15 @@ MAP = map/scene2.rt
 # RUN MINISHELL
 a: $(NAMEE)
 	@$(call random_shmol_cat, teshting ... $@: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), );
-	./$(word 1, $^) $(MAP)
+	./$(word 1, $^) map/scene1.rt
 
 b: $(NAMEE)
 	@$(call random_shmol_cat, teshting ... $@: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), );
 	./$(word 1, $^) map/scene2.rt
+
+c: $(NAMEE)
+	@$(call random_shmol_cat, teshting ... $@: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), );
+	./$(word 1, $^) map/scene3.rt
 
 # RUN MINISHELL & VALGRING 2> out/valgrind
 v: $(NAMEE)

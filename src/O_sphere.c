@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/01/15 15:52:13 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/01/16 16:49:42 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,9 @@ void	h_dist_sphere(t_calcul_px *calcul, t_sphere *sphere, double dist, int insid
 t_rgb	ft_txt_sphere(t_calcul_px *calcul)
 {
 	//  [−π,π][−π,π] > [0,1].
-	double	l_θ = min(1.0, max(0.0, atan2(calcul->v_normal.dz, calcul->v_normal.dx) / (2 * PI) + 0.5));
+	double	l_θ = fmin(1.0, fmax(0.0, atan2(calcul->v_normal.dz, calcul->v_normal.dx) / (2 * PI) + 0.5));
 	// [0,π] > [0,1].
-	double	l_ϕ = min(1.0, max(0.0, acos(calcul->v_normal.dy) / PI));
+	double	l_ϕ = fmin(1.0, fmax(0.0, acos(calcul->v_normal.dy) / PI));
 
 	t_img *texture = ((t_sphere*)calcul->object)->texture;
 
@@ -156,16 +156,15 @@ t_rgb	ft_txt_sphere(t_calcul_px *calcul)
 	int text_y = (int)(l_ϕ * texture->sz_y) % texture->sz_y;
 	char *pixel = texture->addr + (text_y * texture->ll + text_x * (texture->bpp / 8));
 	int color = *(unsigned int *)pixel;
-
+	// printf("l_θ = %f, l_ϕ= %f, color = %d\n", l_θ, l_ϕ, color);
 	t_rgb	rtrn = {
 		(color >> 16) & 0xFF,
 		(color >> 8) & 0xFF,
 		color & 0xFF
 	};
-
+	// printf("texture color = r:%d g:%d b:%d\n", rtrn.r, rtrn.g, rtrn.b);
 	return (rtrn);
 }
-
 
 t_vect	ft_nmap_sphere(t_calcul_px *calcul)
 {
@@ -175,53 +174,6 @@ t_vect	ft_nmap_sphere(t_calcul_px *calcul)
 	double	l_ϕ = fmin(1.0, fmax(0.0, acos(calcul->v_normal.dy) / PI));
 
 	t_img *nmap = ((t_sphere*)calcul->object)->normal_map;
-
-	int nmap_x = (int)(l_θ * nmap->sz_x) % nmap->sz_x;
-	int nmap_y = (int)(l_ϕ * nmap->sz_y) % nmap->sz_y;
-	char *pixel = nmap->addr + (nmap_y * nmap->ll + nmap_x * (nmap->bpp / 8));
-	int color = *(unsigned int *)pixel;
-
-	t_vect	normal_map = {
-		((color >> 16) & 0xFF) / 255.0 * 2.0 - 1.0,
-		((color >> 8) & 0xFF) / 255.0 * 2.0 - 1.0,
-		(color & 0xFF) / 255.0 * 2.0 - 1.0};
-	ft_normalize_vect(&normal_map);
-
-	t_camera	x;
-	t_vect world_normal;
-
-	// 	[NTB].[normal_map]
-	world_normal.dx = normal_map.dx * x.right.dx + normal_map.dy * x.up.dx + normal_map.dz * x.view.dx;
-	world_normal.dy = normal_map.dx * x.right.dy + normal_map.dy * x.up.dy + normal_map.dz * x.view.dy;
-	world_normal.dz = normal_map.dx * x.right.dz + normal_map.dy * x.up.dz + normal_map.dz * x.view.dz;
-	ft_normalize_vect(&world_normal);
-
-	return (world_normal);
-}
-
-
-
-t_vect	ft_nmap_sphere(t_calcul_px *calcul)
-{
-	t_camera	x;
-
-	if (!((t_sphere*)calcul->object)->radius)
-		return (calcul->v_normal);
-	x.view = (t_vect){
-		(calcul->inter.x - ((t_sphere*)calcul->object)->c0.x) / ((t_sphere*)calcul->object)->radius,
-		(calcul->inter.y - ((t_sphere*)calcul->object)->c0.y) / ((t_sphere*)calcul->object)->radius,
-		(calcul->inter.z - ((t_sphere*)calcul->object)->c0.z) / ((t_sphere*)calcul->object)->radius
-	};
-	ft_normalize_vect(&x.view);
-	h_camera_calc_up_right_vect(&x);
-
-
-	//  [−π,π][−π,π] > [0,1].
-	double	l_θ = min(1.0, max(0.0, atan2(x.view.dz, x.view.dx) / (2 * PI) + 0.5));
-	// [0,π] > [0,1].
-	double	l_ϕ = min(1.0, max(0.0, acos(x.view.dy) / PI));
-
-	t_img *nmap = ((t_sphere*)calcul->object)->texture;
 	int text_x = (int)(l_θ * nmap->sz_x) % nmap->sz_x;
 	int text_y = (int)(l_ϕ * nmap->sz_y) % nmap->sz_y;
 	char *pixel = nmap->addr + (text_y * nmap->ll + text_x * (nmap->bpp / 8));
@@ -232,6 +184,10 @@ t_vect	ft_nmap_sphere(t_calcul_px *calcul)
 		((color >> 8) & 0xFF) / 255.0 * 2.0 - 1.0,
 		(color & 0xFF) / 255.0 * 2.0 - 1.0};
 	ft_normalize_vect(&normal_map);
+
+	t_camera	x;
+	x.view = calcul->v_normal;
+	h_camera_calc_up_right_vect(&x);
 
 
 	t_vect world_normal;
@@ -245,3 +201,4 @@ t_vect	ft_nmap_sphere(t_calcul_px *calcul)
 	return (world_normal);
 	
 }
+

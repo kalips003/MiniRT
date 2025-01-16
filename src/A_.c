@@ -14,6 +14,10 @@
 
 void	ft_handle_shadows_simple(t_data *data, t_calcul_px *c);
 
+double	distance_from_cylinder_v2(t_calcul_px *calcul, t_cylinder *cy);
+void	h_dist_cylinder(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc *c);
+t_rgb	ft_textures_cylinder(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc *c);
+
 ///////////////////////////////////////////////////////////////////////////////]
 void	ft_handle_shadows_simple(t_data *data, t_calcul_px *c)
 {
@@ -44,146 +48,6 @@ void	ft_handle_shadows_simple(t_data *data, t_calcul_px *c)
 
 }
 
-///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
-double	distance_from_sphere_v2(t_calcul_px *calcul, t_sphere *sphere)
-{
-	t_sphere_calc	c;
-
-//	diff center sphere and center camera
-	c.x0 = calcul->c0.x - sphere->c0.x;
-	c.y0 = calcul->c0.y - sphere->c0.y;
-	c.z0 = calcul->c0.z - sphere->c0.z;
-
-// RESOLVE ((t.Vx + EYEx) - x0)² + ((t.Vy + EYEy) - y0)² + ((t.Vz + EYEz) - z0)² = R²
-// ==> At² + Bt + C = 0; 
-	c.a = calcul->v_view.dx * calcul->v_view.dx + calcul->v_view.dy * calcul->v_view.dy + calcul->v_view.dz * calcul->v_view.dz;
-	c.b = 2 * (calcul->v_view.dx * c.x0 + calcul->v_view.dy * c.y0 + calcul->v_view.dz * c.z0);
-	c.c = c.x0 * c.x0 + c.y0 * c.y0 + c.z0 * c.z0 - sphere->radius * sphere->radius;
-
-	c.Δ = c.b * c.b - 4 * c.a * c.c;
-
-// if Δ = 0, the view_vector only touch the sphere
-// if Δ < 0, the view_vector doesnt colide the sphere
-	if (c.Δ < 0.0 || c.a == 0.0)
-		return (-1.0);
-
-	c.det1 = (-c.b + sqrt(c.Δ)) / (2 * c.a);
-	c.det2 = (-c.b - sqrt(c.Δ)) / (2 * c.a);
-
-	c.dist = h_smalest_Δ(c.det1, c.det2);
-// if c.dist < 0, the view_vector touch the sphere but behind
-	if (c.dist < 0.0)
-		return (-1.0);
-
-	if (c.dist < calcul->dist || calcul->dist < 0.0)
-		h_dist_shere(calcul, sphere, c.dist, (c.det1 < 0.0 || c.det2 < 0.0));
-
-	return (c.dist);
-}
-
-void	h_dist_shere(t_calcul_px *calcul, t_sphere *sphere, double dist, int inside)
-{
-	calcul->dist = dist;
-	calcul->object = (void *)sphere;
-
-	calcul->inter = (t_coor){
-		calcul->c0.x + calcul->v_view.dx * dist, 
-		calcul->c0.y + calcul->v_view.dy * dist, 
-		calcul->c0.z + calcul->v_view.dz * dist};
-
-	if (sphere->texture)
-		calcul->px_color = ft_txt_sphere(calcul);
-	else
-		calcul->px_color = sphere->color;
-
-	calcul->v_normal = (t_vect){
-		calcul->inter.x - sphere->c0.x, 
-		calcul->inter.y - sphere->c0.y, 
-		calcul->inter.z - sphere->c0.z};
-	if (sphere->normal_map)
-		calcul->v_normal = ft_nmap_sphere(calcul);
-
-
-	if (inside)
-		calcul->v_normal = (t_vect){-calcul->v_normal.dx, -calcul->v_normal.dy, -calcul->v_normal.dz};
-
-}
-
-t_rgb	ft_txt_sphere(t_calcul_px *calcul)
-{
-	if (!((t_sphere*)calcul->object)->radius)
-		return (((t_sphere*)calcul->object)->color);
-	t_vect	normal = (t_vect){
-		(calcul->inter.x - ((t_sphere*)calcul->object)->c0.x) / ((t_sphere*)calcul->object)->radius,
-		(calcul->inter.y - ((t_sphere*)calcul->object)->c0.y) / ((t_sphere*)calcul->object)->radius,
-		(calcul->inter.z - ((t_sphere*)calcul->object)->c0.z) / ((t_sphere*)calcul->object)->radius
-	};
-	//  [−π,π][−π,π] > [0,1].
-	double	l_θ = min(1.0, max(0.0, atan2(normal.dz, normal.dx) / (2 * PI) + 0.5));
-	// [0,π] > [0,1].
-	double	l_ϕ = min(1.0, max(0.0, acos(normal.dy) / PI));
-
-	t_img *texture = ((t_sphere*)calcul->object)->texture;
-
-	int text_x = (int)(l_θ * texture->sz_x) % texture->sz_x;
-	int text_y = (int)(l_ϕ * texture->sz_y) % texture->sz_y;
-	char *pixel = texture->addr + (text_y * texture->ll + text_x * (texture->bpp / 8));
-	int color = *(unsigned int *)pixel;
-
-	t_rgb	rtrn = {
-		(color >> 16) & 0xFF,
-		(color >> 8) & 0xFF,
-		color & 0xFF
-	};
-
-	return (rtrn);
-	
-}
-
-t_vect	ft_nmap_sphere(t_calcul_px *calcul)
-{
-	t_camera	x;
-
-	if (!((t_sphere*)calcul->object)->radius)
-		return (calcul->v_normal);
-	x.view = (t_vect){
-		(calcul->inter.x - ((t_sphere*)calcul->object)->c0.x) / ((t_sphere*)calcul->object)->radius,
-		(calcul->inter.y - ((t_sphere*)calcul->object)->c0.y) / ((t_sphere*)calcul->object)->radius,
-		(calcul->inter.z - ((t_sphere*)calcul->object)->c0.z) / ((t_sphere*)calcul->object)->radius
-	};
-	ft_normalize_vect(&x.view);
-	h_camera_calc_up_right_vect(&x);
-
-
-	//  [−π,π][−π,π] > [0,1].
-	double	l_θ = min(1.0, max(0.0, atan2(x.view.dz, x.view.dx) / (2 * PI) + 0.5));
-	// [0,π] > [0,1].
-	double	l_ϕ = min(1.0, max(0.0, acos(x.view.dy) / PI));
-
-	t_img *texture = ((t_sphere*)calcul->object)->texture;
-	int text_x = (int)(l_θ * texture->sz_x) % texture->sz_x;
-	int text_y = (int)(l_ϕ * texture->sz_y) % texture->sz_y;
-	char *pixel = texture->addr + (text_y * texture->ll + text_x * (texture->bpp / 8));
-	int color = *(unsigned int *)pixel;
-
-	t_vect	normal_map = {
-		((color >> 16) & 0xFF) / 255.0 * 2.0 - 1.0,
-		((color >> 8) & 0xFF) / 255.0 * 2.0 - 1.0,
-		(color & 0xFF) / 255.0 * 2.0 - 1.0};
-	ft_normalize_vect(&normal_map);
-
-
-	t_vect world_normal;
-
-	// 	[NTB].[normal_map]
-	world_normal.dx = normal_map.dx * x.right.dx + normal_map.dy * x.up.dx + normal_map.dz * x.view.dx;
-	world_normal.dy = normal_map.dx * x.right.dy + normal_map.dy * x.up.dy + normal_map.dz * x.view.dy;
-	world_normal.dz = normal_map.dx * x.right.dz + normal_map.dy * x.up.dz + normal_map.dz * x.view.dz;
-	ft_normalize_vect(&world_normal);
-
-	return (world_normal);
-	
-}
 
 double	to_unit(char color)
 {
@@ -254,8 +118,8 @@ void	h_dist_cylinder(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc 
 		calcul->inter.z - c->projec_point.z};
 	ft_normalize_vect(&calcul->v_normal);
 
-	if (cylinder->texture || cylinder->normal_map)
-		ft_textures_cylinder();
+	// if (cylinder->texture || cylinder->normal_map)
+	// 	ft_textures_cylinder();
 
 
 	if (c->det1 < 0.0 || c->det2 < 0.0)

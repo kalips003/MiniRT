@@ -13,8 +13,8 @@ L 						50,50,-50 			0.7 					255,255,255
 L 						15,50,100 			0.7 					0,255,0
 
 # (sp) Sphere:			POSITION (xyz)		DIAMETER				COLOR_rgb [0, 255]
-sp 				0,0,40 				20 						255,50,50
-sp 				10,20,60 				20 						255,50,50
+sp 				0,0,40 				20 						255,50,50 X=texture/football_texture.xpm N=texture/football_vector_map.xpm
+# sp 				10,20,60 				20 						255,50,50
 
 
 # (pl) Plane:           POSITION (xyz)      VECTOR [-1.0, 1.0]      COLOR_rgb [0, 255]
