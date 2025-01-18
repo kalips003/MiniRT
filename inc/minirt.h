@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/16 16:46:42 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/01/17 15:34:53 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,11 @@ double	distance_from_sphere_v2(t_calcul_px *calcul, t_sphere *sphere);
 void	h_dist_sphere(t_calcul_px *calcul, t_sphere *sphere, double dist, int inside);
 t_rgb	ft_txt_sphere(t_calcul_px *calcul);
 t_vect	ft_nmap_sphere(t_calcul_px *calcul);
+// 
+double	distance_from_cylinder_v2(t_calcul_px *calcul, t_cylinder *cy);
+void	h_dist_cylinder(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc *c);
+t_rgb	ft_textures_cylinder(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc *c);
+t_vect	ft_nmap_cylinder(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc *c);
 /********************************
 		T	Tools
 ********************************/
@@ -148,6 +153,7 @@ void	rotation_camera(t_data *data, t_vect *axis_rota, int posi_neg);
 // math
 int	ft_normalize_vect(t_vect *vect);
 double	ft_vect_dot_product(t_vect *a, t_vect *b);
+t_vect	ft_vect_cross_product(t_vect *u, t_vect *v);
 double	dist_two_points(t_coor *a, t_coor *b);
 void	f_calculate_combined_quaternion(t_data *data, double angle_α, double angle_β, t_vect *rtrn);
 double h_smalest_Δ(double a, double b);

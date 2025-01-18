@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/01/16 16:49:42 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/01/18 00:43:14 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,10 +192,16 @@ t_vect	ft_nmap_sphere(t_calcul_px *calcul)
 
 	t_vect world_normal;
 
-	// 	[NTB].[normal_map]
-	world_normal.dx = normal_map.dx * x.right.dx + normal_map.dy * x.up.dx + normal_map.dz * x.view.dx;
-	world_normal.dy = normal_map.dx * x.right.dy + normal_map.dy * x.up.dy + normal_map.dz * x.view.dy;
-	world_normal.dz = normal_map.dx * x.right.dz + normal_map.dy * x.up.dz + normal_map.dz * x.view.dz;
+	// // 	[NTB].[normal_map]
+	// world_normal.dx = normal_map.dx * x.right.dx + normal_map.dy * x.right.dy + normal_map.dz * x.right.dz;
+	// world_normal.dy = normal_map.dx * x.up.dx + normal_map.dy * x.up.dy + normal_map.dz * x.up.dz;
+	// world_normal.dz = normal_map.dx * x.view.dx + normal_map.dy * x.view.dy + normal_map.dz * x.view.dz;
+
+// 	[NTB].[normal_map]
+	world_normal.dx = normal_map.dx * x.view.dx + normal_map.dy * x.up.dx + normal_map.dz * x.right.dx;
+	world_normal.dy = normal_map.dx * x.view.dy + normal_map.dy * x.up.dy + normal_map.dz * x.right.dy;
+	world_normal.dz = normal_map.dx * x.view.dz + normal_map.dy * x.up.dz + normal_map.dz * x.right.dz;
+
 	ft_normalize_vect(&world_normal);
 
 	return (world_normal);

@@ -39,6 +39,10 @@ c: $(NAMEE)
 	@$(call random_shmol_cat, teshting ... $@: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), );
 	./$(word 1, $^) map/scene3.rt
 
+d: $(NAMEE)
+	@$(call random_shmol_cat, teshting ... $@: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), );
+	./$(word 1, $^) map/scene4.rt
+
 # RUN MINISHELL & VALGRING 2> out/valgrind
 v: $(NAMEE)
 	@$(call random_shmol_cat, "vlgrininnng ... $(word 1, $^)!", "$(ARG2)", $(CLS), );
@@ -56,17 +60,6 @@ m: $(NAMEE)
 		$(VALGRIND) ./$(word 1, $^) -c "$$line" < /dev/tty 2> out/valgrind; \
 		echo "\t$(C_1R_4G_1B)~ Press Enter to continue...$(RESET)"; read -p "" key < /dev/tty; \
 	done < data/TESTS
-
-# CHECK FD
-maieul: $(NAMEE)
-	@$(call random_shmol_cat, "teshiing ... $(word 1, $^)!", "lets find tis fd", $(CLS), )
-	@if [ ! -e traces ]; then \
-		mkdir -p traces; \
-	fi; \
-	strace -e dup2,dup,openat,clone,read,write,access,close,execve,pipe,pipe2 -tt -ff -o traces/trace \
-	./minishell -c "cat | sleep 50 | ls"; \
-	strace-log-merge traces/trace | batcat -lstrace;
-
 
 ULIMIT = 3000
 m2: $(NAMEE)

@@ -1,0 +1,17 @@
+# (Shininess) S=20.0		(Transparence, gamma) T=[0,1],[-PI/2, PI/2]		(Mirroir) M=[0,1]	(Texture) X="sphere_texture.xpm"		(Normal Map) N="sphere_normal.xpm"
+
+# (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+A 						0.2 					255,255,255
+
+# (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
+C 						0,10,-50 			0,0,1 					70
+
+# (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+L 						10,30,-30 			0.7 					255,255,255
+L 						12,12,12 			0.3 					255,255,255
+
+# (sp) Sphere:			POSITION (xyz)		DIAMETER				COLOR_rgb [0, 255]
+# sp 					0,0,0 				10 					200,200,0
+
+# (sy) Cylinder:		POSITION (xyz)		VECTOR [-1.0, 1.0]		DIAMETER		HEIGHT		COLOR_rgb [0, 255] N=texture/rock2_n2.xpm
+cy 						0,0,0 				0,1,0 					5 			15 		10,96,12	X=texture/brique_4k.xpm N=texture/rock2_n1.xpm

@@ -14,6 +14,7 @@
 
 int	ft_normalize_vect(t_vect *vect);
 double	ft_vect_dot_product(t_vect *a, t_vect *b);
+t_vect	ft_vect_cross_product(t_vect *u, t_vect *v);
 double	dist_two_points(t_coor *a, t_coor *b);
 void	f_calculate_combined_quaternion(t_data *data, double angle_α, double angle_β, t_vect *rtrn);
 double h_smalest_Δ(double a, double b);
@@ -38,6 +39,17 @@ int	ft_normalize_vect(t_vect *vect)
 double	ft_vect_dot_product(t_vect *a, t_vect *b)
 {
 	return (a->dx * b->dx + a->dy * b->dy + a->dz * b->dz);
+}
+
+t_vect	ft_vect_cross_product(t_vect *u, t_vect *v)
+{
+	t_vect result;
+
+	result.dx = u->dy * v->dz - u->dz * v->dy;
+	result.dy = u->dz * v->dx - u->dx * v->dz;
+	result.dz = u->dx * v->dy - u->dy * v->dx;
+
+	return (result);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]

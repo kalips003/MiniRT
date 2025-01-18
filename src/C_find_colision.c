@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/01/16 16:46:52 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/01/17 15:35:05 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_find_pixel_colision(t_data *data, t_calcul_px *c)
 	cyl_ptr = data->cylinders - 1;
 	while (++cyl_ptr && *cyl_ptr)
 	{
-		distance_from_cylinder(c, *cyl_ptr);
+		distance_from_cylinder_v2(c, *cyl_ptr);
 		distance_from_cicle(c, (t_circle){
 			(*cyl_ptr)->c0, (*cyl_ptr)->color,
 			(*cyl_ptr)->shiny, (*cyl_ptr)->mirror, (*cyl_ptr)->transparence, (*cyl_ptr)->gamma,
