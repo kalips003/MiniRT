@@ -1,0 +1,42 @@
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
+# C 						0,0,50           	0,0,-1				70
+# C 						0,10,0           	0,-1,0				70
+C 						0,-4,70				0.000,0.000,-1.000		70
+# (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+A 						0.8 					255,255,255			
+# (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+L 						0,8,43 			    0.3 					255,255,255
+# L 						0,-5,25 			0.81 					255,255,255
+# L 						-9,1,-8 			1 					255,255,255
+# L 						0,10,0           	0.6				255,255,255
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# ob 0,-7,0 0,0,1 1 255,0,255 model/rook.obj T=0,1 C=10,10,10
+# ob 5,-7,0 0,0,1 1 255,255,255 model/queen.obj T=0,1 C=
+# ob 0,-6,0 0,0,1 0.1 255,0,255 model/tree.obj T=0.5,1 C=10,10,10
+# ob -10,-6,0 0,0,1 0.1 255,0,255 model/tree.obj T=0,1 C=
+# ob -5,-5,-5 1,0,0 5 255,255,32 model/torus.obj
+# pl 0,-5,0	0,-1,0	255,255,255	###		T=0,7 # M=0 # C=0,0,0 # S=1.0,500	### X=txt/t_grass.xpm N=txt/n_grass.xpm A=txt/ao_ice.xpm
+# pl 0,-5,0	0,-1,0	255,255,255	###		T=0,7 # M=0 # C=0,0,0 # S=1.0,500	### N=txt/n_concrete_opengl.xpm A=txt/t_concrete.xpm
+# pl 0,-5,0	0,1,0	255,255,255 ###     X=txt/t_brique.xpm N=txt/n_brique.xpm A=txt/gkey4.xpm
+pl 0,-5,0	0,1,0	193,154,107 ###  	X=txt/t_desert.xpm N=txt/n_desert.xpm
+
+
+# ob 0,5,0 1,0,0 5 255,0,255 ### model/cube2.obj X=txt/t_brique.xpm N=txt/n_brique.xpm A=texture/gkey4.xpm
+# ob 0,5,0 1,0,0 5 255,0,255 model/cube2.obj X=txt/t_brique.xpm N=txt/n_brique.xpm A=texture/gkey4.xpm
+# ob 0,5,0 1,0,0 5 255,0,255 model/cube2.obj X=txt/t_ice.xpm N=txt/n_ice.xpm A=txt/ao_ice.xpm
+
+# ob 0,5,0 1,0,0 5 255,0,255 ### model/cube2.obj X=txt/t_plants.xpm N=txt/n_plants.xpm A=
+
+# ob 0,10,43 0.73,0.15,0.67 0.05 255,255,255 ### model/ovni.obj T=0,0 X=txt/t_ovni.xpm
+# ob 0,10,43 0.73,0.15,0.67 0.05 255,255,255 ### model/ovni.obj T=0,0 X=txt/t_metal_1.xpm N=n_metal_1.xpm
+# ob 2.2,5.0,43.0 1,0,0 0.1 255,255,255 ### model/cow.obj T=0,0 X=txt/t_cow.xpm
+# ob -0.8,2,43 0.92,-0.35,0.15 0.1 255,255,255 ### model/cow.obj T=0,0 X=txt/t_cow.xpm
+# ob -25,0,0 0,0,1 0.05 0,0,255 ### model/penguin.obj T=0,0  X=txt/t_penguin.xpm
+# ob 0,0,-10 0,0,1 0.05 255,0,0 ### model/penguin.obj T=0,0  X=txt/t_penguin.xpm
+# ob 0,-2,15 0,0,1 0.05 255,255,255 ### model/igloo.obj T=0,1
+
+# ob 0,0,0 0,0,1 0.05 200,200,255 model/Reibeck_print1.obj C=0,0,0
+#  N=txt/n_brique.xpm 
+# sp 0,0,0	5	200,0,200		### T=0.5,1 # M=0 # C= # S=   ### X= N= A=

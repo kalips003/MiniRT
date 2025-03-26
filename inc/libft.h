@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 20:06:26 by agallon           #+#    #+#             */
-/*   Updated: 2024/10/31 13:34:36 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/02/25 11:35:23 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,14 @@ int			min_all(int how_many, ...);
 int			max_all(int how_many, ...);
 //
 int			atoi_v(const char *str);
+int			ft_atoi_v3(char *str, int *rtrn);
 int			ft_atoi(char *str, int *error);
 int			ft_atoi_v2(char *str, int *i, int *error);
 //
 void		*expand(void *ptr, int size, int add);
 void		**expand_tab(void **tab, void *new_line);
 void		*free_tab(char **tab);
+// void		*free_tab(char **tab);
 void		*free_s(void *ptr);
 //
 int			len(char *s);
@@ -84,5 +86,8 @@ int			same_str(char *str, char *str_pattern);
 char		*trim(char *input, char *dico);
 //	QUARANTINE
 int			len_c(char *s, char c);
+void	*ft_memcpy(void *dest, void *src, unsigned n);
+void	stack_pop_i(void **stack, int *stack_ptr, int to_pop, int size);
+void	stack_push_i(void **stack, void *to_push, int *stack_ptr, int where, int size);
 
 #endif

@@ -1,0 +1,35 @@
+# Blender MTL File: ''
+# Material Count: 3
+newmtl PachirisuDh.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.325053 0.693991 0.594677
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd PachirisuDh.xpm
+
+
+newmtl PachirisuEyeDh.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.718380 0.703398 0.433151
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd PachirisuEyeDh.xpm
+
+
+newmtl PachirisuMouthDh.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.590618 0.604134 0.378923
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd PachirisuMouthDh.xpm
+
+

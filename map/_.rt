@@ -1,0 +1,85 @@
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
+C 						-0.5,8.8,25.0          0.023,-0.291,-0.956			120
+C 						0,0,50           	0,0,-1				70
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+A 						0.2 					150,100,255			X=texture/starmap.xpm
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+L 						5,5,5 			1 					255,255,255
+# (Programable) Light source:
+# -------------------------------------------------------------------------------------------------------------------------------------------
+#   (ci) Circle:			POSITION (xyz)		VECTOR [-1.0, 1.0]		COLOR_rgb [0, 255]		RADIUS
+# ci 0,0,0	0,0,1   255,0,0   10		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+#   (sp) Sphere:			POSITION (xyz)		DIAMETER				COLOR_rgb [0, 255]
+# sp 0,0,0	10	255,0,0		### T=0,1 # M=0 # C= # S=   ### X=txt/t_earth4k.xpm N= A=
+#   (pl) Plane:			POSITION (xyz)		VECTOR [-1.0, 1.0]		COLOR_rgb [0, 255]
+# pl -5,0,0 0,0,1   255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+#   (cy) Cylinder:		POSITION (xyz)		VECTOR [-1.0, 1.0]		DIAMETER	HEIGHT		COLOR_rgb [0, 255]
+# cy 0,0,0 0,1,0   3    9.42  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+#   (co) Cone:			POSITION (xyz)		VECTOR [-1.0, 1.0]		RADIUS		HEIGHT		COLOR_rgb [0, 255]
+# co 0,0,0 0,1,0   3    15  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+#   (pa) Paraboloid:		POSITION (xyz)		VECTOR [-1.0, 1.0]		RADIUS		HEIGHT		COLOR_rgb [0, 255]
+# pa 0,0,0 0,1,0   3    15  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+#   (ar) Arrow:			POSITION (xyz)		VECTOR [-1.0, 1.0]		RADIUS		HEIGHT		COLOR_rgb [0, 255]
+# ar 0,0,0 0,1,0   3    15  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+#   (cu) CUBE:			POSITION (xyz)		VECTOR [-1.0, 1.0]		SIZE		COLOR_rgb [0, 255]
+# ob 0,0,0 0,1,0 	5 	255,0,255 model/cube.obj   ### T=0,1 # M=0 # C= # S=   ### X= N= A=
+#   (xi) SPRITE:			POSITION (xyz)		VECTOR [-1.0, 1.0]		SIZE		COLOR_rgb [0, 255]
+# xi 0,0,0   0,0,-1  5	55,255,255	X=texture/brique_4k.xpm	###		T=0,1 # M=0 # C= # S=	### N= A=
+#   (ob) OBJECT:			POSITION (xyz)		VECTOR [-1.0, 1.0]		SIZE		COLOR_rgb [0, 255]		[.OBJ]
+# ob 0,0,0 0,0,1 5 255,0,255 model/diamond.obj T= M= S=
+# -------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# (Color2) C=[0,255],[0,255],[0,255]
+# 		C=255,0,0	C=0,255,0	C=0,0,255
+# (Specular, Shininess) S=[0-1.0][10-500+]	> [matte surface > perfect mirror] [rougher surface > polished surface]
+# 		[Wax] S=0.2,50 [Plastic] S=0.4,100 [Painted Metal] S=0.6,150 [Satin Finish] S=0.7,200 [Glossy Wood] S=0.8,300 
+#       [Shiny Ceramic] S=0.9,400 [Mirror-like Polished Metal] S=1.0,500 [Rock] S=0.1,10 [Bricks] S=0.2,20
+# (Transparence, gamma) T=[0,1],[1,2.5+]
+# 		T=0.5,1		(water) T=0.7,1.33	(glass) T=0.8,1.5
+# (Mirroir) M=[0,1]
+# 		M=0.7
+# (Texture) X=sphere_texture.xpm
+# (Normal Map) N=sphere_normal.xpm
+# (Alpha Map) A=sphere_normal.xpm
+
+# 			0001000100010001
+# 	BIT: # 		CxCyCz # VxVyVz # UxUyUz # RxRyRz ## ARGB # ARGB # shiny # ...
+# (Function) F=UpdateVx,0b_control
+
+# TEXTURES:		X=texture/earthmap4k.xpm	X=txt/t_brique.xpm	X=texture/rock2.xpm	X=texture/starmap.xpm
+# N_MAP:		N=txt/n_brique.xpm
+# ALPHA_MAP:	A=texture/gkey4.xpm
+
+
+
+
+# MTL
+# Ns:   shiny
+# Ni:   gamma
+# Tr:   transparence
+# Kd:   Color diffuse rgb
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# ob 0,0,0 0,0,1 5 255,0,255 model/diamond.obj T=0.6,2.5 M=0.4 S=1,500
+
+
+# VECTOR AXIS
+# ar 						0,0,0 				1,0,0					0.5 		5 		255,0,0
+# ar 						0,0,0 				0,1,0					0.5 		5 		0,255,0
+# ar 						0,0,0 				0,0,1					0.5 		5 		0,0,255
+
+# 9 BALLS:	[RGB] / [Yellow,Pink,Cyan] / [Orange,Purple,blue]
+# sp			-10,10,0		10			255,50,50
+# sp			0,10,0			10			50,255,50
+# sp			10,10,0			10			50,50,255
+# sp			-10,0,0			10			255,255,50
+# sp			0,0,0			10			255,50,255
+# sp			10,0,0			10			50,255,255
+# sp			-10,-10,0		10			255,150,50
+# sp			0,-10,0			10			150,50,255
+# sp			10,-10,0		10			50,150,255

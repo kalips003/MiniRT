@@ -6,48 +6,110 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/01/17 15:35:05 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/11 23:43:18 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-int	ft_find_pixel_colision(t_data *data, t_calcul_px *c);
+int			ft_find_pixel_colision(t_data *data, t_calcul_px *c, int shadow, int set_dist);
+t_ini_stk	*ft_fill_stack_inside(t_data *data, t_calcul_px *c, t_ini_stk **top_list, t_ini_stk **ptr_list);
+int			something_block_the_light(t_data *data, t_calcul_px *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
-// 	find the pixel color of the closest object
-// fills:
-// position xyz of the colision (default 0,0,0)
-// abc vector normal to the surface
-// color of object in view
-int	ft_find_pixel_colision(t_data *data, t_calcul_px *c)
+typedef int	(*t_dist_of)(t_calcul_px*, void*, int);
+
+static const t_dist_of g_ft_dist_of[] = {
+	distance_from_circle,
+	distance_from_sphere,
+	distance_from_plane,
+	distance_from_cylinder,
+	distance_from_cone,
+	NULL,
+	distance_from_arrow,
+	distance_from_cube,
+	distance_from_sprite,
+	distance_from_object,
+	NULL
+};
+///////////////////////////////////////////////////////////////////////////////]
+
+///////////////////////////////////////////////////////////////////////////////]
+// 	find the closest object colision from vector view
+//	fills calcul data struct with:
+// 		position xyz of the colision (default 0,0,0)
+// 		vector normal to the surface ...
+// return 1 if there is collision
+// 
+// if SHADOW: 1, dont fill calcul, return when anything is hit
+// if SHADOW: 0, fill calcul, return when all object have been cycled through
+// if SET_DIST: 1, dist is set to -1.0
+// if SET_DIST: 0, dist is unchanged
+int	ft_find_pixel_colision(t_data *data, t_calcul_px *c, int shadow, int set_dist)
 {
-	t_sphere	**sphere_ptr;
-	t_plane		**plane_ptr;
-	t_cylinder	**cyl_ptr;
+	void	**obj_ptr;
+	int		rtrn;
 
-	c->dist = -1.0;
-	sphere_ptr = data->spheres - 1;
-	while (++sphere_ptr && *sphere_ptr)
-		distance_from_sphere_v2(c, *sphere_ptr);
-
-	plane_ptr = data->planes - 1;
-	while (++plane_ptr && *plane_ptr)
-		distance_from_plane(c, *plane_ptr);
-
-
-	cyl_ptr = data->cylinders - 1;
-	while (++cyl_ptr && *cyl_ptr)
+	if (set_dist)
+		c->dist = -1.0;
+	rtrn = 0;
+	obj_ptr = data->objects - 1;
+	while (++obj_ptr && *obj_ptr)
 	{
-		distance_from_cylinder_v2(c, *cyl_ptr);
-		distance_from_cicle(c, (t_circle){
-			(*cyl_ptr)->c0, (*cyl_ptr)->color,
-			(*cyl_ptr)->shiny, (*cyl_ptr)->mirror, (*cyl_ptr)->transparence, (*cyl_ptr)->gamma,
-			(*cyl_ptr)->texture, (*cyl_ptr)->normal_map, (*cyl_ptr)->radius, (*cyl_ptr)->v});
-		distance_from_cicle(c, (t_circle){
-			(*cyl_ptr)->xyz_other, (*cyl_ptr)->color,
-			(*cyl_ptr)->shiny, (*cyl_ptr)->mirror, (*cyl_ptr)->transparence, (*cyl_ptr)->gamma,
-			(*cyl_ptr)->texture, (*cyl_ptr)->normal_map, (*cyl_ptr)->radius, (*cyl_ptr)->v});
+		rtrn |= g_ft_dist_of[((t_obj2 *)*obj_ptr)->type](c, *obj_ptr, shadow);
+		if (rtrn && shadow)
+			return (1);
 	}
-	return (c->dist != -1.0);
+	return (rtrn);
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+// used to create a linked list of object the camera is INSIDE of
+// created in order, furthest is first, closest last of the chain
+t_ini_stk	*ft_fill_stack_inside(t_data *data, t_calcul_px *c, t_ini_stk **top_list, t_ini_stk **ptr_list)
+{
+	void	**obj_ptr;
+	int		in;
+
+	obj_ptr = data->objects - 1;
+	while (++obj_ptr && *obj_ptr)
+	{
+		c->dist = -1.0;
+		in = g_ft_dist_of[((t_obj2 *)*obj_ptr)->type](c, *obj_ptr, 0);
+		if (in == 2)
+		{
+			*ptr_list = create_node(c);
+			*top_list = add_link(*top_list, *ptr_list);
+		}
+	}
+	return (*top_list);
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+int	something_block_the_light(t_data *data, t_calcul_px *c)
+{
+	t_calcul_px	calcul;
+	void		**obj_ptr;
+	double		transp;
+
+	calcul.c0 = new_moved_point(&c->inter, &c->vn, EPSILON);
+	calcul.v = c->v_light;
+	calcul.dist = c->dist_light;
+	calcul.print = c->print + !!(c->print);
+	obj_ptr = data->objects - 1;
+	while (++obj_ptr && *obj_ptr)
+	{
+		transp = ((t_obj2 *)*obj_ptr)->param.transparence;
+		if (g_ft_dist_of[((t_obj2 *)*obj_ptr)->type](&calcul, *obj_ptr, 1))
+		{
+			if (transp < EPSILON)
+				return (1);
+			transp = 1.0 - transp;
+			c->eff_light.ratio *= transp;
+			c->eff_light.color.r *= ((t_obj2 *)*obj_ptr)->param.argb.r / 255.0 * transp;
+			c->eff_light.color.g *= ((t_obj2 *)*obj_ptr)->param.argb.g / 255.0 * transp;
+			c->eff_light.color.b *= ((t_obj2 *)*obj_ptr)->param.argb.b / 255.0 * transp;
+		}
+	}
+	return (0);
 }

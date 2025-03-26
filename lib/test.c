@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:54:09 by kalipso           #+#    #+#             */
-/*   Updated: 2024/12/15 14:21:05 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/04 20:36:08 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,80 +33,14 @@ Uppercase: Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ 
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////]
 
-
-
-///////////////////////////////////////////////////////////////////////////////]
-// double	ft_atof(char *string, int *error)
-// {
-// 	double rtrn = 0.0;
-
-// 	char **tab = split(string, ".");
-// 	if (!tab || tab_size(tab) > 2)
-// 		return (free_tab(tab), put(ERR6"(%s) not a correct number\n", string), (*error)++, rtrn);
-// 	int err = 0;
-// 	rtrn = (double)ft_atoi(tab[0], &err);
-// 	if (err)
-// 		return (put(ERR7"(%s) not a correct number\n", string), free_tab(tab), (*error)++, rtrn);
-// 	if (tab[1])
-// 	{
-// 		double fraction = ft_atoi(tab[1], &err);
-// 		if (err || fraction < 0)
-// 			return (put(ERR8"(%s) bad fractional part\n", tab[1]), free_tab(tab), (*error)++, rtrn);
-// 		int	frac_len = len(tab[1]);
-// 		double div = 1.0;
-// 		while (frac_len-- != 0)
-// 			div *= 10.0;
-// 		rtrn += fraction / div;
-// 	}
-// 	free_tab(tab);
-// 	return (rtrn);
-// }
-
-///////////////////////////////////////////////////////////////////////////////]
-// 		......../....*
-// 		........*..../
-double	ft_atof(char *string, int *error)
-{
-	double rtrn = 0.0;
-
-	char **tab = split(string, ".");
-	if (!tab || tab_size(tab) > 2)
-		return (free_tab(tab), put(ERR6"(%s) not a correct number\n", string), (*error)++, rtrn);
-	int err = 0;
-	rtrn = ft_atoi(tab[0], &err);
-	if (err < 0)
-		return (put(ERR7"(%s) not a correct number\n", string), free_tab(tab), (*error)++, rtrn);
-	if (tab[1])
-	{
-		double fraction = ft_atoi(tab[1], &err);
-		if (err < 0 || fraction < 0)
-			return (put(ERR8"(%s) bad fractional part\n", tab[1]), free_tab(tab), (*error)++, rtrn);
-		int	frac_len = len(tab[1]);
-		while (frac_len-- != 0)
-			fraction /= 10.0;
-		rtrn += fraction;
-	}
-	free_tab(tab);
-	if (err == 1 && rtrn > 0)
-		rtrn *= -1;
-	return (rtrn);
-}
-
-# define PI 3.14159265358979323846
-// COS (pi / 36)
-# define COS_ROTA 0.99619469809174554520
-# define COS_ROTA2 0.99240387650610406567
-# define SIN_ROTA 0.08715574274765816587
-# define SIN_ROTA2 0.00759612349389596903
-# define COSSIN_ROTA 0.08682408883346516559
-
 int	main(int ac, char **av, char **env)
 {
-	if (access("texture/big_ball.xpm", R_OK) != -1)
-    	printf("File is readable\n");
-	else
-    	perror("File is not readable");
-	
+	char *str = "v  -7.8541 121.3862 17.1093\n";
+	char	**spl;
+	spl = split(str, " \n");
+	put("TAB: (%.3t)\n", spl);
+	free_tab(spl);
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // MAIN 1
 

@@ -1,17 +1,28 @@
-# (Shininess) S=20.0		(Transparence, gamma) T=[0,1],[-PI/2, PI/2]		(Mirroir) M=[0,1]	(Texture) X="sphere_texture.xpm"		(Normal Map) N="sphere_normal.xpm"
-
-# (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
-A 						0.2 					255,255,255
-
+# -------------------------------------------------------------------------------------------------------------------------------------------
 # (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
-C 						0,10,-50 			0,0,1 					70
-
+C 						0,0,25				0,0,-1					70
+C 						0,0,15				0,0,1					50
+# (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+A 						0.4 					255,255,255		X=txt/starmap.xpm
 # (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
-L 						10,30,-30 			0.7 					255,255,255
-L 						12,12,12 			0.3 					255,255,255
+L 						0,0,20 			0.8 					255,255,255
+# L 						0,20,0 			0.8 					255,255,255
+# L 						10,10,10 			0.8 					255,255,255
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# xi 0,0,20   0,-1,0  15	55,255,255	X=txt/default.xpm	###		T=0,1 # M=0 # C= # S=1.0,500	### N=txt/n_brique.xpm A=
+ob 0,0,0 1,0,0 1 255,0,255 model/doda.obj T= M= S= ### X=txt/t_earth.xpm
+# ob 0,0,0 0,0,1 1 255,0,255 model/cube.obj T= M= S= X=test/wood_chess.xpm
 
-# (sp) Sphere:			POSITION (xyz)		DIAMETER				COLOR_rgb [0, 255]
-# sp 					0,0,0 				10 					200,200,0
+# sp 						0,0,20 			0.8 					255,255,255 T=0.8,1
+# sp 						0,20,0 			0.8 					255,255,255 T=0.8,1
+# sp 0,0,0	5	255,0,0		### T=0,1 # M=0 # C= # S=   ### X=txt/t_earth.xpm N=txt/n_brique.xpm A=
 
-# (sy) Cylinder:		POSITION (xyz)		VECTOR [-1.0, 1.0]		DIAMETER		HEIGHT		COLOR_rgb [0, 255] N=texture/rock2_n2.xpm
-cy 						0,0,0 				0,1,0 					5 			15 		10,96,12	X=texture/brique_4k.xpm N=texture/rock2_n1.xpm
+
+# pl 0,-5,0	0,-1,0	255,0,0	###		T=0,25 # M=0 # C=0,0,225 # S=1.0,500	### N=txt/n_brique.xpm A=
+# sp 0.0,-2.0,10.0	 	8	255,0,0		T=0.7,1.33
+# sp 0,5,-15	 	3	0,255,0 T=0,1.5
+# co 0,-5,0 0,1,0 55 55 15,222,186		### T=0,1 # M=0 # C= # S=   ### X= N=txt/n_brique.xpm A=
+
+
+# sp			50,0,0		10			255,50,50
+# sp			-50,0,0			10			50,255,50

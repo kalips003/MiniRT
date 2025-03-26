@@ -6,13 +6,14 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 20:34:49 by agallon           #+#    #+#             */
-/*   Updated: 2024/11/28 16:52:08 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/11 15:34:33 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/libft.h"
 
 int			atoi_v(const char *str);
+int			ft_atoi_v3(char *str, int *rtrn);
 int			ft_atoi(char *str, int *error);
 int			ft_atoi_v2(char *str, int *i, int *error);
 static int	what_is_it(char c);
@@ -21,7 +22,7 @@ static int	what_is_it(char c);
 //  atoi strict
 // 	set error (-1) if no number
 // 	set error (-2) if too big for int
-// 	set error (-3) if 2a
+// 	set error (-4) if 2a
 int	ft_atoi(char *str, int *error)
 {
 	long long	rtrn;
@@ -36,17 +37,27 @@ int	ft_atoi(char *str, int *error)
 	if (((str[0] == '-' && ++(*error)) || str[0] == '+') && ++i)
 		sign -= 2 * (str[0] == '-');
 	if (!(str[i] >= '0' && str[i] <= '9'))
-		*error = -4;
+		*error = -1;
 	while (str[i] >= '0' && str[i] <= '9')
 		rtrn = rtrn * 10 + (str[i++] - '0');
 	rtrn *= sign;
 	if (rtrn > 2147483647 || rtrn < -2147483648)
 		*error = -2;
 	if (!(!str[i] || str[i] == ' ' || str[i] == '\n'))
-		*error = -3;
+		*error = -4;
 	return ((int)rtrn);
 }
 
+int	ft_atoi_v3(char *str, int *rtrn)
+{
+	int	err;
+
+	err = 0;
+	*rtrn = ft_atoi(str, &err);
+	if (err)
+		return (1);
+	return (0);
+}
 //  atoi int, simple, for small num
 //  handle multiple white spaces and multiple signs
 int	atoi_v(const char *str)
@@ -74,23 +85,21 @@ int	atoi_v(const char *str)
 	return (result * sign);
 }
 
-//  atoi iterate on its own
 int	ft_atoi_v2(char *str, int *i, int *error)
 {
 	long long	rtrn;
 	int			sign;
 
-	*i = 0;
 	rtrn = 0;
 	sign = 1;
-	if (!str || wii(str[0], "0123456789+-") < 0)
+	if (!str || wii(str[*i], "0123456789+-") < 0)
 		*error = -1;
-	if (str[0] == '-' && ++*i)
+	if (str[*i] == '-' && ++*i)
 		sign = -1;
-	else if (str[0] == '+')
-		i++;
+	else if (str[*i] == '+')
+		(*i)++;
 	while (str[*i] >= '0' && str[*i] <= '9')
-		rtrn = rtrn * 10 + (str[*i++] - '0');
+		rtrn = rtrn * 10 + (str[(*i)++] - '0');
 	rtrn *= sign;
 	if (rtrn > 2147483647 || rtrn < -2147483648)
 		*error = -2;
@@ -98,7 +107,6 @@ int	ft_atoi_v2(char *str, int *i, int *error)
 		*error = -3;
 	return ((int)rtrn);
 }
-
 // wii special atoi
 static int	what_is_it(char c)
 {

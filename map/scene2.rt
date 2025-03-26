@@ -1,22 +1,32 @@
-# (Shininess) S=20.0		(Transparence, gamma) T=[0,1],[-PI/2, PI/2]		(Mirroir) M=[0,1]	(Texture) X="sphere_texture.xpm"		(Normal Map) N="sphere_normal.xpm"
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
+C 						0,0,25           	0,0,-1				70
+C 						-0.9,0.9,0.8	-0.369,-0.047,0.928				70
+C						0.0,1.0,65.0		0.054,0.043,-0.998	70
 
 # (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
 A 						0.2 					255,255,255
-
-# (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
-C 						0,10,-50 			0,0,1 					70
-C	-61.138539,28.552648,-44.166311	0.751561,-0.275639,0.599315	70
 # (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
-L 						10,30,-30 			0.7 					255,255,255
+L 						5,15,0 				0.99 					255,255,255
+# L 						-1,1,1 				0.3 					255,255,255
+# L 						10,10,10 			0.99 					255,255,255
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# xi	-10.0,-10.0,0.0	0,1,0	0.5	0,0,255	X=texture/player.xpm
+# sp	0,0,0	5	255,255,255
+# cy	0,0,0	0,1,0	5.8	12 0,0,255	C=255,0,0 A=texture/gkey4.xpm
+# co	0,0,25	0,1,0	50	50 0,0,255	C=255,0,0 N=txt/brique_n.xpm
+ob 0,0,0    0,0,1   1 255,255,255 model/Pachirisu.obj	###		T= # M= # C= # S=	### N= A=
+# cu	-30,-20,0	0,1,0	70 255,0,0 N=txt/brique_n.xpm
+pl 0,-5,0	0,-1,0	52,200,103	###		T=0,30 # M=0 # C=0,0,0 # S=0.1,20	### X=txt/t_ground.xpm N=txt/n_ground.xpm A=
 
-# (pl) Plane:			POSITION (xyz)		VECTOR [-1.0, 1.0]		COLOR_rgb [0, 255]
-pl 						0,0,0 				0,1,0 					55,66,22
+# pl	0,-5,0	0,1,0	255,100,100 T=0,20  A=texture/n_metal_opengl.xpm
+# -------------------------------------------------------------------------------------------------------------------------------------------
 
-# (sp) Sphere:			POSITION (xyz)		DIAMETER				COLOR_rgb [0, 255]
-sp 						0,0,0 				200 					255,0,0 X=texture/football_texture.xpm
-sp 						0,0,0 				200 					255,0,0 X=texture/football_texture.xpm
-# (sy) Cylinder:		POSITION (xyz)		VECTOR [-1.0, 1.0]		DIAMETER		HEIGHT		COLOR_rgb [0, 255]
-# cy 						0,0,0 				0,1,0 					8.0 			21.42 		10,96,12	X=texture/big_ball.xpm M=0.1 N=texture/football_vector_map.xpm T=0.3,1.1 S=30
-cy 						10,0,0 				0,1,0 					8.0 			21.42 		120,12,212
-cy 						-10,0,0 			0,1,0 					8.0 			21.42 		12,120,212
-cy 						-20,0,0 			0,1,0 					8.0 			21.42 		212,120,12
+
+
+
+# McCree scene
+# C 						-0.9,0.9,0.8	-0.369,-0.047,0.928				70
+# L 						5,15,0 				0.99 					255,255,255
+# ob -1.9,-0.4,3.5    0.56,0.83,0.00   1 210,200,5 model/mccree.obj	###		T= # M= # C= # S=	### N= A=
+# pl 0,-5,0	0,-1,0	52,200,103	###		T=0,30 # M=0 # C=0,0,0 # S=0.1,20	### X=txt/t_ground.xpm N=txt/n_ground.xpm A=

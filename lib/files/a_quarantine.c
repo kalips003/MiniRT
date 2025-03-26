@@ -47,3 +47,35 @@ int	len_c(char *s, char c)
 		i++;
 	return (i);
 }
+
+void	*ft_memcpy(void *dest, void *src, unsigned n)
+{
+	unsigned	i;
+
+	i = 0;
+	if (!dest && !src)
+		return (NULL);
+	while (i++ < n)
+		((char *)dest)[i - 1] = ((char *)src)[i - 1];
+	return (dest);
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+// int	ft_cat_timing(void *data, int sublim)
+// {
+// 	// clock_t	start;
+// 	// clock_t	end;
+// 	struct timeval start;
+// 	struct timeval end;
+// 	double time;
+
+// // start = clock();
+// 	gettimeofday(&start, NULL);
+// 	// ft_render_frame_multi(data, 2);
+// 	gettimeofday(&end, NULL);
+// // end = clock();
+
+// 	time = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1e6;
+// 	printf(C_423"Run-time: "C_135"%.4f"C_423" seconds\n", time);
+// 	return (0);
+// }
