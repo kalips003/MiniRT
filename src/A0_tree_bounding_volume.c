@@ -162,22 +162,62 @@ static t_make_tree	h_loop_split(t_model *model, t_bbox *node, int xyz, t_make_tr
 
 static void	h_double(t_tri *tri, t_bbox *node, t_model *model, int xyz)
 {
-	if (((double*)model->v[tri->p1])[xyz] > ((double*)&node->l->max)[xyz])
-	{
-		((double*)&node->l->max)[xyz] = ((double*)model->v[tri->p1])[xyz];
-		((double*)&node->r->min)[xyz] = ((double*)model->v[tri->p1])[xyz];
-	}
-	if (((double*)model->v[tri->p2])[xyz] > ((double*)&node->l->max)[xyz])
-	{
-		((double*)&node->l->max)[xyz] = ((double*)model->v[tri->p2])[xyz];
-		((double*)&node->r->min)[xyz] = ((double*)model->v[tri->p2])[xyz];
-	}
-	if (((double*)model->v[tri->p3])[xyz] > ((double*)&node->l->max)[xyz])
-	{
-		((double*)&node->l->max)[xyz] = ((double*)model->v[tri->p3])[xyz];
-		((double*)&node->r->min)[xyz] = ((double*)model->v[tri->p3])[xyz];
-	}
+	double p1 = ((double*)model->v[tri->p1])[xyz];
+	double p2 = ((double*)model->v[tri->p2])[xyz];
+	double p3 = ((double*)model->v[tri->p3])[xyz];
+
+	// Update the left node's min and max
+	if (p1 < ((double*)&node->l->min)[xyz])
+		((double*)&node->l->min)[xyz] = p1;
+	if (p1 > ((double*)&node->l->max)[xyz])
+		((double*)&node->l->max)[xyz] = p1;
+
+	if (p2 < ((double*)&node->l->min)[xyz])
+		((double*)&node->l->min)[xyz] = p2;
+	if (p2 > ((double*)&node->l->max)[xyz])
+		((double*)&node->l->max)[xyz] = p2;
+
+	if (p3 < ((double*)&node->l->min)[xyz])
+		((double*)&node->l->min)[xyz] = p3;
+	if (p3 > ((double*)&node->l->max)[xyz])
+		((double*)&node->l->max)[xyz] = p3;
+
+	// Update the right node's min and max
+	if (p1 < ((double*)&node->r->min)[xyz])
+		((double*)&node->r->min)[xyz] = p1;
+	if (p1 > ((double*)&node->r->max)[xyz])
+		((double*)&node->r->max)[xyz] = p1;
+
+	if (p2 < ((double*)&node->r->min)[xyz])
+		((double*)&node->r->min)[xyz] = p2;
+	if (p2 > ((double*)&node->r->max)[xyz])
+		((double*)&node->r->max)[xyz] = p2;
+
+	if (p3 < ((double*)&node->r->min)[xyz])
+		((double*)&node->r->min)[xyz] = p3;
+	if (p3 > ((double*)&node->r->max)[xyz])
+		((double*)&node->r->max)[xyz] = p3;
 }
+
+
+// static void	h_double(t_tri *tri, t_bbox *node, t_model *model, int xyz)
+// {
+// 	if (((double*)model->v[tri->p1])[xyz] > ((double*)&node->l->max)[xyz])
+// 	{
+// 		((double*)&node->l->max)[xyz] = ((double*)model->v[tri->p1])[xyz];
+// 		((double*)&node->r->min)[xyz] = ((double*)model->v[tri->p1])[xyz];
+// 	}
+// 	if (((double*)model->v[tri->p2])[xyz] > ((double*)&node->l->max)[xyz])
+// 	{
+// 		((double*)&node->l->max)[xyz] = ((double*)model->v[tri->p2])[xyz];
+// 		((double*)&node->r->min)[xyz] = ((double*)model->v[tri->p2])[xyz];
+// 	}
+// 	if (((double*)model->v[tri->p3])[xyz] > ((double*)&node->l->max)[xyz])
+// 	{
+// 		((double*)&node->l->max)[xyz] = ((double*)model->v[tri->p3])[xyz];
+// 		((double*)&node->r->min)[xyz] = ((double*)model->v[tri->p3])[xyz];
+// 	}
+// }
 
 ///////////////////////////////////////////////////////////////////////////////]
 ///////////////////////////////////////////////////////////////////////////////]
