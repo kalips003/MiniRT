@@ -77,43 +77,43 @@ static void	ft_find_smallest_biggest_2(t_model *model, t_bbox *node)
 	while (ptr)
 	{
 		if (model->v[ptr->p1]->x < node->min.x)
-			node->min.x = model->v[ptr->p1]->x - EPSILON;
-		else if (model->v[ptr->p1]->x > node->max.x)
-			node->max.x = model->v[ptr->p1]->x + EPSILON;
+			node->min.x = model->v[ptr->p1]->x;
+		if (model->v[ptr->p1]->x > node->max.x)
+			node->max.x = model->v[ptr->p1]->x;
 		if (model->v[ptr->p1]->y < node->min.y)
-			node->min.y = model->v[ptr->p1]->y - EPSILON;
-		else if (model->v[ptr->p1]->y > node->max.y)
-			node->max.y = model->v[ptr->p1]->y + EPSILON;
+			node->min.y = model->v[ptr->p1]->y;
+		if (model->v[ptr->p1]->y > node->max.y)
+			node->max.y = model->v[ptr->p1]->y;
 		if (model->v[ptr->p1]->z < node->min.z)
-			node->min.z = model->v[ptr->p1]->z - EPSILON;
-		else if (model->v[ptr->p1]->z > node->max.z)
-			node->max.z = model->v[ptr->p1]->z + EPSILON;
+			node->min.z = model->v[ptr->p1]->z;
+		if (model->v[ptr->p1]->z > node->max.z)
+			node->max.z = model->v[ptr->p1]->z;
 
 		if (model->v[ptr->p2]->x < node->min.x)
-			node->min.x = model->v[ptr->p2]->x - EPSILON;
-		else if (model->v[ptr->p2]->x > node->max.x)
-			node->max.x = model->v[ptr->p2]->x + EPSILON;
+			node->min.x = model->v[ptr->p2]->x;
+		if (model->v[ptr->p2]->x > node->max.x)
+			node->max.x = model->v[ptr->p2]->x;
 		if (model->v[ptr->p2]->y < node->min.y)
-			node->min.y = model->v[ptr->p2]->y - EPSILON;
-		else if (model->v[ptr->p2]->y > node->max.y)
-			node->max.y = model->v[ptr->p2]->y + EPSILON;
+			node->min.y = model->v[ptr->p2]->y;
+		if (model->v[ptr->p2]->y > node->max.y)
+			node->max.y = model->v[ptr->p2]->y;
 		if (model->v[ptr->p2]->z < node->min.z)
-			node->min.z = model->v[ptr->p2]->z - EPSILON;
-		else if (model->v[ptr->p2]->z > node->max.z)
-			node->max.z = model->v[ptr->p2]->z + EPSILON;
+			node->min.z = model->v[ptr->p2]->z;
+		if (model->v[ptr->p2]->z > node->max.z)
+			node->max.z = model->v[ptr->p2]->z;
 
 		if (model->v[ptr->p3]->x < node->min.x)
-			node->min.x = model->v[ptr->p3]->x - EPSILON;
-		else if (model->v[ptr->p3]->x > node->max.x)
-			node->max.x = model->v[ptr->p3]->x + EPSILON;
+			node->min.x = model->v[ptr->p3]->x;
+		if (model->v[ptr->p3]->x > node->max.x)
+			node->max.x = model->v[ptr->p3]->x;
 		if (model->v[ptr->p3]->y < node->min.y)
-			node->min.y = model->v[ptr->p3]->y - EPSILON;
-		else if (model->v[ptr->p3]->y > node->max.y)
-			node->max.y = model->v[ptr->p3]->y + EPSILON;
+			node->min.y = model->v[ptr->p3]->y;
+		if (model->v[ptr->p3]->y > node->max.y)
+			node->max.y = model->v[ptr->p3]->y;
 		if (model->v[ptr->p3]->z < node->min.z)
-			node->min.z = model->v[ptr->p3]->z - EPSILON;
-		else if (model->v[ptr->p3]->z > node->max.z)
-			node->max.z = model->v[ptr->p3]->z + EPSILON;
+			node->min.z = model->v[ptr->p3]->z;
+		if (model->v[ptr->p3]->z > node->max.z)
+			node->max.z = model->v[ptr->p3]->z;
 		ptr = ptr->next;
 	}
 }
@@ -153,7 +153,7 @@ static void	ft_split_by_xyz(t_model *model, t_bbox *node, int xyz)
 
 	t.avg = find_median(node, xyz);
 	ft_find_smallest_biggest_2(model, node);
-	if (node->how_many_f <= 1)
+	if (node->how_many_f < 5)
 		return ;
 	node->l = mem(0, sizeof(t_bbox));
 	node->r = mem(0, sizeof(t_bbox));
@@ -257,7 +257,7 @@ void	find_inter_tri(t_bbox *node, t_model *model, t_obj_calc *c, t_calcul_px *ca
 		if (calcul->print ==1)
 		{
 			printf(C_411"checking in box: ");
-			printf("(%d) min[%.2f %.2f %.2f]max[%.2f %.2f %.2f]\n", node->how_many_f, node->min.x, node->min.y, node->min.z, node->max.x, node->max.y, node->max.z);
+			printf("(%d) min[%.3f %.3f %.3f]max[%.3f %.3f %.3f]\n", node->how_many_f, node->min.x, node->min.y, node->min.z, node->max.x, node->max.y, node->max.z);
 		}
 		h_find_inter_tri(node, model, c, calcul);
 		return ;
@@ -340,7 +340,7 @@ static int	h_bounding_min_max(double min_max_xyz[2][3], int xyz, t_bbox *bbox, t
 
 	if (fabs(((double*)&c->v_rotate)[xyz]) < EPSILON)
 	{
-		printf("0 denom\n");
+		// printf("0 denom\n");
 		if (((double*)&c->new_o)[xyz] < ((double*)&bbox->min)[xyz] ||
 			((double*)&c->new_o)[xyz] > ((double*)&bbox->max)[xyz])
 			return (1); // Ray is outside, no intersection
