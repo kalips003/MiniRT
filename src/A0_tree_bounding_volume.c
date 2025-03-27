@@ -340,7 +340,7 @@ static int	h_bounding_min_max(double min_max_xyz[2][3], int xyz, t_bbox *bbox, t
 
 	if (fabs(((double*)&c->v_rotate)[xyz]) < EPSILON)
 	{
-		// printf("0 denom\n");
+		printf("0 denom\n");
 		if (((double*)&c->new_o)[xyz] < ((double*)&bbox->min)[xyz] ||
 			((double*)&c->new_o)[xyz] > ((double*)&bbox->max)[xyz])
 			return (1); // Ray is outside, no intersection
