@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/26 01:01:20 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/27 15:54:29 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_img	*parse_img(t_data *data, char *path);
 // tree_bounding stuff
 void	do_the_tree_splitting(t_model *model);
 void	find_inter_tri(t_bbox *node, t_model *model, t_obj_calc *c, t_calcul_px *calcul);
-void	h_find_inter_tri(t_bbox *node, t_model *model, t_obj_calc *c);
+void	h_find_inter_tri(t_bbox *node, t_model *model, t_obj_calc *c, t_calcul_px *calcul);
 void	ft_free_tree(t_bbox *node);
 
 /********************************
