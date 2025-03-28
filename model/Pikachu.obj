@@ -1,6 +1,6 @@
 # Blender v2.60 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib Pikachu.mtl
+mtllib mtl/Pikachu.mtl
 o Mesh.003_rdmobj01
 v 0.000000 4.907320 -3.006118
 v 0.050000 3.578776 -3.028581

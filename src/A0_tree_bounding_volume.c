@@ -39,30 +39,6 @@ void	do_the_tree_splitting(t_model *model)
 
 ///////////////////////////////////////////////////////////////////////////////]
 // find the first bounding box value min max, from vertices
-static void	ft_find_smallest_biggest(t_model *model)
-{
-	t_coor	**ptr;
-
-	model->tree.min = **model->v;
-	model->tree.max = **model->v;
-	ptr = model->v - 1;
-	while (++ptr && *ptr)
-	{
-		if ((*ptr)->x < model->tree.min.x)
-			model->tree.min.x = (*ptr)->x + EPSILON;
-		else if ((*ptr)->x > model->tree.max.x)
-			model->tree.max.x = (*ptr)->x + EPSILON;
-		if ((*ptr)->y < model->tree.min.y)
-			model->tree.min.y = (*ptr)->y + EPSILON;
-		else if ((*ptr)->y > model->tree.max.y)
-			model->tree.max.y = (*ptr)->y + EPSILON;
-		if ((*ptr)->z < model->tree.min.z)
-			model->tree.min.z = (*ptr)->z + EPSILON;
-		else if ((*ptr)->z > model->tree.max.z)
-			model->tree.max.z = (*ptr)->z + EPSILON;
-	}
-}
-
 static void	ft_find_smallest_biggest_2(t_model *model, t_bbox *node)
 {
 	t_tri	*ptr;
@@ -253,30 +229,14 @@ void	find_inter_tri(t_bbox *node, t_model *model, t_obj_calc *c, t_calcul_px *ca
 	if (!node)
 		return (node);
 	if (node->f)
-	{		
-		if (calcul->print ==1)
-		{
-			printf(C_411"checking in box: ");
-			printf("(%d) min[%.3f %.3f %.3f]max[%.3f %.3f %.3f]\n", node->how_many_f, node->min.x, node->min.y, node->min.z, node->max.x, node->max.y, node->max.z);
-		}
+	{
 		h_find_inter_tri(node, model, c, calcul);
 		return ;
 	}
 	if (f_check_if_in_box_2(node, c))
 	{
-		if (calcul->print ==1)
-		{
-			printf(C_342"FOUND in box: ");
-			printf("(%d) min[%.2f %.2f %.2f]max[%.2f %.2f %.2f]\n", node->how_many_f, node->min.x, node->min.y, node->min.z, node->max.x, node->max.y, node->max.z);
-		}
-		
 		find_inter_tri(node->l, model, c, calcul);
 		find_inter_tri(node->r, model, c, calcul);
-	}
-	else if (calcul->print ==1)
-	{
-		printf(C_243"NOT found in box: ");
-		printf("(%d) min[%.2f %.2f %.2f]max[%.2f %.2f %.2f]\n", node->how_many_f, node->min.x, node->min.y, node->min.z, node->max.x, node->max.y, node->max.z);
 	}
 	return ;
 }
@@ -290,18 +250,6 @@ void	h_find_inter_tri(t_bbox *node, t_model *model, t_obj_calc *c, t_calcul_px *
 	while (ptr)
 	{
 		temp_dist = h_dist_triangle(ptr, model, c);
-		if (calcul->print == 1)
-		{
-			t_coor	**p = model->v;
-			if (temp_dist > 0)
-			{
-				printf(C_512"temp dist = %.3f:", temp_dist);
-				printf("[%.3f,%.3f,%.3f]=", p[ptr->p1]->x, p[ptr->p1]->y, p[ptr->p1]->z);
-				printf("[%.3f,%.3f,%.3f]=", p[ptr->p2]->x, p[ptr->p2]->y, p[ptr->p2]->z);
-				printf("[%.3f,%.3f,%.3f]\n", p[ptr->p3]->x, p[ptr->p3]->y, p[ptr->p3]->z);
-				printf("\tCentr:[%.3f,%.3f,%.3f]\n", ptr->centroid.x, ptr->centroid.y, ptr->centroid.z);
-			}
-		}
 		if (temp_dist > EPSILON && (temp_dist < c->dist || c->dist < 0))
 		{
 			c->closest_tri = ptr;

@@ -174,7 +174,7 @@ void	h_img_obj(t_calcul_px *calcul, t_object *obj, t_obj_calc *c)
 	if (obj->param.texture && t->mat && !t->mat->txt) 
 		calcul->mat.argb = return_px_img(obj->param.texture, u, v);
 	else if (t->mat && t->mat->txt)
-		calcul->mat.argb = return_px_img(t->mat->txt, u, v);
+		calcul->mat.argb = return_px_img_inverse(t->mat->txt, u, v);
 	if (obj->param.alpha_map)
 		calcul->mat.argb.a = return_alpha_img(obj->param.alpha_map, u, v);
 	if (obj->param.normal_map)

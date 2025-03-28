@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/27 15:54:29 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/28 09:06:19 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void		push_stack(void **stack, void *colli, int *ptr_stack, int max_stack_index)
 int			ft_render_frame_multi(t_data *data, int sublim);
 // 	(B)	tools helper img
 t_argb	return_px_img(t_img *img, double x, double y);
+t_argb	return_px_img_inverse(t_img *img, double x, double y);
 t_vect	return_vect_img(t_img *img, double x, double y);
 int		return_alpha_img(t_img *img, double x, double y);
 // 	(C)	anti aliasing

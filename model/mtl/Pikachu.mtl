@@ -8,7 +8,7 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd PikachuDh.png
+map_Kd txt/PikachuDh.xpm
 
 
 newmtl PikachuEyeDh_PikachuEyeDh.png
@@ -19,7 +19,7 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd PikachuEyeDh.png
+map_Kd txt/PikachuEyeDh.xpm
 
 
 newmtl PikachuHohoDh_PikachuHohoDh.png
@@ -30,7 +30,7 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd PikachuHohoDh.png
+map_Kd txt/PikachuHohoDh.xpm
 
 
 newmtl PikachuMouthDh_PikachuMouthDh.png
@@ -41,6 +41,6 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd PikachuMouthDh.png
+map_Kd txt/PikachuMouthDh.xpm
 
 
