@@ -5,7 +5,7 @@ C 						0,10,0           	0,-1,0				70
 # (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
 A 						0.3 					255,255,255			
 # (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
-L 						5,10,5 			0.81 					255,255,255
+L 						5,10,5 			0.71 					255,255,255
 # L 						-9,1,-8 			1 					255,255,255
 # L 						0,10,0           	0.6				255,255,255
 
@@ -19,19 +19,8 @@ pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=1.0,500	### X=txt/t
 # pl 0,-5,0	0,-1,0	255,255,255	###		T=0,7 # M=0 # C=0,0,0 # S=1.0,500	### N=txt/n_concrete_opengl.xpm A=txt/t_concrete.xpm
 # pl 0,-5,0	0,1,0	255,255,255 ###     X=txt/t_brique.xpm N=txt/n_brique.xpm A=txt/gkey4.xpm
 
-# ob 0,5,0 1,0,0 5 255,0,255 ### model/cube2.obj X=txt/t_brique.xpm N=txt/n_brique.xpm A=texture/gkey4.xpm
-# ob 0,5,0 1,0,0 5 255,0,255 model/cube2.obj X=txt/t_brique.xpm N=txt/n_brique.xpm A=texture/gkey4.xpm
-# ob 0,5,0 1,0,0 5 255,0,255 model/cube2.obj X=txt/t_ice.xpm N=txt/n_ice.xpm A=txt/ao_ice.xpm
-
-ob 10,0,33 0,0,1 0.05 0,255,0 ### model/penguin.obj T=0,0  X=txt/t_penguin.xpm
-ob -25,0,0 0,0,1 0.05 0,0,255 ### model/penguin.obj T=0,0  X=txt/t_penguin.xpm
-ob 0,0,-10 0,0,1 0.05 255,0,0 ### model/penguin.obj T=0,0  X=txt/t_penguin.xpm
-ob -45,0,-50 0,0,1 0.05 255,0,0 ### model/penguin.obj T=0,0  X=txt/t_penguin.xpm
-ob 45,0,-50 1,0,1 0.05 255,0,0 ### model/penguin.obj T=0,0  X=txt/t_penguin.xpm
-ob 0,0,-250 0,0,1 1 255,0,0 ### model/penguin2.obj T=0,0  X=txt/t_penguin.xpm
-# ob 0,-2,15 0,0,1 0.05 255,255,255 ### model/igloo.obj T=0,1
-L 						-5,5,1 			0.81 					255,255,255
 # ob 0,0,0 0,0,1 0.05 200,200,255 model/Reibeck_print1.obj C=0,0,0
 #  N=txt/n_brique.xpm 
-# sp 0,0,0	5	200,0,200		### T=0.5,1 # M=0 # C= # S=   ### X= N= A=
+sp 0,0,0	5	200,0,200		### T=0,1 # M=0 # C= # S=   ### N= A= X=txt/ground/n_ground.xpm
+# O=txt/ground/ao_ground.xpm X=txt/ground/t_ground.xpm N=txt/ground/n_ground.xpm
 # -------------------------------------------------------------------------------------------------------------------------------------------

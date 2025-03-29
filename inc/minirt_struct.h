@@ -59,7 +59,7 @@ typedef struct s_calcul_px
 
 	t_mat	mat;
 	t_light	eff_light;
-	// double	eff_trans;
+	double	ao;
 	// double	ratio;
 	double	r_diff;
 // 

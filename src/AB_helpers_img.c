@@ -14,9 +14,19 @@
 
 ///////////////////////////////////////////////////////////////////////////////]
 t_argb	return_px_img(t_img *img, double x, double y);
+t_argb	return_px_img_inverse(t_img *img, double x, double y);
 t_vect	return_vect_img(t_img *img, double x, double y);
 int		return_alpha_img(t_img *img, double x, double y);
 ///////////////////////////////////////////////////////////////////////////////]
+void	update_mat_w_txt(t_c_px *calcul, t_obj2 *obj, double u, double v)
+{
+	if (obj->param.alpha_map)
+		calcul->mat.argb.a = return_alpha_img(obj->param.alpha_map, u, v);
+	if (obj->param.texture)
+		calcul->mat.argb = return_px_img(obj->param.texture, u, v);
+	if (obj->param.ao_map)
+		calcul->ao = return_alpha_img(obj->param.alpha_map, u, v) / 255.0;
+}
 
 t_argb	return_px_img(t_img *img, double x, double y)
 {
@@ -37,6 +47,7 @@ t_argb	return_px_img(t_img *img, double x, double y)
 		(pixel >> 8) & 0xFF,
 		pixel & 0xFF
 	};
+	printf("rtrn: [%d,%d,%d,%d]\n", rtrn.a, rtrn.r, rtrn.g, rtrn.b);
 	return (rtrn);
 }
 
@@ -84,6 +95,7 @@ t_vect	return_vect_img(t_img *img, double x, double y)
 	return (rtrn);
 }
 
+// White [255] = 1.0; Black [0] = 0.0
 int	return_alpha_img(t_img *img, double x, double y)
 {
 	int		pixel;

@@ -196,10 +196,11 @@ int	parse_mirror(t_data *data, char *raw, t_param *obj);
 int	parse_color2(t_data *data, char *raw, t_param *obj);
 int	parse_light(t_data *data, char *raw, t_param *obj);
 // 
+int	txt_already_exist(t_data *data, char *path, t_img **txt);
 int	parse_texture(t_data *data, char *path, t_param *obj);
 int	parse_nmap(t_data *data, char *path, t_param *obj);
 int	parse_amap(t_data *data, char *path, t_param *obj);
-int	txt_already_exist(t_data *data, char *path, t_img **txt);
+int	parse_ao(t_data *data, char *path, t_param *obj);
 // 		objects
 t_model	*rtrn_obj(t_data *data, char *path, t_object *obj);
 // 

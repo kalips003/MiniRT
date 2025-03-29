@@ -15,7 +15,7 @@
 int	parse_reste(t_data *data, char **raw_split, t_param *obj);
 int	parse_bg_texture(t_data *data, char *path, t_img **bg_txt);
 
-#define PARAM_DICO "STMXNACL"
+#define PARAM_DICO "STMXNACLO"
 
 ///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
 // (Shininess) S=[1.0, +]
@@ -34,7 +34,8 @@ static const t_ft_param_parsing	g_ft_param_parsing[] = {
 	parse_nmap,
 	parse_amap,
 	parse_color2,
-	parse_light
+	parse_light,
+	parse_ao
 };
 
 int	parse_reste(t_data *data, char **raw_split, t_param *obj)

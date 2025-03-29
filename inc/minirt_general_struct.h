@@ -86,10 +86,19 @@ typedef struct s_param
 	t_img	*texture;
 	t_img	*normal_map;
 	t_img	*alpha_map;
+	t_img	*ao_map;
+	// t_img	*height_map;
+	// t_img	*shiny_map;
 
 }	t_param;
 
 // material of .obj & in calcul_px
+// sp = specular
+// sh = shiny
+// mi = mirror
+// tr = transparence
+// gamma = ior
+// ao = ambient oclusion
 typedef struct s_param2
 {
 	t_argb	argb;
@@ -103,6 +112,7 @@ typedef struct s_param2
 
 	char	*name;
 	t_img	*txt;
+	// double	ao;
 
 }	t_mat;
 

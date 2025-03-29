@@ -12,10 +12,28 @@
 
 #include "../inc/minirt.h"
 
+int	txt_already_exist(t_data *data, char *path, t_img **txt);
 int	parse_texture(t_data *data, char *path, t_param *obj);
 int	parse_nmap(t_data *data, char *path, t_param *obj);
 int	parse_amap(t_data *data, char *path, t_param *obj);
-int	txt_already_exist(t_data *data, char *path, t_img **txt);
+int	parse_ao(t_data *data, char *path, t_param *obj);
+
+///////////////////////////////////////////////////////////////////////////////]
+int	txt_already_exist(t_data *data, char *path, t_img **txt)
+{
+	int	i;
+
+	i = -1;
+	while (data->textures && data->textures[++i])
+	{
+		if (same_str(data->textures[i]->path, path))
+		{
+			*txt = data->textures[i];
+			return (1);
+		}
+	}
+	return (0);
+}
 
 ///////////////////////////////////////////////////////////////////////////////]
 // (Texture) X=sphere_texture.xpm
@@ -98,19 +116,29 @@ int	parse_amap(t_data *data, char *path, t_param *obj)
 	return (0);
 }
 
-///////////////////////////////////////////////////////////////////////////////]
-int	txt_already_exist(t_data *data, char *path, t_img **txt)
+// (Ambient Occlusion) O=ao_normal.xpm
+int	parse_ao(t_data *data, char *path, t_param *obj)
 {
-	int	i;
+	t_img	*aomap;
 
-	i = -1;
-	while (data->textures && data->textures[++i])
+	if (access(path, F_OK))
+		return (printf(C_421"I cant open that: (%s)\n", path), 0);
+	if (txt_already_exist(data, path, &aomap))
 	{
-		if (same_str(data->textures[i]->path, path))
-		{
-			*txt = data->textures[i];
-			return (1);
-		}
+		obj->ao_map = aomap;
+		return (0);
 	}
+	aomap = mem(0, sizeof(t_img));
+	data->textures = (t_img **)expand_tab((void **)data->textures, aomap);
+	if (!aomap || !data->textures)
+		return (put(ERRM"parse_texture\n"), 1);
+	if (path)
+		aomap->img = mlx_xpm_file_to_image(data->mlx, path, &aomap->sz_x, &aomap->sz_y);
+	if (!aomap->img)
+		return (put(ERR8"Cant open sprite: %s\n", path), perror(RED"mlx_xpm_file_to_image"), 1);
+	aomap->addr = mlx_get_data_addr(aomap->img, &aomap->bpp, &aomap->ll, &aomap->end);
+	aomap->path = str("%1s", path);
+	obj->ao_map = aomap;
 	return (0);
 }
+

@@ -81,6 +81,7 @@ int	ft_render_frame(t_data *data, int sublim)
 		{
 			c.transparence_depth = 0;
 			c.reflected_depth = 0;
+			c.ao = 1.0;
 			c.v = wrap_v_cam_quaternion(data, x, y);
 			calculate_pixel_color(data, &c, sublim);
 			put_pixel_any_buffer(&data->buffer, x, y, c.mat.argb.r << 16 | c.mat.argb.g << 8 | c.mat.argb.b);

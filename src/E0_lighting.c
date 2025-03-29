@@ -48,6 +48,8 @@ void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*), int
 	t_light	**lights;
 	t_coor	final;
 
+	if (c->print)
+		printf("a(rgb): %d, tr: %f\n", c->mat.argb.a, c->mat.tr);
 	if (c->object->param.light > EPSILON)
 		return (c->mat.argb = scale_argb(c->mat.argb, (c->object->param.light)), (void)0);
 	c->diffuse = ft_ambient(data, c);

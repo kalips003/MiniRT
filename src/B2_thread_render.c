@@ -79,6 +79,7 @@ static void	*f_thread(void *calcul)
 		{
 			c->transparence_depth = 0;
 			c->reflected_depth = 0;
+			c->ao = 1.0;
 			c->v = calc_angle_view(data->eye.c, x - SZ_X / 2, y - SZ_Y / 2);
 			calculate_pixel_color(data, c, sublim);
 			put_pixel_any_buffer(&data->buffer, x, y, c->mat.argb.r << 16 | c->mat.argb.g << 8 | c->mat.argb.b);

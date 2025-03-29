@@ -68,7 +68,8 @@ static int	h_dist_sphere(t_c_px *calcul, t_sphere *sphere, t_sphere_calc *c, int
 		c->inside = 1;
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
 	}
-	if (sphere->param.texture || sphere->param.normal_map || sphere->param.alpha_map)
+	if (sphere->param.texture || sphere->param.normal_map || sphere->param.alpha_map || sphere->param.ao_map)
+	// if (sphere->param.texture || sphere->param.normal_map || sphere->param.alpha_map)
 		h_img_sphere(calcul, sphere, c);
 
 	return (1 + c->inside);
@@ -87,6 +88,14 @@ static void	h_img_sphere(t_c_px *calcul, t_sphere *sphere, t_sphere_calc *c)
 	double	l_θ = fmin(1.0, fmax(0.0, atan2(sinθ, cosθ)  / (2 * PI) + 0.5));
 	double	l_ϕ = fmin(1.0, fmax(0.0, acos(cosϕ) / PI));
 
+	if (sphere->param.ao_map)
+	{
+		if (calcul->print == 1)
+			printf("ao before: %f\n", calcul->ao);
+		calcul->ao = return_alpha_img(sphere->param.ao_map, l_θ, l_ϕ) / 255.0;
+		if (calcul->print == 1)
+			printf("ao after: %f\n", calcul->ao);
+	}
 	if (sphere->param.texture)
 		calcul->mat.argb = return_px_img(sphere->param.texture, l_θ, l_ϕ);
 	if (sphere->param.alpha_map)

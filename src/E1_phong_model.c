@@ -25,9 +25,14 @@ t_coor	ft_ambient(t_data *data, t_c_px *c)
 	t_ambient_light	*l;
 
 	l = data->bg[0];
-	color_ambient.x = c->mat.argb.r * l->rgb.r / 255.0 * l->ratio;
-	color_ambient.y = c->mat.argb.g * l->rgb.g / 255.0 * l->ratio;
-	color_ambient.z = c->mat.argb.b * l->rgb.b / 255.0 * l->ratio;
+
+	if (c->print == 1)
+		printf("ao inside ambient: %f\n", c->ao);
+
+	color_ambient.x = c->mat.argb.r * l->rgb.r / 255.0 * l->ratio * c->ao;
+	color_ambient.y = c->mat.argb.g * l->rgb.g / 255.0 * l->ratio * c->ao;
+	color_ambient.z = c->mat.argb.b * l->rgb.b / 255.0 * l->ratio * c->ao;
+
 	return (color_ambient);
 }
 
