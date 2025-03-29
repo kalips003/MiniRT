@@ -286,16 +286,6 @@ static int	h_bounding_min_max(double min_max_xyz[2][3], int xyz, t_bbox *bbox, t
 	double	t_min;
 	double	t_max;
 
-	if (fabs(((double*)&c->v_rotate)[xyz]) < EPSILON)
-	{
-		// printf("0 denom\n");
-		if (((double*)&c->new_o)[xyz] < ((double*)&bbox->min)[xyz] ||
-			((double*)&c->new_o)[xyz] > ((double*)&bbox->max)[xyz])
-			return (1); // Ray is outside, no intersection
-		min_max_xyz[0][xyz] = -INFINITY;
-		min_max_xyz[1][xyz] = INFINITY;
-		return (1);
-	}
 	t_min = (((double *)&bbox->min)[xyz] - ((double *)&c->new_o)[xyz]) / ((double *)&c->v_rotate)[xyz];
 	t_max = (((double *)&bbox->max)[xyz] - ((double *)&c->new_o)[xyz]) / ((double *)&c->v_rotate)[xyz];
 	if (t_min > t_max)

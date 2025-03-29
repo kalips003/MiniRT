@@ -61,8 +61,8 @@ int	distance_from_object(t_calcul_px *calcul, void *object, int simple)
 
 
 	obj = (t_object *)object;
-	if (calcul->print == 1)
-		print_bbox(&obj->model->tree, C_412);
+	// if (calcul->print == 1)
+	// 	print_bbox(&obj->model->tree, C_412);
 	c.dist = calcul->dist;
 	c.closest_tri = NULL;
 	ft_rotate_camera_vect(calcul, obj, &c);
