@@ -24,6 +24,8 @@ void	ft_lighting_simple(t_data *data, t_c_px *c)
 {
 	t_light	**lights;
 
+	if (((t_obj2 *)c->object)->param.light > EPSILON)
+		return (c->mat.argb = scale_argb(c->mat.argb, (((t_obj2 *)c->object)->param.light)), (void)0);
 	c->diffuse = ft_ambient(data, c);
 	lights = data->light_source - 1;
 	while (++lights && *lights)
@@ -43,6 +45,8 @@ void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*), int
 	t_light	**lights;
 	t_coor	final;
 
+	if (((t_obj2 *)c->object)->param.light > EPSILON)
+		return (c->mat.argb = scale_argb(c->mat.argb, (((t_obj2 *)c->object)->param.light)), (void)0);
 	c->diffuse = ft_ambient(data, c);
 	c->specular = (t_coor){0.0, 0.0, 0.0};
 	lights = data->light_source - 1;

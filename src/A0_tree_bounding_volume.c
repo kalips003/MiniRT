@@ -230,9 +230,9 @@ static void	h_bound_mmax(double mmxyz[2][3], int xyz, t_bbox *bbox, t_c_obj *c)
 	double	t_min;
 	double	t_max;
 
-	t_min = (((double *)&bbox->min)[xyz] - ((double *)&c->new_o)[xyz]) \
+	t_min = (((double *)&bbox->min)[xyz] * c->size - ((double *)&c->new_o)[xyz]) \
 		/ ((double *)&c->v_rotate)[xyz];
-	t_max = (((double *)&bbox->max)[xyz] - ((double *)&c->new_o)[xyz]) \
+	t_max = (((double *)&bbox->max)[xyz] * c->size - ((double *)&c->new_o)[xyz]) \
 		/ ((double *)&c->v_rotate)[xyz];
 	if (t_min > t_max)
 	{

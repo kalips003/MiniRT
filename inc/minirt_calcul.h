@@ -175,6 +175,7 @@ typedef struct s_obj_calc {
 	t_coor	inter2;
 	double	det;
 	t_bbox	*bbox;
+	double	size;
 } t_c_obj;
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -209,6 +210,9 @@ typedef struct s_make_tree
 
 // distance calcul for a single triangle
 typedef struct s_calc_dist_tri {
+	t_coor	p1;
+	t_coor	p2;
+	t_coor	p3;
 	t_vect	h;
 	t_vect	s;
 	double	u;

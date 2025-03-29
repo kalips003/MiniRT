@@ -243,6 +243,10 @@ double	ft_dot_product(t_vect *a, t_vect *b);
 t_vect	ft_cross_product(t_vect *u, t_vect *v);
 t_vect	ft_cross_product_norm(t_vect *u, t_vect *v);
 double	dist_two_points(t_coor *a, t_coor *b);
+// vector
+t_vect	scale_vect(t_vect v, double scalar);
+t_coor	scale_point(t_coor p, double scalar);
+t_argb	scale_argb(t_argb argb, double scalar);
 /********************************
 		Y
 ********************************/

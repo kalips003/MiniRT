@@ -32,9 +32,9 @@ t_coor	*h_v(char **spl, double size)
 	v->z = atof(spl[3]);
 	// if (ft_atof(spl[1], &v->x) || ft_atof(spl[2], &v->y) || ft_atof(spl[3], &v->z))
 	// 	return (put(ERR5"v ???\n"), NULL);
-	v->x *= size;
-	v->y *= size;
-	v->z *= size;
+	// v->x *= size;
+	// v->y *= size;
+	// v->z *= size;
 	return (v);
 }
 

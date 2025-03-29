@@ -20,39 +20,7 @@ void	f_return_obj_normal(t_c_px *calcul, t_c_obj *c, t_object *obj);
 t_coor	h_uvw(t_c_px *calcul, t_c_obj *c, t_model *m);
 t_argb	h_obj_color2(t_c_px *calcul, t_c_obj *c, t_model *m);
 
-void print_bbox(t_bbox *node, char*color)
-{
-	if (!node) 
-		return;
-	printf("%sNode %p: (%d) min[%.2f %.2f %.2f]max[%.2f %.2f %.2f]\n",
-		color, node, node->how_many_f, node->min.x, node->min.y, node->min.z, node->max.x, node->max.y, node->max.z);
-	// printf("Triangles: ");
-	// t_tri	*ptr = node->f;
-	// while (ptr)
-	// {
-	// 	printf("[%d %d %d] ", ptr->p1, ptr->p2, ptr->p3);
-	// 	ptr = ptr->next;
-	// }
-	// printf("\n");
-
-	if (node->l)
-		print_bbox(node->l, GREEN);
-	if (node->r)
-		print_bbox(node->r, RED);
-}
 ///////////////////////////////////////////////////////////////////////////////]
-// int	distance_from_object(t_calcul_px *calcul, void *object, int simple)
-// {
-// 	t_object	*obj;
-// 	t_obj_calc	c;
-
-// 	obj = (t_object *)object;
-// 	c.dist = calcul->dist;
-// 	ft_rotate_camera_vect(calcul, obj, &c);
-// 	if (!f_check_if_in_box(calcul, obj, &c))
-// 		return (0);
-// 	return (h_distance_from_object(calcul, object, &c, simple));
-// }
 int	distance_from_object(t_c_px *calcul, void *object, int simple)
 {
 	t_object	*obj;
@@ -64,16 +32,15 @@ int	distance_from_object(t_c_px *calcul, void *object, int simple)
 	// if (calcul->print == 1)
 	// 	print_bbox(&obj->model->tree, C_412);
 	c.dist = calcul->dist;
+	c.size = obj->size;
 	c.closest_tri = NULL;
 	ft_rotate_camera_vect(calcul, obj, &c);
 
 	find_inter_tri(&obj->model->tree, obj->model, &c, calcul);
 	if (!c.closest_tri)
-	{
-		if (calcul->print == 1)
-			printf(RED"didnt found anything\n");
 		return (0);
-	}
+	if (c.closest_tri && simple)
+		return (1);
 	// return (h_distance_from_object(calcul, object, &c, simple));
 	return (h_closest_triangle(calcul, obj, &c));
 }
@@ -171,10 +138,10 @@ void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 	vt = obj->model->vt;
 	u = uvw.x * vt[t->vt[0]]->u + uvw.y * vt[t->vt[1]]->u + uvw.z * vt[t->vt[2]]->u;
 	v = uvw.x * vt[t->vt[0]]->v + uvw.y * vt[t->vt[1]]->v + uvw.z * vt[t->vt[2]]->v;
-	if (obj->param.texture && t->mat && !t->mat->txt) 
-		calcul->mat.argb = return_px_img(obj->param.texture, u, v);
-	else if (t->mat && t->mat->txt)
+	if (t->mat && t->mat->txt)
 		calcul->mat.argb = return_px_img_inverse(t->mat->txt, u, v);
+	if (obj->param.texture)
+		calcul->mat.argb = return_px_img(obj->param.texture, u, v);
 	if (obj->param.alpha_map)
 		calcul->mat.argb.a = return_alpha_img(obj->param.alpha_map, u, v);
 	if (obj->param.normal_map)
@@ -230,7 +197,8 @@ t_coor	h_uvw(t_c_px *calcul, t_c_obj *c, t_model *m)
 	double	denom;
 	t_coor	uvw;
 
-	a_c = vect_ab(m->v[c->closest_tri->p[0]], &c->inter2);
+	uvw = scale_point(*m->v[c->closest_tri->p[0]], c->size);
+	a_c = vect_ab(&uvw, &c->inter2);
 	d[0][0] = ft_dot_product(&c->e1, &c->e1);
 	d[0][1] = ft_dot_product(&c->e1, &c->e2);
 	d[1][1] = ft_dot_product(&c->e2, &c->e2);
