@@ -12,22 +12,20 @@
 
 #include "../inc/minirt.h"
 
-typedef struct s_tree1	t_bbox;
-typedef struct s_make_tree	t_mtree;
-
 void	do_the_tree_splitting(t_model *model);
-static void	ft_find_smallest_biggest_2(t_model *model, t_bbox *node);
 static void	ft_give_centroid(t_model *model, t_bbox *node);
 static void	ft_split_by_xyz(t_model *model, t_bbox *node, int xyz);
-static double	find_median(t_bbox *node, int xyz);
 static t_mtree	h_loop_split(t_model *model, t_bbox *node, int xyz, t_mtree t);
-static void	h_double(t_tri *tri, t_bbox *node, t_model *model, int xyz);
+static double	find_median(t_bbox *node, int xyz);
+static void	ft_find_smallest_biggest_2(t_model *model, t_bbox *node);
+void	h_big_small(t_bbox *node, t_coor *p);
 void	find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
 void	h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
 static int	f_check_if_in_box_2(t_bbox *bbox, t_c_obj *c);
-static void	h_bound_mmax(double min_max_xyz[2][3], int xyz, t_bbox *bbox, t_c_obj *c);
-static void ft_free_triangles(t_tri *f);
-void ft_free_tree(t_bbox *node);
+static void	h_bound_mmax(double mmxyz[2][3], int xyz, t_bbox *bbox, t_c_obj *c);
+static void	ft_free_triangles(t_tri *f);
+void	ft_free_tree(t_bbox *node);
+
 
 ///////////////////////////////////////////////////////////////////////////////]
 void	do_the_tree_splitting(t_model *model)
@@ -41,16 +39,16 @@ void	do_the_tree_splitting(t_model *model)
 static void	ft_give_centroid(t_model *model, t_bbox *node)
 {
 	t_coor	**v;
-	t_tri	*ptr;
+	t_tri	*t;
 
 	v = model->v;
-	ptr = node->f;
-	while (ptr)
+	t = node->f;
+	while (t)
 	{
-		ptr->centroid.x = (v[ptr->p1]->x + v[ptr->p2]->x + v[ptr->p3]->x) / 3;
-		ptr->centroid.y = (v[ptr->p1]->y + v[ptr->p2]->y + v[ptr->p3]->y) / 3;
-		ptr->centroid.z = (v[ptr->p1]->z + v[ptr->p2]->z + v[ptr->p3]->z) / 3;
-		ptr = ptr->next;
+		t->centroid.x = (v[t->p[0]]->x + v[t->p[1]]->x + v[t->p[2]]->x) / 3;
+		t->centroid.y = (v[t->p[0]]->y + v[t->p[1]]->y + v[t->p[2]]->y) / 3;
+		t->centroid.z = (v[t->p[0]]->z + v[t->p[1]]->z + v[t->p[2]]->z) / 3;
+		t = t->next;
 	}
 }
 
@@ -143,9 +141,9 @@ static void	ft_find_smallest_biggest_2(t_model *model, t_bbox *node)
 	ptr = node->f;
 	while (ptr)
 	{
-		h_big_small(node, model->v[ptr->p1]);
-		h_big_small(node, model->v[ptr->p2]);
-		h_big_small(node, model->v[ptr->p3]);
+		h_big_small(node, model->v[ptr->p[0]]);
+		h_big_small(node, model->v[ptr->p[1]]);
+		h_big_small(node, model->v[ptr->p[2]]);
 		ptr = ptr->next;
 	}
 }

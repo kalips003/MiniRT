@@ -164,13 +164,13 @@ void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 	double	u;
 	double	v;	
 
-	if (c->closest_tri->vt1 < 0)
+	if (c->closest_tri->vt[0] < 0)
 		return ;
 	uvw = h_uvw(calcul, c, obj->model);
 	t = c->closest_tri;
 	vt = obj->model->vt;
-	u = uvw.x * vt[t->vt1]->u + uvw.y * vt[t->vt2]->u + uvw.z * vt[t->vt3]->u;
-	v = uvw.x * vt[t->vt1]->v + uvw.y * vt[t->vt2]->v + uvw.z * vt[t->vt3]->v;
+	u = uvw.x * vt[t->vt[0]]->u + uvw.y * vt[t->vt[1]]->u + uvw.z * vt[t->vt[2]]->u;
+	v = uvw.x * vt[t->vt[0]]->v + uvw.y * vt[t->vt[1]]->v + uvw.z * vt[t->vt[2]]->v;
 	if (obj->param.texture && t->mat && !t->mat->txt) 
 		calcul->mat.argb = return_px_img(obj->param.texture, u, v);
 	else if (t->mat && t->mat->txt)
@@ -204,14 +204,14 @@ void	f_return_obj_normal(t_c_px *calcul, t_c_obj *c, t_object *obj)
 	t = c->closest_tri;
 	uvw = h_uvw(calcul, c, obj->model);
 	vn = obj->model->vn;
-	if (c->closest_tri->vn1 < 0)
+	if (c->closest_tri->vn[0] < 0)
 		calcul->vn = ft_cross_product_norm(&c->e1, &c->e2);
 	else
 	{
 		calcul->vn = (t_vect){
-			uvw.x * vn[t->vn1]->dx + uvw.y * vn[t->vn2]->dx + uvw.z * vn[t->vn3]->dx,
-			uvw.x * vn[t->vn1]->dy + uvw.y * vn[t->vn2]->dy + uvw.z * vn[t->vn3]->dy,
-			uvw.x * vn[t->vn1]->dz + uvw.y * vn[t->vn2]->dz + uvw.z * vn[t->vn3]->dz
+			uvw.x * vn[t->vn[0]]->dx + uvw.y * vn[t->vn[1]]->dx + uvw.z * vn[t->vn[2]]->dx,
+			uvw.x * vn[t->vn[0]]->dy + uvw.y * vn[t->vn[1]]->dy + uvw.z * vn[t->vn[2]]->dy,
+			uvw.x * vn[t->vn[0]]->dz + uvw.y * vn[t->vn[1]]->dz + uvw.z * vn[t->vn[2]]->dz
 		};
 	}
 	calcul->vn = (t_vect){
@@ -230,7 +230,7 @@ t_coor	h_uvw(t_c_px *calcul, t_c_obj *c, t_model *m)
 	double	denom;
 	t_coor	uvw;
 
-	a_c = vect_ab(m->v[c->closest_tri->p1], &c->inter2);
+	a_c = vect_ab(m->v[c->closest_tri->p[0]], &c->inter2);
 	d[0][0] = ft_dot_product(&c->e1, &c->e1);
 	d[0][1] = ft_dot_product(&c->e1, &c->e2);
 	d[1][1] = ft_dot_product(&c->e2, &c->e2);

@@ -153,34 +153,34 @@ typedef struct s_vt
 	double	v;
 }	t_vt;
 
-typedef struct s_tri
-{
-	int				p1;
-	int				vt1;
-	int				vn1;
-	int				p2;
-	int				vt2;
-	int				vn2;
-	int				p3;
-	int				vt3;
-	int				vn3;
-	
-	t_mat			*mat;
-	t_coor			centroid;
-	struct s_tri	*next;
-}	t_tri;
-
-
 // typedef struct s_tri
 // {
-// 	int				p[3];
-// 	int				vt[3];
-// 	int				vn[3];
+// 	int				p1;
+// 	int				vt1;
+// 	int				vn1;
+// 	int				p2;
+// 	int				vt2;
+// 	int				vn2;
+// 	int				p3;
+// 	int				vt3;
+// 	int				vn3;
 	
 // 	t_mat			*mat;
 // 	t_coor			centroid;
 // 	struct s_tri	*next;
 // }	t_tri;
+
+
+typedef struct s_tri
+{
+	int				p[3];
+	int				vt[3];
+	int				vn[3];
+	
+	t_mat			*mat;
+	t_coor			centroid;
+	struct s_tri	*next;
+}	t_tri;
 
 typedef struct s_tree1
 {

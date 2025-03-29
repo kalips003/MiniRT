@@ -76,28 +76,19 @@ static void	h_bounding_min_max(double min_max_xyz[2][3], int xyz, t_object *obj,
 	}
 }
 
-typedef struct s_calc_dist_tri {
-	t_vect	h;
-	t_vect	s;
-	double	u;
-	t_vect	q;
-	double	v;
-	double	t;
-}	t_calc_dist_tri;
-
 ///////////////////////////////////////////////////////////////////////////////]
 // mathemagic, return -1.0 if no collision with triangle
 double	h_dist_triangle(t_tri *tri, t_model *o, t_c_obj *c)
 {
 	t_calc_dist_tri	c1;
 
-	c->e1 = vect_ab(o->v[tri->p1], o->v[tri->p2]);
-	c->e2 = vect_ab(o->v[tri->p1], o->v[tri->p3]);
+	c->e1 = vect_ab(o->v[tri->p[0]], o->v[tri->p[1]]);
+	c->e2 = vect_ab(o->v[tri->p[0]], o->v[tri->p[2]]);
 	c1.h = ft_cross_product(&c->v_rotate, &c->e2);
 	c->det = ft_dot_product(&c->e1, &c1.h);
 	if (fabs(c->det) < EPSILON)
 		return (-1.0);
-	c1.s = vect_ab(o->v[tri->p1], &c->new_o);
+	c1.s = vect_ab(o->v[tri->p[0]], &c->new_o);
 	c1.u = ft_dot_product(&c1.s, &c1.h) / c->det;
 	if (c1.u < 0 || c1.u > 1)
 		return (-1.0);

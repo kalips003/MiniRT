@@ -207,4 +207,14 @@ typedef struct s_make_tree
 	t_tri	*ptr_l;
 }	t_mtree;
 
+// distance calcul for a single triangle
+typedef struct s_calc_dist_tri {
+	t_vect	h;
+	t_vect	s;
+	double	u;
+	t_vect	q;
+	double	v;
+	double	t;
+}	t_calc_dist_tri;
+
 #endif
