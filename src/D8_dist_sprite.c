@@ -54,7 +54,7 @@ static int	h_dist_sprite(t_c_px *calcul, t_sprite *sprite, t_plane_calc *c, int 
 	if (simple)
 		return (1);
 	calcul->dist = c->dist;
-	calcul->object = sprite;
+	calcul->object = (t_obj2 *)sprite;
 	calcul->inter = new_moved_point(&calcul->c0, &calcul->v, c->dist);
 	calcul->mat = *(t_mat *)&sprite->param;
 	calcul->vn = sprite->O.view;

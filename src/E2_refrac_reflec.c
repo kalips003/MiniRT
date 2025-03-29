@@ -23,23 +23,23 @@ t_vect	ft_vect_refracted(t_vect *incident, t_vect *normal, double n, int *neg);
 t_argb	what_is_behind(t_data *data, t_c_px *calcul)
 {
 	t_c_px	c;
-	double		incident_gamma;
-	double		refracted_gamma;
-	int			neg;
+	double	incident_gamma;
+	double	refracted_gamma;
+	int		neg;
 
 	neg = 1;
 	if (calcul->transparence_depth > MAX_REFRACTION_DEPTH)
 		return (printf(ERR"transparence depth: %d [max:%d]\n", calcul->transparence_depth, MAX_REFRACTION_DEPTH), calcul->mat.argb);
 	ini_new_calcul_struct(calcul, &c, 0b1);
-	if (((t_obj2 *)calcul->object)->type == PLANE
-		|| ((t_obj2 *)calcul->object)->type == SPRITE
-		|| !rtrn_top_stack_gamma(&c, (t_obj2*)calcul->object, &incident_gamma, &refracted_gamma))
+	if (calcul->object->type == PLANE
+		|| calcul->object->type == SPRITE
+		|| !rtrn_top_stack_gamma(&c, calcul->object, &incident_gamma, &refracted_gamma))
 		c.v = calcul->v;
 	else
 		c.v = ft_vect_refracted(&calcul->v, &calcul->vn, incident_gamma / refracted_gamma, &neg);
 	c.c0 = new_moved_point(&calcul->inter, &calcul->v, neg * EPSILON);
 	if (neg == -1)
-		push_stack(calcul->inside, (t_obj2 *)calcul->object, &calcul->stack_top, MAX_MIRROR_DEPTH - 1);
+		push_stack(calcul->inside, calcul->object, &calcul->stack_top, MAX_MIRROR_DEPTH - 1);
 	calculate_pixel_color(data, &c, RENDER_LVL_DEPTH);
 	return (c.mat.argb);
 }

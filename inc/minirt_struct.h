@@ -32,7 +32,7 @@ typedef struct s_data t_data;
 typedef struct s_calcul_px
 {
 	// camera origin + vector
-	void	*object;
+	t_obj2	*object;
 	t_coor	c0;
 	t_vect	v;
 
