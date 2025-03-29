@@ -12,14 +12,14 @@
 
 #include "../inc/minirt.h"
 
-t_coor	ft_ambient(t_data *data, t_calcul_px *c);
-int		ft_diffuse(t_data *data, t_calcul_px *c, t_light *light, int (*f_shadow)(t_data*, t_calcul_px*));
-void	ft_reflected(t_data *data, t_calcul_px *c);
-void	ft_refracted(t_data *data, t_calcul_px *c);
-void	ft_specular(t_calcul_px *c);
+t_coor	ft_ambient(t_data *data, t_c_px *c);
+int		ft_diffuse(t_data *data, t_c_px *c, t_light *light, int (*f_shadow)(t_data*, t_c_px*));
+void	ft_reflected(t_data *data, t_c_px *c);
+void	ft_refracted(t_data *data, t_c_px *c);
+void	ft_specular(t_c_px *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
-t_coor	ft_ambient(t_data *data, t_calcul_px *c)
+t_coor	ft_ambient(t_data *data, t_c_px *c)
 {
 	t_coor			color_ambient;
 	t_ambient_light	*l;
@@ -32,7 +32,7 @@ t_coor	ft_ambient(t_data *data, t_calcul_px *c)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-int	ft_diffuse(t_data *data, t_calcul_px *c, t_light *light, int (*f_shadow)(t_data*, t_calcul_px*))
+int	ft_diffuse(t_data *data, t_c_px *c, t_light *light, int (*f_shadow)(t_data*, t_c_px*))
 {
 	double	adjusted_intensity;
 	double	cos_angle;
@@ -53,7 +53,7 @@ int	ft_diffuse(t_data *data, t_calcul_px *c, t_light *light, int (*f_shadow)(t_d
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	ft_specular(t_calcul_px *c)
+void	ft_specular(t_c_px *c)
 {
 	double	adjusted_intensity;
 	double	cos_angle;
@@ -70,7 +70,7 @@ void	ft_specular(t_calcul_px *c)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	ft_refracted(t_data *data, t_calcul_px *c)
+void	ft_refracted(t_data *data, t_c_px *c)
 {
 	t_argb	behind;
 
@@ -93,7 +93,7 @@ void	ft_refracted(t_data *data, t_calcul_px *c)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	ft_reflected(t_data *data, t_calcul_px *c)
+void	ft_reflected(t_data *data, t_c_px *c)
 {
 	t_argb	reflected;
 

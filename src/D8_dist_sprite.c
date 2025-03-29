@@ -12,16 +12,16 @@
 
 #include "../inc/minirt.h"
 
-int			distance_from_sprite(t_calcul_px *calcul, void *obj, int simple);
-static int	h_dist_sprite(t_calcul_px *calcul, t_sprite *plane, t_plane_calc *c, int simple);
-static void	h_img_sprite(t_calcul_px *calcul, t_plane_calc *c, t_sprite *sprite);
+int			distance_from_sprite(t_c_px *calcul, void *obj, int simple);
+static int	h_dist_sprite(t_c_px *calcul, t_sprite *plane, t_plane_calc *c, int simple);
+static void	h_img_sprite(t_c_px *calcul, t_plane_calc *c, t_sprite *sprite);
 
 ///////////////////////////////////////////////////////////////////////////////]
 //	a.(x-x0) + b(y-y0) + c(z-z0) + d = 0
 // d is dependant of the plane:
 // 		ax + by + cz + d = 0
 // 		d = -(ax + by + cz)
-int	distance_from_sprite(t_calcul_px *calcul, void *obj, int simple)
+int	distance_from_sprite(t_c_px *calcul, void *obj, int simple)
 {
 	t_plane_calc	c;
 	t_sprite		*sprite;
@@ -49,7 +49,7 @@ int	distance_from_sprite(t_calcul_px *calcul, void *obj, int simple)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_sprite(t_calcul_px *calcul, t_sprite *sprite, t_plane_calc *c, int simple)
+static int	h_dist_sprite(t_c_px *calcul, t_sprite *sprite, t_plane_calc *c, int simple)
 {
 	if (simple)
 		return (1);
@@ -66,7 +66,7 @@ static int	h_dist_sprite(t_calcul_px *calcul, t_sprite *sprite, t_plane_calc *c,
 	return (1);
 }
 
-static void	h_img_sprite(t_calcul_px *calcul, t_plane_calc *c, t_sprite *sprite)
+static void	h_img_sprite(t_c_px *calcul, t_plane_calc *c, t_sprite *sprite)
 {
 	double	text_x;
 	double	text_y;

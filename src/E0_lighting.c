@@ -13,14 +13,14 @@
 #include "../inc/minirt.h"
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	ft_lighting_simple(t_data *data, t_calcul_px *c);
-void	ft_lighting(t_data *data, t_calcul_px *c, int (*f_shadow)(t_data*, t_calcul_px*), int simple);
-int		shadow_tracing(t_data *data, t_calcul_px *calcul);
-int		ft_diffuse_simple(t_data *data, t_calcul_px *c, t_light *lights);
-int		something_block_the_light_simple(t_data *data, t_calcul_px *c);
+void	ft_lighting_simple(t_data *data, t_c_px *c);
+void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*), int simple);
+int		shadow_tracing(t_data *data, t_c_px *calcul);
+int		ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights);
+int		something_block_the_light_simple(t_data *data, t_c_px *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	ft_lighting_simple(t_data *data, t_calcul_px *c)
+void	ft_lighting_simple(t_data *data, t_c_px *c)
 {
 	t_light	**lights;
 
@@ -37,7 +37,7 @@ void	ft_lighting_simple(t_data *data, t_calcul_px *c)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	ft_lighting(t_data *data, t_calcul_px *c, int (*f_shadow)(t_data*, t_calcul_px*), int simple)
+void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*), int simple)
 {
 	(void)simple;
 	t_light	**lights;
@@ -67,9 +67,9 @@ void	ft_lighting(t_data *data, t_calcul_px *c, int (*f_shadow)(t_data*, t_calcul
 
 ///////////////////////////////////////////////////////////////////////////////]
 ///////////////////////////////////////////////////////////////////////////////]
-int	shadow_tracing(t_data *data, t_calcul_px *calcul)
+int	shadow_tracing(t_data *data, t_c_px *calcul)
 {
-	t_calcul_px	c;
+	t_c_px	c;
 	t_coor		rgb;
 	double		dist_l;
 	double		dot_l;
@@ -114,7 +114,7 @@ int	shadow_tracing(t_data *data, t_calcul_px *calcul)
 
 ///////////////////////////////////////////////////////////////////////////////]
 ///////////////////////////////////////////////////////////////////////////////]
-int	ft_diffuse_simple(t_data *data, t_calcul_px *c, t_light *lights)
+int	ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights)
 {
 	double	adjusted_intensity;
 	double	cos_angle;
@@ -133,9 +133,9 @@ int	ft_diffuse_simple(t_data *data, t_calcul_px *c, t_light *lights)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-int	something_block_the_light_simple(t_data *data, t_calcul_px *c)
+int	something_block_the_light_simple(t_data *data, t_c_px *c)
 {
-	t_calcul_px	calcul;
+	t_c_px	calcul;
 	int			r;
 
 	calcul.c0 = new_moved_point(&c->inter, &c->vn, EPSILON);

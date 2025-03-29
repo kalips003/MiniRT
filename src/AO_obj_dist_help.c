@@ -12,14 +12,14 @@
 
 #include "../inc/minirt.h"
 
-void		ft_rotate_camera_vect(t_calcul_px *calcul, t_object *obj, t_obj_calc *c);
-int			f_check_if_in_box(t_calcul_px *calcul, t_object *obj, t_obj_calc *c);
-static void	h_bounding_min_max(double min_max_xyz[2][3], int xyz, t_object *obj, t_obj_calc *c);
-double		h_dist_triangle(t_tri *tri, t_model *o, t_obj_calc *c);
+void		ft_rotate_camera_vect(t_c_px *calcul, t_object *obj, t_c_obj *c);
+int			f_check_if_in_box(t_c_px *calcul, t_object *obj, t_c_obj *c);
+static void	h_bounding_min_max(double min_max_xyz[2][3], int xyz, t_object *obj, t_c_obj *c);
+double		h_dist_triangle(t_tri *tri, t_model *o, t_c_obj *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
 
-void	ft_rotate_camera_vect(t_calcul_px *calcul, t_object *obj, t_obj_calc *c)
+void	ft_rotate_camera_vect(t_c_px *calcul, t_object *obj, t_c_obj *c)
 {
 	c->new_o = new_moved_point(&calcul->c0, (t_vect *)&obj->O.c0, -1.0);
 	c->new_o = (t_coor){
@@ -38,7 +38,7 @@ void	ft_rotate_camera_vect(t_calcul_px *calcul, t_object *obj, t_obj_calc *c)
 
 ///////////////////////////////////////////////////////////////////////////////]
 // checck if there is intersection in bound volume
-int	f_check_if_in_box(t_calcul_px *calcul, t_object *obj, t_obj_calc *c)
+int	f_check_if_in_box(t_c_px *calcul, t_object *obj, t_c_obj *c)
 {
 	double	min_max_xyz[2][3];
 
@@ -57,7 +57,7 @@ int	f_check_if_in_box(t_calcul_px *calcul, t_object *obj, t_obj_calc *c)
 	return (1);
 }
 
-static void	h_bounding_min_max(double min_max_xyz[2][3], int xyz, t_object *obj, t_obj_calc *c)
+static void	h_bounding_min_max(double min_max_xyz[2][3], int xyz, t_object *obj, t_c_obj *c)
 {
 	double	t_min;
 	double	t_max;
@@ -87,7 +87,7 @@ typedef struct s_calc_dist_tri {
 
 ///////////////////////////////////////////////////////////////////////////////]
 // mathemagic, return -1.0 if no collision with triangle
-double	h_dist_triangle(t_tri *tri, t_model *o, t_obj_calc *c)
+double	h_dist_triangle(t_tri *tri, t_model *o, t_c_obj *c)
 {
 	t_calc_dist_tri	c1;
 

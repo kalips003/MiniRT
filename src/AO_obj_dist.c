@@ -12,13 +12,13 @@
 
 #include "../inc/minirt.h"
 
-int		distance_from_object(t_calcul_px *calcul, void *object, int simple);
-int		h_distance_from_object(t_calcul_px *calcul, t_object *obj, t_obj_calc *c, int simple);
-int		h_closest_triangle(t_calcul_px *calcul, t_object *obj, t_obj_calc *c);
-void	h_img_obj(t_calcul_px *calcul, t_object *obj, t_obj_calc *c);
-void	f_return_obj_normal(t_calcul_px *calcul, t_obj_calc *c, t_object *obj);
-t_coor	h_uvw(t_calcul_px *calcul, t_obj_calc *c, t_model *m);
-t_argb	h_obj_color2(t_calcul_px *calcul, t_obj_calc *c, t_model *m);
+int		distance_from_object(t_c_px *calcul, void *object, int simple);
+int		h_distance_from_object(t_c_px *calcul, t_object *obj, t_c_obj *c, int simple);
+int		h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c);
+void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c);
+void	f_return_obj_normal(t_c_px *calcul, t_c_obj *c, t_object *obj);
+t_coor	h_uvw(t_c_px *calcul, t_c_obj *c, t_model *m);
+t_argb	h_obj_color2(t_c_px *calcul, t_c_obj *c, t_model *m);
 
 void print_bbox(t_bbox *node, char*color)
 {
@@ -53,10 +53,10 @@ void print_bbox(t_bbox *node, char*color)
 // 		return (0);
 // 	return (h_distance_from_object(calcul, object, &c, simple));
 // }
-int	distance_from_object(t_calcul_px *calcul, void *object, int simple)
+int	distance_from_object(t_c_px *calcul, void *object, int simple)
 {
 	t_object	*obj;
-	t_obj_calc	c;
+	t_c_obj	c;
 
 
 
@@ -103,7 +103,7 @@ int	distance_from_object(t_calcul_px *calcul, void *object, int simple)
 // 		return (h_closest_triangle(calcul, obj, c));
 // 	return (0);
 // }
-int	h_distance_from_object(t_calcul_px *calcul, t_object *obj, t_obj_calc *c, int simple)
+int	h_distance_from_object(t_c_px *calcul, t_object *obj, t_c_obj *c, int simple)
 {
 	t_tri	*ptr;
 	double	temp_dist;
@@ -132,7 +132,7 @@ int	h_distance_from_object(t_calcul_px *calcul, t_object *obj, t_obj_calc *c, in
 	return (0);
 }
 
-int	h_closest_triangle(t_calcul_px *calcul, t_object *obj, t_obj_calc *c)
+int	h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c)
 {
 	int	in;
 
@@ -156,7 +156,7 @@ int	h_closest_triangle(t_calcul_px *calcul, t_object *obj, t_obj_calc *c)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	h_img_obj(t_calcul_px *calcul, t_object *obj, t_obj_calc *c)
+void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 {
 	t_coor	uvw;
 	t_tri	*t;
@@ -195,7 +195,7 @@ void	h_img_obj(t_calcul_px *calcul, t_object *obj, t_obj_calc *c)
 
 ///////////////////////////////////////////////////////////////////////////////]
 // calcul->v_normal = f_return_obj_normal
-void	f_return_obj_normal(t_calcul_px *calcul, t_obj_calc *c, t_object *obj)
+void	f_return_obj_normal(t_c_px *calcul, t_c_obj *c, t_object *obj)
 {
 	t_tri	*t;
 	t_coor	uvw;
@@ -223,7 +223,7 @@ void	f_return_obj_normal(t_calcul_px *calcul, t_obj_calc *c, t_object *obj)
 }
 
 // barycenter
-t_coor	h_uvw(t_calcul_px *calcul, t_obj_calc *c, t_model *m)
+t_coor	h_uvw(t_c_px *calcul, t_c_obj *c, t_model *m)
 {
 	t_vect	a_c;
 	double	d[3][2];
@@ -245,7 +245,7 @@ t_coor	h_uvw(t_calcul_px *calcul, t_obj_calc *c, t_model *m)
 	return (uvw);
 }
 
-t_argb	h_obj_color2(t_calcul_px *calcul, t_obj_calc *c, t_model *m)
+t_argb	h_obj_color2(t_c_px *calcul, t_c_obj *c, t_model *m)
 {
 	t_argb	rtrn;
 

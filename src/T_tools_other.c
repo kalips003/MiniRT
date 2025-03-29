@@ -15,7 +15,7 @@
 void	create_vector_space(t_obj *obj);
 double	h_smalest_delta(double a, double b);
 t_argb	dual_color_render(t_argb *color1, t_rgb *color2, double dist);
-void	ini_new_calcul_struct(t_calcul_px *calcul, t_calcul_px *to_ini, int bit);
+void	ini_new_calcul_struct(t_c_px *calcul, t_c_px *to_ini, int bit);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // takes an obj with a view vector filled, create the vector space
@@ -70,7 +70,7 @@ t_argb	dual_color_render(t_argb *color1, t_rgb *color2, double dist)
 
 ///////////////////////////////////////////////////////////////////////////////]
 // bit control depth, 0b1 = transparence_depth; 0b10 = reflected_depth
-void	ini_new_calcul_struct(t_calcul_px *calcul, t_calcul_px *to_ini, int bit)
+void	ini_new_calcul_struct(t_c_px *calcul, t_c_px *to_ini, int bit)
 {
 	to_ini->print = calcul->print + !!(calcul->print);
 	to_ini->transparence_depth = calcul->transparence_depth + (bit == 0b1);

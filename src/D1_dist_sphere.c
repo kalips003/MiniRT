@@ -12,15 +12,15 @@
 
 #include "../inc/minirt.h"
 
-int			distance_from_sphere(t_calcul_px *calcul, void *obj, int simple);
-static int	h_dist_sphere(t_calcul_px *calcul, t_sphere *sphere, t_sphere_calc *c, int simple);
-static void	h_img_sphere(t_calcul_px *calcul, t_sphere *sphere, t_sphere_calc *c);
+int			distance_from_sphere(t_c_px *calcul, void *obj, int simple);
+static int	h_dist_sphere(t_c_px *calcul, t_sphere *sphere, t_sphere_calc *c, int simple);
+static void	h_img_sphere(t_c_px *calcul, t_sphere *sphere, t_sphere_calc *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // 		if colition, fills in the xyz position of the closest positive contact point
 // 	return dist from sphere, -1 if no colosion or not in sight
 //	(x-x0)² + (y-y0)² + (z-z0)² = R²
-int	distance_from_sphere(t_calcul_px *calcul, void *obj, int simple)
+int	distance_from_sphere(t_c_px *calcul, void *obj, int simple)
 {
 	t_sphere_calc	c;
 	t_sphere		*sphere;
@@ -46,7 +46,7 @@ int	distance_from_sphere(t_calcul_px *calcul, void *obj, int simple)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_sphere(t_calcul_px *calcul, t_sphere *sphere, t_sphere_calc *c, int simple)
+static int	h_dist_sphere(t_c_px *calcul, t_sphere *sphere, t_sphere_calc *c, int simple)
 {
 	if (simple)
 		return (1);
@@ -77,7 +77,7 @@ static int	h_dist_sphere(t_calcul_px *calcul, t_sphere *sphere, t_sphere_calc *c
 ///////////////////////////////////////////////////////////////////////////////]
 // 		ATAN2 [−π,π][−π,π] > [0,1].
 // 		cosϕ=[1top,-1bot]	ACOS [0,π] > [0,1].
-static void	h_img_sphere(t_calcul_px *calcul, t_sphere *sphere, t_sphere_calc *c)
+static void	h_img_sphere(t_c_px *calcul, t_sphere *sphere, t_sphere_calc *c)
 {
 	int	inside = (1 - 2 * c->inside);
 	

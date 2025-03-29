@@ -12,16 +12,16 @@
 
 #include "../inc/minirt.h"
 
-int			distance_from_plane(t_calcul_px *calcul, void *obj, int simple);
-static int	h_dist_plane(t_calcul_px *calcul, t_plane *plane, t_plane_calc *c, int simple);
-static void	h_img_plane(t_calcul_px *calcul, t_plane_calc *c, t_plane *plane);
+int			distance_from_plane(t_c_px *calcul, void *obj, int simple);
+static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_plane_calc *c, int simple);
+static void	h_img_plane(t_c_px *calcul, t_plane_calc *c, t_plane *plane);
 
 ///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
 //	a.(x-x0) + b(y-y0) + c(z-z0) + d = 0
 // d is dependant of the plane:
 // 		ax + by + cz + d = 0
 // 		d = -(ax + by + cz)
-int	distance_from_plane(t_calcul_px *calcul, void *obj, int simple)
+int	distance_from_plane(t_c_px *calcul, void *obj, int simple)
 {
 	t_plane_calc	c;
 	t_plane			*plane;
@@ -40,7 +40,7 @@ int	distance_from_plane(t_calcul_px *calcul, void *obj, int simple)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_plane(t_calcul_px *calcul, t_plane *plane, t_plane_calc *c, int simple)
+static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_plane_calc *c, int simple)
 {
 	if (simple)
 		return (1);
@@ -59,7 +59,7 @@ static int	h_dist_plane(t_calcul_px *calcul, t_plane *plane, t_plane_calc *c, in
 	return (1);
 }
 
-static void	h_img_plane(t_calcul_px *calcul, t_plane_calc *c, t_plane *plane)
+static void	h_img_plane(t_c_px *calcul, t_plane_calc *c, t_plane *plane)
 {
 	t_vect	normal_map;
 

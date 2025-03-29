@@ -12,12 +12,12 @@
 
 #include "../inc/minirt.h"
 
-int			ft_find_pixel_colision(t_data *data, t_calcul_px *c, int shadow, int set_dist);
-t_ini_stk	*ft_fill_stack_inside(t_data *data, t_calcul_px *c, t_ini_stk **top_list, t_ini_stk **ptr_list);
-int			something_block_the_light(t_data *data, t_calcul_px *c);
+int			ft_find_pixel_colision(t_data *data, t_c_px *c, int shadow, int set_dist);
+t_ini_stk	*ft_fill_stack_inside(t_data *data, t_c_px *c, t_ini_stk **top_list, t_ini_stk **ptr_list);
+int			something_block_the_light(t_data *data, t_c_px *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
-typedef int	(*t_dist_of)(t_calcul_px*, void*, int);
+typedef int	(*t_dist_of)(t_c_px*, void*, int);
 
 static const t_dist_of g_ft_dist_of[] = {
 	distance_from_circle,
@@ -45,7 +45,7 @@ static const t_dist_of g_ft_dist_of[] = {
 // if SHADOW: 0, fill calcul, return when all object have been cycled through
 // if SET_DIST: 1, dist is set to -1.0
 // if SET_DIST: 0, dist is unchanged
-int	ft_find_pixel_colision(t_data *data, t_calcul_px *c, int shadow, int set_dist)
+int	ft_find_pixel_colision(t_data *data, t_c_px *c, int shadow, int set_dist)
 {
 	void	**obj_ptr;
 	int		rtrn;
@@ -66,7 +66,7 @@ int	ft_find_pixel_colision(t_data *data, t_calcul_px *c, int shadow, int set_dis
 ///////////////////////////////////////////////////////////////////////////////]
 // used to create a linked list of object the camera is INSIDE of
 // created in order, furthest is first, closest last of the chain
-t_ini_stk	*ft_fill_stack_inside(t_data *data, t_calcul_px *c, t_ini_stk **top_list, t_ini_stk **ptr_list)
+t_ini_stk	*ft_fill_stack_inside(t_data *data, t_c_px *c, t_ini_stk **top_list, t_ini_stk **ptr_list)
 {
 	void	**obj_ptr;
 	int		in;
@@ -86,9 +86,9 @@ t_ini_stk	*ft_fill_stack_inside(t_data *data, t_calcul_px *c, t_ini_stk **top_li
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-int	something_block_the_light(t_data *data, t_calcul_px *c)
+int	something_block_the_light(t_data *data, t_c_px *c)
 {
-	t_calcul_px	calcul;
+	t_c_px	calcul;
 	void		**obj_ptr;
 	double		transp;
 

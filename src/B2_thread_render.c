@@ -13,16 +13,16 @@
 #include "../inc/minirt.h"
 
 int			ft_render_frame_multi(t_data *data, int sublim);
-static void	h_loop_thread(t_data *data, t_calcul_px *c, t_calcul_px *calcul_tab, int sublim);
+static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *calcul_tab, int sublim);
 static void	*f_thread(void *calcul);
 
 ///////////////////////////////////////////////////////////////////////////////]
 int	ft_render_frame_multi(t_data *data, int sublim)
 {
-	t_calcul_px	c;
-	t_calcul_px	*calcul_tab;
+	t_c_px	c;
+	t_c_px	*calcul_tab;
 
-	calcul_tab = mem(0, sizeof(t_calcul_px) * NUM_THREAD);
+	calcul_tab = mem(0, sizeof(t_c_px) * NUM_THREAD);
 	if (!calcul_tab)
 		return (1);
 	ini_stack(data, &c);
@@ -34,7 +34,7 @@ int	ft_render_frame_multi(t_data *data, int sublim)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static void	h_loop_thread(t_data *data, t_calcul_px *c, t_calcul_px *calcul_tab, int sublim)
+static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *calcul_tab, int sublim)
 {
 	pthread_t	threads[NUM_THREAD];
 	int			y;
@@ -61,13 +61,13 @@ static void	h_loop_thread(t_data *data, t_calcul_px *c, t_calcul_px *calcul_tab,
 ///////////////////////////////////////////////////////////////////////////////]
 static void	*f_thread(void *calcul)
 {
-	t_calcul_px	*c;
+	t_c_px	*c;
 	t_data		*data;
 	int			x;
 	int			y;
 	int			sublim;
 
-	c = (t_calcul_px *)calcul;
+	c = (t_c_px *)calcul;
 	data = c->object;
 	y = c->transparence_depth;
 	sublim = c->reflected_depth;

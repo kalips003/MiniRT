@@ -58,19 +58,19 @@ t_img	*parse_img(t_data *data, char *path);
 
 // tree_bounding stuff
 void	do_the_tree_splitting(t_model *model);
-void	find_inter_tri(t_bbox *node, t_model *model, t_obj_calc *c, t_calcul_px *calcul);
-void	h_find_inter_tri(t_bbox *node, t_model *model, t_obj_calc *c, t_calcul_px *calcul);
+void	find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
+void	h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
 void	ft_free_tree(t_bbox *node);
 
 /********************************
 		A
 ********************************/
 // 	(1) inside what? stack - ini
-void		ini_stack(t_data *data, t_calcul_px *calcul);
+void		ini_stack(t_data *data, t_c_px *calcul);
 t_ini_stk	*add_link(t_ini_stk *first, t_ini_stk *to_add);
-t_ini_stk	*create_node(t_calcul_px *calcul);
+t_ini_stk	*create_node(t_c_px *calcul);
 // 	(1) inside what? stack - operations
-int			rtrn_top_stack_gamma(t_calcul_px *calcul, t_obj2 *collision, double *incident_gamma, double *refracted_gamma);
+int			rtrn_top_stack_gamma(t_c_px *calcul, t_obj2 *collision, double *incident_gamma, double *refracted_gamma);
 void		push_stack(void **stack, void *colli, int *ptr_stack, int max_stack_index);
 // 	(2)	multi-threads render
 int			ft_render_frame_multi(t_data *data, int sublim);
@@ -83,67 +83,67 @@ int		return_alpha_img(t_img *img, double x, double y);
 int		ft_render_frame_aa(t_data *data, int sublim);
 void	put_pixel_any_buffer(t_img *buff, int x, int y, unsigned int color);
 // 	(O) objects distance
-int	distance_from_object(t_calcul_px *calcul, void *object, int simple);
-int	h_distance_from_object(t_calcul_px *calcul, t_object *obj, t_obj_calc *c, int simple);
-int	h_closest_triangle(t_calcul_px *calcul, t_object *obj, t_obj_calc *c);
-void	h_img_obj(t_calcul_px *calcul, t_object *obj, t_obj_calc *c);
-void	f_return_obj_normal(t_calcul_px *calcul, t_obj_calc *c, t_object *obj);
-t_coor	h_uvw(t_calcul_px *calcul, t_obj_calc *c, t_model *m);
-t_argb h_obj_color2(t_calcul_px *calcul, t_obj_calc *c, t_model *m);
+int	distance_from_object(t_c_px *calcul, void *object, int simple);
+int	h_distance_from_object(t_c_px *calcul, t_object *obj, t_c_obj *c, int simple);
+int	h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c);
+void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c);
+void	f_return_obj_normal(t_c_px *calcul, t_c_obj *c, t_object *obj);
+t_coor	h_uvw(t_c_px *calcul, t_c_obj *c, t_model *m);
+t_argb h_obj_color2(t_c_px *calcul, t_c_obj *c, t_model *m);
 // 	(O) helper
-void	ft_rotate_camera_vect(t_calcul_px *calcul, t_object *obj, t_obj_calc *c);
-int		f_check_if_in_box(t_calcul_px *calcul, t_object *obj, t_obj_calc *c);
-double	h_dist_triangle(t_tri *tri, t_model *o, t_obj_calc *c);
+void	ft_rotate_camera_vect(t_c_px *calcul, t_object *obj, t_c_obj *c);
+int		f_check_if_in_box(t_c_px *calcul, t_object *obj, t_c_obj *c);
+double	h_dist_triangle(t_tri *tri, t_model *o, t_c_obj *c);
 
 /********************************
 		B
 ********************************/
 int		ft_loop(t_data *data);
 int		ft_render_frame(t_data *data, int sublim);
-int		calculate_pixel_color(t_data *data, t_calcul_px *c, int sublim);
+int		calculate_pixel_color(t_data *data, t_c_px *c, int sublim);
 /********************************
 		C
 ********************************/
-int			ft_find_pixel_colision(t_data *data, t_calcul_px *c, int shadow, int set_dist);
-t_ini_stk	*ft_fill_stack_inside(t_data *data, t_calcul_px *c, t_ini_stk **top_list, t_ini_stk **ptr_list);
-int			something_block_the_light(t_data *data, t_calcul_px *c);
+int			ft_find_pixel_colision(t_data *data, t_c_px *c, int shadow, int set_dist);
+t_ini_stk	*ft_fill_stack_inside(t_data *data, t_c_px *c, t_ini_stk **top_list, t_ini_stk **ptr_list);
+int			something_block_the_light(t_data *data, t_c_px *c);
 /********************************
 		D	Objects
 ********************************/
 // CIRCLE
-int	distance_from_circle(t_calcul_px *calcul, void *obj, int simple);
+int	distance_from_circle(t_c_px *calcul, void *obj, int simple);
 // 	SPHERE
-int	distance_from_sphere(t_calcul_px *calcul, void *obj, int simple);
+int	distance_from_sphere(t_c_px *calcul, void *obj, int simple);
 // PLANE
-int	distance_from_plane(t_calcul_px *calcul, void *obj, int simple);
+int	distance_from_plane(t_c_px *calcul, void *obj, int simple);
 // CYLINDER
-int	distance_from_cylinder(t_calcul_px *calcul, void *obj, int simple);
+int	distance_from_cylinder(t_c_px *calcul, void *obj, int simple);
 // 	CONE
-int	distance_from_cone(t_calcul_px *calcul, void *obj, int simple);
+int	distance_from_cone(t_c_px *calcul, void *obj, int simple);
 // 	ARROW
-int	distance_from_arrow(t_calcul_px *calcul, void *obj, int simple);
+int	distance_from_arrow(t_c_px *calcul, void *obj, int simple);
 // 	CUBE
-int	distance_from_cube(t_calcul_px *calcul, void *obj, int simple);
+int	distance_from_cube(t_c_px *calcul, void *obj, int simple);
 // 	SPRITE
-int	distance_from_sprite(t_calcul_px *calcul, void *obj, int simple);
+int	distance_from_sprite(t_c_px *calcul, void *obj, int simple);
 // OBJECT
 /********************************
 		E
 ********************************/
-void	ft_lighting_simple(t_data *data, t_calcul_px *c);
-void	ft_lighting(t_data *data, t_calcul_px *c, int (*f_shadow)(t_data*, t_calcul_px*), int simple);
-int		shadow_tracing(t_data *data, t_calcul_px *calcul);
-int		ft_diffuse_simple(t_data *data, t_calcul_px *c, t_light *lights);
-int		something_block_the_light_simple(t_data *data, t_calcul_px *c);
+void	ft_lighting_simple(t_data *data, t_c_px *c);
+void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*), int simple);
+int		shadow_tracing(t_data *data, t_c_px *calcul);
+int		ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights);
+int		something_block_the_light_simple(t_data *data, t_c_px *c);
 // PHONG MODEL
-t_coor	ft_ambient(t_data *data, t_calcul_px *c);
-int		ft_diffuse(t_data *data, t_calcul_px *c, t_light *light, int (*f_shadow)(t_data*, t_calcul_px*));
-void	ft_reflected(t_data *data, t_calcul_px *c);
-void	ft_refracted(t_data *data, t_calcul_px *c);
-void	ft_specular(t_calcul_px *c);
+t_coor	ft_ambient(t_data *data, t_c_px *c);
+int		ft_diffuse(t_data *data, t_c_px *c, t_light *light, int (*f_shadow)(t_data*, t_c_px*));
+void	ft_reflected(t_data *data, t_c_px *c);
+void	ft_refracted(t_data *data, t_c_px *c);
+void	ft_specular(t_c_px *c);
 // REFLECTED REFRACTED TOOLS
-t_argb	what_is_reflected(t_data *data, t_calcul_px *calcul);
-t_argb	what_is_behind(t_data *data, t_calcul_px *calcul);
+t_argb	what_is_reflected(t_data *data, t_c_px *calcul);
+t_argb	what_is_behind(t_data *data, t_c_px *calcul);
 double calculate_light_angle(t_coor *intersection, t_coor *light, t_vect *normal);
 t_vect	ft_vect_reflected(t_vect *incident, t_vect *normal);
 t_vect	ft_vect_refracted(t_vect *incident, t_vect *normal, double η, int *neg);
@@ -227,7 +227,7 @@ int		ato_argb(char *str, t_argb *argb);
 void	create_vector_space(t_obj *obj);
 double	h_smalest_delta(double a, double b);
 t_argb	dual_color_render(t_argb *color1, t_rgb *color2, double dist);
-void	ini_new_calcul_struct(t_calcul_px *calcul, t_calcul_px *to_ini, int bit);
+void	ini_new_calcul_struct(t_c_px *calcul, t_c_px *to_ini, int bit);
 // rotation
 t_vect	combined_quaternion_rotation(t_obj *obj, double angle_α, double angle_β);
 t_vect	quaternion_rotation(t_vect *v, t_vect *axis_rota, double angle_α, int posi_neg);

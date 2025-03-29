@@ -175,7 +175,7 @@ typedef struct s_obj_calc {
 	t_coor	inter2;
 	double	det;
 	t_bbox	*bbox;
-} t_obj_calc;
+} t_c_obj;
 
 ///////////////////////////////////////////////////////////////////////////////]
 ///////////////////////////////////////////////////////////////////////////////]
@@ -197,5 +197,14 @@ typedef	struct s_stack_inside {
 	void	*obj;
 	struct s_stack_inside	*next;
 }	t_ini_stk;
+
+// temp struct to create the binary tree of .obj
+typedef struct s_make_tree
+{
+	double	avg;
+	t_tri	*ptr;
+	t_tri	*ptr_r;
+	t_tri	*ptr_l;
+}	t_mtree;
 
 #endif

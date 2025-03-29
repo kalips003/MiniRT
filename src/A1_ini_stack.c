@@ -12,15 +12,15 @@
 
 #include "../inc/minirt.h"
 
-void		ini_stack(t_data *data, t_calcul_px *calcul);
+void		ini_stack(t_data *data, t_c_px *calcul);
 t_ini_stk	*add_link(t_ini_stk *first, t_ini_stk *to_add);
-t_ini_stk	*create_node(t_calcul_px *calcul);
+t_ini_stk	*create_node(t_c_px *calcul);
 static void	destroy_list(t_ini_stk *first);
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	ini_stack(t_data *data, t_calcul_px *calcul)
+void	ini_stack(t_data *data, t_c_px *calcul)
 {
-	t_calcul_px	c;
+	t_c_px	c;
 	t_ini_stk	*top_list;
 	t_ini_stk	*ptr_list;
 
@@ -68,7 +68,7 @@ t_ini_stk	*add_link(t_ini_stk *first, t_ini_stk *to_add)
 	return (first);
 }
 
-t_ini_stk	*create_node(t_calcul_px *calcul)
+t_ini_stk	*create_node(t_c_px *calcul)
 {
 	t_ini_stk	*next;
 

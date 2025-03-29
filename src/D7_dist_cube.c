@@ -32,10 +32,10 @@ typedef struct s_cube_calc1 {
 	t_vect	*v_up;
 }	t_cube_calc1;
 
-int		distance_from_cube(t_calcul_px *calcul, void *obj, int simple);
-int		h_dist_cube1(t_calcul_px *calcul, t_cube *cube, t_cube_calc1 *c, int simple);
-void	h_dist_cube2(t_calcul_px *calcul, t_cube *cube, t_cube_calc1 *c);
-void	h_img_cube(t_calcul_px *calcul, t_cube *cube, t_cube_calc1 *c);
+int		distance_from_cube(t_c_px *calcul, void *obj, int simple);
+int		h_dist_cube1(t_c_px *calcul, t_cube *cube, t_cube_calc1 *c, int simple);
+void	h_dist_cube2(t_c_px *calcul, t_cube *cube, t_cube_calc1 *c);
+void	h_img_cube(t_c_px *calcul, t_cube *cube, t_cube_calc1 *c);
 
 ///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
 //	a.(x-x0) + b(y-y0) + c(z-z0) + d = 0
@@ -44,7 +44,7 @@ void	h_img_cube(t_calcul_px *calcul, t_cube *cube, t_cube_calc1 *c);
 // 		d = -(ax + by + cz)
 // top = signed distance camera plane ~ cos angle
 // bot = dot product view vector / plane vector (means nothing)
-int	distance_from_cube(t_calcul_px *calcul, void *obj, int simple)
+int	distance_from_cube(t_c_px *calcul, void *obj, int simple)
 {
 	t_cube_calc1	c;
 	t_cube			*cube;
@@ -89,7 +89,7 @@ typedef struct s_cube_calc2 {
 	double	dot2;
 }	t_cube_calc2;
 
-int	h_dist_cube1(t_calcul_px *calcul, t_cube *cube, t_cube_calc1 *c, int simple)
+int	h_dist_cube1(t_c_px *calcul, t_cube *cube, t_cube_calc1 *c, int simple)
 {
 	t_cube_calc2	c2;
 
@@ -127,7 +127,7 @@ int	h_dist_cube1(t_calcul_px *calcul, t_cube *cube, t_cube_calc1 *c, int simple)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	h_dist_cube2(t_calcul_px *calcul, t_cube *cube, t_cube_calc1 *c)
+void	h_dist_cube2(t_c_px *calcul, t_cube *cube, t_cube_calc1 *c)
 {
 	t_vect	diag;
 	double	dist_color;
@@ -152,7 +152,7 @@ void	h_dist_cube2(t_calcul_px *calcul, t_cube *cube, t_cube_calc1 *c)
 		h_img_cube(calcul, cube, c);
 }
 
-void	h_img_cube(t_calcul_px *calcul, t_cube *cube, t_cube_calc1 *c)
+void	h_img_cube(t_c_px *calcul, t_cube *cube, t_cube_calc1 *c)
 {
 	t_vect	normal_map;
 

@@ -12,10 +12,10 @@
 
 #include "../inc/minirt.h"
 
-int		distance_from_arrow(t_calcul_px *calcul, void *obj, int simple);
+int		distance_from_arrow(t_c_px *calcul, void *obj, int simple);
 
 ///////////////////////////////////////////////////////////////////////////////]
-int	distance_from_arrow(t_calcul_px *calcul, void *obj, int simple)
+int	distance_from_arrow(t_c_px *calcul, void *obj, int simple)
 {
 	t_arrow_calc	c;
 	t_arrow			*arrow;

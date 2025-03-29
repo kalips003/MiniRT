@@ -11,14 +11,14 @@
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
-int			distance_from_cone(t_calcul_px *calcul, void *obj, int simple);
-static int	h_dist_cone_1(t_calcul_px *c1, t_cone *cone, t_cone_calc_v2 *c2);
-static int	h_colision_cone(t_calcul_px *calcul, t_cone *cone, t_cone_calc_v1 *c, t_cone_calc_v2 *c2);
-static int	h_dist_cone_2(t_calcul_px *calcul, t_cone *cone, t_cone_calc_v2 *c, int simple);
-static void	h_img_cone(t_calcul_px *calcul, t_cone *cone, t_cone_calc_v2 *c);
+int			distance_from_cone(t_c_px *calcul, void *obj, int simple);
+static int	h_dist_cone_1(t_c_px *c1, t_cone *cone, t_cone_calc_v2 *c2);
+static int	h_colision_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v1 *c, t_cone_calc_v2 *c2);
+static int	h_dist_cone_2(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c, int simple);
+static void	h_img_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c);
 
 ///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
-int	distance_from_cone(t_calcul_px *calcul, void *obj, int simple)
+int	distance_from_cone(t_c_px *calcul, void *obj, int simple)
 {
 	t_cone_calc_v2	c;
 	t_cone			*cone;
@@ -43,7 +43,7 @@ int	distance_from_cone(t_calcul_px *calcul, void *obj, int simple)
 ///////////////////////////////////////////////////////////////////////////////]
 // fills the t_cone_calc_v2 with intersection point
 // if no intersection, return 0
-static int	h_dist_cone_1(t_calcul_px *c1, t_cone *cone, t_cone_calc_v2 *c2)
+static int	h_dist_cone_1(t_c_px *c1, t_cone *cone, t_cone_calc_v2 *c2)
 {
 	t_cone_calc_v1	c;
 
@@ -71,7 +71,7 @@ static int	h_dist_cone_1(t_calcul_px *c1, t_cone *cone, t_cone_calc_v2 *c2)
 	return (1);
 }
 
-static int	h_colision_cone(t_calcul_px *calcul, t_cone *cone, t_cone_calc_v1 *c, t_cone_calc_v2 *c2)
+static int	h_colision_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v1 *c, t_cone_calc_v2 *c2)
 {
 	int d1_valid;
 	int d2_valid;
@@ -99,7 +99,7 @@ static int	h_colision_cone(t_calcul_px *calcul, t_cone *cone, t_cone_calc_v1 *c,
 }
 ///////////////////////////////////////////////////////////////////////////////]
 // if closest object, update t_calcul
-static int	h_dist_cone_2(t_calcul_px *calcul, t_cone *cone, t_cone_calc_v2 *c, int simple)
+static int	h_dist_cone_2(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c, int simple)
 {
 	if (simple)
 		return (1);
@@ -143,7 +143,7 @@ static int	h_dist_cone_2(t_calcul_px *calcul, t_cone *cone, t_cone_calc_v2 *c, i
 ///////////////////////////////////////////////////////////////////////////////]
 // 		ATAN2 [−π,π][−π,π] > [0,1].
 // 		cosϕ=[1top,-1bot]	ACOS [0,π] > [0,1].
-static void	h_img_cone(t_calcul_px *calcul, t_cone *cone, t_cone_calc_v2 *c)
+static void	h_img_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c)
 {
 	int	inside = (1 - 2 * c->inside);
 	double cosθ = ft_dot_product(&calcul->vn, &cone->O.up) * inside;

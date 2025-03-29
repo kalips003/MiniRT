@@ -12,15 +12,15 @@
 
 #include "../inc/minirt.h"
 
-int			distance_from_circle(t_calcul_px *calcul, void *obj, int simple);
-static int	h_dist_circle(t_calcul_px *calcul, t_circle_calc *c, t_circle *circle, int simple);
+int			distance_from_circle(t_c_px *calcul, void *obj, int simple);
+static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, int simple);
 
 ///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
 // RESOLVE PLANE EQUATION: A(t.Vx + EYEx) + B(t.Vy + EYEy) + C(t.Vz + EYEz) + D = 0
 // ==> t = top / bot;
 // if top = 0, the camera is on the plane
 // if bot = 0, the view_vector is parallele to d plane
-int	distance_from_circle(t_calcul_px *calcul, void *obj, int simple)
+int	distance_from_circle(t_c_px *calcul, void *obj, int simple)
 {
 	t_circle_calc	c;
 	t_circle		*circle;
@@ -43,7 +43,7 @@ int	distance_from_circle(t_calcul_px *calcul, void *obj, int simple)
 	return (0);
 }
 
-static int	h_dist_circle(t_calcul_px *calcul, t_circle_calc *c, t_circle *circle, int simple)
+static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, int simple)
 {
 	if (simple)
 		return (1);

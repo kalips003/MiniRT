@@ -52,6 +52,13 @@
 #define DELTA_ROTA (PI / 16)
 
 ///////////////////////////////////////////////////////////////////////////////]
+# define MIN 0
+# define MAX 1
+# define X 0
+# define Y 1
+# define Z 2
+
+///////////////////////////////////////////////////////////////////////////////]
 // # define ANTI_ALIASING 0
 # define RENDERING_LVL 2
 # define RENDER_LVL_DEPTH 2
@@ -62,6 +69,9 @@
 # define FAKE_REFR_POW 2
 
 #define	NUM_THREAD	12
+
+
+
 
 
 #endif

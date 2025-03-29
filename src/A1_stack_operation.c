@@ -12,7 +12,7 @@
 
 #include "../inc/minirt.h"
 
-int			rtrn_top_stack_gamma(t_calcul_px *calcul, t_obj2 *collision, double *incident_gamma, double *refracted_gamma);
+int			rtrn_top_stack_gamma(t_c_px *calcul, t_obj2 *collision, double *incident_gamma, double *refracted_gamma);
 static int	where_in_stack(void **stack, void *colli, int ptr_stack);
 void		push_stack(void **stack, void *colli, int *ptr_stack, int max_stack_index);
 static int	pop_stack(void **stack, int to_pop, int *ptr_stack);
@@ -25,7 +25,7 @@ static int	pop_stack(void **stack, int to_pop, int *ptr_stack);
 // 		is NOT top of stack: pop obj, ignore refraction
 // 		is a plane or sprite, ignore refraction
 // 	Return 0 if popped element isnt top of stack
-int	rtrn_top_stack_gamma(t_calcul_px *calcul, t_obj2 *collision, double *incident_gamma, double *refracted_gamma)
+int	rtrn_top_stack_gamma(t_c_px *calcul, t_obj2 *collision, double *incident_gamma, double *refracted_gamma)
 {
 	int	posi_colli;
 

@@ -134,10 +134,10 @@ static const char	*g_obj_names[] = {
 ///////////////////////////////////////////////////////////////////////////////]
 void	print_clic(t_data *data, int x, int y)
 {
-	t_calcul_px	c;
+	t_c_px	c;
 	t_obj2		*obj;
 
-	ft_memset(&c, 0, sizeof(t_calcul_px));
+	ft_memset(&c, 0, sizeof(t_c_px));
 	ini_stack(data, &c);
 	c.c0 = data->eye.c->O.c0;
 	c.print = 1;

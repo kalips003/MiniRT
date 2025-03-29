@@ -29,9 +29,9 @@ int	ft_render_frame_aa(t_data *data, int sublim)
 	int			y;
 	double		angle_a;
 	double		angle_b;
-	t_calcul_px	c;
+	t_c_px	c;
 
-	ft_memset(&c, 0, sizeof(t_calcul_px));
+	ft_memset(&c, 0, sizeof(t_c_px));
 	ini_stack(data, &c);
 	c.c0 = data->eye.c->O.c0;
 	y = -1;

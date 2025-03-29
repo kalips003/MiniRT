@@ -32,11 +32,12 @@ typedef struct s_ambient_light
 }	t_ambient_light;
 
 // CAMERA = C
+// fov_cst = tan(fov/2) / screenX
 typedef struct s_camera
 {
 	t_obj	O;
 	int		fov;
-	double	fov_cst;// = tan(fov/2) / screenX
+	double	fov_cst;
 
 }	t_camera;
 
@@ -169,6 +170,17 @@ typedef struct s_tri
 	struct s_tri	*next;
 }	t_tri;
 
+
+// typedef struct s_tri
+// {
+// 	int				p[3];
+// 	int				vt[3];
+// 	int				vn[3];
+	
+// 	t_mat			*mat;
+// 	t_coor			centroid;
+// 	struct s_tri	*next;
+// }	t_tri;
 
 typedef struct s_tree1
 {

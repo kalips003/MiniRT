@@ -12,13 +12,13 @@
 
 #include "../inc/minirt.h"
 
-int			distance_from_cylinder(t_calcul_px *calcul, void *obj, int simple);
-static int	h_dist_cylinder_1(t_calcul_px *c1, t_cylinder *cy, t_cylinder_calc_v2 *c2);
-static int	h_dist_cylinder_2(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c, int simple);
-static void	h_img_cylinder(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c);
+int			distance_from_cylinder(t_c_px *calcul, void *obj, int simple);
+static int	h_dist_cylinder_1(t_c_px *c1, t_cylinder *cy, t_cylinder_calc_v2 *c2);
+static int	h_dist_cylinder_2(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c, int simple);
+static void	h_img_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c);
 
 ///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
-int	distance_from_cylinder(t_calcul_px *calcul, void *obj, int simple)
+int	distance_from_cylinder(t_c_px *calcul, void *obj, int simple)
 {
 	t_cylinder_calc_v2	c;
 	t_cylinder			*cy;
@@ -51,7 +51,7 @@ int	distance_from_cylinder(t_calcul_px *calcul, void *obj, int simple)
 ///////////////////////////////////////////////////////////////////////////////]
 // fills the t_cone_calc_v2 with intersection point
 // if no intersection, return 0
-static int	h_dist_cylinder_1(t_calcul_px *c1, t_cylinder *cy, t_cylinder_calc_v2 *c2)
+static int	h_dist_cylinder_1(t_c_px *c1, t_cylinder *cy, t_cylinder_calc_v2 *c2)
 {
 	t_cylinder_calc_v1	c;
 
@@ -79,7 +79,7 @@ static int	h_dist_cylinder_1(t_calcul_px *c1, t_cylinder *cy, t_cylinder_calc_v2
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_cylinder_2(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c, int simple)
+static int	h_dist_cylinder_2(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c, int simple)
 {
 	if (simple)
 		return (1);
@@ -109,7 +109,7 @@ static int	h_dist_cylinder_2(t_calcul_px *calcul, t_cylinder *cylinder, t_cylind
 ///////////////////////////////////////////////////////////////////////////////]
 // 		ATAN2 [−π,π][−π,π] > [0,1].
 // 		cosϕ=[1top,-1bot]	ACOS [0,π] > [0,1].
-static void	h_img_cylinder(t_calcul_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c)
+static void	h_img_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c)
 {
 	int	inside = (1 - 2 * c->inside);
 	double cosθ = ft_dot_product(&calcul->vn, &cylinder->O.up) * inside;

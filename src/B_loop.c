@@ -15,8 +15,8 @@
 int			ft_loop(t_data *data);
 static void	h_refresh_input_file(t_data *data, time_t time);
 int			ft_render_frame(t_data *data, int sublim);
-int			calculate_pixel_color(t_data *data, t_calcul_px *c, int sublim);
-static int	h_bg_texture(t_data *data, t_calcul_px *calcul);
+int			calculate_pixel_color(t_data *data, t_c_px *c, int sublim);
+static int	h_bg_texture(t_data *data, t_c_px *calcul);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // main loop refresh if file is changed
@@ -68,9 +68,9 @@ int	ft_render_frame(t_data *data, int sublim)
 {
 	int			x;
 	int			y;
-	t_calcul_px	c;
+	t_c_px	c;
 
-	ft_memset(&c, 0, sizeof(t_calcul_px));
+	ft_memset(&c, 0, sizeof(t_c_px));
 	ini_stack(data, &c);
 	c.c0 = data->eye.c->O.c0;
 	y = -1;
@@ -93,7 +93,7 @@ int	ft_render_frame(t_data *data, int sublim)
 ///////////////////////////////////////////////////////////////////////////////]
 // require ray origin (c0), ray vector (v)
 // fills calcul.argb with the pixel color shaded of the intersection
-int	calculate_pixel_color(t_data *data, t_calcul_px *c, int sublim)
+int	calculate_pixel_color(t_data *data, t_c_px *c, int sublim)
 {
 	if (!ft_find_pixel_colision(data, c, 0, 1))
 	{
@@ -116,7 +116,7 @@ int	calculate_pixel_color(t_data *data, t_calcul_px *c, int sublim)
 ///////////////////////////////////////////////////////////////////////////////]
 // IF ambient light has a texture, return the correct pixel instead of 
 // 		simple bg color
-static int	h_bg_texture(t_data *data, t_calcul_px *c)
+static int	h_bg_texture(t_data *data, t_c_px *c)
 {
 	double	l_x;
 	double	l_y;

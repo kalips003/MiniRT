@@ -12,17 +12,17 @@
 
 #include "../inc/minirt.h"
 
-t_argb	what_is_behind(t_data *data, t_calcul_px *calcul);
-t_argb	what_is_reflected(t_data *data, t_calcul_px *calcul);
+t_argb	what_is_behind(t_data *data, t_c_px *calcul);
+t_argb	what_is_reflected(t_data *data, t_c_px *calcul);
 double	calculate_light_angle(t_coor *intersection, t_coor *light, t_vect *normal);
 t_vect	ft_vect_reflected(t_vect *incident, t_vect *normal);
 t_vect	ft_vect_refracted(t_vect *incident, t_vect *normal, double n, int *neg);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // Recursively call calculate_px_color, moving the ray forward
-t_argb	what_is_behind(t_data *data, t_calcul_px *calcul)
+t_argb	what_is_behind(t_data *data, t_c_px *calcul)
 {
-	t_calcul_px	c;
+	t_c_px	c;
 	double		incident_gamma;
 	double		refracted_gamma;
 	int			neg;
@@ -46,9 +46,9 @@ t_argb	what_is_behind(t_data *data, t_calcul_px *calcul)
 
 ///////////////////////////////////////////////////////////////////////////////]
 // Recursively call calculate_px_color, moving the ray forward
-t_argb	what_is_reflected(t_data *data, t_calcul_px *calcul)
+t_argb	what_is_reflected(t_data *data, t_c_px *calcul)
 {
-	t_calcul_px	c;
+	t_c_px	c;
 
 	if (calcul->reflected_depth > MAX_MIRROR_DEPTH)
 		return (printf(ERR"mirror depth: %d [max:%d]\n", calcul->reflected_depth, MAX_REFRACTION_DEPTH), calcul->mat.argb);

@@ -63,7 +63,14 @@ typedef struct s_img
 	int		sz_y;
 }	t_img;
 
+typedef union u_vec3 {
+    double arr[3];
+    t_coor coor;
+    t_vect vect;
+} t_dbl3;
+
 ////////////////////////////////////////////]
+// param for each object
 typedef struct s_param
 {
 	t_argb	argb;
@@ -80,8 +87,9 @@ typedef struct s_param
 	t_img	*normal_map;
 	t_img	*alpha_map;
 
-}	t_param;//		objects param
+}	t_param;
 
+// material of .obj & in calcul_px
 typedef struct s_param2
 {
 	t_argb	argb;
@@ -96,7 +104,7 @@ typedef struct s_param2
 	char	*name;
 	t_img	*txt;
 
-}	t_mat;//		objects param
+}	t_mat;
 
 typedef struct s_obj
 {
@@ -107,13 +115,13 @@ typedef struct s_obj
 
 }	t_obj;
 
+//	default object
 typedef struct s_obj2
 {
 	int		type;
 	t_obj	O;
 	t_param	param;
-	// t_model	*model;
 
-}	t_obj2;//		default object
+}	t_obj2;
 
 #endif
