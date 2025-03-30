@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/11 23:43:18 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/30 10:55:28 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ static const t_dist_of g_ft_dist_of[] = {
 	distance_from_plane,
 	distance_from_cylinder,
 	distance_from_cone,
-	NULL,
+	distance_from_hyper,
 	distance_from_arrow,
-	distance_from_cube,
 	distance_from_sprite,
 	distance_from_object,
 	NULL

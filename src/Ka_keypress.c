@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/26 00:52:55 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/30 10:55:49 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,8 @@ static const char	*g_obj_names[] = {
 	"Plane",
 	"Cylinder",
 	"Cone",
-	"Paraboloid",
+	"Hyperboloid",
 	"Arrow",
-	"Cube",
 	"Sprite",
 	"Object",
 	NULL

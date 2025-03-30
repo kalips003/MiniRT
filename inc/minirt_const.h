@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/25 18:35:54 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/30 10:56:05 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,10 @@
 #define PLANE 2
 #define CYLINDER 3
 #define CONE 4
-#define PARABOLOID 5
+#define HYPERBOLOID 5
 #define ARROW 6
-#define CUBE 7
-#define SPRITE 8
-#define OBJECT 9
+#define SPRITE 7
+#define OBJECT 8
 
 #define DELTA_MOV 4.0
 #define DELTA_ROTA (PI / 16)

@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/28 09:05:47 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/30 10:01:25 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,31 +47,31 @@ t_argb	return_px_img(t_img *img, double x, double y)
 		(pixel >> 8) & 0xFF,
 		pixel & 0xFF
 	};
-	printf("rtrn: [%d,%d,%d,%d]\n", rtrn.a, rtrn.r, rtrn.g, rtrn.b);
+	// printf("rtrn: [%d,%d,%d,%d]\n", rtrn.a, rtrn.r, rtrn.g, rtrn.b);
 	return (rtrn);
 }
 
-t_argb	return_px_img_inverse(t_img *img, double x, double y)
-{
-	int		pixel;
-	int		xy[2];
-	t_argb	rtrn;
+// t_argb	return_px_img_inverse(t_img *img, double x, double y)
+// {
+// 	int		pixel;
+// 	int		xy[2];
+// 	t_argb	rtrn;
 
-	xy[0] = max(0, (int)floor(x * img->sz_x));
-	xy[1] = img->sz_y - 1 - max(0, (int)floor(y * img->sz_y));
-	if (xy[0] >= img->sz_x)
-		xy[0] = img->sz_x - 1;
-	if (xy[1] >= img->sz_y)
-		xy[1] = img->sz_y - 1;
-	pixel = *(unsigned int *)(img->addr + (xy[1] * img->ll + xy[0] * (img->bpp / 8)));
-	rtrn = (t_argb){
-		(pixel >> 24) & 0xFF,
-		(pixel >> 16) & 0xFF,
-		(pixel >> 8) & 0xFF,
-		pixel & 0xFF
-	};
-	return (rtrn);
-}
+// 	xy[0] = max(0, (int)floor(x * img->sz_x));
+// 	xy[1] = img->sz_y - 1 - max(0, (int)floor(y * img->sz_y));
+// 	if (xy[0] >= img->sz_x)
+// 		xy[0] = img->sz_x - 1;
+// 	if (xy[1] >= img->sz_y)
+// 		xy[1] = img->sz_y - 1;
+// 	pixel = *(unsigned int *)(img->addr + (xy[1] * img->ll + xy[0] * (img->bpp / 8)));
+// 	rtrn = (t_argb){
+// 		(pixel >> 24) & 0xFF,
+// 		(pixel >> 16) & 0xFF,
+// 		(pixel >> 8) & 0xFF,
+// 		pixel & 0xFF
+// 	};
+// 	return (rtrn);
+// }
 
 t_vect	return_vect_img(t_img *img, double x, double y)
 {

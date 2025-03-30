@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/25 18:35:18 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/30 10:20:09 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,17 @@ typedef struct s_cone
 	double	angle;
 }	t_cone;
 
+// HYPERBOLOID = hy
+typedef struct s_hyperboloid
+{
+	int		type;
+	t_obj	O;
+	t_param	param;
+
+	t_coor	abc;
+	double	radius;
+}	t_hyper;
+
 // ARROW = ar
 typedef struct s_arrow
 {
@@ -133,17 +144,6 @@ typedef struct s_sprite
 	double	size;
 }	t_sprite;
 
-
-typedef struct s_sprite2
-{
-	int		type;
-	t_obj	O;
-	t_param	param;
-
-	double	d;
-	t_coor	other_p;
-	double	size;
-}	t_cube;
 ////////////////////////////////////////////]
 // MODELS
 ////////////////////////////////////////////]

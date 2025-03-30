@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/11 10:43:45 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/30 10:52:31 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	parse_reste(t_data *data, char **raw_split, t_param *obj)
 	obj->specular = 0.5;
 	obj->shiny = 32.0;
 	obj->color2.r = -1;
+	// obj->ao = 1.0;
 	while (raw_split && *raw_split)
 	{
 		index = wii(**raw_split, PARAM_DICO);

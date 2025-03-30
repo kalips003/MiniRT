@@ -139,7 +139,7 @@ void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 	u = uvw.x * vt[t->vt[0]]->u + uvw.y * vt[t->vt[1]]->u + uvw.z * vt[t->vt[2]]->u;
 	v = uvw.x * vt[t->vt[0]]->v + uvw.y * vt[t->vt[1]]->v + uvw.z * vt[t->vt[2]]->v;
 	if (t->mat && t->mat->txt)
-		calcul->mat.argb = return_px_img_inverse(t->mat->txt, u, v);
+		calcul->mat.argb = return_px_img(t->mat->txt, u, 1.0 - v);
 	if (obj->param.texture)
 		calcul->mat.argb = return_px_img(obj->param.texture, u, v);
 	if (obj->param.alpha_map)

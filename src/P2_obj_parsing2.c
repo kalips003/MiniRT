@@ -6,14 +6,14 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/11 10:42:21 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/30 10:22:31 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
+int	parse_hy(t_data *data, char **raw_split);
 int	parse_ar(t_data *data, char **raw_split);
-int	parse_cu(t_data *data, char **raw_split);
 int	parse_xi(t_data *data, char **raw_split);
 int	parse_obj(t_data *data, char **raw_split);
 
@@ -54,36 +54,33 @@ int	parse_ar(t_data *data, char **raw_split)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-// 			CUBE
+// 			HYPERBOLOID
 // 		XYZ = float
 // 		xyz vector [-1,1] float
-// 		Size	double
+// 		abc args float
+// 		Radius	double
 // 		RGB [0, 255] int
-int	parse_cu(t_data *data, char **raw_split)
+int	parse_hy(t_data *data, char **raw_split)
 {
-	t_cube	*cube;
+	t_hyper	*hyp;
 
-	cube = mem(0, sizeof(t_cube));
-	if (!cube)
+	hyp = mem(0, sizeof(t_hyper));
+	if (!hyp)
 		return (put(ERRM), 2);
-	data->objects = expand_tab(data->objects, cube);
-	if (tab_size(raw_split) < 4)
-		return (put(ERR1"bad number of args (CUBE OBJECT)\n"), 1);
-	if (parse_reste(data, &raw_split[4], &cube->param))
+	data->objects = expand_tab(data->objects, hyp);
+	if (tab_size(raw_split) < 5)
+		return (put(ERR1"bad number of args (HYPERBOLOID OBJECT)\n"), 1);
+	if (parse_reste(data, &raw_split[5], &hyp->param))
 		return (1);
-	cube->type = CUBE;
-	if (ato_coor(raw_split[0], &cube->O.c0)
-		|| ato_coor(raw_split[1], (t_coor*)&cube->O.view)
-		|| ft_atof(raw_split[2], &cube->size)
-		|| ato_argb(raw_split[3], &cube->param.argb))
+	hyp->type = HYPERBOLOID;
+	if (ato_coor(raw_split[0], &hyp->O.c0)
+		|| ato_coor(raw_split[1], (t_coor*)&hyp->O.view)
+		|| ato_coor(raw_split[2], &hyp->abc)
+		|| ft_atof(raw_split[3], &hyp->radius)
+		|| ato_argb(raw_split[4], &hyp->param.argb))
 		return (1);
-	if (h_parse_vect_space(&cube->O, &cube->O.view))
+	if (h_parse_vect_space(&hyp->O, &hyp->O.view))
 		return (1);
-	cube->other_p = (t_coor){
-		cube->O.c0.x + cube->size * (cube->O.view.dx + cube->O.up.dx + cube->O.right.dx),
-		cube->O.c0.y + cube->size * (cube->O.view.dy + cube->O.up.dy + cube->O.right.dy),
-		cube->O.c0.z + cube->size * (cube->O.view.dz + cube->O.up.dz + cube->O.right.dz)
-	};
 	return (0);
 }
 

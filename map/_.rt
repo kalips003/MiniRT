@@ -20,8 +20,8 @@ L 						5,5,5 			1 					255,255,255
 # cy 0,0,0 0,1,0   3    9.42  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
 #   (co) Cone:			POSITION (xyz)		VECTOR [-1.0, 1.0]		RADIUS		HEIGHT		COLOR_rgb [0, 255]
 # co 0,0,0 0,1,0   3    15  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
-#   (pa) Paraboloid:		POSITION (xyz)		VECTOR [-1.0, 1.0]		RADIUS		HEIGHT		COLOR_rgb [0, 255]
-# pa 0,0,0 0,1,0   3    15  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+#   (hy) Hyperboloid:		POSITION (xyz)		VECTOR [-1.0, 1.0]		ABC [double]	RADIUS		COLOR_rgb [0, 255]
+# hy 0,0,0	0,1,0	1,1,1	1  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
 #   (ar) Arrow:			POSITION (xyz)		VECTOR [-1.0, 1.0]		RADIUS		HEIGHT		COLOR_rgb [0, 255]
 # ar 0,0,0 0,1,0   3    15  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
 #   (cu) CUBE:			POSITION (xyz)		VECTOR [-1.0, 1.0]		SIZE		COLOR_rgb [0, 255]
