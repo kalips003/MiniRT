@@ -24,89 +24,30 @@ t_argb	h_obj_color2(t_c_px *calcul, t_c_obj *c, t_model *m);
 int	distance_from_object(t_c_px *calcul, void *object, int simple)
 {
 	t_object	*obj;
-	t_c_obj	c;
-
-
+	t_c_obj		c;
 
 	obj = (t_object *)object;
-	// if (calcul->print == 1)
-	// 	print_bbox(&obj->model->tree, C_412);
 	c.dist = calcul->dist;
 	c.size = obj->size;
-	c.closest_tri = NULL;
+	c.t = NULL;
 	ft_rotate_camera_vect(calcul, obj, &c);
-
 	find_inter_tri(&obj->model->tree, obj->model, &c, calcul);
-	if (!c.closest_tri)
+	if (!c.t)
 		return (0);
-	if (c.closest_tri && simple)
+	if (c.t && simple)
 		return (1);
-	// return (h_distance_from_object(calcul, object, &c, simple));
 	return (h_closest_triangle(calcul, obj, &c));
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-// if in bound volume, find intersection triangle
-// int	h_distance_from_object(t_calcul_px *calcul, t_object *obj, t_obj_calc *c, int simple)
-// {
-// 	t_tri	*ptr;
-// 	double	temp_dist;
-
-// 	c->closest_tri = NULL;
-// 	ptr = obj->model->first;
-// 	while (ptr)
-// 	{
-// 		temp_dist = h_dist_triangle(ptr, obj->model, c);
-// 		if (temp_dist > EPSILON && temp_dist < c->dist)
-// 		{
-// 			c->closest_tri = ptr;
-// 			c->dist = temp_dist;
-// 			if (simple)
-// 				return (1);
-// 		}
-// 		ptr = ptr->next;
-// 	}
-// 	if (c->closest_tri)
-// 		return (h_closest_triangle(calcul, obj, c));
-// 	return (0);
-// }
-int	h_distance_from_object(t_c_px *calcul, t_object *obj, t_c_obj *c, int simple)
-{
-	t_tri	*ptr;
-	double	temp_dist;
-
-	c->closest_tri = NULL;
-	ptr = c->bbox->f;
-	while (ptr)
-	{
-		temp_dist = h_dist_triangle(ptr, obj->model, c);
-		
-		if (calcul->print == 1)
-			printf(C_303"temp_dist %.3f\n", temp_dist);	
-		if (temp_dist > EPSILON && temp_dist < c->dist)
-		{
-			c->closest_tri = ptr;
-			c->dist = temp_dist;
-			if (simple)
-				return (1);
-		}
-		ptr = ptr->next;
-	}
-	if (c->closest_tri)
-		return (h_closest_triangle(calcul, obj, c));
-	if (calcul->print == 1)
-		printf(C_043"did we found it3? %p\n", c->closest_tri);	
-	return (0);
-}
-
 int	h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c)
 {
 	int	in;
 
-	calcul->dist = h_dist_triangle(c->closest_tri, obj->model, c);
+	calcul->dist = h_dist_triangle(c->t, obj->model, c);
 	calcul->object = obj;
-	if (c->closest_tri->mat)
-		calcul->mat = *c->closest_tri->mat;
+	if (c->t->mat)
+		calcul->mat = *c->t->mat;
 	else
 		calcul->mat = *(t_mat *)&obj->param;
 	c->inter2 = new_moved_point(&c->new_o, &c->v_rotate, c->dist);
@@ -115,8 +56,8 @@ int	h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c)
 	in = (c->det < EPSILON);
 	if (in)
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
-	// if (obj->param.texture || obj->param.normal_map || obj->param.alpha_map)
-	h_img_obj(calcul, obj, c);
+	if (c->t->vt[0] >= 0)
+		h_img_obj(calcul, obj, c);
 	if (obj->param.color2.r >= 0 && !obj->param.texture)
 		calcul->mat.argb = h_obj_color2(calcul, c, obj->model);
 	return (1 + in);
@@ -130,11 +71,11 @@ void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 	t_vt	**vt;
 	double	u;
 	double	v;	
+	t_vect	normal_map;
+	t_obj	local_v_space;
 
-	if (c->closest_tri->vt[0] < 0)
-		return ;
 	uvw = h_uvw(calcul, c, obj->model);
-	t = c->closest_tri;
+	t = c->t;
 	vt = obj->model->vt;
 	u = uvw.x * vt[t->vt[0]]->u + uvw.y * vt[t->vt[1]]->u + uvw.z * vt[t->vt[2]]->u;
 	v = uvw.x * vt[t->vt[0]]->v + uvw.y * vt[t->vt[1]]->v + uvw.z * vt[t->vt[2]]->v;
@@ -146,16 +87,10 @@ void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 		calcul->mat.argb.a = return_alpha_img(obj->param.alpha_map, u, v);
 	if (obj->param.normal_map)
 	{
-		t_vect	normal_map;
-		t_obj	local;
 		normal_map = return_vect_img(obj->param.normal_map, u, v);
-		local.view = calcul->vn;
-		create_vector_space(&local);
-		calcul->vn = (t_vect){
-			local.right.dx * normal_map.dx + local.up.dx * normal_map.dy + local.view.dx * normal_map.dz,
-			local.right.dy * normal_map.dx + local.up.dy * normal_map.dy + local.view.dy * normal_map.dz,
-			local.right.dz * normal_map.dx + local.up.dz * normal_map.dy + local.view.dz * normal_map.dz,
-		};
+		local_v_space.view = calcul->vn;
+		create_vector_space(&local_v_space);
+		calcul->vn = mult_3x3_vect(&local_v_space, &normal_map);
 		ft_normalize_vect(&calcul->vn);
 	}
 }
@@ -168,10 +103,10 @@ void	f_return_obj_normal(t_c_px *calcul, t_c_obj *c, t_object *obj)
 	t_coor	uvw;
 	t_vect	**vn;
 
-	t = c->closest_tri;
+	t = c->t;
 	uvw = h_uvw(calcul, c, obj->model);
 	vn = obj->model->vn;
-	if (c->closest_tri->vn[0] < 0)
+	if (c->t->vn[0] < 0)
 		calcul->vn = ft_cross_product_norm(&c->e1, &c->e2);
 	else
 	{
@@ -197,7 +132,7 @@ t_coor	h_uvw(t_c_px *calcul, t_c_obj *c, t_model *m)
 	double	denom;
 	t_coor	uvw;
 
-	uvw = scale_point(*m->v[c->closest_tri->p[0]], c->size);
+	uvw = scale_point(*m->v[c->t->p[0]], c->size);
 	a_c = vect_ab(&uvw, &c->inter2);
 	d[0][0] = ft_dot_product(&c->e1, &c->e1);
 	d[0][1] = ft_dot_product(&c->e1, &c->e2);

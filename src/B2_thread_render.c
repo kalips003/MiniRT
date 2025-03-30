@@ -62,29 +62,27 @@ static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *calcul_tab, int subli
 static void	*f_thread(void *calcul)
 {
 	t_c_px	*c;
-	t_data		*data;
-	int			x;
-	int			y;
-	int			sublim;
+	t_data	*data;
+	int		xy[2];
+	int		sublim;
 
 	c = (t_c_px *)calcul;
 	data = c->object;
-	y = c->transparence_depth;
+	xy[Y] = c->transparence_depth;
 	sublim = c->reflected_depth;
 	c->object = NULL;
-	while (y < SZ_Y)
+	while (xy[Y] < SZ_Y)
 	{
-		x = -1;
-		while (++x < SZ_X)
+		xy[X] = -1;
+		while (++xy[X] < SZ_X)
 		{
 			c->transparence_depth = 0;
 			c->reflected_depth = 0;
 			c->ao = 1.0;
-			c->v = calc_angle_view(data->eye.c, x - SZ_X / 2, y - SZ_Y / 2);
-			calculate_pixel_color(data, c, sublim);
-			put_pixel_any_buffer(&data->buffer, x, y, c->mat.argb.r << 16 | c->mat.argb.g << 8 | c->mat.argb.b);
+			c->v = v_cam(data, xy[X], xy[Y], NOT_AA);
+			w_px_buff(&data->buffer, xy[X], xy[Y], calc_px_color(data, c, sublim));
 		}
-		y += NUM_THREAD;
+		xy[Y] += NUM_THREAD;
 	}
 	return (NULL);
 }

@@ -168,7 +168,7 @@ typedef struct s_obj_calc {
 	double	dist;
 	double	t_enter;
 	double	t_exit;
-	t_tri	*closest_tri;
+	t_tri	*t;
 
 	t_vect	e1;
 	t_vect	e2;

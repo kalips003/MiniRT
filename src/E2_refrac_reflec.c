@@ -33,6 +33,7 @@ t_argb	what_is_behind(t_data *data, t_c_px *calcul)
 	ini_new_calcul_struct(calcul, &c, 0b1);
 	if (calcul->object->type == PLANE
 		|| calcul->object->type == SPRITE
+		|| calcul->object->type == PARABOLOID
 		|| !rtrn_top_stack_gamma(&c, calcul->object, &incident_gamma, &refracted_gamma))
 		c.v = calcul->v;
 	else
@@ -40,7 +41,7 @@ t_argb	what_is_behind(t_data *data, t_c_px *calcul)
 	c.c0 = new_moved_point(&calcul->inter, &calcul->v, neg * EPSILON);
 	if (neg == -1)
 		push_stack(calcul->inside, calcul->object, &calcul->stack_top, MAX_MIRROR_DEPTH - 1);
-	calculate_pixel_color(data, &c, RENDER_LVL_DEPTH);
+	calc_px_color(data, &c, RENDER_LVL_DEPTH);
 	return (c.mat.argb);
 }
 
@@ -55,7 +56,7 @@ t_argb	what_is_reflected(t_data *data, t_c_px *calcul)
 	ini_new_calcul_struct(calcul, &c, 0b10);
 	c.v = ft_vect_reflected(&calcul->v, &calcul->vn);
 	c.c0 = new_moved_point(&calcul->inter, &calcul->vn, EPSILON);
-	calculate_pixel_color(data, &c, RENDER_LVL_DEPTH);
+	calc_px_color(data, &c, RENDER_LVL_DEPTH);
 	return (c.mat.argb);
 }
 

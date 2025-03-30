@@ -123,6 +123,7 @@ typedef struct s_data
 	int		change;
 	double	zoom;
 	
+	int	f_cam;
 	
 	
 	int		in_movement;

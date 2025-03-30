@@ -11,25 +11,27 @@ L 						5,5,5 			1 					255,255,255
 # (Programable) Light source:
 # -------------------------------------------------------------------------------------------------------------------------------------------
 #   (ci) Circle:			POSITION (xyz)		VECTOR [-1.0, 1.0]		COLOR_rgb [0, 255]		RADIUS
-# ci 0,0,0	0,0,1   255,0,0   10		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+ci 0,0,0	0,0,1   255,0,0   10		### T=0,1 # M=0 # C= # S=   ### X= N= A=
 #   (sp) Sphere:			POSITION (xyz)		DIAMETER				COLOR_rgb [0, 255]
-# sp 0,0,0	10	255,0,0		### T=0,1 # M=0 # C= # S=   ### X=txt/t_earth4k.xpm N= A=
+sp 0,0,0	10	255,0,0		### T=0,1 # M=0 # C= # S=   ### X=txt/t_earth4k.xpm N= A=
 #   (pl) Plane:			POSITION (xyz)		VECTOR [-1.0, 1.0]		COLOR_rgb [0, 255]
-# pl -5,0,0 0,0,1   255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+pl -5,0,0 0,0,1   255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
 #   (cy) Cylinder:		POSITION (xyz)		VECTOR [-1.0, 1.0]		DIAMETER	HEIGHT		COLOR_rgb [0, 255]
-# cy 0,0,0 0,1,0   3    9.42  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+cy 0,0,0 0,1,0   3    9.42  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
 #   (co) Cone:			POSITION (xyz)		VECTOR [-1.0, 1.0]		RADIUS		HEIGHT		COLOR_rgb [0, 255]
-# co 0,0,0 0,1,0   3    15  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
-#   (hy) Hyperboloid:		POSITION (xyz)		VECTOR [-1.0, 1.0]		ABC [double]	RADIUS		COLOR_rgb [0, 255]
-# hy 0,0,0	0,1,0	1,1,1	1  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+co 0,0,0 0,1,0   3    15  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+#   (hy) Hyperboloid:		POSITION (xyz)		VECTOR [-1.0, 1.0]		ABC [double]	RADIUS²		COLOR_rgb [0, 255]
+hy 0,0,0	0,1,0	1,1,1	1  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+#   (pa) Paraboloid:		POSITION (xyz)		VECTOR [-1.0, 1.0]		ABC [double]	COLOR_rgb [0, 255]
+pa 0,0,0	0,1,0	1,1,1	255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
 #   (ar) Arrow:			POSITION (xyz)		VECTOR [-1.0, 1.0]		RADIUS		HEIGHT		COLOR_rgb [0, 255]
-# ar 0,0,0 0,1,0   3    15  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
+ar 0,0,0 0,1,0   3    15  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
 #   (cu) CUBE:			POSITION (xyz)		VECTOR [-1.0, 1.0]		SIZE		COLOR_rgb [0, 255]
-# ob 0,0,0 0,1,0 	5 	255,0,255 model/cube.obj   ### T=0,1 # M=0 # C= # S=   ### X= N= A=
+ob 0,0,0 0,1,0 	5 	255,0,255 model/cube.obj   ### T=0,1 # M=0 # C= # S=   ### X= N= A=
 #   (xi) SPRITE:			POSITION (xyz)		VECTOR [-1.0, 1.0]		SIZE		COLOR_rgb [0, 255]
-# xi 0,0,0   0,0,-1  5	55,255,255	X=texture/brique_4k.xpm	###		T=0,1 # M=0 # C= # S=	### N= A=
+xi 0,0,0   0,0,-1  5	55,255,255	X=texture/brique_4k.xpm	###		T=0,1 # M=0 # C= # S=	### N= A=
 #   (ob) OBJECT:			POSITION (xyz)		VECTOR [-1.0, 1.0]		SIZE		COLOR_rgb [0, 255]		[.OBJ]
-# ob 0,0,0 0,0,1 5 255,0,255 model/diamond.obj T= M= S=
+ob 0,0,0 0,0,1 5 255,0,255 model/diamond.obj T= M= S=
 # -------------------------------------------------------------------------------------------------------------------------------------------
 
 

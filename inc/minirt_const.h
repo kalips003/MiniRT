@@ -27,7 +27,7 @@
 # define EPSILON2 1e-8
 
 # define SCALAR_LIGHT_DIST 200.0
-# define SCALAR_LIGHT_DIST2 1
+# define HEIGHT_MAP_DISPLACEMENT 1.0
 
 # define SPECULAR_ON_OFF 1
 # define MAX_REFRACTION_DEPTH 4
@@ -43,9 +43,10 @@
 #define CYLINDER 3
 #define CONE 4
 #define HYPERBOLOID 5
-#define ARROW 6
-#define SPRITE 7
-#define OBJECT 8
+#define PARABOLOID 6
+#define ARROW 7
+#define SPRITE 8
+#define OBJECT 9
 
 #define DELTA_MOV 4.0
 #define DELTA_ROTA (PI / 16)
@@ -56,6 +57,11 @@
 # define X 0
 # define Y 1
 # define Z 2
+# define VECTOR 0
+# define QUATERNION 1
+# define NOT_AA 1
+# define AA 2
+
 
 ///////////////////////////////////////////////////////////////////////////////]
 // # define ANTI_ALIASING 0

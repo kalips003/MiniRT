@@ -34,9 +34,9 @@ typedef struct s_hyper_calc1 {
 
 }	t_hyper_calc1;
 
-int	distance_from_hyper(t_c_px *calcul, void *obj, int simple);
+int	distance_from_para(t_c_px *calcul, void *obj, int simple);
 static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c, int simple);
-void	ft_rotate_camera_vect2(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c);
+static void	ft_rotate_camera_vect3(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c);
 static void	h_img_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c);
 
 // Negative radius
@@ -48,19 +48,18 @@ static void	h_img_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c);
 // 		d = -(ax + by + cz)
 // top = signed distance camera plane ~ cos angle
 // bot = dot product view vector / plane vector (means nothing)
-int	distance_from_hyper(t_c_px *calcul, void *obj, int simple)
+int	distance_from_para(t_c_px *calcul, void *obj, int simple)
 {
 	t_hyper_calc1	c;
-	t_hyper			*hy;
+	t_hyper			*para;
 
-	hy = (t_hyper *)obj;
-	c.a2 = hy->abc.x * hy->abc.x;
-	c.b2 = hy->abc.y * hy->abc.y;
-	c.c2 = hy->abc.z * hy->abc.z;
-	ft_rotate_camera_vect2(calcul, hy, &c);
-	c.a = c.rot_v.dx * c.rot_v.dx / c.a2 + c.rot_v.dy * c.rot_v.dy / c.b2 - c.rot_v.dz * c.rot_v.dz / c.c2;
-	c.b = 2 * (c.rot_v.dx * c.new_o.x / c.a2 + c.rot_v.dy * c.new_o.y / c.b2 - c.rot_v.dz * c.new_o.z / c.c2);
-	c.c = c.new_o.x * c.new_o.x / c.a2 + c.new_o.y * c.new_o.y / c.b2 - c.new_o.z * c.new_o.z / c.c2 - hy->radius;
+	para = (t_hyper *)obj;
+	c.a2 = para->abc.x * para->abc.x;
+	c.b2 = para->abc.y * para->abc.y;
+	ft_rotate_camera_vect3(calcul, para, &c);
+	c.a = c.rot_v.dx * c.rot_v.dx / c.a2 - c.rot_v.dy * c.rot_v.dy / c.b2;
+	c.b = 2 * (c.rot_v.dx * c.new_o.x / c.a2 - c.rot_v.dy * c.new_o.y / c.b2) - c.rot_v.dz;
+	c.c = c.new_o.x * c.new_o.x / c.a2 + c.new_o.y * c.new_o.y / c.b2 - c.new_o.z;
 
 	c.Δ = c.b * c.b - 4 * c.a * c.c;
 	if (c.Δ < EPSILON || fabs(c.a) < EPSILON)
@@ -71,59 +70,58 @@ int	distance_from_hyper(t_c_px *calcul, void *obj, int simple)
 	if (c.dist <= 0.0)
 		return (0);
 	if (c.dist < calcul->dist || calcul->dist < 0.0)
-		return (h_dist_hyper(calcul, hy, &c, simple));
+		return (h_dist_hyper(calcul, para, &c, simple));
 	return (0);
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c, int simple)
+static int	h_dist_hyper(t_c_px *calcul, t_hyper *para, t_hyper_calc1 *c, int simple)
 {
 	if (simple)
 		return (1);
 	
 	calcul->dist = c->dist;
-	calcul->object = (void *)hy;
+	calcul->object = (void *)para;
 	
 	calcul->inter = new_moved_point(&calcul->c0, &calcul->v, calcul->dist);
 	calcul->vn = (t_vect){
 			2.0 * calcul->inter.x / c->a2,
-			2.0 * calcul->inter.y / c->b2,
-			-2.0 * calcul->inter.z / c->c2
+			-2.0 * calcul->inter.y / c->b2,
+			-1.0
 	};
 	ft_normalize_vect(&calcul->vn);
-	calcul->mat = *(t_mat *)&hy->param;
+	calcul->mat = *(t_mat *)&para->param;
 	// calcul->argb = sphere->param.argb;
 
-	if (!hy->param.texture && hy->param.color2.r >= 0)
-		calcul->mat.argb = dual_color_render(&hy->param.argb, &hy->param.color2, ft_dot_product(&calcul->vn, &hy->O.view) / 2 + 0.5);
-	double in = pow(calcul->c0.x, 2) / c->a2 + pow(calcul->c0.y, 2) / c->b2 - pow(calcul->c0.z, 2) / c->c2 - hy->radius;
+	if (!para->param.texture && para->param.color2.r >= 0)
+		calcul->mat.argb = dual_color_render(&para->param.argb, &para->param.color2, ft_dot_product(&calcul->vn, &para->O.view) / 2 + 0.5);
 	c->inside = 0;
-	if (in < EPSILON)
+	if (ft_dot_product(&calcul->v, &calcul->vn) > EPSILON)
 	{
 		c->inside = 1;
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
 	}
-	if (hy->param.texture || hy->param.normal_map || hy->param.alpha_map || hy->param.ao_map)
+	if (para->param.texture || para->param.normal_map || para->param.alpha_map || para->param.ao_map)
 	// if (sphere->param.texture || sphere->param.normal_map || sphere->param.alpha_map)
-		h_img_hyper(calcul, hy, c);
+		h_img_hyper(calcul, para, c);
 
 	return (1 + c->inside);
 }
 
-void	ft_rotate_camera_vect2(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c)
+static void	ft_rotate_camera_vect3(t_c_px *calcul, t_hyper *pa, t_hyper_calc1 *c)
 {
-	c->new_o = new_moved_point(&calcul->c0, (t_vect *)&hy->O.c0, -1.0);
+	c->new_o = new_moved_point(&calcul->c0, (t_vect *)&pa->O.c0, -1.0);
 	c->new_o = (t_coor){
-		c->new_o.x * hy->O.right.dx + c->new_o.y * hy->O.up.dx + c->new_o.z * hy->O.view.dx,
-		c->new_o.x * hy->O.right.dy + c->new_o.y * hy->O.up.dy + c->new_o.z * hy->O.view.dy,
-		c->new_o.x * hy->O.right.dz + c->new_o.y * hy->O.up.dz + c->new_o.z * hy->O.view.dz,
+		c->new_o.x * pa->O.right.dx + c->new_o.y * pa->O.up.dx + c->new_o.z * pa->O.view.dx,
+		c->new_o.x * pa->O.right.dy + c->new_o.y * pa->O.up.dy + c->new_o.z * pa->O.view.dy,
+		c->new_o.x * pa->O.right.dz + c->new_o.y * pa->O.up.dz + c->new_o.z * pa->O.view.dz,
 	};
 	c->rot_v = (t_vect)
 	{
-		calcul->v.dx * hy->O.right.dx + calcul->v.dy * hy->O.up.dx + calcul->v.dz * hy->O.view.dx,
-		calcul->v.dx * hy->O.right.dy + calcul->v.dy * hy->O.up.dy + calcul->v.dz * hy->O.view.dy,
-		calcul->v.dx * hy->O.right.dz + calcul->v.dy * hy->O.up.dz + calcul->v.dz * hy->O.view.dz,
+		calcul->v.dx * pa->O.right.dx + calcul->v.dy * pa->O.up.dx + calcul->v.dz * pa->O.view.dx,
+		calcul->v.dx * pa->O.right.dy + calcul->v.dy * pa->O.up.dy + calcul->v.dz * pa->O.view.dy,
+		calcul->v.dx * pa->O.right.dz + calcul->v.dy * pa->O.up.dz + calcul->v.dz * pa->O.view.dz,
 	};
 	ft_normalize_vect(&c->rot_v);
 }
@@ -131,34 +129,34 @@ void	ft_rotate_camera_vect2(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c)
 ///////////////////////////////////////////////////////////////////////////////]
 // 		ATAN2 [−π,π][−π,π] > [0,1].
 // 		cosϕ=[1top,-1bot]	ACOS [0,π] > [0,1].
-static void	h_img_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c)
+static void	h_img_hyper(t_c_px *calcul, t_hyper *pa, t_hyper_calc1 *c)
 {
 	int	inside = (1 - 2 * c->inside);
 	
-	double cosθ = ft_dot_product(&calcul->vn, &hy->O.up) * inside;
-	double sinθ = ft_dot_product(&calcul->vn, &hy->O.right) * inside;
-	double cosϕ = ft_dot_product(&calcul->vn, &hy->O.view) * inside;
+	double cosθ = ft_dot_product(&calcul->vn, &pa->O.up) * inside;
+	double sinθ = ft_dot_product(&calcul->vn, &pa->O.right) * inside;
+	double cosϕ = ft_dot_product(&calcul->vn, &pa->O.view) * inside;
 	double	l_θ = fmin(1.0, fmax(0.0, atan2(sinθ, cosθ)  / (2 * PI) + 0.5));
 	double	l_ϕ = fmin(1.0, fmax(0.0, acos(cosϕ) / PI));
 
-	if (hy->param.ao_map)
+	if (pa->param.ao_map)
 	{
 		if (calcul->print == 1)
 			printf("ao before: %f\n", calcul->ao);
-		calcul->ao = return_alpha_img(hy->param.ao_map, l_θ, l_ϕ) / 255.0;
+		calcul->ao = return_alpha_img(pa->param.ao_map, l_θ, l_ϕ) / 255.0;
 		if (calcul->print == 1)
 			printf("ao after: %f\n", calcul->ao);
 	}
-	if (hy->param.texture)
-		calcul->mat.argb = return_px_img(hy->param.texture, l_θ, l_ϕ);
-	if (hy->param.alpha_map)
-		calcul->mat.argb.a = return_alpha_img(hy->param.alpha_map, l_θ, l_ϕ);
-	if (hy->param.normal_map)
+	if (pa->param.texture)
+		calcul->mat.argb = return_px_img(pa->param.texture, l_θ, l_ϕ);
+	if (pa->param.alpha_map)
+		calcul->mat.argb.a = return_alpha_img(pa->param.alpha_map, l_θ, l_ϕ);
+	if (pa->param.normal_map)
 	{
-		t_vect	normal_map = return_vect_img(hy->param.normal_map, l_θ, l_ϕ);
+		t_vect	normal_map = return_vect_img(pa->param.normal_map, l_θ, l_ϕ);
 		t_obj	local;
 		local.view = calcul->vn;
-		local.right = ft_cross_product_norm(&hy->O.view, &local.view);
+		local.right = ft_cross_product_norm(&pa->O.view, &local.view);
 		local.up = ft_cross_product_norm(&local.view, &local.right);
 		normal_map.dx *= inside;
 		calcul->vn = (t_vect){

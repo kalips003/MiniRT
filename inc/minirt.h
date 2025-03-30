@@ -50,11 +50,12 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////]
-t_vect	calc_angle_view(t_camera *cam, int x, int y);
-t_vect	wrap_v_cam_quaternion(t_data *data, int x, int y);
 t_img	*parse_img(t_data *data, char *path);
+t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);
 
-
+t_vect	v_cam(t_data *data, int x, int y, int aa);
+t_vect	cam_vector(t_camera *cam, int x, int y, int aa);
+t_vect	cam_quaternion(t_data *data, int x, int y, int aa);
 
 // tree_bounding stuff
 void	do_the_tree_splitting(t_model *model);
@@ -81,7 +82,7 @@ t_vect	return_vect_img(t_img *img, double x, double y);
 int		return_alpha_img(t_img *img, double x, double y);
 // 	(C)	anti aliasing
 int		ft_render_frame_aa(t_data *data, int sublim);
-void	put_pixel_any_buffer(t_img *buff, int x, int y, unsigned int color);
+void	w_px_buff(t_img *buff, int x, int y, unsigned int color);
 // 	(O) objects distance
 int	distance_from_object(t_c_px *calcul, void *object, int simple);
 int	h_distance_from_object(t_c_px *calcul, t_object *obj, t_c_obj *c, int simple);
@@ -100,7 +101,7 @@ double	h_dist_triangle(t_tri *tri, t_model *o, t_c_obj *c);
 ********************************/
 int		ft_loop(t_data *data);
 int		ft_render_frame(t_data *data, int sublim);
-int		calculate_pixel_color(t_data *data, t_c_px *c, int sublim);
+unsigned int	calc_px_color(t_data *data, t_c_px *c, int sublim);
 /********************************
 		C
 ********************************/
@@ -120,8 +121,9 @@ int	distance_from_plane(t_c_px *calcul, void *obj, int simple);
 int	distance_from_cylinder(t_c_px *calcul, void *obj, int simple);
 // 	CONE
 int	distance_from_cone(t_c_px *calcul, void *obj, int simple);
-// 	HYPER
+// 	HYPER / PARA
 int	distance_from_hyper(t_c_px *calcul, void *obj, int simple);
+int	distance_from_para(t_c_px *calcul, void *obj, int simple);
 // 	ARROW
 int	distance_from_arrow(t_c_px *calcul, void *obj, int simple);
 // 	SPRITE
@@ -166,6 +168,7 @@ void	f_change_transp(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_loop_light_ratio(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop);
+void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop);
 /********************************
 		P	Parsing
 ********************************/
@@ -183,6 +186,7 @@ int	parse_cy(t_data *data, char **raw_split);
 int	parse_co(t_data *data, char **raw_split);
 // 
 int	parse_hy(t_data *data, char **raw_split);
+int	parse_pa(t_data *data, char **raw_split);
 int	parse_ar(t_data *data, char **raw_split);
 int	parse_xi(t_data *data, char **raw_split);
 int	parse_obj(t_data *data, char **raw_split);

@@ -118,7 +118,6 @@ static int	h_ini_mat3(t_data *data, char **spl, t_mat *mat)
 	int		err;
 	double	dbl;
 
-	printf(C_421"h_ini_mat3?: %s\n", spl[1]);
 	err = 0;
 	if (same_str(spl[0], "Ns"))
 		err = ft_atof(spl[1], &mat->sh);

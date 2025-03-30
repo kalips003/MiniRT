@@ -87,8 +87,8 @@ typedef struct s_param
 	t_img	*normal_map;
 	t_img	*alpha_map;
 	t_img	*ao_map;
-	// t_img	*height_map;
-	// t_img	*shiny_map;
+	t_img	*height_map;
+	t_img	*shiny_map;
 
 }	t_param;
 
@@ -99,7 +99,7 @@ typedef struct s_param
 // tr = transparence
 // gamma = ior
 // ao = ambient oclusion
-typedef struct s_param2
+typedef struct s_mat
 {
 	t_argb	argb;
 	
@@ -109,12 +109,30 @@ typedef struct s_param2
 	double	tr;
 	double	gamma;
 	double	light;
+	double	ao;
 
 	char	*name;
 	t_img	*txt;
 	// double	ao;
 
 }	t_mat;
+
+typedef struct s_mat2
+{
+	t_argb	argb;
+	
+	double	sp;
+	double	sh;
+	double	mi;
+	double	tr;
+	double	gamma;
+	double	light;
+	double	ao;
+
+	char	*name;
+	t_img	*txt;
+
+}	t_mat2;
 
 typedef struct s_obj
 {

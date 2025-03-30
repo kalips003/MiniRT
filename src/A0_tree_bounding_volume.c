@@ -12,20 +12,19 @@
 
 #include "../inc/minirt.h"
 
-void	do_the_tree_splitting(t_model *model);
-static void	ft_give_centroid(t_model *model, t_bbox *node);
-static void	ft_split_by_xyz(t_model *model, t_bbox *node, int xyz);
+void			do_the_tree_splitting(t_model *model);
+static void		ft_give_centroid(t_model *model, t_bbox *node);
+static void		ft_split_by_xyz(t_model *model, t_bbox *node, int xyz);
 static t_mtree	h_loop_split(t_model *model, t_bbox *node, int xyz, t_mtree t);
 static double	find_median(t_bbox *node, int xyz);
-static void	ft_find_smallest_biggest_2(t_model *model, t_bbox *node);
-void	h_big_small(t_bbox *node, t_coor *p);
-void	find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
-void	h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
-static int	f_check_if_in_box_2(t_bbox *bbox, t_c_obj *c);
-static void	h_bound_mmax(double mmxyz[2][3], int xyz, t_bbox *bbox, t_c_obj *c);
-static void	ft_free_triangles(t_tri *f);
-void	ft_free_tree(t_bbox *node);
-
+static void		ft_find_smallest_biggest_2(t_model *model, t_bbox *node);
+void			h_big_small(t_bbox *node, t_coor *p);
+void			find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
+void			h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
+static int		f_check_if_in_box_2(t_bbox *bbox, t_c_obj *c);
+static void		h_bound_mmax(double mmxyz[2][3], int xyz, t_bbox *bbox, t_c_obj *c);
+static void		ft_free_triangles(t_tri *f);
+void			ft_free_tree(t_bbox *node);
 
 ///////////////////////////////////////////////////////////////////////////////]
 void	do_the_tree_splitting(t_model *model)
@@ -127,8 +126,6 @@ static double	find_median(t_bbox *node, int xyz)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	h_big_small(t_bbox *node, t_coor *p);
-///////////////////////////////////////////////////////////////////////////////]
 // find the first bounding box value min max, from vertices
 static void	ft_find_smallest_biggest_2(t_model *model, t_bbox *node)
 {
@@ -197,7 +194,7 @@ void	h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul)
 		temp_dist = h_dist_triangle(ptr, model, c);
 		if (temp_dist > EPSILON && (temp_dist < c->dist || c->dist < 0))
 		{
-			c->closest_tri = ptr;
+			c->t = ptr;
 			c->dist = temp_dist;
 		}
 		ptr = ptr->next;
@@ -230,10 +227,10 @@ static void	h_bound_mmax(double mmxyz[2][3], int xyz, t_bbox *bbox, t_c_obj *c)
 	double	t_min;
 	double	t_max;
 
-	t_min = (((double *)&bbox->min)[xyz] * c->size - ((double *)&c->new_o)[xyz]) \
-		/ ((double *)&c->v_rotate)[xyz];
-	t_max = (((double *)&bbox->max)[xyz] * c->size - ((double *)&c->new_o)[xyz]) \
-		/ ((double *)&c->v_rotate)[xyz];
+	t_min = (((double *)&bbox->min)[xyz] * c->size - \
+		((double *)&c->new_o)[xyz]) / ((double *)&c->v_rotate)[xyz];
+	t_max = (((double *)&bbox->max)[xyz] * c->size - \
+		((double *)&c->new_o)[xyz]) / ((double *)&c->v_rotate)[xyz];
 	if (t_min > t_max)
 	{
 		mmxyz[MIN][xyz] = t_max;

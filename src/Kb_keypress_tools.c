@@ -108,7 +108,7 @@ static const t_dico_pair2	numpad_fuctions[] = {
 {"Loop the first light's ratio", f_loop_light_ratio},
 {"Set the Color of the selected object", f_set_color},
 {"Move the selected object in given direction", f_move_obj},
-{"TEMP5", NULL},
+{"Toogle Cam: Vector / Quaternion", f_toogle_cam},
 {"TEMP5", NULL},
 {"TEMP7", NULL},
 {"TEMP8", NULL},

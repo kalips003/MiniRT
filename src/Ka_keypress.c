@@ -124,6 +124,7 @@ static const char	*g_obj_names[] = {
 	"Cylinder",
 	"Cone",
 	"Hyperboloid",
+	"Paraboloid",
 	"Arrow",
 	"Sprite",
 	"Object",
@@ -148,7 +149,7 @@ void	print_clic(t_data *data, int x, int y)
 	printf("\tright \t[% .2f,% .2f,% .2f]\n", data->eye.c->O.right.dx, data->eye.c->O.right.dy, data->eye.c->O.right.dz);
 	printf(C_323"\nMouse clicked at (%d, %d)\tv: [%.3f,%.3f,%.3f]\n", x, y, c.v.dx, c.v.dy, c.v.dz);
 	printf(C_244"\n-------------------[INSIDE PRINT DATA]-------------------\n");
-	calculate_pixel_color(data, &c, PRINT_DEPTH);
+	calc_px_color(data, &c, PRINT_DEPTH);
 	printf(C_244"---------------------------------------------------------\n");
 	if (c.object)
 	{

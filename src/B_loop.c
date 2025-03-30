@@ -12,11 +12,11 @@
 
 #include "../inc/minirt.h"
 
-int			ft_loop(t_data *data);
-static void	h_refresh_input_file(t_data *data, time_t time);
-int			ft_render_frame(t_data *data, int sublim);
-int			calculate_pixel_color(t_data *data, t_c_px *c, int sublim);
-static int	h_bg_texture(t_data *data, t_c_px *calcul);
+int				ft_loop(t_data *data);
+static void		h_refresh_input_file(t_data *data, time_t time);
+int				ft_render_frame(t_data *data, int sublim);
+unsigned int	calc_px_color(t_data *data, t_c_px *c, int sublim);
+static unsigned int		h_bg_texture(t_data *data, t_c_px *calcul);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // main loop refresh if file is changed
@@ -82,9 +82,9 @@ int	ft_render_frame(t_data *data, int sublim)
 			c.transparence_depth = 0;
 			c.reflected_depth = 0;
 			c.ao = 1.0;
-			c.v = wrap_v_cam_quaternion(data, x, y);
-			calculate_pixel_color(data, &c, sublim);
-			put_pixel_any_buffer(&data->buffer, x, y, c.mat.argb.r << 16 | c.mat.argb.g << 8 | c.mat.argb.b);
+			c.v = v_cam(data, x, y, NOT_AA);
+			calc_px_color(data, &c, sublim);
+			w_px_buff(&data->buffer, x, y, c.mat.argb.r << 16 | c.mat.argb.g << 8 | c.mat.argb.b);
 		}
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->buffer.img, 0, 0);
@@ -94,7 +94,7 @@ int	ft_render_frame(t_data *data, int sublim)
 ///////////////////////////////////////////////////////////////////////////////]
 // require ray origin (c0), ray vector (v)
 // fills calcul.argb with the pixel color shaded of the intersection
-int	calculate_pixel_color(t_data *data, t_c_px *c, int sublim)
+unsigned int	calc_px_color(t_data *data, t_c_px *c, int sublim)
 {
 	if (!ft_find_pixel_colision(data, c, 0, 1))
 	{
@@ -103,7 +103,7 @@ int	calculate_pixel_color(t_data *data, t_c_px *c, int sublim)
 		c->mat.argb.r = (int)(round(data->bg[0]->rgb.r * data->bg[0]->ratio));
 		c->mat.argb.g = (int)(round(data->bg[0]->rgb.g * data->bg[0]->ratio));
 		c->mat.argb.b = (int)(round(data->bg[0]->rgb.b * data->bg[0]->ratio));
-		return (0);
+		return (c->mat.argb.r << 16 | c->mat.argb.g << 8 | c->mat.argb.b);
 	}
 	else if (sublim == 2)
 		ft_lighting(data, c, shadow_tracing, sublim);
@@ -111,13 +111,13 @@ int	calculate_pixel_color(t_data *data, t_c_px *c, int sublim)
 		ft_lighting(data, c, something_block_the_light, sublim);
 	else if (sublim == 0)
 		ft_lighting_simple(data, c);
-	return (1);
+	return (c->mat.argb.r << 16 | c->mat.argb.g << 8 | c->mat.argb.b);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
 // IF ambient light has a texture, return the correct pixel instead of 
 // 		simple bg color
-static int	h_bg_texture(t_data *data, t_c_px *c)
+static unsigned int	h_bg_texture(t_data *data, t_c_px *c)
 {
 	double	l_x;
 	double	l_y;
@@ -125,5 +125,5 @@ static int	h_bg_texture(t_data *data, t_c_px *c)
 	l_x = fmin(1.0, fmax(0.0, atan2(c->v.dz, c->v.dx) / (2 * PI) + 0.5));
 	l_y = fmin(1.0, fmax(0.0, acos(c->v.dy) / PI));
 	c->mat.argb = return_px_img(data->bg[0]->texture, l_x, l_y);
-	return (0);
+	return (c->mat.argb.r << 16 | c->mat.argb.g << 8 | c->mat.argb.b);
 }

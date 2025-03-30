@@ -17,6 +17,7 @@ void	f_change_transp(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_loop_light_ratio(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop);
+void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop);
 
 ///////////////////////////////////////////////////////////////////////////////]
 void	f_anti_aliasing(t_data *data, t_obj2 *obj, int k_or_loop)
@@ -26,6 +27,7 @@ void	f_anti_aliasing(t_data *data, t_obj2 *obj, int k_or_loop)
 	ft_render_frame_aa(data, RENDERING_LVL);
 }
 
+///////////////////////////////////////////////////////////////////////////////]
 // funcction de transformatioin basee sur un tableau, touches "-" et "+" swap through
 void	f_change_transp(t_data *data, t_obj2 *obj, int k_or_loop)
 {
@@ -33,12 +35,11 @@ void	f_change_transp(t_data *data, t_obj2 *obj, int k_or_loop)
 		return ;
 	else if (!k_or_loop)
 	{
-		printf(C_451"Starting Transparance Loop, Transparence set to 1\n");
+		printf(C_451"Starting Transparance Loop, Transparence set to 1 (Press Space)\n");
 		obj->param.transparence = 1;
 	}
 	else
 	{
-		printf(C_451"Transparence should loop\n");
 		obj->param.transparence -= (1.0 / 60.0);
 		if (obj->param.transparence < EPSILON)
 			obj->param.transparence = 1.0;
@@ -46,6 +47,7 @@ void	f_change_transp(t_data *data, t_obj2 *obj, int k_or_loop)
 	ft_render_frame_multi(data, RENDERING_LVL);
 }
 
+///////////////////////////////////////////////////////////////////////////////]
 void	f_loop_light_ratio(t_data *data, t_obj2 *obj, int k_or_loop)
 {
 	if (!k_or_loop)
@@ -62,6 +64,7 @@ void	f_loop_light_ratio(t_data *data, t_obj2 *obj, int k_or_loop)
 	ft_render_frame_multi(data, RENDERING_LVL);
 }
 
+///////////////////////////////////////////////////////////////////////////////]
 void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop)
 {
 	char	*input;
@@ -85,6 +88,7 @@ void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop)
 	ft_render_frame_multi(data, RENDERING_LVL);
 }
 
+///////////////////////////////////////////////////////////////////////////////]
 void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop)
 {
 	if (!k_or_loop)
@@ -103,6 +107,20 @@ void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop)
 		obj->O.c0 = new_moved_point(&obj->O.c0, (t_vect *)&data->ram, 1);
 		recalculate_obj_const(obj);
 	}
+	ft_render_frame_multi(data, RENDERING_LVL);
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop)
+{
+	(void)obj;
+	if (k_or_loop)
+		return ;
+	if (data->f_cam == VECTOR)
+		printf(C_451"Changing: Camera calculs with Quaternions\n");
+	else if (data->f_cam == QUATERNION)
+		printf(C_451"Changing: Camera calculs with Vectors\n");
+	data->f_cam ^= 1;
 	ft_render_frame_multi(data, RENDERING_LVL);
 }
 

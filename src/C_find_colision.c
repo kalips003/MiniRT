@@ -26,6 +26,7 @@ static const t_dist_of g_ft_dist_of[] = {
 	distance_from_cylinder,
 	distance_from_cone,
 	distance_from_hyper,
+	distance_from_para,
 	distance_from_arrow,
 	distance_from_sprite,
 	distance_from_object,

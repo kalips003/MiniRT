@@ -13,6 +13,7 @@
 #include "../inc/minirt.h"
 
 int	parse_hy(t_data *data, char **raw_split);
+int	parse_pa(t_data *data, char **raw_split);
 int	parse_ar(t_data *data, char **raw_split);
 int	parse_xi(t_data *data, char **raw_split);
 int	parse_obj(t_data *data, char **raw_split);
@@ -80,6 +81,35 @@ int	parse_hy(t_data *data, char **raw_split)
 		|| ato_argb(raw_split[4], &hyp->param.argb))
 		return (1);
 	if (h_parse_vect_space(&hyp->O, &hyp->O.view))
+		return (1);
+	return (0);
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+// 			PARABOLOID
+// 		XYZ = float
+// 		xyz vector [-1,1] float
+// 		abc args float
+// 		RGB [0, 255] int
+int	parse_pa(t_data *data, char **raw_split)
+{
+	t_hyper	*para;
+
+	para = mem(0, sizeof(t_hyper));
+	if (!para)
+		return (put(ERRM), 2);
+	data->objects = expand_tab(data->objects, para);
+	if (tab_size(raw_split) < 4)
+		return (put(ERR1"bad number of args (HYPERBOLOID OBJECT)\n"), 1);
+	if (parse_reste(data, &raw_split[4], &para->param))
+		return (1);
+	para->type = PARABOLOID;
+	if (ato_coor(raw_split[0], &para->O.c0)
+		|| ato_coor(raw_split[1], (t_coor*)&para->O.view)
+		|| ato_coor(raw_split[2], &para->abc)
+		|| ato_argb(raw_split[3], &para->param.argb))
+		return (1);
+	if (h_parse_vect_space(&para->O, &para->O.view))
 		return (1);
 	return (0);
 }

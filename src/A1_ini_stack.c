@@ -20,7 +20,7 @@ static void	destroy_list(t_ini_stk *first);
 ///////////////////////////////////////////////////////////////////////////////]
 void	ini_stack(t_data *data, t_c_px *calcul)
 {
-	t_c_px	c;
+	t_c_px		c;
 	t_ini_stk	*top_list;
 	t_ini_stk	*ptr_list;
 
@@ -33,7 +33,8 @@ void	ini_stack(t_data *data, t_c_px *calcul)
 	calcul->stack_top = -1;
 	while (ptr_list)
 	{
-		push_stack(calcul->inside, ptr_list->obj, &calcul->stack_top, MAX_MIRROR_DEPTH - 1);
+		push_stack(calcul->inside, ptr_list->obj, &calcul->stack_top, \
+			MAX_MIRROR_DEPTH - 1);
 		ptr_list = ptr_list->next;
 	}
 	destroy_list(top_list);

@@ -108,6 +108,7 @@ typedef struct s_cone
 }	t_cone;
 
 // HYPERBOLOID = hy
+// PARABOLOID = pa
 typedef struct s_hyperboloid
 {
 	int		type;
