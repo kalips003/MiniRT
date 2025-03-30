@@ -47,18 +47,17 @@ ob 0,0,0 0,0,1 5 255,0,255 model/diamond.obj T= M= S=
 # (Mirroir) M=[0,1]
 # 		M=0.7
 # (Texture) X=sphere_texture.xpm
-# (Normal Map) N=sphere_normal.xpm
-# (Alpha Map) A=sphere_normal.xpm
+# (Normal Map) N=
+# (Alpha Map) A=
+# (Ambient Oclusion Map) O=
+# (Height Map) H=h_map.xpm
+# (Specular Map) s=sp_map.xpm
+# (Roughness Map) R=r_map.xpm
 
-# 			0001000100010001
-# 	BIT: # 		CxCyCz # VxVyVz # UxUyUz # RxRyRz ## ARGB # ARGB # shiny # ...
-# (Function) F=UpdateVx,0b_control
 
 # TEXTURES:		X=texture/earthmap4k.xpm	X=txt/t_brique.xpm	X=texture/rock2.xpm	X=texture/starmap.xpm
 # N_MAP:		N=txt/n_brique.xpm
 # ALPHA_MAP:	A=texture/gkey4.xpm
-
-
 
 
 # MTL

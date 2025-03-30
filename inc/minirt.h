@@ -50,6 +50,7 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////]
+int	txt_already_exist(t_data *data, char *path, t_img **txt);
 t_img	*parse_img(t_data *data, char *path);
 t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);
 
@@ -206,12 +207,13 @@ int	parse_mirror(t_data *data, char *raw, t_param *obj);
 int	parse_color2(t_data *data, char *raw, t_param *obj);
 int	parse_light(t_data *data, char *raw, t_param *obj);
 // 
-int	txt_already_exist(t_data *data, char *path, t_img **txt);
 int	parse_texture(t_data *data, char *path, t_param *obj);
 int	parse_nmap(t_data *data, char *path, t_param *obj);
 int	parse_amap(t_data *data, char *path, t_param *obj);
 int	parse_ao(t_data *data, char *path, t_param *obj);
 int	parse_hmap(t_data *data, char *path, t_param *obj);
+int	parse_smap(t_data *data, char *path, t_param *obj);
+int	parse_rmap(t_data *data, char *path, t_param *obj);
 // 		objects
 t_model	*rtrn_obj(t_data *data, char *path, t_object *obj);
 // 
