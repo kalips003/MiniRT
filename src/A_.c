@@ -54,6 +54,22 @@ t_img	*parse_img(t_data *data, char *path)
 	return (txt);
 }
 
+int	txt_already_exist(t_data *data, char *path, t_img **txt)
+{
+	int	i;
+
+	i = -1;
+	while (data->textures && data->textures[++i])
+	{
+		if (same_str(data->textures[i]->path, path))
+		{
+			*txt = data->textures[i];
+			return (1);
+		}
+	}
+	return (0);
+}
+
 ///////////////////////////////////////////////////////////////////////////////]
 t_vect	mult_3x3_vect(t_obj *o3, t_vect *v)
 {

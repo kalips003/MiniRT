@@ -12,29 +12,11 @@
 
 #include "../inc/minirt.h"
 
-int	txt_already_exist(t_data *data, char *path, t_img **txt);
 int	parse_texture(t_data *data, char *path, t_param *obj);
 int	parse_nmap(t_data *data, char *path, t_param *obj);
 int	parse_amap(t_data *data, char *path, t_param *obj);
 int	parse_ao(t_data *data, char *path, t_param *obj);
 int	parse_hmap(t_data *data, char *path, t_param *obj);
-
-///////////////////////////////////////////////////////////////////////////////]
-int	txt_already_exist(t_data *data, char *path, t_img **txt)
-{
-	int	i;
-
-	i = -1;
-	while (data->textures && data->textures[++i])
-	{
-		if (same_str(data->textures[i]->path, path))
-		{
-			*txt = data->textures[i];
-			return (1);
-		}
-	}
-	return (0);
-}
 
 ///////////////////////////////////////////////////////////////////////////////]
 // (Texture) X=sphere_texture.xpm

@@ -90,6 +90,7 @@ typedef struct s_param
 	t_img	*ao_map;
 	t_img	*height_map;
 	t_img	*s_map;
+	t_img	*rough_map;
 
 }	t_param;
 
@@ -149,3 +150,4 @@ typedef struct s_obj2
 }	t_obj2;
 
 #endif
+
