@@ -62,6 +62,7 @@ static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_c_plane *c, int simple
 static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane)
 {
 	t_vect	normal_map;
+	t_obj	local;
 
 	c->o_to_inter = vect_ab(&plane->O.c0, &calcul->inter);
 	c->u = ft_dot_p(&c->o_to_inter, &plane->O.right) / plane->param.gamma;
@@ -76,11 +77,15 @@ static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane)
 	if (plane->param.n_map)
 	{
 		normal_map = return_vect_img(plane->param.n_map, c->u, c->v);
-		calcul->vn = (t_vect){
-			plane->O.right.dx * normal_map.dx + plane->O.up.dx * normal_map.dy + calcul->vn.dx * normal_map.dz,
-			plane->O.right.dy * normal_map.dx + plane->O.up.dy * normal_map.dy + calcul->vn.dy * normal_map.dz,
-			plane->O.right.dz * normal_map.dx + plane->O.up.dz * normal_map.dy + calcul->vn.dz * normal_map.dz,
-		};
+		local.view = calcul->vn;
+		local.right = plane->O.right;
+		local.up = plane->O.up;
+		calcul->vn = mult_3x3_vect(&local, &calcul->vn);
+		// calcul->vn = (t_vect){
+		// 	plane->O.right.dx * normal_map.dx + plane->O.up.dx * normal_map.dy + calcul->vn.dx * normal_map.dz,
+		// 	plane->O.right.dy * normal_map.dx + plane->O.up.dy * normal_map.dy + calcul->vn.dy * normal_map.dz,
+		// 	plane->O.right.dz * normal_map.dx + plane->O.up.dz * normal_map.dy + calcul->vn.dz * normal_map.dz,
+		// };
 		ft_normalize_vect(&calcul->vn);
 	}
 }

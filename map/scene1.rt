@@ -15,7 +15,8 @@ L 						5,10,5 			0.71 					255,255,255
 # ob 0,-6,0 0,0,1 0.1 255,0,255 model/tree.obj T=0.5,1 C=10,10,10
 # ob -10,-6,0 0,0,1 0.1 255,0,255 model/tree.obj T=0,1 C=
 # ob -5,-5,-5 1,0,0 5 255,255,32 model/torus.obj
-pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=1.0,500	### X=txt/t_ice.xpm N=txt/n_ice.xpm
+# pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=1.0,500	### X=txt/t_ice.xpm N=txt/n_ice.xpm
+pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=1.0,500	### X=txt/t_ice.xpm
 # pl 0,-5,0	0,-1,0	255,255,255	###		T=0,7 # M=0 # C=0,0,0 # S=1.0,500	### N=txt/n_concrete_opengl.xpm A=txt/t_concrete.xpm
 # pl 0,-5,0	0,1,0	255,255,255 ###     X=txt/t_brique.xpm N=txt/n_brique.xpm A=txt/gkey4.xpm
 

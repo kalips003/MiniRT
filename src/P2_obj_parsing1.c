@@ -45,6 +45,7 @@ int	parse_ci(t_data *data, char **raw_split)
 		return (1);
 	if (circle->radius < EPSILON)
 		return (put(ERR1"(CIRCLE OBJECT) too small\n"), 1);
+	printf("radius: %.3f\n", circle->radius);
 	if (h_parse_vect_space(&circle->O, &circle->O.view))
 		return (1);
 	return (0);

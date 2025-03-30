@@ -14,6 +14,7 @@
 
 int			distance_from_circle(t_c_px *calcul, void *obj, int simple);
 static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, int simple);
+static void	h_img_circle(t_c_px *ca, t_circle *circle, t_circle_calc *c);
 
 ///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
 // RESOLVE PLANE EQUATION: A(t.Vx + EYEx) + B(t.Vy + EYEy) + C(t.Vz + EYEz) + D = 0
@@ -55,9 +56,36 @@ static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, int
 		calcul->mat.argb = dual_color(&circle->param.argb, &circle->param.c2, c->dist_center / circle->radius);
 	calcul->vn = circle->O.view;
 	if (ft_dot_p(&calcul->v, &circle->O.view) > 0.0)
-	{
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
-		return (1);
+	if (circle->param.txt || circle->param.n_map || circle->param.a_map \
+		|| circle->param.ao_map || circle->param.s_map)
+		h_img_circle(calcul, circle, c);
+	return (1);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////]
+// 		ATAN2 [−π,π][−π,π] > [0,1].
+// 		cosϕ=[1top,-1bot]	ACOS [0,π] > [0,1].
+static void	h_img_circle(t_c_px *ca, t_circle *circle, t_circle_calc *c)
+{
+	t_vect	normal_map;
+	t_obj	local;
+	double	u;
+	double	v;
+
+	normal_map = vect_ab_norm(&circle->O.c0, &c->inter_temp);
+	v = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&normal_map, &circle->O.right), \
+		ft_dot_p(&normal_map, &circle->O.up))  / (2 * PI) + 0.5));
+	u = c->dist_center / circle->radius;
+	update_mat_w_txt(ca, (t_obj2 *)circle, u, v);
+	if (circle->param.n_map)
+	{
+		normal_map = return_vect_img(circle->param.n_map, u, v);
+		local.view = ca->vn;
+		local.right = circle->O.right;
+		local.up = circle->O.up;
+		ca->vn = mult_3x3_vect(&local, &ca->vn);
+		ft_normalize_vect(&ca->vn);
 	}
-	return (3);
 }

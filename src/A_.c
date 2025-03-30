@@ -25,11 +25,6 @@ void	update_mat_w_txt(t_c_px *calcul, t_obj2 *obj, double u, double v)
 		rough = return_alpha_img(obj->param.rough_map, u, v) / 255.0;
 		calcul->mat.sh = fmax(0.01, 2.0 / (rough * rough + 0.001) - 2.0);
 	}
-	if (obj->param.height_map)
-	{
-		height = return_alpha_img(obj->param.height_map, u, v) / 255.0 * HEIGHT_MAP_DISPLACEMENT;
-		calcul->inter = new_moved_point(&calcul->inter, &calcul->vn, height);
-	}
 	if (obj->param.txt)
 		calcul->mat.argb = return_px_img(obj->param.txt, u, v);
 	if (obj->param.a_map)

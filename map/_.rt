@@ -50,7 +50,6 @@ ob 0,0,0 0,0,1 5 255,0,255 model/diamond.obj T= M= S=
 # (Normal Map) N=
 # (Alpha Map) A=
 # (Ambient Oclusion Map) O=
-# (Height Map) H=h_map.xpm
 # (Specular Map) s=sp_map.xpm
 # (Roughness Map) R=r_map.xpm
 

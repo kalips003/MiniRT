@@ -26,6 +26,10 @@ sp 0,0,0	10	255,0,0		###		T=0,1 # M=0 # C= # S=1.0,100 ### X=txt/t_earth.xpm A= 
 # pl 	0,-5,0 		0,1,0 		200,200,200 T=0,50 X=txt/t_nenu.xpm N=txt/n_nenu.xpm
 # ob -1.9,-0.4,3.5    0.56,0.83,0.00   1 210,200,5 model/cube.obj	###		T= # M= # C= # S=	### N= A=
 
+
+
+sp -35,-35,-35		10		50,255,50	X=txt/saturn.xpm
+ci -35,-35,-35		0,1,0	100,85,60		20	C=140,100,60 T=0.3,1 X=txt/t_saturn_ring.xpm
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # (Specular, Shininess) S=[0-1.0][10-500+]	> [matte surface > perfect mirror] [rougher surface > polished surface]
 # 		S=0.10	S=0.5.200

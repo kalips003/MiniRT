@@ -16,7 +16,6 @@ int	parse_texture(t_data *data, char *path, t_param *obj);
 int	parse_nmap(t_data *data, char *path, t_param *obj);
 int	parse_amap(t_data *data, char *path, t_param *obj);
 int	parse_ao(t_data *data, char *path, t_param *obj);
-int	parse_hmap(t_data *data, char *path, t_param *obj);
 int	parse_smap(t_data *data, char *path, t_param *obj);
 int	parse_rmap(t_data *data, char *path, t_param *obj);
 
@@ -56,16 +55,6 @@ int	parse_ao(t_data *data, char *path, t_param *obj)
 {	
 	obj->ao_map = parse_img(data, path);
 	if (!obj->ao_map)
-		return (1);
-	return (0);
-}
-
-///////////////////////////////////////////////////////////////////////////////]
-// (Height Map) H=h_map.xpm
-int	parse_hmap(t_data *data, char *path, t_param *obj)
-{	
-	obj->height_map = parse_img(data, path);
-	if (!obj->height_map)
 		return (1);
 	return (0);
 }
