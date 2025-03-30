@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/30 10:59:52 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/30 11:11:39 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_hyper_calc1 {
 int	distance_from_hyper(t_c_px *calcul, void *obj, int simple);
 static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c, int simple);
 void	ft_rotate_camera_vect2(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c);
-static void	h_img_sphere(t_c_px *calcul, t_sphere *sphere, t_sphere_calc *c);
+static void	h_img_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c);
 
 // Negative radius
 
@@ -106,7 +106,7 @@ static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c, int simpl
 	}
 	if (hy->param.texture || hy->param.normal_map || hy->param.alpha_map || hy->param.ao_map)
 	// if (sphere->param.texture || sphere->param.normal_map || sphere->param.alpha_map)
-		h_img_sphere(calcul, hy, c);
+		h_img_hyper(calcul, hy, c);
 
 	return (1 + c->inside);
 }
@@ -131,34 +131,34 @@ void	ft_rotate_camera_vect2(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c)
 ///////////////////////////////////////////////////////////////////////////////]
 // 		ATAN2 [−π,π][−π,π] > [0,1].
 // 		cosϕ=[1top,-1bot]	ACOS [0,π] > [0,1].
-static void	h_img_sphere(t_c_px *calcul, t_sphere *sphere, t_sphere_calc *c)
+static void	h_img_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c)
 {
 	int	inside = (1 - 2 * c->inside);
 	
-	double cosθ = ft_dot_product(&calcul->vn, &sphere->O.up) * inside;
-	double sinθ = ft_dot_product(&calcul->vn, &sphere->O.right) * inside;
-	double cosϕ = ft_dot_product(&calcul->vn, &sphere->O.view) * inside;
+	double cosθ = ft_dot_product(&calcul->vn, &hy->O.up) * inside;
+	double sinθ = ft_dot_product(&calcul->vn, &hy->O.right) * inside;
+	double cosϕ = ft_dot_product(&calcul->vn, &hy->O.view) * inside;
 	double	l_θ = fmin(1.0, fmax(0.0, atan2(sinθ, cosθ)  / (2 * PI) + 0.5));
 	double	l_ϕ = fmin(1.0, fmax(0.0, acos(cosϕ) / PI));
 
-	if (sphere->param.ao_map)
+	if (hy->param.ao_map)
 	{
 		if (calcul->print == 1)
 			printf("ao before: %f\n", calcul->ao);
-		calcul->ao = return_alpha_img(sphere->param.ao_map, l_θ, l_ϕ) / 255.0;
+		calcul->ao = return_alpha_img(hy->param.ao_map, l_θ, l_ϕ) / 255.0;
 		if (calcul->print == 1)
 			printf("ao after: %f\n", calcul->ao);
 	}
-	if (sphere->param.texture)
-		calcul->mat.argb = return_px_img(sphere->param.texture, l_θ, l_ϕ);
-	if (sphere->param.alpha_map)
-		calcul->mat.argb.a = return_alpha_img(sphere->param.alpha_map, l_θ, l_ϕ);
-	if (sphere->param.normal_map)
+	if (hy->param.texture)
+		calcul->mat.argb = return_px_img(hy->param.texture, l_θ, l_ϕ);
+	if (hy->param.alpha_map)
+		calcul->mat.argb.a = return_alpha_img(hy->param.alpha_map, l_θ, l_ϕ);
+	if (hy->param.normal_map)
 	{
-		t_vect	normal_map = return_vect_img(sphere->param.normal_map, l_θ, l_ϕ);
+		t_vect	normal_map = return_vect_img(hy->param.normal_map, l_θ, l_ϕ);
 		t_obj	local;
 		local.view = calcul->vn;
-		local.right = ft_cross_product_norm(&sphere->O.view, &local.view);
+		local.right = ft_cross_product_norm(&hy->O.view, &local.view);
 		local.up = ft_cross_product_norm(&local.view, &local.right);
 		normal_map.dx *= inside;
 		calcul->vn = (t_vect){
