@@ -15,7 +15,7 @@
 int	parse_reste(t_data *data, char **raw_split, t_param *obj);
 int	parse_bg_texture(t_data *data, char *path, t_img **bg_txt);
 
-#define PARAM_DICO "STMXNACLO"
+#define PARAM_DICO "STMXNACLOH"
 
 ///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
 // (Shininess) S=[1.0, +]
@@ -35,7 +35,8 @@ static const t_ft_param_parsing	g_ft_param_parsing[] = {
 	parse_amap,
 	parse_color2,
 	parse_light,
-	parse_ao
+	parse_ao,
+	parse_hmap
 };
 
 int	parse_reste(t_data *data, char **raw_split, t_param *obj)
@@ -45,8 +46,8 @@ int	parse_reste(t_data *data, char **raw_split, t_param *obj)
 	obj->gamma = 1.0;
 	obj->specular = 0.5;
 	obj->shiny = 32.0;
-	obj->color2.r = -1;
-	// obj->ao = 1.0;
+	obj->c2.r = -1;
+	obj->ao = 1.0;
 	while (raw_split && *raw_split)
 	{
 		index = wii(**raw_split, PARAM_DICO);

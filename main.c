@@ -34,6 +34,7 @@ specular map
 hyperboloid
 
 AAliasing all black?? no ambiant light?
+Normales niquees
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////]
 // int	g_signalreceived;

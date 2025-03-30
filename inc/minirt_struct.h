@@ -57,7 +57,7 @@ typedef struct s_calcul_px
 	void	*inside[MAX_MIRROR_DEPTH];
 	int		stack_top;
 
-	t_mat	mat;
+	t_mat2	mat;
 	t_light	eff_light;
 	double	ao;
 	// double	ratio;
@@ -80,8 +80,8 @@ typedef struct s_eye
 	t_camera	*c;
 	
 	int			current_camera;
-	int			clic_px_x;
-	int			clic_px_y;
+	int			clic_x;
+	int			clic_y;
 	
 }	t_eye;
 
@@ -143,5 +143,13 @@ typedef struct s_parsing_dico_pair
 }	t_dico_pair;
 
 typedef int (*t_ft_param_parsing)(t_data*, char*, t_param*);
+
+typedef void	t_ft_change(t_data *data, t_obj2 *obj, int key_press_or_loop_call);
+
+typedef struct s_dico_pair2
+{
+	char		*name;
+	t_ft_change	*exe;
+}	t_dico_pair2;
 
 #endif

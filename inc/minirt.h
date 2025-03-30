@@ -53,6 +53,10 @@
 t_img	*parse_img(t_data *data, char *path);
 t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);
 
+void	render_temp_added_obj(t_data *data, t_obj2 *obj_to_add);
+void	render_normal(t_data *data, t_c_px *calcul);
+
+
 t_vect	v_cam(t_data *data, int x, int y, int aa);
 t_vect	cam_vector(t_camera *cam, int x, int y, int aa);
 t_vect	cam_quaternion(t_data *data, int x, int y, int aa);
@@ -161,6 +165,7 @@ void	print_clic(t_data *data, int x, int y);
 int		ft_cat_timing(t_data *data, int sublim);
 int		direction_pad(int keysym, t_data *data);
 int		keys_wasd(int keysym, t_data *data);
+void	ft_print_help(void);
 int		fuctions_number_pad(int keysym, t_data *data);
 // FUCTIONS 0123456789
 void	f_anti_aliasing(t_data *data, t_obj2 *obj, int k_or_loop);
@@ -169,6 +174,7 @@ void	f_loop_light_ratio(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop);
+void	f_render_normal_arrow(t_data *data, t_obj2 *obj, int k_or_loop);
 /********************************
 		P	Parsing
 ********************************/
@@ -205,6 +211,7 @@ int	parse_texture(t_data *data, char *path, t_param *obj);
 int	parse_nmap(t_data *data, char *path, t_param *obj);
 int	parse_amap(t_data *data, char *path, t_param *obj);
 int	parse_ao(t_data *data, char *path, t_param *obj);
+int	parse_hmap(t_data *data, char *path, t_param *obj);
 // 		objects
 t_model	*rtrn_obj(t_data *data, char *path, t_object *obj);
 // 
@@ -231,10 +238,10 @@ int		ato_argb(char *str, t_argb *argb);
 // tools other
 void	create_vector_space(t_obj *obj);
 double	h_smalest_delta(double a, double b);
-t_argb	dual_color_render(t_argb *color1, t_rgb *color2, double dist);
+t_argb	dual_color(t_argb *color1, t_rgb *color2, double dist);
 void	ini_new_calcul_struct(t_c_px *calcul, t_c_px *to_ini, int bit);
 // rotation
-t_vect	combined_quaternion_rotation(t_obj *obj, double angle_α, double angle_β);
+t_vect	dbl_quaternion_rota(t_obj *obj, double angle_α, double angle_β);
 t_vect	quaternion_rotation(t_vect *v, t_vect *axis_rota, double angle_α, int posi_neg);
 void	rotation_obj(t_obj *obj, t_vect *axis_rota, double angle_α, int posi_neg);
 // vector mouv
@@ -244,7 +251,7 @@ t_vect	vect_ab(t_coor* a, t_coor* b);
 t_vect	vect_ab_norm(t_coor* a, t_coor* b);
 // vector ope
 int		ft_normalize_vect(t_vect *vect);
-double	ft_dot_product(t_vect *a, t_vect *b);
+double	ft_dot_p(t_vect *a, t_vect *b);
 t_vect	ft_cross_product(t_vect *u, t_vect *v);
 t_vect	ft_cross_product_norm(t_vect *u, t_vect *v);
 double	dist_two_points(t_coor *a, t_coor *b);

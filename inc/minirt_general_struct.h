@@ -81,14 +81,15 @@ typedef struct s_param
 	double	transparence;
 	double	gamma;
 	double	light;
+	double	ao;
 	
-	t_rgb	color2;
-	t_img	*texture;
-	t_img	*normal_map;
-	t_img	*alpha_map;
+	t_rgb	c2;
+	t_img	*txt;
+	t_img	*n_map;
+	t_img	*a_map;
 	t_img	*ao_map;
 	t_img	*height_map;
-	t_img	*shiny_map;
+	t_img	*s_map;
 
 }	t_param;
 
@@ -113,7 +114,6 @@ typedef struct s_mat
 
 	char	*name;
 	t_img	*txt;
-	// double	ao;
 
 }	t_mat;
 
@@ -128,10 +128,6 @@ typedef struct s_mat2
 	double	gamma;
 	double	light;
 	double	ao;
-
-	char	*name;
-	t_img	*txt;
-
 }	t_mat2;
 
 typedef struct s_obj

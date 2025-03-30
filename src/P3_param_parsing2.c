@@ -77,7 +77,7 @@ int	parse_mirror(t_data *data, char *raw, t_param *obj)
 int	parse_color2(t_data *data, char *raw, t_param *obj)
 {
 	(void)data;
-	if (ato_rgb(raw, &obj->color2))
+	if (ato_rgb(raw, &obj->c2))
 		return (1);
 	return (0);
 }

@@ -56,5 +56,5 @@ t_vect	cam_quaternion(t_data *data, int x, int y, int aa)
 
 	angle_a = atan((x - SZ_X / 2 * aa) * data->eye.c->fov_cst / aa);
 	angle_b = atan((y - SZ_Y / 2 * aa) * data->eye.c->fov_cst / aa);
-	return (combined_quaternion_rotation(&data->eye.c->O, angle_a, angle_b));
+	return (dbl_quaternion_rota(&data->eye.c->O, angle_a, angle_b));
 }

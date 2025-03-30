@@ -78,7 +78,6 @@ static void	*f_thread(void *calcul)
 		{
 			c->transparence_depth = 0;
 			c->reflected_depth = 0;
-			c->ao = 1.0;
 			c->v = v_cam(data, xy[X], xy[Y], NOT_AA);
 			w_px_buff(&data->buffer, xy[X], xy[Y], calc_px_color(data, c, sublim));
 		}

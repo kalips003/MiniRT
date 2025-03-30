@@ -133,7 +133,7 @@ int	parse_xi(t_data *data, char **raw_split)
 		return (put(ERR1"bad number of args (SPRITE OBJECT)\n"), 1);
 	if (parse_reste(data, &raw_split[4], &sprite->param))
 		return (1);
-	if (!sprite->param.texture)
+	if (!sprite->param.txt)
 		return (put(ERR1"SPRITE OBJECT need a sprite\n"), 1);
 	sprite->type = SPRITE;
 	if (ato_coor(raw_split[0], &sprite->O.c0)

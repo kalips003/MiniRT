@@ -68,7 +68,7 @@ double	calculate_light_angle(t_coor *intersection, t_coor *light, t_vect *normal
 	double	cos_theta;
 
 	l = vect_ab_norm(intersection, light);
-	cos_theta = ft_dot_product(&l, normal);
+	cos_theta = ft_dot_p(&l, normal);
 	return (cos_theta);
 }
 
@@ -78,7 +78,7 @@ t_vect	ft_vect_reflected(t_vect *incident, t_vect *normal)
 	t_vect	reflected;
 	double	dot_pro;
 
-	dot_pro = 2.0 * ft_dot_product(incident, normal);
+	dot_pro = 2.0 * ft_dot_p(incident, normal);
 	reflected.dx = incident->dx - dot_pro * normal->dx;
 	reflected.dy = incident->dy - dot_pro * normal->dy;
 	reflected.dz = incident->dz - dot_pro * normal->dz;
@@ -94,7 +94,7 @@ t_vect	ft_vect_refracted(t_vect *incident, t_vect *normal, double n, int *neg)
 	double	sin_theta2;
 	double	s;
 
-	dot = ft_dot_product(incident, normal);
+	dot = ft_dot_p(incident, normal);
 	if (fabs(dot + 1.0) < EPSILON)
 		return (*incident);
 	sin_theta2 = n * sqrt(1 - dot * dot);

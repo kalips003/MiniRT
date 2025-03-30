@@ -50,11 +50,11 @@ static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, int
 	calcul->object = circle;
 	calcul->dist = c->dist;
 	calcul->inter = c->inter_temp;
-	calcul->mat = *(t_mat *)&circle->param;
-	if (circle->param.color2.r >= 0)
-		calcul->mat.argb = dual_color_render(&circle->param.argb, &circle->param.color2, c->dist_center / circle->radius);
+	calcul->mat = *(t_mat2 *)&circle->param;
+	if (circle->param.c2.r >= 0)
+		calcul->mat.argb = dual_color(&circle->param.argb, &circle->param.c2, c->dist_center / circle->radius);
 	calcul->vn = circle->O.view;
-	if (ft_dot_product(&calcul->v, &circle->O.view) > 0.0)
+	if (ft_dot_p(&calcul->v, &circle->O.view) > 0.0)
 	{
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
 		return (1);

@@ -26,12 +26,9 @@ t_coor	ft_ambient(t_data *data, t_c_px *c)
 
 	l = data->bg[0];
 
-	if (c->print == 1)
-		printf("ao inside ambient: %f\n", c->ao);
-
-	color_ambient.x = c->mat.argb.r * l->rgb.r / 255.0 * l->ratio * c->ao;
-	color_ambient.y = c->mat.argb.g * l->rgb.g / 255.0 * l->ratio * c->ao;
-	color_ambient.z = c->mat.argb.b * l->rgb.b / 255.0 * l->ratio * c->ao;
+	color_ambient.x = c->mat.argb.r * l->rgb.r / 255.0 * l->ratio * c->mat.ao;
+	color_ambient.y = c->mat.argb.g * l->rgb.g / 255.0 * l->ratio * c->mat.ao;
+	color_ambient.z = c->mat.argb.b * l->rgb.b / 255.0 * l->ratio * c->mat.ao;
 
 	return (color_ambient);
 }
@@ -44,7 +41,7 @@ int	ft_diffuse(t_data *data, t_c_px *c, t_light *light, int (*f_shadow)(t_data*,
 
 	c->dist_light = dist_two_points(&c->inter, &light->xyz);
 	c->v_light = vect_ab_norm(&c->inter, &light->xyz);
-	cos_angle = ft_dot_product(&c->v_light, &c->vn);
+	cos_angle = ft_dot_p(&c->v_light, &c->vn);
 	c->eff_light = *light;
 	if (cos_angle < EPSILON || f_shadow(data, c))
 		return (0);
@@ -65,7 +62,7 @@ void	ft_specular(t_c_px *c)
 	t_vect	reflected_light;
 
 	reflected_light = ft_vect_reflected(&c->v_light, &c->vn);
-	cos_angle = ft_dot_product(&c->v, &reflected_light);
+	cos_angle = ft_dot_p(&c->v, &reflected_light);
 	if (cos_angle < EPSILON)
 		return ;
 	adjusted_intensity = c->mat.sp * c->eff_light.ratio * pow(cos_angle, c->mat.sh);

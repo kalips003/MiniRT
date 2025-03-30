@@ -13,8 +13,8 @@
 #include "../inc/minirt.h"
 
 int			distance_from_plane(t_c_px *calcul, void *obj, int simple);
-static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_plane_calc *c, int simple);
-static void	h_img_plane(t_c_px *calcul, t_plane_calc *c, t_plane *plane);
+static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_c_plane *c, int simple);
+static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane);
 
 ///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
 //	a.(x-x0) + b(y-y0) + c(z-z0) + d = 0
@@ -23,7 +23,7 @@ static void	h_img_plane(t_c_px *calcul, t_plane_calc *c, t_plane *plane);
 // 		d = -(ax + by + cz)
 int	distance_from_plane(t_c_px *calcul, void *obj, int simple)
 {
-	t_plane_calc	c;
+	t_c_plane	c;
 	t_plane			*plane;
 
 	plane = (t_plane *)obj;
@@ -40,42 +40,42 @@ int	distance_from_plane(t_c_px *calcul, void *obj, int simple)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_plane_calc *c, int simple)
+static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_c_plane *c, int simple)
 {
 	if (simple)
 		return (1);
 	calcul->dist = c->dist;
 	calcul->object = plane;
 	calcul->inter = new_moved_point(&calcul->c0, &calcul->v, c->dist);
-	calcul->mat = *(t_mat *)&plane->param;
+	calcul->mat = *(t_mat2 *)&plane->param;
 	calcul->vn = plane->O.view;
 	if (c->bot > 0.0)
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
-	if (plane->param.color2.r >= 0 || plane->param.texture || plane->param.normal_map || plane->param.alpha_map)
+	if (plane->param.c2.r >= 0 || plane->param.txt || plane->param.n_map || plane->param.a_map)
 		h_img_plane(calcul, c, plane);
-	if (!plane->param.texture && plane->param.color2.r >= 0)
+	if (!plane->param.txt && plane->param.c2.r >= 0)
 		if (c->o_to_inter.dx)
-			calcul->mat.argb = (t_argb){calcul->mat.argb.a, plane->param.color2.r, plane->param.color2.g, plane->param.color2.b};
+			calcul->mat.argb = (t_argb){calcul->mat.argb.a, plane->param.c2.r, plane->param.c2.g, plane->param.c2.b};
 	return (1);
 }
 
-static void	h_img_plane(t_c_px *calcul, t_plane_calc *c, t_plane *plane)
+static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane)
 {
 	t_vect	normal_map;
 
 	c->o_to_inter = vect_ab(&plane->O.c0, &calcul->inter);
-	c->u = ft_dot_product(&c->o_to_inter, &plane->O.right) / plane->param.gamma;
-	c->v = 1.0 - ft_dot_product(&c->o_to_inter, &plane->O.up) / plane->param.gamma;
+	c->u = ft_dot_p(&c->o_to_inter, &plane->O.right) / plane->param.gamma;
+	c->v = 1.0 - ft_dot_p(&c->o_to_inter, &plane->O.up) / plane->param.gamma;
 	c->o_to_inter.dx = (((int)floor(c->u) + (int)floor(c->v)) % 2);
 	c->u = c->u - floor(c->u);
 	c->v = c->v - floor(c->v);
-	if (plane->param.texture)
-		calcul->mat.argb = return_px_img(plane->param.texture, c->u, c->v);
-	if (plane->param.alpha_map)
-		calcul->mat.argb.a = return_alpha_img(plane->param.alpha_map, c->u, c->v);
-	if (plane->param.normal_map)
+	if (plane->param.txt)
+		calcul->mat.argb = return_px_img(plane->param.txt, c->u, c->v);
+	if (plane->param.a_map)
+		calcul->mat.argb.a = return_alpha_img(plane->param.a_map, c->u, c->v);
+	if (plane->param.n_map)
 	{
-		normal_map = return_vect_img(plane->param.normal_map, c->u, c->v);
+		normal_map = return_vect_img(plane->param.n_map, c->u, c->v);
 		calcul->vn = (t_vect){
 			plane->O.right.dx * normal_map.dx + plane->O.up.dx * normal_map.dy + calcul->vn.dx * normal_map.dz,
 			plane->O.right.dy * normal_map.dx + plane->O.up.dy * normal_map.dy + calcul->vn.dy * normal_map.dz,

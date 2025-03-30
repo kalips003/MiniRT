@@ -18,6 +18,7 @@ void	f_loop_light_ratio(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop);
+void	f_render_normal_arrow(t_data *data, t_obj2 *obj, int k_or_loop);
 
 ///////////////////////////////////////////////////////////////////////////////]
 void	f_anti_aliasing(t_data *data, t_obj2 *obj, int k_or_loop)
@@ -122,6 +123,15 @@ void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop)
 		printf(C_451"Changing: Camera calculs with Vectors\n");
 	data->f_cam ^= 1;
 	ft_render_frame_multi(data, RENDERING_LVL);
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+void	f_render_normal_arrow(t_data *data, t_obj2 *obj, int k_or_loop)
+{
+	(void)data;
+	(void)obj;
+	if (!k_or_loop)
+		printf(C_451"Click an Object to see the normal\n");
 }
 
 /*

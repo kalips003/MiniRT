@@ -47,9 +47,9 @@ int	h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c)
 	calcul->dist = h_dist_triangle(c->t, obj->model, c);
 	calcul->object = obj;
 	if (c->t->mat)
-		calcul->mat = *c->t->mat;
+		calcul->mat = *(t_mat2 *)c->t->mat;
 	else
-		calcul->mat = *(t_mat *)&obj->param;
+		calcul->mat = *(t_mat2 *)&obj->param;
 	c->inter2 = new_moved_point(&c->new_o, &c->v_rotate, c->dist);
 	calcul->inter = new_moved_point(&calcul->c0, &calcul->v, c->dist);
 	f_return_obj_normal(calcul, c, obj);
@@ -58,7 +58,7 @@ int	h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c)
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
 	if (c->t->vt[0] >= 0)
 		h_img_obj(calcul, obj, c);
-	if (obj->param.color2.r >= 0 && !obj->param.texture)
+	if (obj->param.c2.r >= 0 && !obj->param.txt)
 		calcul->mat.argb = h_obj_color2(calcul, c, obj->model);
 	return (1 + in);
 }
@@ -81,13 +81,13 @@ void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 	v = uvw.x * vt[t->vt[0]]->v + uvw.y * vt[t->vt[1]]->v + uvw.z * vt[t->vt[2]]->v;
 	if (t->mat && t->mat->txt)
 		calcul->mat.argb = return_px_img(t->mat->txt, u, 1.0 - v);
-	if (obj->param.texture)
-		calcul->mat.argb = return_px_img(obj->param.texture, u, v);
-	if (obj->param.alpha_map)
-		calcul->mat.argb.a = return_alpha_img(obj->param.alpha_map, u, v);
-	if (obj->param.normal_map)
+	if (obj->param.txt)
+		calcul->mat.argb = return_px_img(obj->param.txt, u, v);
+	if (obj->param.a_map)
+		calcul->mat.argb.a = return_alpha_img(obj->param.a_map, u, v);
+	if (obj->param.n_map)
 	{
-		normal_map = return_vect_img(obj->param.normal_map, u, v);
+		normal_map = return_vect_img(obj->param.n_map, u, v);
 		local_v_space.view = calcul->vn;
 		create_vector_space(&local_v_space);
 		calcul->vn = mult_3x3_vect(&local_v_space, &normal_map);
@@ -134,11 +134,11 @@ t_coor	h_uvw(t_c_px *calcul, t_c_obj *c, t_model *m)
 
 	uvw = scale_point(*m->v[c->t->p[0]], c->size);
 	a_c = vect_ab(&uvw, &c->inter2);
-	d[0][0] = ft_dot_product(&c->e1, &c->e1);
-	d[0][1] = ft_dot_product(&c->e1, &c->e2);
-	d[1][1] = ft_dot_product(&c->e2, &c->e2);
-	d[2][0] = ft_dot_product(&c->e1, &a_c);
-	d[2][1] = ft_dot_product(&c->e2, &a_c);
+	d[0][0] = ft_dot_p(&c->e1, &c->e1);
+	d[0][1] = ft_dot_p(&c->e1, &c->e2);
+	d[1][1] = ft_dot_p(&c->e2, &c->e2);
+	d[2][0] = ft_dot_p(&c->e1, &a_c);
+	d[2][1] = ft_dot_p(&c->e2, &a_c);
 	denom = d[0][0] * d[1][1] - d[0][1] * d[0][1];
 	if (fabs(denom) < EPSILON2)
 		return ((t_coor){0});

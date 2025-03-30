@@ -50,69 +50,49 @@ static int	h_dist_sphere(t_c_px *calcul, t_sphere *sphere, t_sphere_calc *c, int
 {
 	if (simple)
 		return (1);
-	
 	calcul->dist = c->dist;
 	calcul->object = (void *)sphere;
-	
 	calcul->inter = new_moved_point(&calcul->c0, &calcul->v, calcul->dist);
 	calcul->vn = vect_ab_norm(&sphere->O.c0, &calcul->inter);
-	calcul->mat = *(t_mat *)&sphere->param;
-	// calcul->argb = sphere->param.argb;
-
-	if (!sphere->param.texture && sphere->param.color2.r >= 0)
-		calcul->mat.argb = dual_color_render(&sphere->param.argb, &sphere->param.color2, ft_dot_product(&calcul->vn, &sphere->O.view) / 2 + 0.5);
-	
+	calcul->mat = *(t_mat2 *)&sphere->param;
+	if (!sphere->param.txt && sphere->param.c2.r >= 0)
+		calcul->mat.argb = dual_color(&sphere->param.argb, &sphere->param.c2, \
+			ft_dot_p(&calcul->vn, &sphere->O.view) / 2 + 0.5);
 	c->inside = 0;
 	if (c->det1 < 0.0 || c->det2 < 0.0)
 	{
 		c->inside = 1;
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
 	}
-	if (sphere->param.texture || sphere->param.normal_map || sphere->param.alpha_map || sphere->param.ao_map)
-	// if (sphere->param.texture || sphere->param.normal_map || sphere->param.alpha_map)
+	if (sphere->param.txt || sphere->param.n_map || sphere->param.a_map \
+		|| sphere->param.ao_map || sphere->param.s_map)
 		h_img_sphere(calcul, sphere, c);
-
 	return (1 + c->inside);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
 // 		ATAN2 [−π,π][−π,π] > [0,1].
 // 		cosϕ=[1top,-1bot]	ACOS [0,π] > [0,1].
-static void	h_img_sphere(t_c_px *calcul, t_sphere *sphere, t_sphere_calc *c)
+static void	h_img_sphere(t_c_px *ca, t_sphere *sphere, t_sphere_calc *c)
 {
-	int	inside = (1 - 2 * c->inside);
+	t_vect	normal_map;
+	t_obj	local;
+	int		in;
 	
-	double cosθ = ft_dot_product(&calcul->vn, &sphere->O.up) * inside;
-	double sinθ = ft_dot_product(&calcul->vn, &sphere->O.right) * inside;
-	double cosϕ = ft_dot_product(&calcul->vn, &sphere->O.view) * inside;
-	double	l_θ = fmin(1.0, fmax(0.0, atan2(sinθ, cosθ)  / (2 * PI) + 0.5));
-	double	l_ϕ = fmin(1.0, fmax(0.0, acos(cosϕ) / PI));
-
-	if (sphere->param.ao_map)
+	in = 1 - 2 * c->inside;
+	c->u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&ca->vn, &sphere->O.right) \
+		* in, ft_dot_p(&ca->vn, &sphere->O.up) * in)  / (2 * PI) + 0.5));
+	c->v = fmin(1.0, fmax(0.0, acos(ft_dot_p(&ca->vn, &sphere->O.view) \
+		* in) / PI));
+	update_mat_w_txt(ca, (t_obj2 *)sphere, c->u, c->v);
+	if (sphere->param.n_map)
 	{
-		if (calcul->print == 1)
-			printf("ao before: %f\n", calcul->ao);
-		calcul->ao = return_alpha_img(sphere->param.ao_map, l_θ, l_ϕ) / 255.0;
-		if (calcul->print == 1)
-			printf("ao after: %f\n", calcul->ao);
-	}
-	if (sphere->param.texture)
-		calcul->mat.argb = return_px_img(sphere->param.texture, l_θ, l_ϕ);
-	if (sphere->param.alpha_map)
-		calcul->mat.argb.a = return_alpha_img(sphere->param.alpha_map, l_θ, l_ϕ);
-	if (sphere->param.normal_map)
-	{
-		t_vect	normal_map = return_vect_img(sphere->param.normal_map, l_θ, l_ϕ);
-		t_obj	local;
-		local.view = calcul->vn;
+		normal_map = return_vect_img(sphere->param.n_map, c->u, c->v);
+		local.view = ca->vn;
 		local.right = ft_cross_product_norm(&sphere->O.view, &local.view);
 		local.up = ft_cross_product_norm(&local.view, &local.right);
-		normal_map.dx *= inside;
-		calcul->vn = (t_vect){
-			local.right.dx * normal_map.dx + local.up.dx * normal_map.dy + local.view.dx * normal_map.dz,
-			local.right.dy * normal_map.dx + local.up.dy * normal_map.dy + local.view.dy * normal_map.dz,
-			local.right.dz * normal_map.dx + local.up.dz * normal_map.dy + local.view.dz * normal_map.dz,
-		};
-		ft_normalize_vect(&calcul->vn);
+		normal_map.dx *= in;
+		ca->vn = mult_3x3_vect(&local, &ca->vn);
+		ft_normalize_vect(&ca->vn);
 	}
 }

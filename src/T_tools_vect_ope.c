@@ -13,7 +13,7 @@
 #include "../inc/minirt.h"
 
 int		ft_normalize_vect(t_vect *vect);
-double	ft_dot_product(t_vect *a, t_vect *b);
+double	ft_dot_p(t_vect *a, t_vect *b);
 t_vect	ft_cross_product(t_vect *u, t_vect *v);
 t_vect	ft_cross_product_norm(t_vect *u, t_vect *v);
 double	dist_two_points(t_coor *a, t_coor *b);
@@ -35,7 +35,7 @@ int	ft_normalize_vect(t_vect *vect)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-double	ft_dot_product(t_vect *a, t_vect *b)
+double	ft_dot_p(t_vect *a, t_vect *b)
 {
 	return (a->dx * b->dx + a->dy * b->dy + a->dz * b->dz);
 }

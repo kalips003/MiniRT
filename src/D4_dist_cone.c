@@ -79,7 +79,7 @@ static int	h_colision_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v1 *c, t_co
 
 	
 	c2->apex_to_camera = vect_ab_norm(&cone->apex, &calcul->c0);
-	dot = -ft_dot_product(&cone->O.view, &c2->apex_to_camera);
+	dot = -ft_dot_p(&cone->O.view, &c2->apex_to_camera);
 	if (-c->Φ > EPSILON && -c->Φ < cone->height && dot > EPSILON && dot > cos(cone->angle))
 		c2->inside = 1;
 	else
@@ -126,15 +126,15 @@ static int	h_dist_cone_2(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c, int si
 ///////////////////////////////////////////////////////////////////////////////]
 	if (c->inside)
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
-	calcul->mat = *(t_mat *)&cone->param;
+	calcul->mat = *(t_mat2 *)&cone->param;
 	
 	// calcul->argb = cone->param.argb;
 	
 	c->color_height = 1.0 - (cone->height - c->dist_apex) / cone->height;
-	if (!cone->param.texture && cone->param.color2.r >= 0)
-		calcul->mat.argb = dual_color_render(&cone->param.argb, &cone->param.color2, c->color_height);
+	if (!cone->param.txt && cone->param.c2.r >= 0)
+		calcul->mat.argb = dual_color(&cone->param.argb, &cone->param.c2, c->color_height);
 	
-	if (cone->param.texture || cone->param.normal_map || cone->param.alpha_map)
+	if (cone->param.txt || cone->param.n_map || cone->param.a_map)
 		h_img_cone(calcul, cone, c);
 
 	return (1 + c->inside);
@@ -146,17 +146,17 @@ static int	h_dist_cone_2(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c, int si
 static void	h_img_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c)
 {
 	int	inside = (1 - 2 * c->inside);
-	double cosθ = ft_dot_product(&calcul->vn, &cone->O.up) * inside;
-	double sinθ = ft_dot_product(&calcul->vn, &cone->O.right) * inside;
+	double cosθ = ft_dot_p(&calcul->vn, &cone->O.up) * inside;
+	double sinθ = ft_dot_p(&calcul->vn, &cone->O.right) * inside;
 	double	l_θ = fmin(1.0, fmax(0.0, atan2(sinθ, cosθ)  / (2 * PI) + 0.5));
 
-	if (cone->param.texture)
-		calcul->mat.argb = return_px_img(cone->param.texture, l_θ, c->color_height);
-	if (cone->param.alpha_map)
-		calcul->mat.argb.a = return_alpha_img(cone->param.alpha_map, l_θ, c->color_height);
-	if (cone->param.normal_map)
+	if (cone->param.txt)
+		calcul->mat.argb = return_px_img(cone->param.txt, l_θ, c->color_height);
+	if (cone->param.a_map)
+		calcul->mat.argb.a = return_alpha_img(cone->param.a_map, l_θ, c->color_height);
+	if (cone->param.n_map)
 	{
-		t_vect	normal_map = return_vect_img(cone->param.normal_map, l_θ, c->color_height);
+		t_vect	normal_map = return_vect_img(cone->param.n_map, l_θ, c->color_height);
 		t_obj	local;
 		local.view = calcul->vn;
 		local.right = ft_cross_product_norm(&cone->O.view, &local.view);

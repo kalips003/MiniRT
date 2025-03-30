@@ -107,7 +107,7 @@ int	shadow_tracing(t_data *data, t_c_px *calcul)
 			c.c0 = new_moved_point(&c.inter, &c.vn, -EPSILON);
 			dist_l -= c.dist;
 			c.dist = dist_l;
-			dot_l += acos(ft_dot_product(&calcul->v_light, &c.vn)) * (c.mat.gamma > 1.0 + EPSILON);
+			dot_l += acos(ft_dot_p(&calcul->v_light, &c.vn)) * (c.mat.gamma > 1.0 + EPSILON);
 			b += (c.mat.gamma > 1.0 + EPSILON);
 		}
 		else
@@ -130,7 +130,7 @@ int	ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights)
 
 	c->dist_light = dist_two_points(&c->inter, &lights->xyz);
 	c->v_light = vect_ab_norm(&c->inter, &lights->xyz);
-	cos_angle = ft_dot_product(&c->v_light, &c->vn);
+	cos_angle = ft_dot_p(&c->v_light, &c->vn);
 	if (cos_angle < EPSILON || something_block_the_light_simple(data, c))
 		return (0);
 	adjusted_intensity = lights->ratio * cos_angle;

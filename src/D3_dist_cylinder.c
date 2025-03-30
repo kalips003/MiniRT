@@ -35,7 +35,7 @@ int	distance_from_cylinder(t_c_px *calcul, void *obj, int simple)
 	if (rtrn)
 	{
 		calcul->object = obj;
-		calcul->mat = *(t_mat *)&cy->param;
+		calcul->mat = *(t_mat2 *)&cy->param;
 	}
 	if (!h_dist_cylinder_1(calcul, cy, &c))
 	{
@@ -90,17 +90,17 @@ static int	h_dist_cylinder_2(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_ca
 	c->projec_point = new_moved_point(&cylinder->O.c0, &cylinder->O.view, c->dist_h);
 	calcul->vn = vect_ab_norm(&c->projec_point, &calcul->inter);
 	// calcul->argb = cylinder->param.argb;
-	calcul->mat = *(t_mat *)&cylinder->param;
+	calcul->mat = *(t_mat2 *)&cylinder->param;
 
-	if (!cylinder->param.texture && cylinder->param.color2.r >= 0)
-		calcul->mat.argb = dual_color_render(&cylinder->param.argb, &cylinder->param.color2, c->dist_h / cylinder->height);
+	if (!cylinder->param.txt && cylinder->param.c2.r >= 0)
+		calcul->mat.argb = dual_color(&cylinder->param.argb, &cylinder->param.c2, c->dist_h / cylinder->height);
 	c->inside = 0;
 	if (c->det1 < 0.0 || c->det2 < 0.0)
 	{
 		c->inside = 1;
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
 	}
-	if (cylinder->param.texture || cylinder->param.normal_map || cylinder->param.alpha_map)
+	if (cylinder->param.txt || cylinder->param.n_map || cylinder->param.a_map)
 		h_img_cylinder(calcul, cylinder, c);
 
 	return (1 + c->inside);
@@ -112,18 +112,18 @@ static int	h_dist_cylinder_2(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_ca
 static void	h_img_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c)
 {
 	int	inside = (1 - 2 * c->inside);
-	double cosθ = ft_dot_product(&calcul->vn, &cylinder->O.up) * inside;
-	double sinθ = ft_dot_product(&calcul->vn, &cylinder->O.right) * inside;
+	double cosθ = ft_dot_p(&calcul->vn, &cylinder->O.up) * inside;
+	double sinθ = ft_dot_p(&calcul->vn, &cylinder->O.right) * inside;
 	double	l_θ = fmin(1.0, fmax(0.0, atan2(sinθ, cosθ)  / (2 * PI) + 0.5));
 	double	h = 1.0 - c->dist_h / cylinder->height;
 
-	if (cylinder->param.texture)
-		calcul->mat.argb = return_px_img(cylinder->param.texture, l_θ, h);
-	if (cylinder->param.alpha_map)
-		calcul->mat.argb.a = return_alpha_img(cylinder->param.alpha_map, l_θ, h);
-	if (cylinder->param.normal_map)
+	if (cylinder->param.txt)
+		calcul->mat.argb = return_px_img(cylinder->param.txt, l_θ, h);
+	if (cylinder->param.a_map)
+		calcul->mat.argb.a = return_alpha_img(cylinder->param.a_map, l_θ, h);
+	if (cylinder->param.n_map)
 	{
-		t_vect	normal_map = return_vect_img(cylinder->param.normal_map, l_θ, h);
+		t_vect	normal_map = return_vect_img(cylinder->param.n_map, l_θ, h);
 		t_obj	local;
 		local.view = calcul->vn;
 		local.up = cylinder->O.view;

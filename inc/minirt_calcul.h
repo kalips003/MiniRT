@@ -45,21 +45,23 @@ typedef struct s_circle_calc {
 typedef struct s_sphere_calc {
 	// t_sphere	*sphere;
 	
-	double x0;
-	double y0;
-	double z0;
+	double	x0;
+	double	y0;
+	double	z0;
 
-	double a;
-	double b;
-	double c;
+	double 	a;
+	double 	b;
+	double 	c;
 
-	double Δ;
+	double	Δ;
 
 	double	det1;
 	double	det2;
 
-	double dist;
+	double 	dist;
 	int		inside;
+	double	u;
+	double	v;
 } t_sphere_calc;
 
 
@@ -74,7 +76,7 @@ typedef struct s_plane_calc {
 
 	double	u;
 	double	v;
-} t_plane_calc;
+} t_c_plane;
 
 
 ///////////////////////////////////////////////////////////////////////////////]

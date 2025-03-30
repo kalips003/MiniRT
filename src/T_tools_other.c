@@ -14,7 +14,7 @@
 
 void	create_vector_space(t_obj *obj);
 double	h_smalest_delta(double a, double b);
-t_argb	dual_color_render(t_argb *color1, t_rgb *color2, double dist);
+t_argb	dual_color(t_argb *color1, t_rgb *color2, double dist);
 void	ini_new_calcul_struct(t_c_px *calcul, t_c_px *to_ini, int bit);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -57,7 +57,7 @@ double	h_smalest_delta(double a, double b)
 
 ///////////////////////////////////////////////////////////////////////////////]
 // scale color based on a [0,1] distance
-t_argb	dual_color_render(t_argb *color1, t_rgb *color2, double dist)
+t_argb	dual_color(t_argb *color1, t_rgb *color2, double dist)
 {
 	t_argb	rtrn;
 

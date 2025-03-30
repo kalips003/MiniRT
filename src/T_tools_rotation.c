@@ -12,7 +12,7 @@
 
 #include "../inc/minirt.h"
 
-t_vect	combined_quaternion_rotation(t_obj *obj, double angle_a, double angle_b);
+t_vect	dbl_quaternion_rota(t_obj *obj, double angle_a, double angle_b);
 t_vect	quaternion_rotation(t_vect *v, t_vect *axis_rota, double angle_a, int posi_neg);
 void	rotation_obj(t_obj *obj, t_vect *axis_rota, double angle_a, int posi_neg);
 
@@ -20,7 +20,7 @@ void	rotation_obj(t_obj *obj, t_vect *axis_rota, double angle_a, int posi_neg);
 // return the rotated vector view object, around
 // 		angle_a ~ UP then around angle_b ~ RIGHT
 // Q rotation combined = qb.qa
-t_vect	combined_quaternion_rotation(t_obj *obj, double angle_a, double angle_b)
+t_vect	dbl_quaternion_rota(t_obj *obj, double angle_a, double angle_b)
 {
 	t_camera_calc	c;
 	t_vect			rotated;

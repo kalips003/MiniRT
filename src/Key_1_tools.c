@@ -81,12 +81,9 @@ int	keys_wasd(int keysym, t_data *data)
 	else if (keysym == XK_n)
 	{
 		data->eye.current_camera++;
-		data->eye.c = data->camera[data->eye.current_camera];
-		if (!data->eye.c)
-		{
-			data->eye.c = data->camera[0];
+		if (!data->camera[data->eye.current_camera])
 			data->eye.current_camera = 0;
-		}
+		data->eye.c = data->camera[data->eye.current_camera];
 	}
 	else
 		return (0);
@@ -94,14 +91,6 @@ int	keys_wasd(int keysym, t_data *data)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-typedef void	t_ft_change(t_data *data, t_obj2 *obj, int key_press_or_loop_call);
-
-typedef struct s_dico_pair2
-{
-	char		*name;
-	t_ft_change	*exe;
-}	t_dico_pair2;
-
 static const t_dico_pair2	numpad_fuctions[] = {
 {C_413"ANTI ALISING"RESET, f_anti_aliasing},
 {"Loop the selected object transparence", f_change_transp},
@@ -109,27 +98,36 @@ static const t_dico_pair2	numpad_fuctions[] = {
 {"Set the Color of the selected object", f_set_color},
 {"Move the selected object in given direction", f_move_obj},
 {"Toogle Cam: Vector / Quaternion", f_toogle_cam},
-{"TEMP5", NULL},
+{"Render the normal at clicked point", f_render_normal_arrow},
 {"TEMP7", NULL},
 {"TEMP8", NULL},
 {"TEMP9", NULL}
 };
 
+///////////////////////////////////////////////////////////////////////////////]
+void	ft_print_help(void)
+{
+	int	i;
+
+	printf(CLEAR C_042"HELP:\n"RESET);
+	i = -1;
+	while (++i < 10)
+		printf(C_042"FUNCTION ("C_420" %d "C_042"): "C_411"%s\n"RESET, i, numpad_fuctions[i].name);
+}
+
+///////////////////////////////////////////////////////////////////////////////]
 int	fuctions_number_pad(int keysym, t_data *data)
 {
 	int	key;
 
-	// printf(C_042"Key pressed: ("C_420" %#x "C_042")\n"RESET, keysym);
 	if (keysym >= XK_0 && keysym <= XK_9)
 	{
 		key = wii(keysym, "0123456789");
 		printf(C_042"Selected function: ("C_420" %d "C_042")\n"RESET, key);
 		printf(C_321"\t%s\n"RESET, numpad_fuctions[key].name);
 		if (!numpad_fuctions[key].exe)
-		{
-			printf(C_042"Selected function: ("C_420" - IS EMPTY - "C_042")\n"RESET);
-			return (1);
-		}
+			return (printf(C_042"Selected function: ("C_420 \
+				" - IS EMPTY - "C_042")\n"RESET), 1);
 		if (data->change_function != numpad_fuctions[key].exe)
 			data->ram[0] = 0;
 		data->change_function = numpad_fuctions[key].exe;

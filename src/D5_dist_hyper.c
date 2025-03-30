@@ -92,11 +92,11 @@ static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c, int simpl
 			-2.0 * calcul->inter.z / c->c2
 	};
 	ft_normalize_vect(&calcul->vn);
-	calcul->mat = *(t_mat *)&hy->param;
+	calcul->mat = *(t_mat2 *)&hy->param;
 	// calcul->argb = sphere->param.argb;
 
-	if (!hy->param.texture && hy->param.color2.r >= 0)
-		calcul->mat.argb = dual_color_render(&hy->param.argb, &hy->param.color2, ft_dot_product(&calcul->vn, &hy->O.view) / 2 + 0.5);
+	if (!hy->param.txt && hy->param.c2.r >= 0)
+		calcul->mat.argb = dual_color(&hy->param.argb, &hy->param.c2, ft_dot_p(&calcul->vn, &hy->O.view) / 2 + 0.5);
 	double in = pow(calcul->c0.x, 2) / c->a2 + pow(calcul->c0.y, 2) / c->b2 - pow(calcul->c0.z, 2) / c->c2 - hy->radius;
 	c->inside = 0;
 	if (in < EPSILON)
@@ -104,7 +104,7 @@ static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c, int simpl
 		c->inside = 1;
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
 	}
-	if (hy->param.texture || hy->param.normal_map || hy->param.alpha_map || hy->param.ao_map)
+	if (hy->param.txt || hy->param.n_map || hy->param.a_map || hy->param.ao_map)
 	// if (sphere->param.texture || sphere->param.normal_map || sphere->param.alpha_map)
 		h_img_hyper(calcul, hy, c);
 
@@ -135,9 +135,9 @@ static void	h_img_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c)
 {
 	int	inside = (1 - 2 * c->inside);
 	
-	double cosθ = ft_dot_product(&calcul->vn, &hy->O.up) * inside;
-	double sinθ = ft_dot_product(&calcul->vn, &hy->O.right) * inside;
-	double cosϕ = ft_dot_product(&calcul->vn, &hy->O.view) * inside;
+	double cosθ = ft_dot_p(&calcul->vn, &hy->O.up) * inside;
+	double sinθ = ft_dot_p(&calcul->vn, &hy->O.right) * inside;
+	double cosϕ = ft_dot_p(&calcul->vn, &hy->O.view) * inside;
 	double	l_θ = fmin(1.0, fmax(0.0, atan2(sinθ, cosθ)  / (2 * PI) + 0.5));
 	double	l_ϕ = fmin(1.0, fmax(0.0, acos(cosϕ) / PI));
 
@@ -149,13 +149,13 @@ static void	h_img_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc1 *c)
 		if (calcul->print == 1)
 			printf("ao after: %f\n", calcul->ao);
 	}
-	if (hy->param.texture)
-		calcul->mat.argb = return_px_img(hy->param.texture, l_θ, l_ϕ);
-	if (hy->param.alpha_map)
-		calcul->mat.argb.a = return_alpha_img(hy->param.alpha_map, l_θ, l_ϕ);
-	if (hy->param.normal_map)
+	if (hy->param.txt)
+		calcul->mat.argb = return_px_img(hy->param.txt, l_θ, l_ϕ);
+	if (hy->param.a_map)
+		calcul->mat.argb.a = return_alpha_img(hy->param.a_map, l_θ, l_ϕ);
+	if (hy->param.n_map)
 	{
-		t_vect	normal_map = return_vect_img(hy->param.normal_map, l_θ, l_ϕ);
+		t_vect	normal_map = return_vect_img(hy->param.n_map, l_θ, l_ϕ);
 		t_obj	local;
 		local.view = calcul->vn;
 		local.right = ft_cross_product_norm(&hy->O.view, &local.view);

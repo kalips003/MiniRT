@@ -29,7 +29,7 @@ ar 0,0,0 0,1,0   3    15  255,0,0		### T=0,1 # M=0 # C= # S=   ### X= N= A=
 #   (cu) CUBE:			POSITION (xyz)		VECTOR [-1.0, 1.0]		SIZE		COLOR_rgb [0, 255]
 ob 0,0,0 0,1,0 	5 	255,0,255 model/cube.obj   ### T=0,1 # M=0 # C= # S=   ### X= N= A=
 #   (xi) SPRITE:			POSITION (xyz)		VECTOR [-1.0, 1.0]		SIZE		COLOR_rgb [0, 255]
-xi 0,0,0   0,0,-1  5	55,255,255	X=texture/brique_4k.xpm	###		T=0,1 # M=0 # C= # S=	### N= A=
+xi 0,0,0   0,0,-1  5	55,255,255	X=txt/default.xpm	###		T=0,1 # M=0 # C= # S=	### N= A=
 #   (ob) OBJECT:			POSITION (xyz)		VECTOR [-1.0, 1.0]		SIZE		COLOR_rgb [0, 255]		[.OBJ]
 ob 0,0,0 0,0,1 5 255,0,255 model/diamond.obj T= M= S=
 # -------------------------------------------------------------------------------------------------------------------------------------------
