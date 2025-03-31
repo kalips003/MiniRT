@@ -12,22 +12,11 @@
 
 #include "../inc/minirt.h"
 
-int	parse_texture(t_data *data, char *path, t_param *obj);
 int	parse_nmap(t_data *data, char *path, t_param *obj);
 int	parse_amap(t_data *data, char *path, t_param *obj);
 int	parse_ao(t_data *data, char *path, t_param *obj);
 int	parse_smap(t_data *data, char *path, t_param *obj);
 int	parse_rmap(t_data *data, char *path, t_param *obj);
-
-///////////////////////////////////////////////////////////////////////////////]
-// (Texture) X=sphere_texture.xpm
-int	parse_texture(t_data *data, char *path, t_param *obj)
-{
-	obj->txt = parse_img(data, path);
-	if (!obj->txt)
-		return (1);
-	return (0);
-}
 
 ///////////////////////////////////////////////////////////////////////////////]
 // (Normal Map) N=sphere_normal.xpm
@@ -78,4 +67,3 @@ int	parse_rmap(t_data *data, char *path, t_param *obj)
 		return (1);
 	return (0);
 }
-

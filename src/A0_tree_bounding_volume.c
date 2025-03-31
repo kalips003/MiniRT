@@ -17,7 +17,7 @@ static void		ft_give_centroid(t_model *model, t_bbox *node);
 static void		ft_split_by_xyz(t_model *model, t_bbox *node, int xyz);
 static t_mtree	h_loop_split(t_model *model, t_bbox *node, int xyz, t_mtree t);
 static double	find_median(t_bbox *node, int xyz);
-static void		ft_find_smallest_biggest_2(t_model *model, t_bbox *node);
+static void		ft_find_smallest_biggest(t_model *model, t_bbox *node);
 void			h_big_small(t_bbox *node, t_coor *p);
 void			find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
 void			h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
@@ -26,140 +26,6 @@ static void		h_bound_mmax(double mmxyz[2][3], int xyz, t_bbox *bbox, t_c_obj *c)
 static void		ft_free_triangles(t_tri *f);
 void			ft_free_tree(t_bbox *node);
 
-///////////////////////////////////////////////////////////////////////////////]
-void	do_the_tree_splitting(t_model *model)
-{
-	ft_give_centroid(model, &model->tree);
-	ft_split_by_xyz(model, &model->tree, 0);
-}
-
-///////////////////////////////////////////////////////////////////////////////]
-// give centroid to each triangle
-static void	ft_give_centroid(t_model *model, t_bbox *node)
-{
-	t_coor	**v;
-	t_tri	*t;
-
-	v = model->v;
-	t = node->f;
-	while (t)
-	{
-		t->centroid.x = (v[t->p[0]]->x + v[t->p[1]]->x + v[t->p[2]]->x) / 3;
-		t->centroid.y = (v[t->p[0]]->y + v[t->p[1]]->y + v[t->p[2]]->y) / 3;
-		t->centroid.z = (v[t->p[0]]->z + v[t->p[1]]->z + v[t->p[2]]->z) / 3;
-		t = t->next;
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////]
-// Recursively split by axis x/y/z
-static void	ft_split_by_xyz(t_model *model, t_bbox *node, int xyz)
-{
-	t_mtree	t;
-
-	t.avg = find_median(node, xyz);
-	ft_find_smallest_biggest_2(model, node);
-	if (node->how_many_f < 5)
-		return ;
-	node->l = mem(0, sizeof(t_bbox));
-	node->r = mem(0, sizeof(t_bbox));
-	if (!node->l || !node->r)
-		return (put(ERRM), (void)0);
-	t = h_loop_split(model, node, xyz, t);
-	if (t.ptr_l)
-		t.ptr_l->next = NULL;
-	if (t.ptr_r)
-		t.ptr_r->next = NULL;
-	node->f = NULL;
-	ft_split_by_xyz(model, node->l, (xyz + 1) % 3);
-	ft_split_by_xyz(model, node->r, (xyz + 1) % 3);
-}
-
-// send each triangles left or right
-static t_mtree	h_loop_split(t_model *model, t_bbox *node, int xyz, t_mtree t)
-{
-	t.ptr = node->f;
-	t.ptr_r = NULL;
-	t.ptr_l = NULL;
-	while (t.ptr)
-	{
-		if (((double *)&t.ptr->centroid)[xyz] <= t.avg)
-		{
-			if (!node->l->f)
-				node->l->f = t.ptr;
-			else
-				t.ptr_l->next = t.ptr;
-			t.ptr_l = t.ptr;
-		}
-		else
-		{
-			if (!node->r->f)
-				node->r->f = t.ptr;
-			else
-				t.ptr_r->next = t.ptr;
-			t.ptr_r = t.ptr;
-		}
-		t.ptr = t.ptr->next;
-	}
-	return (t);
-}
-
-///////////////////////////////////////////////////////////////////////////////]
-// return the median for the group of triangle in the node
-// count at the same time how many triangles in the bbox
-static double	find_median(t_bbox *node, int xyz)
-{
-	int		num;
-	double	avg;
-	t_tri	*ptr;
-
-	avg = 0.0;
-	num = 0;
-	ptr = node->f;
-	while (ptr && ++num)
-	{
-		avg += ((double *)&ptr->centroid)[xyz];
-		ptr = ptr->next;
-	}
-	node->how_many_f = num;
-	return (avg / num);
-}
-
-///////////////////////////////////////////////////////////////////////////////]
-// find the first bounding box value min max, from vertices
-static void	ft_find_smallest_biggest_2(t_model *model, t_bbox *node)
-{
-	t_tri	*ptr;
-
-	if (!node->f)
-		return ;
-	node->min = (t_coor){INFINITY, INFINITY, INFINITY};
-	node->max = (t_coor){-INFINITY, -INFINITY, -INFINITY};
-	ptr = node->f;
-	while (ptr)
-	{
-		h_big_small(node, model->v[ptr->p[0]]);
-		h_big_small(node, model->v[ptr->p[1]]);
-		h_big_small(node, model->v[ptr->p[2]]);
-		ptr = ptr->next;
-	}
-}
-
-void	h_big_small(t_bbox *node, t_coor *p)
-{
-	if (p->x < node->min.x)
-		node->min.x = p->x;
-	if (p->x > node->max.x)
-		node->max.x = p->x;
-	if (p->y < node->min.y)
-		node->min.y = p->y;
-	if (p->y > node->max.y)
-		node->max.y = p->y;
-	if (p->z < node->min.z)
-		node->min.z = p->z;
-	if (p->z > node->max.z)
-		node->max.z = p->z;
-}
 
 ///////////////////////////////////////////////////////////////////////////////]
 ///////////////////////////////////////////////////////////////////////////////]
