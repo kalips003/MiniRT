@@ -124,3 +124,18 @@ int	clamp(int value, int min_v, int max_v)
 	value = min(max_v, max(min_v, value));
 	return (value);
 }
+
+
+///////////////////////////////////////////////////////////////////////////////]
+t_mat	*find_mat(char *mat_name, t_model *model)
+{
+	t_mat	**ptr;
+
+	ptr = model->mat - 1;
+	while (++ptr && *ptr)
+	{
+		if (same_str(mat_name, (*ptr)->name))
+			return (*ptr);
+	}
+	return (NULL);
+}

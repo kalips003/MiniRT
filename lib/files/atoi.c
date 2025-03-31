@@ -85,6 +85,10 @@ int	atoi_v(const char *str)
 	return (result * sign);
 }
 
+///////////////////////////////////////////////////////////////////////////////]
+// err [-1]: str[0] != numeric
+// err [-2]: abs(num) > INT_MAX
+// err [-3]: something not space after number
 int	ft_atoi_v2(char *str, int *i, int *error)
 {
 	long long	rtrn;
@@ -107,6 +111,7 @@ int	ft_atoi_v2(char *str, int *i, int *error)
 		*error = -3;
 	return ((int)rtrn);
 }
+
 // wii special atoi
 static int	what_is_it(char c)
 {

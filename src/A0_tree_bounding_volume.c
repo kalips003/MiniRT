@@ -12,20 +12,10 @@
 
 #include "../inc/minirt.h"
 
-void			do_the_tree_splitting(t_model *model);
-static void		ft_give_centroid(t_model *model, t_bbox *node);
-static void		ft_split_by_xyz(t_model *model, t_bbox *node, int xyz);
-static t_mtree	h_loop_split(t_model *model, t_bbox *node, int xyz, t_mtree t);
-static double	find_median(t_bbox *node, int xyz);
-static void		ft_find_smallest_biggest(t_model *model, t_bbox *node);
-void			h_big_small(t_bbox *node, t_coor *p);
 void			find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
 void			h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
 static int		f_check_if_in_box_2(t_bbox *bbox, t_c_obj *c);
 static void		h_bound_mmax(double mmxyz[2][3], int xyz, t_bbox *bbox, t_c_obj *c);
-static void		ft_free_triangles(t_tri *f);
-void			ft_free_tree(t_bbox *node);
-
 
 ///////////////////////////////////////////////////////////////////////////////]
 ///////////////////////////////////////////////////////////////////////////////]

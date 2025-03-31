@@ -12,6 +12,9 @@
 
 #include "../inc/minirt.h"
 
+void		do_the_tree_splitting(t_model *model);
+static void	ft_give_centroid(t_model *model, t_bbox *node);
+
 ///////////////////////////////////////////////////////////////////////////////]
 void	do_the_tree_splitting(t_model *model)
 {

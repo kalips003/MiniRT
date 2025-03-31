@@ -236,4 +236,16 @@ typedef struct s_calc_dist_tri {
 	double	t;
 }	t_calc_dist_tri;
 
+// for parsing .obj
+typedef struct	s_parse_model
+{
+	t_model		*model;
+	t_object	*obj;
+	t_tri		*current_tri;
+	t_mat		*current_mat;
+	int			num_v;
+	int			num_vt;
+	int			num_vn;
+}	t_parse_model;
+
 #endif

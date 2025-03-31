@@ -185,56 +185,52 @@ void	f_progressive_rt(t_data *data, t_obj2 *obj, int k_or_loop);
 /********************************
 		P	Parsing
 ********************************/
-// 
-int	ft_parse_line(t_data *data, char *line);
-int	h_parse_vect_space(t_obj *obj, t_vect *view);
-int	parse_a(t_data *data, char **raw_split);
-int	parse_l(t_data *data, char **raw_split);
-int	parse_c(t_data *data, char **raw_split);
-// 
-int	parse_ci(t_data *data, char **raw_split);
-int	parse_sp(t_data *data, char **raw_split);
-int	parse_pl(t_data *data, char **raw_split);
-int	parse_cy(t_data *data, char **raw_split);
-int	parse_co(t_data *data, char **raw_split);
-// 
-int	parse_hy(t_data *data, char **raw_split);
-int	parse_pa(t_data *data, char **raw_split);
-int	parse_ar(t_data *data, char **raw_split);
-int	parse_xi(t_data *data, char **raw_split);
-int	parse_obj(t_data *data, char **raw_split);
-// 
-int	parse_reste(t_data *data, char **raw_split, t_param *obj);
-int	parse_bg_texture(t_data *data, char *path, t_img **bg_txt);
-// 		params
-int	parse_shininess(t_data *data, char *raw, t_param *obj);
-int	parse_transparence(t_data *data, char *raw, t_param *obj);
-int	parse_mirror(t_data *data, char *raw, t_param *obj);
-int	parse_color2(t_data *data, char *raw, t_param *obj);
-int	parse_light(t_data *data, char *raw, t_param *obj);
-// 
-int	parse_texture(t_data *data, char *path, t_param *obj);
-int	parse_nmap(t_data *data, char *path, t_param *obj);
-int	parse_amap(t_data *data, char *path, t_param *obj);
-int	parse_ao(t_data *data, char *path, t_param *obj);
-int	parse_hmap(t_data *data, char *path, t_param *obj);
-int	parse_smap(t_data *data, char *path, t_param *obj);
-int	parse_rmap(t_data *data, char *path, t_param *obj);
-// 		objects
-t_model	*rtrn_obj(t_data *data, char *path, t_object *obj);
-// 
-t_tri	*h_parse_face(char **spl, t_model *model, t_tri *prev, t_mat *current_mat);
-// 
-t_coor	*h_v(char **spl, double size);
-t_vect	*h_vn(char **spl);
-t_vt	*h_vt(char **spl);
-// 		.mtl
-t_mat	*find_mat(char *mat_name, t_model *model);
+// OBJ - mtl
 void	f_mtl_file(t_data *data, t_object *obj, char **spl);
-/********************************
-		R	Recalculate
-********************************/
-void	recalculate_obj_const(t_obj2 *obj);
+// OBJ - bounding box split
+void	do_the_tree_splitting(t_model *model);
+// 
+void	ft_split_by_xyz(t_model *model, t_bbox *node, int xyz);
+// OBJ - Parsing
+t_model	*rtrn_obj(t_data *data, char *path, t_object *obj);
+t_tri	*h_parse_face(char **spl, t_parse_model *p, int *err);
+// 
+int		h_read_obj(t_data *data, t_model *model, int fd, t_object *obj);
+// Param
+int		parse_reste(t_data *data, char **raw_split, t_param *obj);
+int		parse_texture(t_data *data, char *path, t_param *obj);
+// 
+int		parse_shininess(t_data *data, char *raw, t_param *obj);
+int		parse_transparence(t_data *data, char *raw, t_param *obj);
+int		parse_mirror(t_data *data, char *raw, t_param *obj);
+int		parse_color2(t_data *data, char *raw, t_param *obj);
+int		parse_light(t_data *data, char *raw, t_param *obj);
+// 
+int		parse_nmap(t_data *data, char *path, t_param *obj);
+int		parse_amap(t_data *data, char *path, t_param *obj);
+int		parse_ao(t_data *data, char *path, t_param *obj);
+int		parse_smap(t_data *data, char *path, t_param *obj);
+int		parse_rmap(t_data *data, char *path, t_param *obj);
+// Prims
+int		ft_parse_line(t_data *data, char *line);
+int		h_parse_vect_space(t_obj *obj, t_vect *view);
+int		parse_a(t_data *data, char **raw_split);
+int		parse_l(t_data *data, char **raw_split);
+int		parse_c(t_data *data, char **raw_split);
+// 
+int		parse_ci(t_data *data, char **raw_split);
+int		parse_pl(t_data *data, char **raw_split);
+int		parse_sp(t_data *data, char **raw_split);
+int		parse_cy(t_data *data, char **raw_split);
+int		parse_co(t_data *data, char **raw_split);
+// 
+int		parse_hy(t_data *data, char **raw_split);
+int		parse_pa(t_data *data, char **raw_split);
+int		parse_ar(t_data *data, char **raw_split);
+int		parse_xi(t_data *data, char **raw_split);
+int		parse_obj(t_data *data, char **raw_split);
+
+t_mat	*find_mat(char *mat_name, t_model *model);
 /********************************
 		T	Tools
 ********************************/
