@@ -19,13 +19,14 @@ t_vect	ft_cross_product_norm(t_vect *u, t_vect *v);
 double	dist_two_points(t_coor *a, t_coor *b);
 
 ///////////////////////////////////////////////////////////////////////////////]
-// return (printf("VECTOR = [%.2f, %.2f, %.2f]\n", vect->dx, vect->dy, vect->dz), 1);
+// return (printf("VECTOR = [%.2f,%.2f,%.2f]\n",vect->dx,vect->dy,vect->dz),1);
 // Normalize vector
 int	ft_normalize_vect(t_vect *vect)
 {
 	double	normal_magnitude;
 
-	normal_magnitude = sqrt(vect->dx * vect->dx + vect->dy * vect->dy + vect->dz * vect->dz);
+	normal_magnitude = sqrt(vect->dx * vect->dx + vect->dy * vect->dy + \
+		vect->dz * vect->dz);
 	if (normal_magnitude == 0.0)
 		return (1);
 	vect->dx = vect->dx / normal_magnitude;

@@ -23,6 +23,7 @@ L 						0,8,43 			    0.3 					255,255,255
 pl 0,-5,0	0,1,0	193,154,107 ###  	X=txt/t_desert.xpm N=txt/n_desert.xpm
 
 
+
 # ob 0,5,0 1,0,0 5 255,0,255 ### model/cube2.obj X=txt/t_brique.xpm N=txt/n_brique.xpm A=texture/gkey4.xpm
 # ob 0,5,0 1,0,0 5 255,0,255 model/cube2.obj X=txt/t_brique.xpm N=txt/n_brique.xpm A=texture/gkey4.xpm
 # ob 0,5,0 1,0,0 5 255,0,255 model/cube2.obj X=txt/t_ice.xpm N=txt/n_ice.xpm A=txt/ao_ice.xpm
@@ -32,7 +33,7 @@ pl 0,-5,0	0,1,0	193,154,107 ###  	X=txt/t_desert.xpm N=txt/n_desert.xpm
 # ob 0,10,43 0.73,0.15,0.67 0.05 255,255,255 ### model/ovni.obj T=0,0 X=txt/t_ovni.xpm
 # ob 0,10,43 0.73,0.15,0.67 0.05 255,255,255 ### model/ovni.obj T=0,0 X=txt/t_metal_1.xpm N=n_metal_1.xpm
 # ob 2.2,5.0,43.0 1,0,0 0.1 255,255,255 ### model/cow.obj T=0,0 X=txt/t_cow.xpm
-# ob -0.8,2,43 0.92,-0.35,0.15 0.1 255,255,255 ### model/cow.obj T=0,0 X=txt/t_cow.xpm
+ob 0,0,0    0,0,1 15 255,255,255 ### model/mccree.obj T=
 # ob -25,0,0 0,0,1 0.05 0,0,255 ### model/penguin.obj T=0,0  X=txt/t_penguin.xpm
 # ob 0,0,-10 0,0,1 0.05 255,0,0 ### model/penguin.obj T=0,0  X=txt/t_penguin.xpm
 # ob 0,-2,15 0,0,1 0.05 255,255,255 ### model/igloo.obj T=0,1

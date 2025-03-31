@@ -16,6 +16,7 @@ void	create_vector_space(t_obj *obj);
 double	h_smalest_delta(double a, double b);
 t_argb	dual_color(t_argb *color1, t_rgb *color2, double dist);
 void	ini_new_calcul_struct(t_c_px *calcul, t_c_px *to_ini, int bit);
+void	recalculate_obj_const(t_obj2 *obj);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // takes an obj with a view vector filled, create the vector space
@@ -27,9 +28,11 @@ void	create_vector_space(t_obj *obj)
 	if (fabs(obj->view.dx) < EPSILON && fabs(obj->view.dz) < EPSILON)
 	{
 		if (obj->view.dy > 0)
-			*obj = (t_obj){obj->c0, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0}, {1.0, 0.0, 0.0}};
+			*obj = (t_obj){obj->c0, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0}, \
+				{1.0, 0.0, 0.0}};
 		else
-			*obj = (t_obj){obj->c0, {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0}, {1.0, 0.0, 0.0}};
+			*obj = (t_obj){obj->c0, {0.0, -1.0, 0.0}, {0.0, 0.0, -1.0}, \
+				{1.0, 0.0, 0.0}};
 		return ;
 	}
 	obj->right.dx = -obj->view.dz;
@@ -78,4 +81,33 @@ void	ini_new_calcul_struct(t_c_px *calcul, t_c_px *to_ini, int bit)
 	ft_memcpy(to_ini->inside, calcul->inside, sizeof(calcul->inside));
 	to_ini->stack_top = calcul->stack_top;
 	to_ini->dist = -1.0;
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+void	recalculate_obj_const(t_obj2 *obj)
+{
+	t_cone	*c;
+	t_arrow	*a;
+
+	if (!obj)
+		return ;
+	if (obj->type == CONE)
+	{
+		c = (t_cone *)obj;
+		c->apex = new_moved_point(&obj->O.c0, &obj->O.view, c->height);
+		c->slope = pow(c->radius, 2.0) / pow(c->height, 2.0);
+		c->angle = atan(c->radius / c->height);
+	}
+	else if (obj->type == CYLINDER)
+		((t_cylinder *)obj)->xyz_other = new_moved_point(&obj->O.c0, \
+			&obj->O.view, ((t_cylinder *)obj)->height);
+	else if (obj->type == PLANE || obj->type == SPRITE)
+		((t_plane *)obj)->d = -ft_dot_p(&obj->O.view, &obj->O.c0);
+	else if (obj->type == ARROW)
+	{
+		a = (t_arrow *)obj;
+		a->xyz_other = new_moved_point(&obj->O.c0, &obj->O.view, a->h * 2 / 3);
+		a->apex = new_moved_point(&obj->O.c0, &obj->O.view, a->h);
+		a->slope = (9.0 * pow(a->radius, 2.0)) / pow(a->h, 2.0);
+	}
 }

@@ -97,9 +97,9 @@ typedef struct s_data
 	
 	// t_img	buffer; <---- buffer not used, all buffer lines commented
 	
-	t_ambient_light	**bg;
+	t_ambient_light	**bgl;
 	t_camera		**camera;
-	t_light			**light_source;
+	t_light			**light;
 	
 	void		**objects;
 	t_img		**textures;

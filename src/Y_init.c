@@ -30,7 +30,7 @@ void	initialization(int ac, char **av, t_data *data)
 	ini_mlx(data);
 	read_file(ac, av, data);
 	srand(time(NULL));
-	if (tab_size((char **)data->bg) != 1)
+	if (tab_size((char **)data->bgl) != 1)
 		return (put(ERR7"Only ONE background light!\n"), end(data, 1, 1));
 	if (tab_size((char **)data->camera) < 1)
 		return (put(ERR7"Need a Camera\n"), end(data, 1, 1));
@@ -50,7 +50,8 @@ void	read_file(int ac, char **av, t_data *data)
 		(put(ERR2"Wrong number of args\n"), end(data, 1, 1));
 	dot = wii('.', av[1]);
 	if (dot == -1 || !same_str(".rt", &av[1][dot]))
-		(put(ERR1"MiniRT takes a single map with .rt extension as argument\n"), end(data, 1, 1));
+		(put(ERR1"MiniRT takes a single map with .rt \
+			extension as argument\n"), end(data, 1, 1));
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		(perror(ERR9"Cant open file"), end(data, 1, 1));
@@ -78,8 +79,10 @@ static void	ini_mlx(t_data *data)
 	data->buff_aa.img = mlx_new_image(data->mlx, SZ_X * 2, SZ_Y * 2);
 	if (!data->buffer.img || !data->buff_aa.img)
 		(put(ERRM"Problem initializing buffers\n"), end(data, 1, 1));
-	data->buffer.addr = mlx_get_data_addr(data->buffer.img, &data->buffer.bpp, &data->buffer.ll, &data->buffer.end);
-	data->buff_aa.addr = mlx_get_data_addr(data->buff_aa.img, &data->buff_aa.bpp, &data->buff_aa.ll, &data->buff_aa.end);
+	data->buffer.addr = mlx_get_data_addr(data->buffer.img, &data->buffer.bpp, \
+		&data->buffer.ll, &data->buffer.end);
+	data->buff_aa.addr = mlx_get_data_addr(data->buff_aa.img, \
+		&data->buff_aa.bpp, &data->buff_aa.ll, &data->buff_aa.end);
 	mlx_loop_hook(data->mlx, &ft_loop, data);
 	mlx_hook(data->win, KeyPress, KeyPressMask, &key_press, data);
 	mlx_hook(data->win, ButtonPress, ButtonPressMask, &mouse_clic, data);

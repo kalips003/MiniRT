@@ -98,11 +98,11 @@ unsigned int	calc_px_color(t_data *data, t_c_px *c, int sublim)
 {
 	if (!ft_find_pixel_colision(data, c, NOT_SHADOWS, SET_DIST))
 	{
-		if (data->bg[0]->texture)
+		if (data->bgl[0]->texture)
 			return (h_bg_texture(data, c));
-		c->mat.argb.r = (int)(round(data->bg[0]->rgb.r * data->bg[0]->ratio));
-		c->mat.argb.g = (int)(round(data->bg[0]->rgb.g * data->bg[0]->ratio));
-		c->mat.argb.b = (int)(round(data->bg[0]->rgb.b * data->bg[0]->ratio));
+		c->mat.argb.r = (int)(round(data->bgl[0]->rgb.r * data->bgl[0]->ratio));
+		c->mat.argb.g = (int)(round(data->bgl[0]->rgb.g * data->bgl[0]->ratio));
+		c->mat.argb.b = (int)(round(data->bgl[0]->rgb.b * data->bgl[0]->ratio));
 		return (c->mat.argb.r << 16 | c->mat.argb.g << 8 | c->mat.argb.b);
 	}
 	else if (sublim == 2)
@@ -124,6 +124,6 @@ static unsigned int	h_bg_texture(t_data *data, t_c_px *c)
 
 	l_x = fmin(1.0, fmax(0.0, atan2(c->v.dz, c->v.dx) / (2 * PI) + 0.5));
 	l_y = fmin(1.0, fmax(0.0, acos(c->v.dy) / PI));
-	c->mat.argb = return_px_img(data->bg[0]->texture, l_x, l_y);
+	c->mat.argb = return_px_img(data->bgl[0]->texture, l_x, l_y);
 	return (c->mat.argb.r << 16 | c->mat.argb.g << 8 | c->mat.argb.b);
 }

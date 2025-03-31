@@ -50,6 +50,16 @@ typedef struct s_light
 }	t_light;
 
 ////////////////////////////////////////////]
+// CIRCLE = ci
+typedef struct s_cicle
+{
+	int		type;
+	t_obj	O;
+	t_param	param;
+
+	double	radius;
+}	t_circle;
+
 // SPHERE = sp
 typedef struct s_sphere
 {
@@ -81,16 +91,6 @@ typedef struct s_cylinder
 	double	height;
 	double	radius;
 }	t_cylinder;
-
-// CIRCLE = ci
-typedef struct s_cicle
-{
-	int		type;
-	t_obj	O;
-	t_param	param;
-
-	double	radius;
-}	t_circle;
 
 // CONE = co
 typedef struct s_cone
@@ -126,7 +126,7 @@ typedef struct s_arrow
 	t_obj	O;
 	t_param	param;
 
-	double	height;
+	double	h;
 	double	radius;
 
 	t_coor	xyz_other;

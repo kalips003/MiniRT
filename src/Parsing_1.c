@@ -18,7 +18,9 @@ int	parse_a(t_data *data, char **raw_split);
 int	parse_l(t_data *data, char **raw_split);
 int	parse_c(t_data *data, char **raw_split);
 
-static const t_dico_pair	dico[] = {
+///////////////////////////////////////////////////////////////////////////////]
+
+static const t_dico_pair	g_dico[] = {
 {"A", parse_a},
 {"L", parse_l},
 {"C", parse_c},
@@ -49,17 +51,18 @@ int	ft_parse_line(t_data *data, char *line)
 	if (!params)
 		return (put(ERRM"split\n"), 2);
 	i = -1;
-	while (dico[++i].name)
+	while (g_dico[++i].name)
 	{
-		if (same_str(params[0], dico[i].name))
+		if (same_str(params[0], g_dico[i].name))
 		{
-			if (dico[i].exe(data, params + 1))
+			if (g_dico[i].exe(data, params + 1))
 				return (free_tab(params), put(ERR3"parsing error\n"), 1);
 			break ;
 		}
 	}
-	if (!dico[i].name)
-		return (put(ERR4"Unknown object: "C_441"%.3t\n"RESET, params), free_tab(params), 1);
+	if (!g_dico[i].name)
+		return (put(ERR4"Unknown object: "C_441"%.3t\n"RESET, params), \
+			free_tab(params), 1);
 	free_tab(params);
 	return (0);
 }
@@ -78,7 +81,8 @@ int	h_parse_vect_space(t_obj *obj, t_vect *view)
 		create_vector_space(obj);
 	}
 	else
-		*obj = (t_obj){obj->c0, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0}, {1.0, 0.0, 0.0}};
+		*obj = (t_obj){obj->c0, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0}, \
+			{1.0, 0.0, 0.0}};
 	return (0);
 }
 
@@ -94,7 +98,7 @@ int	parse_a(t_data *data, char **raw_split)
 	light = mem(0, sizeof(t_ambient_light));
 	if (!light)
 		return (put(ERRM), 2);
-	data->bg = (t_ambient_light **)expand_tab((void **)data->bg, light);
+	data->bgl = (t_ambient_light **)expand_tab((void **)data->bgl, light);
 	if (tab_size(raw_split) < 2 || tab_size(raw_split) > 3)
 		return (put(ERR1"bad number of args (AMBIENT LIGHT)\n"), 1);
 	if (ft_atof(raw_split[0], &light->ratio)
@@ -102,7 +106,8 @@ int	parse_a(t_data *data, char **raw_split)
 		|| parse_bg_texture(data, raw_split[2], &light->texture))
 		return (1);
 	if (light->ratio < 0.0 || light->ratio > 1.0)
-		return (put(ERR1"(%s) ambient lighting ratio should be [0.0,1.0]\n", raw_split[0]), 1);
+		return (put(ERR1"(%s) ambient lighting ratio should be [0.0,1.0]\n", \
+			raw_split[0]), 1);
 	return (0);
 }
 
@@ -118,7 +123,7 @@ int	parse_l(t_data *data, char **raw_split)
 	light = mem(0, sizeof(t_camera));
 	if (!light)
 		return (put(ERRM), 2);
-	data->light_source = (t_light **)expand_tab((void **)data->light_source, light);
+	data->light = (t_light **)expand_tab((void **)data->light, light);
 	if (tab_size(raw_split) != 3)
 		return (put(ERR1"bad number of args (LIGHT SOURCE)\n"), 1);
 	if (ato_coor(raw_split[0], &light->xyz)
@@ -126,7 +131,8 @@ int	parse_l(t_data *data, char **raw_split)
 		|| ato_argb(raw_split[2], &light->color))
 		return (1);
 	if (light->ratio < 0.0 || light->ratio > 1.0)
-		return (put(ERR1"(%s) light source ratio should be [0.0,1.0]\n", raw_split[1]), 1);
+		return (put(ERR1"(%s) light source ratio should be [0.0,1.0]\n", \
+			raw_split[1]), 1);
 	return (0);
 }
 
@@ -152,7 +158,8 @@ int	parse_c(t_data *data, char **raw_split)
 		|| ato_coor(raw_split[1], (t_coor*)&camera->O.view))
 		return (1);
 	if (camera->fov < 0 || camera->fov > 180)
-		return (put(ERR1"(%s) camera fov should be [0, 180]\n", raw_split[0]), 1);
+		return (put(ERR1"(%s) camera fov should be [0, 180]\n", \
+			raw_split[0]), 1);
 	if (h_parse_vect_space(&camera->O, &camera->O.view))
 		return (1);
 	camera->fov_cst = tan(camera->fov * PI / 360) / (SZ_X / 2.0);

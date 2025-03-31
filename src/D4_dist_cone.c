@@ -112,7 +112,7 @@ static int	h_dist_cone_2(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c, int si
 // DONE WITH QUATERNIONS
 	calcul->vn = vect_ab_norm(&c->projec_point, &calcul->inter);
 	t_vect	axis = ft_cross_product(&calcul->vn, &cone->O.view);
-	calcul->vn = quaternion_rotation(&calcul->vn, &axis, cone->angle, 1);
+	calcul->vn = quaternion_rota(&calcul->vn, &axis, cone->angle, 1);
 ///////////////////////////////////////////////////////////////////////////////]
 	// t_vect apex_to_inter = vect_ab(&cone->apex, &calcul->inter);
 	// t_vect apex_to_projec = vect_ab(&cone->apex, &c->projec_point);

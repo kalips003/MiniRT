@@ -25,28 +25,17 @@
 			██║░░██║  ██║░░░░░██║░░██║██║██║░░██║███████╗
 			╚═╝░░╚═╝  ╚═╝░░░░░╚═╝░░╚═╝╚═╝╚═╝░░╚═╝╚══════╝
 
-SIZE
-param light
-hieght map
-ao map
-specular map
-
-hyperboloid
 
 AAliasing all black?? no ambiant light?
 Normales niquees
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////]
-// int	g_signalreceived;
-
 int	main(int ac, char **av)
 {
 	t_data	data;
 
 	initialization(ac, av, &data);
 	ft_render_frame_multi(&data, RENDERING_LVL);
-	printf(RED"buffer: %p; %p\n", &data.buffer, data.buffer.addr);
-	printf(RED"data: %p\n", &data);
 	mlx_loop(data.mlx);
 	end(&data, 0, 1);
 	return (0);

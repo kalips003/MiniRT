@@ -55,13 +55,13 @@ void	f_loop_light_ratio(t_data *data, t_obj2 *obj, int k_or_loop)
 	if (!k_or_loop)
 	{
 		printf(C_451"Starting Light Loop, Ratio set to 1\n");
-		data->light_source[0]->ratio = 1.0;
+		data->light[0]->ratio = 1.0;
 	}
 	else
 	{
-		data->light_source[0]->ratio -= (1.0 / 60.0);
-		if (data->light_source[0]->ratio < EPSILON)
-			data->light_source[0]->ratio = 1.0;
+		data->light[0]->ratio -= (1.0 / 60.0);
+		if (data->light[0]->ratio < EPSILON)
+			data->light[0]->ratio = 1.0;
 	}
 	ft_render_frame_multi(data, RENDERING_LVL);
 }

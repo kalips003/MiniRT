@@ -30,7 +30,7 @@ void	ft_lighting_simple(t_data *data, t_c_px *c)
 		return ;
 	}
 	c->diffuse = ft_ambient(data, c);
-	lights = data->light_source - 1;
+	lights = data->light - 1;
 	while (++lights && *lights)
 	{
 		if (!ft_diffuse_simple(data, c, *lights))
@@ -54,7 +54,7 @@ void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*), int
 		return (c->mat.argb = scale_argb(c->mat.argb, (c->object->param.light)), (void)0);
 	c->diffuse = ft_ambient(data, c);
 	c->specular = (t_coor){0.0, 0.0, 0.0};
-	lights = data->light_source - 1;
+	lights = data->light - 1;
 	while (++lights && *lights)
 	{
 		if (!ft_diffuse(data, c, *lights, f_shadow))

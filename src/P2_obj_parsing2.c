@@ -41,16 +41,16 @@ int	parse_ar(t_data *data, char **raw_split)
 	if (ato_coor(raw_split[0], &arrow->O.c0)
 		|| ato_coor(raw_split[1], (t_coor *)&arrow->O.view)
 		|| ft_atof(raw_split[2], &arrow->radius)
-		|| ft_atof(raw_split[3], &arrow->height)
+		|| ft_atof(raw_split[3], &arrow->h)
 		|| ato_argb(raw_split[4], &arrow->param.argb))
 		return (1);
-	if (arrow->radius < EPSILON || arrow->height < EPSILON)
+	if (arrow->radius < EPSILON || arrow->h < EPSILON)
 		return (put(ERR1"(ARROW OBJECT) too small\n"), 1);
 	if (h_parse_vect_space(&arrow->O, &arrow->O.view))
 		return (1);
-	arrow->xyz_other = new_moved_point(&arrow->O.c0, &arrow->O.view, arrow->height * 2 / 3);
-	arrow->apex = new_moved_point(&arrow->O.c0, &arrow->O.view, arrow->height);
-	arrow->slope = (9 * arrow->radius * arrow->radius) / (arrow->height * arrow->height);
+	arrow->xyz_other = new_moved_point(&arrow->O.c0, &arrow->O.view, arrow->h * 2 / 3);
+	arrow->apex = new_moved_point(&arrow->O.c0, &arrow->O.view, arrow->h);
+	arrow->slope = (9 * arrow->radius * arrow->radius) / (arrow->h * arrow->h);
 	return (0);
 }
 

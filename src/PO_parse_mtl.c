@@ -137,6 +137,8 @@ static int	h_ini_mat3(t_data *data, char **spl, t_mat *mat)
 		err |= ft_atof(spl[3], &dbl);
 		mat->argb.b = min(255, max(0, (int)(dbl * 255.0)));
 	}
+	else if (same_str(spl[0], "Ka"))
+		err = ft_atof(spl[1], &mat->ao);
 	else if (same_str(spl[0], "map_Kd"))
 	{
 		

@@ -19,7 +19,6 @@ int			ato_rgb(char *str, t_rgb *rgb);
 int			ato_argb(char *str, t_argb *argb);
 
 ///////////////////////////////////////////////////////////////////////////////]
-
 int	ft_atof(char *string, double *rtrn)
 {
 	char	**tab;
@@ -27,11 +26,13 @@ int	ft_atof(char *string, double *rtrn)
 
 	tab = split(string, ".");
 	if (!tab || tab_size(tab) > 2)
-		return (free_tab(tab), put(ERR6"(%s) not a correct float number\n", string), 1);
+		return (free_tab(tab), put(ERR6"(%s) not a correct float number\n", \
+			string), 1);
 	err = 0;
 	*rtrn = ft_atoi(tab[0], &err);
 	if (err < 0)
-		return (put(ERR7"(%s) not a correct number\n", string), free_tab(tab), 1);
+		return (put(ERR7"(%s) not a correct number\n", string), \
+			free_tab(tab), 1);
 	if (tab[1] && h_atof(tab, rtrn, &err))
 		return (1);
 	free_tab(tab);
@@ -47,7 +48,8 @@ static int	h_atof(char **tab, double *rtrn, int *err)
 
 	fraction = ft_atoi(tab[1], err);
 	if (*err < 0 || fraction < 0)
-		return (printf(ERR8"(%s) bad fractional part\n", tab[1]), free_tab(tab), 1);
+		return (printf(ERR8"(%s) bad fractional part\n", tab[1]), \
+			free_tab(tab), 1);
 	frac_len = len(tab[1]);
 	while (frac_len-- != 0)
 		fraction /= 10.0;

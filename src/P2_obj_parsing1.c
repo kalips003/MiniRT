@@ -80,7 +80,7 @@ int	parse_pl(t_data *data, char **raw_split)
 		return (1);
 	if (h_parse_vect_space(&plane->O, &plane->O.view))
 		return (1);
-	plane->d = -(plane->O.view.dx * plane->O.c0.x + plane->O.view.dy * plane->O.c0.y + plane->O.view.dz * plane->O.c0.z);
+	plane->d = -ft_dot_p(&plane->O.view, &plane->O.c0);
 	return (0);
 }
 

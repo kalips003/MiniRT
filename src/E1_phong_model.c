@@ -24,7 +24,7 @@ t_coor	ft_ambient(t_data *data, t_c_px *c)
 	t_coor			color_ambient;
 	t_ambient_light	*l;
 
-	l = data->bg[0];
+	l = data->bgl[0];
 
 	color_ambient.x = c->mat.argb.r * l->rgb.r / 255.0 * l->ratio * c->mat.ao;
 	color_ambient.y = c->mat.argb.g * l->rgb.g / 255.0 * l->ratio * c->mat.ao;

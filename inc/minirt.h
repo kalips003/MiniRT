@@ -67,7 +67,6 @@ t_vect	cam_quaternion(t_data *data, int x, int y, int aa);
 void	do_the_tree_splitting(t_model *model);
 void	find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
 void	h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
-void	ft_free_tree(t_bbox *node);
 
 // progressive
 int	ft_render_frame_multi_prog(t_data *data, int sublim);
@@ -244,14 +243,15 @@ int		ft_atof(char *string, double *rtrn);
 int		ato_coor(char *str, t_coor *xyz);
 int		ato_rgb(char *str, t_rgb *rgb);
 int		ato_argb(char *str, t_argb *argb);
-// tools other
+// other
 void	create_vector_space(t_obj *obj);
 double	h_smalest_delta(double a, double b);
 t_argb	dual_color(t_argb *color1, t_rgb *color2, double dist);
 void	ini_new_calcul_struct(t_c_px *calcul, t_c_px *to_ini, int bit);
+void	recalculate_obj_const(t_obj2 *obj);
 // rotation
 t_vect	dbl_quaternion_rota(t_obj *obj, double angle_α, double angle_β);
-t_vect	quaternion_rotation(t_vect *v, t_vect *axis_rota, double angle_α, int posi_neg);
+t_vect	quaternion_rota(t_vect *v, t_vect *axis_rota, double angle_α, int posi_neg);
 void	rotation_obj(t_obj *obj, t_vect *axis_rota, double angle_α, int posi_neg);
 // vector mouv
 void	move_point(t_coor* p, t_vect *v, double incre);
@@ -264,7 +264,7 @@ double	ft_dot_p(t_vect *a, t_vect *b);
 t_vect	ft_cross_product(t_vect *u, t_vect *v);
 t_vect	ft_cross_product_norm(t_vect *u, t_vect *v);
 double	dist_two_points(t_coor *a, t_coor *b);
-// vector
+// scaling
 t_vect	scale_vect(t_vect v, double scalar);
 t_coor	scale_point(t_coor p, double scalar);
 t_argb	scale_argb(t_argb argb, double scalar);
@@ -278,6 +278,8 @@ void	read_file(int ac, char **av, t_data *data);
 ********************************/
 void	end(t_data *data, int exit_code, int full_clean);
 int		end2(t_data *data);
+// 
+void	destroy_models(t_data *data);
 
 
 #endif

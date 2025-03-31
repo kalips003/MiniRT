@@ -106,7 +106,7 @@ void	render_normal(t_data *data, t_c_px *calcul)
 	t_arrow arrow;
 
 	ft_memset(&arrow, 0, sizeof(t_arrow));
-	arrow.height = 1.0;
+	arrow.h = 1.0;
 	arrow.radius = 0.1;
 	arrow.param.argb = (t_argb){0, 255, 223, 0};
 	arrow.type = ARROW;

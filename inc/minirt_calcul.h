@@ -183,16 +183,29 @@ typedef struct s_obj_calc {
 ///////////////////////////////////////////////////////////////////////////////]
 ///////////////////////////////////////////////////////////////////////////////]
 typedef struct s_camera_calc {
-	double cosA;
-	double sinA;
-	double cosB;
-	double sinB;
+	double cA;
+	double sA;
+	double cB;
+	double sB;
 
 	double Qw;
 	double Qi;
 	double Qj;
 	double Qk;
 } t_camera_calc;
+
+typedef struct s_q_rota {
+	double	cosa;
+	double	sina;
+	double	qw;
+	double	qi;
+	double	qj;
+	double	qk;
+	double	w;
+	double	qx;
+	double	qy;
+	double	qz;
+} t_q_rota;
 
 // temp linked list to fill the stack inside
 typedef	struct s_stack_inside {

@@ -245,27 +245,4 @@ static void	h_bound_mmax(double mmxyz[2][3], int xyz, t_bbox *bbox, t_c_obj *c)
 
 ///////////////////////////////////////////////////////////////////////////////]
 ///////////////////////////////////////////////////////////////////////////////]
-///////////////////////////////////////////////////////////////////////////////]
-// free
-static void	ft_free_triangles(t_tri *f)
-{
-	t_tri	*tmp;
 
-	while (f)
-	{
-		tmp = f;
-		f = f->next;
-		free_s(tmp);
-	}
-}
-
-// Recursively free the tree
-void	ft_free_tree(t_bbox *node)
-{
-	if (!node)
-		return ;
-	ft_free_triangles(node->f);
-	ft_free_tree(node->l);
-	ft_free_tree(node->r);
-	free_s(node);
-}

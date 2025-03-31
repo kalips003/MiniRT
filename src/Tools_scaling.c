@@ -14,6 +14,7 @@
 
 t_vect	scale_vect(t_vect v, double scalar);
 t_coor	scale_point(t_coor p, double scalar);
+t_argb	scale_argb(t_argb argb, double scalar);
 
 ///////////////////////////////////////////////////////////////////////////////]
 t_vect	scale_vect(t_vect v, double scalar)
