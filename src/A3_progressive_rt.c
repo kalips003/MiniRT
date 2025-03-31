@@ -17,6 +17,13 @@ t_rgb	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce);
 t_vect	random_ray(t_c_px *calcul);
 void	clean_buffer(t_data *data);
 
+unsigned int	ft_new_average_color(t_data *data, int x, int y, t_rgb new_ray);
+int	ft_render_frame_multi_prog(t_data *data, int sublim);
+static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *calcul_tab, int sublim);
+static void	*f_thread2(void *calcul);
+
+
+
 ///////////////////////////////////////////////////////////////////////////////]
 t_rgb	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce)
 {
@@ -34,7 +41,7 @@ t_rgb	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce)
 		return (rgb);
 	}
 	t_c_px	c;
-	ini_new_calcul_struct(calcul, &calcul, 0b11);
+	ini_new_calcul_struct(calcul, &c, 0b11);
 	c.c0 = calcul->inter;
 	c.v = random_ray(&c);
 	rgb = calculate_random_ray(data, &c, num_bounce + 1);
@@ -200,43 +207,26 @@ unsigned int	ft_new_average_color(t_data *data, int x, int y, t_rgb new_ray)
 	buffer = &data->buffer;
 	color = *(unsigned int *)(buffer->addr + (y * buffer->ll + x * (buffer->bpp / 8)));
 
-	int px_iteration = *(int *)&data->ram;
+	double px_iteration = *(int *)&data->ram;
 
-	t_rgb	current_px;
-	// current_px.r = (((color >> 16) & 0xFF) * px_iteration + new_ray.r) / (px_iteration + 1);
-	// current_px.g = (((color >> 8) & 0xFF) * px_iteration + new_ray.g) / (px_iteration + 1);
-	// current_px.b = ((color & 0xFF) * px_iteration + new_ray.b) / (px_iteration + 1);
+	t_coor	current_px;
+	current_px.x = (((color >> 16) & 0xFF) * px_iteration + new_ray.r) / (px_iteration + 1);
+	current_px.y = (((color >> 8) & 0xFF) * px_iteration + new_ray.g) / (px_iteration + 1);
+	current_px.z = ((color & 0xFF) * px_iteration + new_ray.b) / (px_iteration + 1);
 
-	current_px.r = (((color >> 16) & 0xFF)  + new_ray.r) / 2;
-	current_px.g = (((color >> 8) & 0xFF)  + new_ray.g) / 2;
-	current_px.b = ((color & 0xFF)  + new_ray.b) / 2;
+	t_rgb rgb;
+	rgb.r = clamp((int)round(current_px.x), 0, 255);
+	rgb.g = clamp((int)round(current_px.y), 0, 255);
+	rgb.b = clamp((int)round(current_px.z), 0, 255);
 
-
-//
-	// // Accumulate color with the new ray
-	// current_px.r = ((color >> 16) & 0xFF) + new_ray.r;
-	// current_px.g = ((color >> 8) & 0xFF) + new_ray.g;
-	// current_px.b = (color & 0xFF) + new_ray.b;
-
-	// // You can apply a decay here to reduce the intensity of the light
-	// // For instance, decay the color slightly with each bounce:
-	// current_px.r = (int)(current_px.r * 0.8);  // Decay factor of 0.8
-	// current_px.g = (int)(current_px.g * 0.8);
-	// current_px.b = (int)(current_px.b * 0.8);
-//
-
-	current_px.r = clamp(current_px.r, 0, 255);
-	current_px.g = clamp(current_px.g, 0, 255);
-	current_px.b = clamp(current_px.b, 0, 255);
-
-	color = current_px.r << 16 | current_px.g << 8 | current_px.b;
+	color = rgb.r << 16 | rgb.g << 8 | rgb.b;
 	return (color);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
 ///////////////////////////////////////////////////////////////////////////////]
 static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *calcul_tab, int sublim);
-static void	*f_thread(void *calcul);
+static void	*f_thread2(void *calcul);
 ///////////////////////////////////////////////////////////////////////////////]
 int	ft_render_frame_multi_prog(t_data *data, int sublim)
 {
@@ -266,10 +256,10 @@ static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *calcul_tab, int subli
 		ft_memcpy(calcul_tab[y].inside, c->inside, sizeof(c->inside));
 		calcul_tab[y].stack_top = c->stack_top;
 		calcul_tab[y].c0 = c->c0;
-		calcul_tab[y].object = data;
+		calcul_tab[y].object = (t_obj2 *)data;
 		calcul_tab[y].transparence_depth = y;
 		calcul_tab[y].reflected_depth = sublim;
-		if (pthread_create(&threads[y], NULL, f_thread, &calcul_tab[y]))
+		if (pthread_create(&threads[y], NULL, f_thread2, &calcul_tab[y]))
 		{
 			printf("Error creating thread for row %d\n", y);
 			break ;
@@ -280,7 +270,7 @@ static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *calcul_tab, int subli
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static void	*f_thread(void *calcul)
+static void	*f_thread2(void *calcul)
 {
 	t_c_px	*c;
 	t_data	*data;
@@ -288,7 +278,7 @@ static void	*f_thread(void *calcul)
 	int		sublim;
 
 	c = (t_c_px *)calcul;
-	data = c->object;
+	data = (t_data *)c->object;
 	xy[Y] = c->transparence_depth;
 	sublim = c->reflected_depth;
 	c->object = NULL;

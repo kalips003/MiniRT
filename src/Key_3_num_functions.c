@@ -147,6 +147,7 @@ void	f_progressive_rt(t_data *data, t_obj2 *obj, int k_or_loop)
 		*(int *)&data->ram = 0;
 		return ;
 	}
+	// ft_render_frame_prog2(data, RENDERING_LVL);
 	ft_render_frame_multi_prog(data, RENDERING_LVL);
 	(*(int *)&data->ram)++;
 	printf("loop: %d\n", *(int *)&data->ram);

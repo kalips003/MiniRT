@@ -35,11 +35,19 @@ Uppercase: Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ 
 
 int	main(int ac, char **av, char **env)
 {
-	char *str = "v  -7.8541 121.3862 17.1093\n";
-	char	**spl;
-	spl = split(str, " \n");
-	put("TAB: (%.3t)\n", spl);
-	free_tab(spl);
+	int i = 0;
+	double color = 0;
+	double	new_color;
+	while (i < 50)
+	{
+		if (i % 2)
+			new_color = 100;
+		else
+			new_color = 0;
+		color = (color * i + new_color) / (i + 1);
+		printf("color = %.3f\n", color);
+		i++;
+	}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // MAIN 1
