@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"limits": "c",
-		"minirt.h": "c"
+		"minirt.h": "c",
+		"type_traits": "c"
 	}
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Kb_keypress_tools.c                                :+:      :+:    :+:   */
+/*   Key_1_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/26 00:53:10 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/31 08:18:34 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static const t_dico_pair2	numpad_fuctions[] = {
 {"Move the selected object in given direction", f_move_obj},
 {"Toogle Cam: Vector / Quaternion", f_toogle_cam},
 {"Render the normal at clicked point", f_render_normal_arrow},
-{"TEMP7", NULL},
+{"Progressively does magic", f_progressive_rt},
 {"TEMP8", NULL},
 {"TEMP9", NULL}
 };

@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/30 10:55:28 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/31 08:29:59 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@
 int	txt_already_exist(t_data *data, char *path, t_img **txt);
 t_img	*parse_img(t_data *data, char *path);
 t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);
+int	clamp(int value, int min_v, int max_v);
 
 void	render_temp_added_obj(t_data *data, t_obj2 *obj_to_add);
 void	render_normal(t_data *data, t_c_px *calcul);
@@ -68,6 +69,11 @@ void	find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
 void	h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
 void	ft_free_tree(t_bbox *node);
 
+// progressive
+int	ft_render_frame_multi_prog(t_data *data, int sublim);
+t_rgb	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce);
+t_vect	random_ray(t_c_px *calcul);
+void	clean_buffer(t_data *data);
 /********************************
 		A
 ********************************/
@@ -176,6 +182,7 @@ void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_render_normal_arrow(t_data *data, t_obj2 *obj, int k_or_loop);
+void	f_progressive_rt(t_data *data, t_obj2 *obj, int k_or_loop);
 /********************************
 		P	Parsing
 ********************************/

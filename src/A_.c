@@ -118,3 +118,9 @@ void	render_normal(t_data *data, t_c_px *calcul)
 	arrow.param.c2.r = -1;
 	render_temp_added_obj(data, &arrow);
 }
+
+int	clamp(int value, int min_v, int max_v)
+{
+	value = min(max_v, max(min_v, value));
+	return (value);
+}

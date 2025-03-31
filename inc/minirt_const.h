@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/30 10:56:05 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/31 06:33:13 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@
 # define QUATERNION 1
 # define NOT_AA 1
 # define AA 2
+# define DONT_SET_DIST 0
+# define SET_DIST 1
+# define NOT_SHADOWS 0
+# define CALC_SHADOWS 1
 
 
 ///////////////////////////////////////////////////////////////////////////////]

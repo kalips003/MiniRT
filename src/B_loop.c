@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/17 17:40:22 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/03/31 06:33:21 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_render_frame(t_data *data, int sublim)
 // fills calcul.argb with the pixel color shaded of the intersection
 unsigned int	calc_px_color(t_data *data, t_c_px *c, int sublim)
 {
-	if (!ft_find_pixel_colision(data, c, 0, 1))
+	if (!ft_find_pixel_colision(data, c, NOT_SHADOWS, SET_DIST))
 	{
 		if (data->bg[0]->texture)
 			return (h_bg_texture(data, c));
