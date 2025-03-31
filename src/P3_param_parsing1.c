@@ -13,19 +13,21 @@
 #include "../inc/minirt.h"
 
 int	parse_reste(t_data *data, char **raw_split, t_param *obj);
-int	parse_bg_texture(t_data *data, char *path, t_img **bg_txt);
 
 #define PARAM_DICO "STMXNACLOsR"
 
-///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
-// (Shininess) S=[1.0, +]
-// (Transparence, gamma) T=[0,1],[1.0, 2.5+]
-// (Mirroir) M=[0,1]
-// (Texture) X=sphere_texture.xpm
-// (Normal Map) N=sphere_normal.xpm
-// (Alpha Map) A=sphere_alpha.xpm
-// (Color 2) C=255,0,0
-// (Light) L=[0,1]
+///////////////////////////////////////////////////////////////////////////////]
+// S: (Shininess) S=[1.0, +]
+// T: (Transparence, gamma) T=[0,1],[1.0, 2.5+]
+// M: (Mirroir) M=[0,1]
+// X: (Texture) X=t_sphere.xpm
+// N: (Normal Map) N=n_sphere.xpm
+// A: (Alpha Map) A=a_sphere.xpm
+// C: (Color 2) C=255,0,0
+// L: (Light) L=[0,1]
+// O: (Ambient Occlusion) O=ao_sphere.xpm
+// s: (Specular Map) s=sp_sphere.xpm
+// R: (Roughness Map) s=r_sphere.xpm
 static const t_ft_param_parsing	g_ft_param_parsing[] = {
 	parse_shininess,
 	parse_transparence,
@@ -40,6 +42,7 @@ static const t_ft_param_parsing	g_ft_param_parsing[] = {
 	parse_rmap
 };
 
+///////////////////////////////////////////////////////////////////////////////]
 int	parse_reste(t_data *data, char **raw_split, t_param *obj)
 {
 	int	index;
@@ -59,25 +62,5 @@ int	parse_reste(t_data *data, char **raw_split, t_param *obj)
 				return (1);
 		raw_split++;
 	}
-	return (0);
-}
-
-int	parse_bg_texture(t_data *data, char *path, t_img **bg_txt)
-{
-	t_img	*texture;
-
-	if (!path || !path[0])
-		return (0);
-	if (path[0] != 'X' || !path[1] || !path[2])
-		return (put("UNKNOWN BACKGROUND\n"), 1);
-	texture = mem(0, sizeof(t_img));
-	data->textures = (t_img **)expand_tab((void **)data->textures, texture);
-	if (!texture || !data->textures)
-		return (put(ERRM"parse_bg_texture\n"), 1);
-	texture->img = mlx_xpm_file_to_image(data->mlx, &path[2], &texture->sz_x, &texture->sz_y);
-	if (!texture->img)
-		return (put(ERR8"Cant open sprite: %s\n", &path[2]), perror(RED"mlx_xpm_file_to_image"), 1);
-	texture->addr = mlx_get_data_addr(texture->img, &texture->bpp, &texture->ll, &texture->end);
-	*bg_txt = texture;
 	return (0);
 }

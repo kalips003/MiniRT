@@ -48,9 +48,7 @@ int	parse_ar(t_data *data, char **raw_split)
 		return (put(ERR1"(ARROW OBJECT) too small\n"), 1);
 	if (h_parse_vect_space(&arrow->O, &arrow->O.view))
 		return (1);
-	arrow->xyz_other = new_moved_point(&arrow->O.c0, &arrow->O.view, arrow->h * 2 / 3);
-	arrow->apex = new_moved_point(&arrow->O.c0, &arrow->O.view, arrow->h);
-	arrow->slope = (9 * arrow->radius * arrow->radius) / (arrow->h * arrow->h);
+	recalculate_obj_const((t_obj2 *)arrow);
 	return (0);
 }
 

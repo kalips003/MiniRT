@@ -145,7 +145,8 @@ int	parse_cy(t_data *data, char **raw_split)
 	cylinder->radius /= 2;
 	if (h_parse_vect_space(&cylinder->O, &cylinder->O.view))
 		return (1);
-	cylinder->xyz_other = new_moved_point(&cylinder->O.c0, &cylinder->O.view, cylinder->height);
+	cylinder->xyz_other = new_moved_point(&cylinder->O.c0, \
+		&cylinder->O.view, cylinder->height);
 	return (0);
 }
 

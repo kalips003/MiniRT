@@ -87,10 +87,6 @@ int	h_parse_vect_space(t_obj *obj, t_vect *view)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-///////////////////////////////////////////////////////////////////////////////]
-// 			AMBIENT LIGHT
-// 		ambient lighting ratio [0.0,1.0] float
-// 		ARGB [0, 255] int
 int	parse_a(t_data *data, char **raw_split)
 {
 	t_ambient_light	*light;
@@ -102,12 +98,17 @@ int	parse_a(t_data *data, char **raw_split)
 	if (tab_size(raw_split) < 2 || tab_size(raw_split) > 3)
 		return (put(ERR1"bad number of args (AMBIENT LIGHT)\n"), 1);
 	if (ft_atof(raw_split[0], &light->ratio)
-		|| ato_argb(raw_split[1], &light->rgb)
-		|| parse_bg_texture(data, raw_split[2], &light->texture))
+		|| ato_argb(raw_split[1], &light->rgb))
 		return (1);
 	if (light->ratio < 0.0 || light->ratio > 1.0)
 		return (put(ERR1"(%s) ambient lighting ratio should be [0.0,1.0]\n", \
 			raw_split[0]), 1);
+	if (raw_split[2])
+	{
+		if (raw_split[2][0] != 'X' || !raw_split[2][1] || !raw_split[2][2])
+			return (put("UNKNOWN BACKGROUND\n"), 1);
+		light->texture = parse_img(data, &raw_split[2][2]);
+	}
 	return (0);
 }
 
