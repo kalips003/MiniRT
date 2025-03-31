@@ -33,14 +33,14 @@ int	rtrn_top_stack_gamma(t_c_px *c, t_obj2 *coli, double *i_ior, double *r_ior)
 	if (c->stack_top == -1)
 	{
 		*i_ior = 1.0;
-		push_stack(c->inside, coli, &c->stack_top, MAX_MIRROR_DEPTH - 1);
+		push_stack(c->inside, coli, &c->stack_top, MAX_MI_DEPTH - 1);
 		return (1);
 	}
 	else
 		*i_ior = ((t_obj2 *)c->inside[c->stack_top])->param.gamma;
 	posi_colli = where_in_stack(c->inside, coli, c->stack_top);
 	if (posi_colli == -1)
-		push_stack(c->inside, coli, &c->stack_top, MAX_MIRROR_DEPTH - 1);
+		push_stack(c->inside, coli, &c->stack_top, MAX_MI_DEPTH - 1);
 	else if (pop_stack(c->inside, posi_colli, &c->stack_top))
 	{
 		if (c->stack_top == -1)

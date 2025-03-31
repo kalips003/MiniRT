@@ -12,9 +12,9 @@
 
 #include "../inc/minirt.h"
 
-void	print_clic(t_data *data, int x, int y);
-void	h_print_1(t_data *data, t_c_px *c, int x, int y);
-void	h_print_2(t_data *data, t_c_px *c, int x, int y);
+void		print_clic(t_data *data, int x, int y);
+static void	h_print_1(t_data *data, t_c_px *c, int x, int y);
+static void	h_print_2(t_data *data, t_c_px *c, int x, int y);
 
 ///////////////////////////////////////////////////////////////////////////////]
 
@@ -54,7 +54,7 @@ void	print_clic(t_data *data, int x, int y)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	h_print_1(t_data *data, t_c_px *c, int x, int y)
+static void	h_print_1(t_data *data, t_c_px *c, int x, int y)
 {
 	printf(CLEAR);
 	printf(C_512"Camera\t[%.1f,%.1f,%.1f\t%.3f,%.3f,%.3f]\n\n", \
@@ -74,7 +74,7 @@ void	h_print_1(t_data *data, t_c_px *c, int x, int y)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	h_print_2(t_data *data, t_c_px *c, int x, int y)
+static void	h_print_2(t_data *data, t_c_px *c, int x, int y)
 {
 	t_obj2	*obj;
 	t_obj	*o;

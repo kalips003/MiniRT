@@ -165,18 +165,21 @@ t_vect	ft_vect_refracted(t_vect *incident, t_vect *normal, double η, int *neg);
 int		key_press(int keysym, t_data *data);
 int		mouse_clic(int button, int x, int y, void *data);
 int		mouse_move(int x, int y, void *d);
-int		mouse_release(int button, int x, int y, void *data);
-void	print_clic(t_data *data, int x, int y);
-// tools
+int		mouse_release(int button, int x, int y, void *d);
+// extra keys
 int		ft_cat_timing(t_data *data, int sublim);
 int		direction_pad(int keysym, t_data *data);
 int		keys_wasd(int keysym, t_data *data);
-void	ft_print_help(void);
-int		fuctions_number_pad(int keysym, t_data *data);
+int		extra_keys(int keysym, t_data *data);
+// print
+void	print_clic(t_data *data, int x, int y);
 // FUCTIONS 0123456789
+int		fuctions_number_pad(int keysym, t_data *data);
+void	ft_print_help(void);
 void	f_anti_aliasing(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_change_transp(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_loop_light_ratio(t_data *data, t_obj2 *obj, int k_or_loop);
+// 
 void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop);

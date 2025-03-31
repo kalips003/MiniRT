@@ -23,22 +23,15 @@ int	key_press(int keysym, t_data *data)
 	if (keysym == XK_Escape)
 		end2(data);
 	if (keysym == XK_KP_Enter)
-	{
-		ft_cat_timing(data, 2);
-		return (0);
-	}
+		return (ft_cat_timing(data, 2));
 	if (direction_pad(keysym, data))
 		return (ft_render_frame_multi(data, RENDERING_LVL));
 	else if (fuctions_number_pad(keysym, data))
 		return (0);
 	else if (keys_wasd(keysym, data))
 		return (ft_render_frame_multi(data, RENDERING_LVL));
-	else if (keysym == XK_space)
-		data->change ^= 1;
-	else if (keysym == 0xff08)
-		data->change_function = NULL;
-	else if (keysym == XK_h)
-		ft_print_help();
+	else if (extra_keys(keysym, data))
+		return (ft_render_frame_multi(data, RENDERING_LVL));
 	else
 		return (0);
 	ft_render_frame_multi(data, RENDERING_LVL);

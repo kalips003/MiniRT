@@ -12,59 +12,11 @@
 
 #include "../inc/minirt.h"
 
-void	f_anti_aliasing(t_data *data, t_obj2 *obj, int k_or_loop);
-void	f_change_transp(t_data *data, t_obj2 *obj, int k_or_loop);
-void	f_loop_light_ratio(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_render_normal_arrow(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_progressive_rt(t_data *data, t_obj2 *obj, int k_or_loop);
-
-///////////////////////////////////////////////////////////////////////////////]
-void	f_anti_aliasing(t_data *data, t_obj2 *obj, int k_or_loop)
-{
-	(void)obj;
-	(void)k_or_loop;
-	ft_render_frame_aa(data, RENDERING_LVL);
-}
-
-///////////////////////////////////////////////////////////////////////////////]
-// funcction de transformatioin basee sur un tableau, touches "-" et "+" swap through
-void	f_change_transp(t_data *data, t_obj2 *obj, int k_or_loop)
-{
-	if (!obj)
-		return ;
-	else if (!k_or_loop)
-	{
-		printf(C_451"Starting Transparance Loop, Transparence set to 1 (Press Space)\n");
-		obj->param.transparence = 1;
-	}
-	else
-	{
-		obj->param.transparence -= (1.0 / 60.0);
-		if (obj->param.transparence < EPSILON)
-			obj->param.transparence = 1.0;
-	}
-	ft_render_frame_multi(data, RENDERING_LVL);
-}
-
-///////////////////////////////////////////////////////////////////////////////]
-void	f_loop_light_ratio(t_data *data, t_obj2 *obj, int k_or_loop)
-{
-	if (!k_or_loop)
-	{
-		printf(C_451"Starting Light Loop, Ratio set to 1\n");
-		data->light[0]->ratio = 1.0;
-	}
-	else
-	{
-		data->light[0]->ratio -= (1.0 / 60.0);
-		if (data->light[0]->ratio < EPSILON)
-			data->light[0]->ratio = 1.0;
-	}
-	ft_render_frame_multi(data, RENDERING_LVL);
-}
 
 ///////////////////////////////////////////////////////////////////////////////]
 void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop)
@@ -93,14 +45,15 @@ void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop)
 ///////////////////////////////////////////////////////////////////////////////]
 void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop)
 {
+	char	*read;
+
 	if (!k_or_loop)
 	{
 		printf(C_451"Starting Object Movement, Select a direction\n");
-		char *read = gnl(0);
-		if (ato_coor(read, (t_coor*)&data->ram))
+		read = gnl(0);
+		if (ato_coor(read, (t_coor *)&data->ram))
 			return (free_s(read), printf(RED"you f*ing donkey!\n"), (void)0);
 		free_s(read);
-		// ft_normalize_vect((t_coor*)&data->ram);
 	}
 	else if (!obj)
 		return ;
@@ -147,7 +100,6 @@ void	f_progressive_rt(t_data *data, t_obj2 *obj, int k_or_loop)
 		*(int *)&data->ram = 0;
 		return ;
 	}
-	// ft_render_frame_prog2(data, RENDERING_LVL);
 	ft_render_frame_multi_prog(data, RENDERING_LVL);
 	(*(int *)&data->ram)++;
 	printf("loop: %d\n", *(int *)&data->ram);

@@ -54,7 +54,7 @@ typedef struct s_calcul_px
 	int	transparence_depth;
 // transparence
 
-	void	*inside[MAX_MIRROR_DEPTH];
+	void	*inside[MAX_MI_DEPTH];
 	int		stack_top;
 
 	t_mat2	mat;

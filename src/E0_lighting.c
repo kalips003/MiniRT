@@ -14,7 +14,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////]
 void	ft_lighting_simple(t_data *data, t_c_px *c);
-void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*), int simple);
+void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*));
 int		shadow_tracing(t_data *data, t_c_px *calcul);
 int		ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights);
 int		something_block_the_light_simple(t_data *data, t_c_px *c);
@@ -42,16 +42,14 @@ void	ft_lighting_simple(t_data *data, t_c_px *c)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*), int simple)
+void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*))
 {
-	(void)simple;
 	t_light	**lights;
 	t_coor	final;
 
-	if (c->print)
-		printf("a(rgb): %d, tr: %f\n", c->mat.argb.a, c->mat.tr);
 	if (c->object->param.light > EPSILON)
-		return (c->mat.argb = scale_argb(c->mat.argb, (c->object->param.light)), (void)0);
+		return (c->mat.argb = scale_argb(c->mat.argb, c->object->param.light), \
+			(void)0);
 	c->diffuse = ft_ambient(data, c);
 	c->specular = (t_coor){0.0, 0.0, 0.0};
 	lights = data->light - 1;
@@ -59,8 +57,7 @@ void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*), int
 	{
 		if (!ft_diffuse(data, c, *lights, f_shadow))
 			continue ;
-		if (SPECULAR_ON_OFF)
-			ft_specular(c);
+		ft_specular(c);
 	}
 	ft_refracted(data, c);
 	ft_reflected(data, c);
@@ -78,7 +75,7 @@ void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*), int
 ///////////////////////////////////////////////////////////////////////////////]
 int	shadow_tracing(t_data *data, t_c_px *calcul)
 {
-	t_c_px	c;
+	t_c_px		c;
 	t_coor		rgb;
 	double		dist_l;
 	double		dot_l;
@@ -125,7 +122,7 @@ int	shadow_tracing(t_data *data, t_c_px *calcul)
 ///////////////////////////////////////////////////////////////////////////////]
 int	ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights)
 {
-	double	adjusted_intensity;
+	double	adj_i;
 	double	cos_angle;
 
 	c->dist_light = dist_two_points(&c->inter, &lights->xyz);
@@ -133,11 +130,11 @@ int	ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights)
 	cos_angle = ft_dot_p(&c->v_light, &c->vn);
 	if (cos_angle < EPSILON || something_block_the_light_simple(data, c))
 		return (0);
-	adjusted_intensity = lights->ratio * cos_angle;
-	adjusted_intensity = SCALAR_LIGHT_DIST * adjusted_intensity / (1 + c->dist_light * c->dist_light);
-	c->diffuse.x += c->mat.argb.r * lights->color.r / 255.0 * adjusted_intensity;
-	c->diffuse.y += c->mat.argb.g * lights->color.g / 255.0 * adjusted_intensity;
-	c->diffuse.z += c->mat.argb.b * lights->color.b / 255.0 * adjusted_intensity;
+	adj_i = lights->ratio * cos_angle;
+	adj_i = SCALAR_LIGHT_DIST * adj_i / (1 + c->dist_light * c->dist_light);
+	c->diffuse.x += c->mat.argb.r * lights->color.r / 255.0 * adj_i;
+	c->diffuse.y += c->mat.argb.g * lights->color.g / 255.0 * adj_i;
+	c->diffuse.z += c->mat.argb.b * lights->color.b / 255.0 * adj_i;
 	return (1);
 }
 
@@ -145,7 +142,7 @@ int	ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights)
 int	something_block_the_light_simple(t_data *data, t_c_px *c)
 {
 	t_c_px	calcul;
-	int			r;
+	int		r;
 
 	calcul.c0 = new_moved_point(&c->inter, &c->vn, EPSILON);
 	calcul.v = c->v_light;

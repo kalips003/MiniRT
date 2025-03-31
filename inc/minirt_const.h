@@ -30,8 +30,8 @@
 # define HEIGHT_MAP_DISPLACEMENT 5.0
 
 # define SPECULAR_ON_OFF 1
-# define MAX_REFRACTION_DEPTH 4
-# define MAX_MIRROR_DEPTH 4
+# define MAX_TR_DEPTH 4
+# define MAX_MI_DEPTH 4
 # define MAX_RAY_BOUNCE 3
 
 # define SZ_Y 500

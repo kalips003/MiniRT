@@ -34,7 +34,7 @@ void	ini_stack(t_data *data, t_c_px *calcul)
 	while (ptr_list)
 	{
 		push_stack(calcul->inside, ptr_list->obj, &calcul->stack_top, \
-			MAX_MIRROR_DEPTH - 1);
+			MAX_MI_DEPTH - 1);
 		ptr_list = ptr_list->next;
 	}
 	destroy_list(top_list);
