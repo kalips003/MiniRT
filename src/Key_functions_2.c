@@ -25,8 +25,9 @@ void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop)
 	int		i;
 	int		err;
 
+	(void)k_or_loop;
 	if (!obj)
-		return ;
+		return (put(C_515"First, select an object (Right Clic)\n"), (void)0);
 	printf(C_515"Input the object's color in this format:\t\' R,G,B \'\n"RESET);
 	input = gnl(0);
 	if (!input)

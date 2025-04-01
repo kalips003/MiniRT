@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 12:49:32 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 13:46:42 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,14 @@ static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, int
 		calcul->mat.argb = dual_color(&circle->param.argb, &circle->param.c2, \
 			c->dist_center / circle->radius);
 	calcul->vn = circle->O.view;
-	if (ft_dot_p(&calcul->v, &circle->O.view) > 0.0)
+	if (ft_dot_p(&calcul->v, &circle->O.view) > EPSILON)
+	{
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
+		return (1);
+	}
 	if (is_there_txt(&circle->param))
 		h_img_circle(calcul, circle, c);
-	return (1);
+	return (3);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -89,3 +92,4 @@ static void	h_img_circle(t_c_px *ca, t_circle *circle, t_circle_calc *c)
 		ft_normalize_vect(&ca->vn);
 	}
 }
+

@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/01 13:02:34 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 14:47:51 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct s_cone
 	t_obj	O;
 	t_param	param;
 
-	double	height;
+	double	h;
 	double	radius;
 
 	t_coor	apex;

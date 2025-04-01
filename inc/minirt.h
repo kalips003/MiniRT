@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/01 12:48:56 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:04:45 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////]
+void	ft_rotate_camera_vect_v3(t_c_px *calcul, t_obj2 *o, t_obj *c);
 int	txt_already_exist(t_data *data, char *path, t_img **txt);
 t_img	*parse_img(t_data *data, char *path);
 t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);

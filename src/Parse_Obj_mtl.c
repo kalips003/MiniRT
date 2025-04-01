@@ -135,7 +135,6 @@ static int	h_mtl_param1(t_data *data, char **spl, t_mat *mat)
 static int	h_mtl_param2(t_data *data, char **spl, t_mat *mat)
 {
 	int		err;
-	double	dbl;
 	char	*path;
 
 	err = 0;

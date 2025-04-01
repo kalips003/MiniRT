@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 13:02:34 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:44:45 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	parse_pl(t_data *data, char **raw_split)
 		return (1);
 	if (h_parse_vect_space(&plane->O, &plane->O.view))
 		return (1);
-	plane->d = -ft_dot_p(&plane->O.view, &plane->O.c0);
+	plane->d = -ft_dot_p(&plane->O.view, (t_vect *)&plane->O.c0);
 	return (0);
 }
 
@@ -173,15 +173,15 @@ int	parse_co(t_data *data, char **raw_split)
 	if (ato_coor(raw_split[0], &cone->O.c0)
 		|| ato_coor(raw_split[1], (t_coor *)&cone->O.view)
 		|| ft_atof(raw_split[2], &cone->radius)
-		|| ft_atof(raw_split[3], &cone->height)
+		|| ft_atof(raw_split[3], &cone->h)
 		|| ato_argb(raw_split[4], &cone->param.argb))
 		return (1);
-	if (cone->radius < EPSILON || cone->height < EPSILON)
+	if (cone->radius < EPSILON || cone->h < EPSILON)
 		return (put(ERR1"(CONE OBJECT) too small\n"), 1);
 	if (h_parse_vect_space(&cone->O, &cone->O.view))
 		return (1);
-	cone->apex = new_moved_point(&cone->O.c0, &cone->O.view, cone->height);
-	cone->slope = (cone->radius * cone->radius) / (cone->height * cone->height);
-	cone->angle = atan(cone->radius / cone->height);
+	cone->apex = new_moved_point(&cone->O.c0, &cone->O.view, cone->h);
+	cone->slope = (cone->radius * cone->radius) / (cone->h * cone->h);
+	cone->angle = atan(cone->radius / cone->h);
 	return (0);
 }

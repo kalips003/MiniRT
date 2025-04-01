@@ -104,6 +104,7 @@ void	f_change_transp(t_data *data, t_obj2 *obj, int k_or_loop)
 ///////////////////////////////////////////////////////////////////////////////]
 void	f_loop_light_ratio(t_data *data, t_obj2 *obj, int k_or_loop)
 {
+	(void)obj;
 	if (!k_or_loop)
 	{
 		printf(C_451"Starting Light Loop, Ratio set to 1\n");

@@ -94,15 +94,15 @@ void	recalculate_obj_const(t_obj2 *obj)
 	if (obj->type == CONE)
 	{
 		c = (t_cone *)obj;
-		c->apex = new_moved_point(&obj->O.c0, &obj->O.view, c->height);
-		c->slope = pow(c->radius, 2.0) / pow(c->height, 2.0);
-		c->angle = atan(c->radius / c->height);
+		c->apex = new_moved_point(&obj->O.c0, &obj->O.view, c->h);
+		c->slope = pow(c->radius, 2.0) / pow(c->h, 2.0);
+		c->angle = atan(c->radius / c->h);
 	}
 	else if (obj->type == CYLINDER)
 		((t_cylinder *)obj)->xyz_other = new_moved_point(&obj->O.c0, \
 			&obj->O.view, ((t_cylinder *)obj)->height);
 	else if (obj->type == PLANE || obj->type == SPRITE)
-		((t_plane *)obj)->d = -ft_dot_p(&obj->O.view, &obj->O.c0);
+		((t_plane *)obj)->d = -ft_dot_p(&obj->O.view, (t_vect *)&obj->O.c0);
 	else if (obj->type == ARROW)
 	{
 		a = (t_arrow *)obj;

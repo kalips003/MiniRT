@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   B_builtin_func.c                                   :+:      :+:    :+:   */
+/*   Parse_Obj_tree_split2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2024/07/16 04:12:38 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:46:00 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
 void			ft_split_by_xyz(t_model *model, t_bbox *node, int xyz);
-static t_mtree	h_loop_split(t_model *model, t_bbox *node, int xyz, t_mtree t);
+static t_mtree	h_loop_split(t_bbox *node, int xyz, t_mtree t);
 static double	find_median(t_bbox *node, int xyz);
 static void		ft_find_smallest_biggest(t_model *model, t_bbox *node);
 static void		h_big_small(t_bbox *node, t_coor *p);
@@ -32,7 +32,7 @@ void	ft_split_by_xyz(t_model *model, t_bbox *node, int xyz)
 	node->r = mem(0, sizeof(t_bbox));
 	if (!node->l || !node->r)
 		return (put(ERRM), (void)0);
-	t = h_loop_split(model, node, xyz, t);
+	t = h_loop_split(node, xyz, t);
 	if (t.ptr_l)
 		t.ptr_l->next = NULL;
 	if (t.ptr_r)
@@ -43,7 +43,7 @@ void	ft_split_by_xyz(t_model *model, t_bbox *node, int xyz)
 }
 
 // send each triangles left or right
-static t_mtree	h_loop_split(t_model *model, t_bbox *node, int xyz, t_mtree t)
+static t_mtree	h_loop_split(t_bbox *node, int xyz, t_mtree t)
 {
 	t.ptr = node->f;
 	t.ptr_r = NULL;

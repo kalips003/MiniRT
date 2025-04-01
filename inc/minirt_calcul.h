@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/01 13:39:56 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:18:20 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,16 +106,16 @@ typedef struct s_cylinder_calc_v2 {
 
 	double	dist_h;
 	double	dist;
-	int		inside;
-	t_coor	projec_point;
+	int		in;
+	t_coor	projec_p;
 	t_circle	circle;
-} t_c_cyl;
+} t_c_cy;
 
 ///////////////////////////////////////////////////////////////////////////////]
 // 	CONE
 typedef struct s_cone_calc_v1 {
-	double	φ;
-	double	Φ;
+	double	p;
+	double	q;
 
 	double	a1;
 	double	a2;
@@ -129,25 +129,49 @@ typedef struct s_cone_calc_v1 {
 	double	B;
 	double	C;
 
-	double	Δ;
+	double	delta;
 	
 	double	det1;
 	double	det2;
 	
-	double	dist_apex1;
-	double	dist_apex2;
+	double	d_a1;
+	double	d_a2;
 } t_cone_calc_v1;
 
 typedef struct s_cone_calc_v2 {
 	double	dist_apex;
 	double	dist;
 
-	double	color_height;
+	double	c_height;
 	int		inside;
 	t_coor	projec_point;
 	t_vect	apex_to_camera;
 	t_circle	circle;
 } t_cone_calc_v2;
+
+///////////////////////////////////////////////////////////////////////////////]
+// 	HYPERBOLOID / PARABOLOID
+typedef struct s_hyper_calc {
+	double	a2;
+	double	b2;
+	double	c2;
+
+	double	a;
+	double	b;
+	double	c;
+
+	double	delta;
+
+	double	det1;
+	double	det2;
+	double	dist;
+	
+	t_coor	new_o;
+	t_vect	rot_v;
+
+	int		inside;
+
+}	t_hyper_calc;
 
 ///////////////////////////////////////////////////////////////////////////////]
 // 	ARROW
