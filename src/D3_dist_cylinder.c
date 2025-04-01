@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:07:55 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 14:34:30 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:52:20 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	h_dist_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_c_cy *c, int 
 	if (simple)
 		return (1);
 	calcul->dist = c->dist;
-	calcul->object = cylinder;
+	calcul->object = (t_obj2 *)cylinder;
 	calcul->inter = new_moved_point(&calcul->c0, &calcul->v, c->dist);
 	c->projec_p = new_moved_point(&cylinder->O.c0, &cylinder->O.view, \
 		c->dist_h);
@@ -123,7 +123,7 @@ static void	h_img_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_c_cy *c)
 		local.up = cylinder->O.view;
 		local.right = ft_cross_product_norm(&local.up, &local.view);
 		normal_map.dx *= c->in;
-		calcul->vn = mult_3x3_vect(&local, &calcul->vn);
+		calcul->vn = mult_3x3_vect(&local, &normal_map);
 		ft_normalize_vect(&calcul->vn);
 	}
 }

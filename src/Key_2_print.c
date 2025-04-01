@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 15:49:31 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:50:15 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		print_clic(t_data *data, int x, int y);
 static void	h_print_1(t_data *data, t_c_px *c, int x, int y);
-static void	h_print_2(t_data *data, t_c_px *c);
+static void	h_print_2(t_c_px *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
 
@@ -45,7 +45,7 @@ void	print_clic(t_data *data, int x, int y)
 	h_print_1(data, &c, x, y);
 	if (c.object && data->change_function == f_render_normal_arrow)
 		render_normal(data, &c);
-	h_print_2(data, &c);
+	h_print_2(&c);
 	if (c.object == data->change_obj)
 		data->change_obj = NULL;
 	else
@@ -74,7 +74,7 @@ static void	h_print_1(t_data *data, t_c_px *c, int x, int y)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static void	h_print_2(t_data *data, t_c_px *c)
+static void	h_print_2(t_c_px *c)
 {
 	t_obj2	*obj;
 	t_obj	*o;

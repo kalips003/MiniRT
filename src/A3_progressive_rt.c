@@ -281,12 +281,10 @@ static void	*f_thread2(void *calcul)
 	t_c_px	*c;
 	t_data	*data;
 	int		xy[2];
-	int		sublim;
 
 	c = (t_c_px *)calcul;
 	data = (t_data *)c->object;
 	xy[Y] = c->transparence_depth;
-	sublim = c->reflected_depth;
 	c->object = NULL;
 	while (xy[Y] < SZ_Y)
 	{

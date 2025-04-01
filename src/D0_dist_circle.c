@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 13:46:42 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:52:48 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, int
 {
 	if (simple)
 		return (1);
-	calcul->object = circle;
+	calcul->object = (t_obj2 *)circle;
 	calcul->dist = c->dist;
 	calcul->inter = c->inter_temp;
 	calcul->mat = *(t_mat2 *)&circle->param;

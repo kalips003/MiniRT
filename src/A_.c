@@ -116,10 +116,10 @@ void	render_normal(t_data *data, t_c_px *calcul)
 	arrow.O.c0 = calcul->inter;
 	arrow.O.view = calcul->vn;
 	h_parse_vect_space(&arrow.O, &arrow.O.view);
-	recalculate_obj_const(&arrow);
+	recalculate_obj_const((t_obj2 *)&arrow);
 	arrow.param.light = 1.0;
 	arrow.param.c2.r = -1;
-	render_temp_added_obj(data, &arrow);
+	render_temp_added_obj(data, (t_obj2 *)&arrow);
 }
 
 int	clamp(int value, int min_v, int max_v)

@@ -16,7 +16,7 @@ int		distance_from_object(t_c_px *calcul, void *object, int simple);
 int		h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c);
 void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c);
 void	f_return_obj_normal(t_c_px *calcul, t_c_obj *c, t_object *obj);
-t_coor	h_uvw(t_c_px *calcul, t_c_obj *c, t_model *m);
+t_coor	h_uvw(t_c_obj *c, t_model *m);
 t_argb	h_obj_color2(t_c_px *calcul, t_c_obj *c, t_model *m);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -44,7 +44,7 @@ int	h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c)
 	int	in;
 
 	calcul->dist = h_dist_triangle(c->t, obj->model, c);
-	calcul->object = obj;
+	calcul->object = (t_obj2 *)obj;
 	if (c->t->mat)
 		calcul->mat = *(t_mat2 *)c->t->mat;
 	else
@@ -70,7 +70,7 @@ void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 	t_vect	normal_map;
 	t_obj	local_v_space;
 
-	c->uvw = h_uvw(calcul, c, obj->model);
+	c->uvw = h_uvw(c, obj->model);
 	t = c->t;
 	vt = obj->model->vt;
 	c->u = c->uvw.x * vt[t->vt[0]]->u + c->uvw.y * vt[t->vt[1]]->u + c->uvw.z * vt[t->vt[2]]->u;
@@ -100,7 +100,7 @@ void	f_return_obj_normal(t_c_px *ca, t_c_obj *c, t_object *obj)
 	t_vect	**vn;
 
 	t = c->t;
-	uvw = h_uvw(ca, c, obj->model);
+	uvw = h_uvw(c, obj->model);
 	vn = obj->model->vn;
 	if (c->t->vn[0] < 0)
 		ca->vn = ft_cross_product_norm(&c->e1, &c->e2);
@@ -121,7 +121,7 @@ void	f_return_obj_normal(t_c_px *ca, t_c_obj *c, t_object *obj)
 }
 
 // barycenter
-t_coor	h_uvw(t_c_px *calcul, t_c_obj *c, t_model *m)
+t_coor	h_uvw(t_c_obj *c, t_model *m)
 {
 	t_vect	a_c;
 	double	d[3][2];

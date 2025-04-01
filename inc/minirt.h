@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/01 15:04:45 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:00:34 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_vect	cam_quaternion(t_data *data, int x, int y, int aa);
 // tree_bounding stuff
 void	do_the_tree_splitting(t_model *model);
 void	find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
-void	h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
+void	h_find_tri(t_bbox *node, t_model *model, t_c_obj *c);
 
 // progressive
 int	ft_render_frame_multi_prog(t_data *data, int sublim);
@@ -102,7 +102,7 @@ int	h_distance_from_object(t_c_px *calcul, t_object *obj, t_c_obj *c, int simple
 int	h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c);
 void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c);
 void	f_return_obj_normal(t_c_px *calcul, t_c_obj *c, t_object *obj);
-t_coor	h_uvw(t_c_px *calcul, t_c_obj *c, t_model *m);
+t_coor	h_uvw(t_c_obj *c, t_model *m);
 t_argb h_obj_color2(t_c_px *calcul, t_c_obj *c, t_model *m);
 // 	(O) helper
 void	ft_rotate_camera_vect(t_c_px *calcul, t_object *obj, t_c_obj *c);

@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 13:37:07 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:52:34 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_c_plane *c, int simple
 {
 	if (simple)
 		return (1);
-	calcul->object = plane;
+	calcul->object = (t_obj2 *)plane;
 	calcul->dist = c->dist;
 	calcul->inter = new_moved_point(&calcul->c0, &calcul->v, c->dist);
 	calcul->mat = *(t_mat2 *)&plane->param;
@@ -79,7 +79,7 @@ static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane)
 		// local.view = calcul->vn;
 		// local.right = plane->O.right;
 		// local.up = plane->O.up;
-		calcul->vn = mult_3x3_vect(&plane->O, &calcul->vn);
+		calcul->vn = mult_3x3_vect(&plane->O, &normal_map);
 		// calcul->vn = (t_vect){
 		// 	plane->O.right.dx * normal_map.dx + plane->O.up.dx * normal_map.dy + calcul->vn.dx * normal_map.dz,
 		// 	plane->O.right.dy * normal_map.dx + plane->O.up.dy * normal_map.dy + calcul->vn.dy * normal_map.dz,

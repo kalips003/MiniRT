@@ -45,7 +45,7 @@ static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *c_tab, int sublim)
 		ft_memcpy(c_tab[y].inside, c->inside, sizeof(c->inside));
 		c_tab[y].stack_top = c->stack_top;
 		c_tab[y].c0 = c->c0;
-		c_tab[y].object = data;
+		c_tab[y].object = (t_obj2 *)data;
 		c_tab[y].transparence_depth = y;
 		c_tab[y].reflected_depth = sublim;
 		if (pthread_create(&threads[y], NULL, f_thread, &c_tab[y]))
@@ -67,7 +67,7 @@ static void	*f_thread(void *calcul)
 	int		sublim;
 
 	c = (t_c_px *)calcul;
-	data = c->object;
+	data = (t_data *)c->object;
 	xy[Y] = c->transparence_depth;
 	sublim = c->reflected_depth;
 	c->object = NULL;

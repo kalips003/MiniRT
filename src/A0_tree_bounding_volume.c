@@ -13,7 +13,7 @@
 #include "../inc/minirt.h"
 
 void			find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
-void			h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
+void			h_find_tri(t_bbox *node, t_model *model, t_c_obj *c);
 static int		f_check_if_in_box_2(t_bbox *bbox, t_c_obj *c);
 static void		h_bound_mmax(double mmxyz[2][3], int xyz, t_bbox *bbox, t_c_obj *c);
 
@@ -28,7 +28,7 @@ void	find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul)
 		return ;
 	if (node->f)
 	{
-		h_find_tri(node, model, c, calcul);
+		h_find_tri(node, model, c);
 		return ;
 	}
 	if (f_check_if_in_box_2(node, c))
@@ -39,7 +39,7 @@ void	find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul)
 }
 
 // does collision check for all triangles in the leaf node
-void	h_find_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul)
+void	h_find_tri(t_bbox *node, t_model *model, t_c_obj *c)
 {
 	t_tri	*ptr;
 	double	temp_dist;

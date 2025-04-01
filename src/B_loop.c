@@ -6,14 +6,14 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 13:33:34 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:53:33 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
 int					ft_loop(t_data *data);
-static void			h_refresh_input_file(t_data *data, time_t time);
+static void			h_refresh_input_file(t_data *data);
 int					ft_render_frame(t_data *data, int sublim);
 unsigned int		calc_px_color(t_data *data, t_c_px *c, int sublim);
 static unsigned int	h_bg_texture(t_data *data, t_c_px *calcul);
@@ -30,7 +30,7 @@ int	ft_loop(t_data *data)
 		{
 			printf(C_413"file changed... REFRESH\n");
 			data->last_modif_time = file_stat.st_mtime;
-			h_refresh_input_file(data, file_stat.st_mtime);
+			h_refresh_input_file(data);
 			ft_render_frame_multi(data, RENDERING_LVL);
 		}
 	}
@@ -42,7 +42,7 @@ int	ft_loop(t_data *data)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static void	h_refresh_input_file(t_data *data, time_t time)
+static void	h_refresh_input_file(t_data *data)
 {
 	t_camera	*old_camera;
 

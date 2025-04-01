@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 14:53:05 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:50:39 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static int	h_dist_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c, int simp
 	if (simple)
 		return (1);
 	calcul->dist = c->dist;
-	calcul->object = cone;
+	calcul->object = (t_obj2 *)cone;
 	calcul->inter = new_moved_point(&calcul->c0, &calcul->v, c->dist);
 	c->projec_point = new_moved_point(&cone->apex, &cone->O.view, \
 		-c->dist_apex);
