@@ -78,6 +78,8 @@ int	parse_hy(t_data *data, char **raw_split)
 		|| ft_atof(raw_split[3], &hyp->radius)
 		|| ato_argb(raw_split[4], &hyp->param.argb))
 		return (1);
+	if (hyp->radius < EPSILON)
+		return (put(ERR1"(HYPERBOLOID OBJECT) too small\n"), 1);
 	if (h_parse_vect_space(&hyp->O, &hyp->O.view))
 		return (1);
 	return (0);
@@ -98,7 +100,7 @@ int	parse_pa(t_data *data, char **raw_split)
 		return (put(ERRM), 2);
 	data->objects = expand_tab(data->objects, para);
 	if (tab_size(raw_split) < 4)
-		return (put(ERR1"bad number of args (HYPERBOLOID OBJECT)\n"), 1);
+		return (put(ERR1"bad number of args (PARABOLOID OBJECT)\n"), 1);
 	if (parse_reste(data, &raw_split[4], &para->param))
 		return (1);
 	para->type = PARABOLOID;

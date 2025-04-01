@@ -14,8 +14,10 @@
 
 int			distance_from_cone(t_c_px *calcul, void *obj, int simple);
 static int	h_dist_cone_calc(t_c_px *c1, t_cone *cone, t_cone_calc_v2 *c2);
-static int	h_colision_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v1 *c, t_cone_calc_v2 *c2);
-static int	h_dist_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c, int simple);
+static int	h_colision_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v1 *c, \
+	t_cone_calc_v2 *c2);
+static int	h_dist_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c, \
+	int simple);
 static void	h_img_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -74,7 +76,8 @@ static int	h_dist_cone_calc(t_c_px *ca, t_cone *co, t_cone_calc_v2 *c1)
 	return (1);
 }
 
-static int	h_colision_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v1 *c, t_cone_calc_v2 *c2)
+static int	h_colision_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v1 *c, \
+	t_cone_calc_v2 *c2)
 {
 	int		d1_valid;
 	int		d2_valid;
@@ -102,7 +105,8 @@ static int	h_colision_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v1 *c, t_co
 
 ///////////////////////////////////////////////////////////////////////////////]
 // if closest object, update t_calcul
-static int	h_dist_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c, int simple)
+static int	h_dist_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c, \
+	int simple)
 {
 	t_vect	axis;
 

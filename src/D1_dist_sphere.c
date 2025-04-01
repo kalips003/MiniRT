@@ -13,7 +13,8 @@
 #include "../inc/minirt.h"
 
 int			distance_from_sphere(t_c_px *calcul, void *obj, int simple);
-static int	h_dist_sphere(t_c_px *calcul, t_sphere *sphere, t_c_sphere *c, int simple);
+static int	h_dist_sphere(t_c_px *calcul, t_sphere *sphere, t_c_sphere *c, \
+	int simple);
 static void	h_img_sphere(t_c_px *calcul, t_sphere *sphere, t_c_sphere *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -46,7 +47,8 @@ int	distance_from_sphere(t_c_px *calcul, void *obj, int simple)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_sphere(t_c_px *calcul, t_sphere *sphere, t_c_sphere *c, int simple)
+static int	h_dist_sphere(t_c_px *calcul, t_sphere *sphere, t_c_sphere *c, \
+	int simple)
 {
 	if (simple)
 		return (1);
@@ -91,7 +93,7 @@ static void	h_img_sphere(t_c_px *ca, t_sphere *sphere, t_c_sphere *c)
 		local.right = ft_cross_product_norm(&sphere->O.view, &local.view);
 		local.up = ft_cross_product_norm(&local.view, &local.right);
 		normal_map.dx *= in;
-		ca->vn = mult_3x3_vect(&local, &ca->vn);
+		ca->vn = mult_3x3_vect(&local, &normal_map);
 		ft_normalize_vect(&ca->vn);
 	}
 }

@@ -48,7 +48,7 @@ static void	h_refresh_input_file(t_data *data)
 
 	old_camera = mem(0, sizeof(t_camera));
 	*old_camera = *data->eye.c;
-	usleep(100);
+	usleep(10000);
 	end(data, 0, 0);
 	data->camera = (t_camera **)expand_tab((void **)data->camera, old_camera);
 	if (!data->camera)

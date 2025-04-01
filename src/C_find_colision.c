@@ -13,7 +13,8 @@
 #include "../inc/minirt.h"
 
 int			find_coli(t_data *data, t_c_px *c, int shadow, int set_dist);
-t_ini_stk	*ft_fill_stack_inside(t_data *data, t_c_px *c, t_ini_stk **top_list, t_ini_stk **ptr_list);
+t_ini_stk	*ft_fill_stack_inside(t_data *data, t_c_px *c, \
+	t_ini_stk **top_list, t_ini_stk **ptr_list);
 int			something_block_the_light(t_data *data, t_c_px *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -31,7 +32,6 @@ static const t_dist_of	g_ft_dist_of[] = {
 	distance_from_object,
 	NULL
 };
-///////////////////////////////////////////////////////////////////////////////]
 
 ///////////////////////////////////////////////////////////////////////////////]
 // 	find the closest object colision from vector view
@@ -65,7 +65,8 @@ int	find_coli(t_data *data, t_c_px *c, int shadow, int set_dist)
 ///////////////////////////////////////////////////////////////////////////////]
 // used to create a linked list of object the camera is INSIDE of
 // created in order, furthest is first, closest last of the chain
-t_ini_stk	*ft_fill_stack_inside(t_data *data, t_c_px *c, t_ini_stk **top_list, t_ini_stk **ptr_list)
+t_ini_stk	*ft_fill_stack_inside(t_data *data, t_c_px *c, \
+	t_ini_stk **top_list, t_ini_stk **ptr_list)
 {
 	void	**obj_ptr;
 	int		in;

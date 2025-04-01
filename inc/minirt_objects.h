@@ -145,79 +145,6 @@ typedef struct s_sprite
 	double	size;
 }	t_sprite;
 
-////////////////////////////////////////////]
-// MODELS
-////////////////////////////////////////////]
-typedef struct s_vt
-{
-	double	u;
-	double	v;
-}	t_vt;
-
-// typedef struct s_tri
-// {
-// 	int				p1;
-// 	int				vt1;
-// 	int				vn1;
-// 	int				p2;
-// 	int				vt2;
-// 	int				vn2;
-// 	int				p3;
-// 	int				vt3;
-// 	int				vn3;
-	
-// 	t_mat			*mat;
-// 	t_coor			centroid;
-// 	struct s_tri	*next;
-// }	t_tri;
-
-
-typedef struct s_tri
-{
-	int				p[3];
-	int				vt[3];
-	int				vn[3];
-	
-	t_mat			*mat;
-	t_coor			centroid;
-	struct s_tri	*next;
-}	t_tri;
-
-typedef struct s_tree1
-{
-	t_coor	min;
-	t_coor	max;
-
-//	linked list first
-	t_tri	*f;
-	int		how_many_f;
-
-	struct s_tree1	*r;
-	struct s_tree1	*l;
-}	t_bbox;
-
-// typedef struct s_model
-// {
-// 	t_coor	**v;
-// 	t_vect	**vn;
-// 	t_vt	**vt;
-// 	t_mat	**mat;
-// 	t_tri	*f;
-// 	t_tri	*first;
-// 	t_coor	min;
-// 	t_coor	max;
-// 	char	*path;
-// }	t_model;
-typedef struct s_model
-{
-	t_coor	**v;
-	t_vect	**vn;
-	t_vt	**vt;
-	t_mat	**mat;
-	t_bbox	tree;
-	char	*path;
-}	t_model;
-
 // MODEL = ob
 typedef struct s_object
 {
@@ -228,6 +155,5 @@ typedef struct s_object
 	t_model	*model;
 	double	size;
 }	t_object;
-
 
 #endif

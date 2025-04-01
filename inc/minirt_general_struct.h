@@ -148,5 +148,49 @@ typedef struct s_obj2
 
 }	t_obj2;
 
+
+////////////////////////////////////////////]
+// MODELS
+////////////////////////////////////////////]
+// .obj structs
+typedef struct s_vt
+{
+	double	u;
+	double	v;
+}	t_vt;
+
+typedef struct s_tri
+{
+	int				p[3];
+	int				vt[3];
+	int				vn[3];
+	
+	t_mat			*mat;
+	t_coor			centroid;
+	struct s_tri	*next;
+}	t_tri;
+
+typedef struct s_tree1
+{
+	t_coor	min;
+	t_coor	max;
+
+	t_tri	*f;
+	int		how_many_f;
+
+	struct s_tree1	*r;
+	struct s_tree1	*l;
+}	t_bbox;
+
+typedef struct s_model
+{
+	t_coor	**v;
+	t_vect	**vn;
+	t_vt	**vt;
+	t_mat	**mat;
+	t_bbox	tree;
+	char	*path;
+}	t_model;
+
 #endif
 

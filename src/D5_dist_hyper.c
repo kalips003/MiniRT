@@ -12,9 +12,11 @@
 
 #include "../inc/minirt.h"
 
-int			distance_from_hyper(t_c_px *calcul, void *obj, int simple);//// Negative radius?
-static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c, int simple);
+int			distance_from_hyper(t_c_px *calcul, void *obj, int simple);
+static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c, \
+	int simple);
 static void	h_img_para(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c);
+static void	h_normal_hyper(t_c_px *ca, t_hyper *hy, t_hyper_calc *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // 		x²/a² + y²/b² - z²/c² = R²
@@ -27,7 +29,7 @@ int	distance_from_hyper(t_c_px *calcul, void *obj, int simple)
 	c.a2 = hy->abc.x * hy->abc.x;
 	c.b2 = hy->abc.y * hy->abc.y;
 	c.c2 = hy->abc.z * hy->abc.z;
-	ft_rotate_camera_vect_v3(calcul, (t_obj2 *)hy, (t_obj *)&c.new_o);
+	ft_rotate_around_obj(calcul, (t_obj2 *)hy, (t_obj *)&c.new_o);
 	c.a = c.rot_v.dx * c.rot_v.dx / c.a2 + c.rot_v.dy * c.rot_v.dy / c.b2 \
 		- c.rot_v.dz * c.rot_v.dz / c.c2;
 	c.b = 2 * (c.rot_v.dx * c.new_o.x / c.a2 + c.rot_v.dy * c.new_o.y / c.b2 \
@@ -57,13 +59,7 @@ static int	h_dist_hyper(t_c_px *ca, t_hyper *hy, t_hyper_calc *c, int simple)
 	ca->dist = c->dist;
 	ca->object = (void *)hy;
 	ca->inter = new_moved_point(&ca->c0, &ca->v, ca->dist);
-	ca->vn = (t_vect){2.0 * ca->inter.x / c->a2, 2.0 \
-		* ca->inter.y / c->b2, -2.0 * ca->inter.z / c->c2};
-	ca->vn = (t_vect){
-		ca->vn.dx * hy->O.right.dx + ca->vn.dy * hy->O.right.dy + ca->vn.dz * hy->O.right.dz,
-		ca->vn.dx * hy->O.up.dx + ca->vn.dy * hy->O.up.dy + ca->vn.dz * hy->O.up.dz, 
-		ca->vn.dx * hy->O.view.dx + ca->vn.dy * hy->O.view.dy + ca->vn.dz * hy->O.view.dz};
-	ft_normalize_vect(&ca->vn);
+	h_normal_hyper(ca, hy, c);
 	ca->mat = *(t_mat2 *)&hy->param;
 	if (!hy->param.txt && hy->param.c2.r >= 0)
 		ca->mat.argb = dual_color(&hy->param.argb, &hy->param.c2, \
@@ -71,7 +67,7 @@ static int	h_dist_hyper(t_c_px *ca, t_hyper *hy, t_hyper_calc *c, int simple)
 	in = ca->c0.x * ca->c0.x / c->a2 + ca->c0.y * ca->c0.y \
 		/ c->b2 - ca->c0.z * ca->c0.z / c->c2 - hy->radius;
 	c->inside = 0;
-	if (in < EPSILON)
+	if (in > EPSILON)
 	{
 		c->inside = 1;
 		ca->vn = (t_vect){-ca->vn.dx, -ca->vn.dy, -ca->vn.dz};
@@ -100,7 +96,7 @@ static void	h_img_para(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c)
 	update_mat_w_txt(calcul, (t_obj2 *)hy, u, v);
 	if (hy->param.n_map)
 	{
-		normal_map = return_vect_img(hy->param.n_map, u, v);
+		normal_map = return_vect_img(hy->param.n_map, u, v);//
 		local.view = calcul->vn;
 		local.right = ft_cross_product_norm(&hy->O.view, &local.view);
 		local.up = ft_cross_product_norm(&local.view, &local.right);
@@ -108,4 +104,22 @@ static void	h_img_para(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c)
 		calcul->vn = mult_3x3_vect(&local, &calcul->vn);
 		ft_normalize_vect(&calcul->vn);
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+static void	h_normal_hyper(t_c_px *ca, t_hyper *hy, t_hyper_calc *c)
+{
+	t_coor	temp_inter;
+
+	temp_inter = new_moved_point(&c->new_o, &c->rot_v, c->dist);
+	ca->vn = (t_vect){2.0 * temp_inter.x / c->a2, 2.0 \
+		* temp_inter.y / c->b2, -2.0 * temp_inter.z / c->c2};
+	ca->vn = (t_vect){
+		ca->vn.dx * hy->O.right.dx + ca->vn.dy * hy->O.right.dy \
+			+ ca->vn.dz * hy->O.right.dz,
+		ca->vn.dx * hy->O.up.dx + ca->vn.dy * hy->O.up.dy \
+			+ ca->vn.dz * hy->O.up.dz,
+		ca->vn.dx * hy->O.view.dx + ca->vn.dy * hy->O.view.dy \
+			+ ca->vn.dz * hy->O.view.dz};
+	ft_normalize_vect(&ca->vn);
 }

@@ -13,7 +13,8 @@
 #include "../inc/minirt.h"
 
 int			distance_from_circle(t_c_px *calcul, void *obj, int simple);
-static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, int simple);
+static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, \
+	int simple);
 static void	h_img_circle(t_c_px *ca, t_circle *circle, t_circle_calc *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -46,7 +47,8 @@ int	distance_from_circle(t_c_px *calcul, void *obj, int simple)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, int simple)
+static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, \
+	int simple)
 {
 	if (simple)
 		return (1);
@@ -58,13 +60,13 @@ static int	h_dist_circle(t_c_px *calcul, t_circle_calc *c, t_circle *circle, int
 		calcul->mat.argb = dual_color(&circle->param.argb, &circle->param.c2, \
 			c->dist_center / circle->radius);
 	calcul->vn = circle->O.view;
+	if (is_there_txt(&circle->param))
+		h_img_circle(calcul, circle, c);
 	if (ft_dot_p(&calcul->v, &circle->O.view) > EPSILON)
 	{
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
 		return (1);
 	}
-	if (is_there_txt(&circle->param))
-		h_img_circle(calcul, circle, c);
 	return (3);
 }
 
@@ -88,8 +90,7 @@ static void	h_img_circle(t_c_px *ca, t_circle *circle, t_circle_calc *c)
 		local.view = ca->vn;
 		local.right = circle->O.right;
 		local.up = circle->O.up;
-		ca->vn = mult_3x3_vect(&local, &ca->vn);
+		ca->vn = mult_3x3_vect(&local, &normal_map);
 		ft_normalize_vect(&ca->vn);
 	}
 }
-

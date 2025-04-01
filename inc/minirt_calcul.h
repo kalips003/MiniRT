@@ -76,6 +76,7 @@ typedef struct s_plane_calc {
 
 	double	u;
 	double	v;
+	int		in;
 } t_c_plane;
 
 

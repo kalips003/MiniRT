@@ -14,7 +14,8 @@
 
 int			distance_from_cylinder(t_c_px *calcul, void *obj, int simple);
 static int	h_dist_cylinder_calc(t_c_px *c1, t_cylinder *cy, t_c_cy *c2);
-static int	h_dist_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_c_cy *c, int simple);
+static int	h_dist_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_c_cy *c, \
+	int simple);
 static void	h_img_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_c_cy *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -76,7 +77,8 @@ static int	h_dist_cylinder_calc(t_c_px *ca, t_cylinder *cy, t_c_cy *c2)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_c_cy *c, int simple)
+static int	h_dist_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_c_cy *c, \
+	int simple)
 {
 	if (simple)
 		return (1);

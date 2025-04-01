@@ -13,8 +13,10 @@
 #include "../inc/minirt.h"
 
 int			distance_from_para(t_c_px *calcul, void *obj, int simple);
-static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c, int simple);
+static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c, \
+	int simple);
 static void	h_img_para(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c);
+static void	h_normal_para(t_c_px *ca, t_hyper *para, t_hyper_calc *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // hyperbolic paraboloid
@@ -27,10 +29,12 @@ int	distance_from_para(t_c_px *calcul, void *obj, int simple)
 	para = (t_hyper *)obj;
 	c.a2 = para->abc.x * para->abc.x;
 	c.b2 = para->abc.y * para->abc.y;
-	ft_rotate_camera_vect_v3(calcul, (t_obj2 *)para, (t_obj *)&c.new_o);
+	ft_rotate_around_obj(calcul, (t_obj2 *)para, (t_obj *)&c.new_o);
 	c.a = c.rot_v.dx * c.rot_v.dx / c.a2 - c.rot_v.dy * c.rot_v.dy / c.b2;
-	c.b = 2 * (c.rot_v.dx * c.new_o.x / c.a2 - c.rot_v.dy * c.new_o.y / c.b2) - c.rot_v.dz / para->abc.z;
-	c.c = c.new_o.x * c.new_o.x / c.a2 + c.new_o.y * c.new_o.y / c.b2 - c.new_o.z / para->abc.z;
+	c.b = 2 * (c.rot_v.dx * c.new_o.x / c.a2 - c.rot_v.dy * c.new_o.y / c.b2) \
+		- c.rot_v.dz / para->abc.z;
+	c.c = c.new_o.x * c.new_o.x / c.a2 + c.new_o.y * c.new_o.y / c.b2 \
+		- c.new_o.z / para->abc.z;
 	c.delta = c.b * c.b - 4 * c.a * c.c;
 	if (c.delta < EPSILON || fabs(c.a) < EPSILON)
 		return (0);
@@ -52,13 +56,7 @@ static int	h_dist_hyper(t_c_px *ca, t_hyper *para, t_hyper_calc *c, int simple)
 	ca->dist = c->dist;
 	ca->object = (void *)para;
 	ca->inter = new_moved_point(&ca->c0, &ca->v, ca->dist);
-	ca->vn = (t_vect){2.0 * ca->inter.x / c->a2, -2.0 \
-		* ca->inter.y / c->b2, -1.0 / para->abc.z};
-	ca->vn = (t_vect){
-		ca->vn.dx * para->O.right.dx + ca->vn.dy * para->O.right.dy + ca->vn.dz * para->O.right.dz,
-		ca->vn.dx * para->O.up.dx + ca->vn.dy * para->O.up.dy + ca->vn.dz * para->O.up.dz,
-		ca->vn.dx * para->O.view.dx + ca->vn.dy * para->O.view.dy + ca->vn.dz * para->O.view.dz};
-	ft_normalize_vect(&ca->vn);
+	h_normal_para(ca, para, c);
 	ca->mat = *(t_mat2 *)&para->param;
 	if (!para->param.txt && para->param.c2.r >= 0)
 		ca->mat.argb = dual_color(&para->param.argb, &para->param.c2, \
@@ -71,7 +69,7 @@ static int	h_dist_hyper(t_c_px *ca, t_hyper *para, t_hyper_calc *c, int simple)
 	}
 	if (is_there_txt(&para->param))
 		h_img_para(ca, para, c);
-	return (1 + c->inside);
+	return (1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -101,4 +99,22 @@ static void	h_img_para(t_c_px *calcul, t_hyper *pa, t_hyper_calc *c)
 		calcul->vn = mult_3x3_vect(&local, &calcul->vn);
 		ft_normalize_vect(&calcul->vn);
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+static void	h_normal_para(t_c_px *ca, t_hyper *para, t_hyper_calc *c)
+{
+	t_coor	temp_inter;
+
+	temp_inter = new_moved_point(&c->new_o, &c->rot_v, c->dist);//
+	ca->vn = (t_vect){2.0 * temp_inter.x / c->a2, 2.0 \
+		* temp_inter.y / c->b2, -2.0 * temp_inter.z / c->c2};
+	ca->vn = (t_vect){
+		ca->vn.dx * para->O.right.dx + ca->vn.dy * para->O.right.dy \
+			+ ca->vn.dz * para->O.right.dz,
+		ca->vn.dx * para->O.up.dx + ca->vn.dy * para->O.up.dy \
+			+ ca->vn.dz * para->O.up.dz,
+		ca->vn.dx * para->O.view.dx + ca->vn.dy * para->O.view.dy \
+			+ ca->vn.dz * para->O.view.dz};
+	ft_normalize_vect(&ca->vn);
 }

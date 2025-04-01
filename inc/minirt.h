@@ -50,7 +50,7 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	ft_rotate_camera_vect_v3(t_c_px *calcul, t_obj2 *o, t_obj *c);
+void	ft_rotate_around_obj(t_c_px *calcul, t_obj2 *o, t_obj *c);
 int	txt_already_exist(t_data *data, char *path, t_img **txt);
 t_img	*parse_img(t_data *data, char *path);
 t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);
@@ -67,8 +67,6 @@ t_vect	cam_quaternion(t_data *data, int x, int y, int aa);
 
 // tree_bounding stuff
 void	do_the_tree_splitting(t_model *model);
-void	find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
-void	h_find_tri(t_bbox *node, t_model *model, t_c_obj *c);
 
 // progressive
 int	ft_render_frame_multi_prog(t_data *data, int sublim);
@@ -96,19 +94,6 @@ int		return_alpha_img(t_img *img, double x, double y);
 // 	(C)	anti aliasing
 int		ft_render_frame_aa(t_data *data, int sublim);
 void	w_px_buff(t_img *buff, int x, int y, unsigned int color);
-// 	(O) objects distance
-int	distance_from_object(t_c_px *calcul, void *object, int simple);
-int	h_distance_from_object(t_c_px *calcul, t_object *obj, t_c_obj *c, int simple);
-int	h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c);
-void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c);
-void	f_return_obj_normal(t_c_px *calcul, t_c_obj *c, t_object *obj);
-t_coor	h_uvw(t_c_obj *c, t_model *m);
-t_argb h_obj_color2(t_c_px *calcul, t_c_obj *c, t_model *m);
-// 	(O) helper
-void	ft_rotate_camera_vect(t_c_px *calcul, t_object *obj, t_c_obj *c);
-int		f_check_if_in_box(t_c_px *calcul, t_object *obj, t_c_obj *c);
-double	h_dist_triangle(t_tri *tri, t_model *o, t_c_obj *c);
-
 /********************************
 		B
 ********************************/
@@ -142,6 +127,14 @@ int	distance_from_arrow(t_c_px *calcul, void *obj, int simple);
 // 	SPRITE
 int	distance_from_sprite(t_c_px *calcul, void *obj, int simple);
 // OBJECT
+int	distance_from_object(t_c_px *calcul, void *object, int simple);
+// 
+void	ft_rotate_around_obj(t_c_px *calcul, t_obj2 *o, t_obj *c);
+double	h_dist_triangle(t_tri *tri, t_model *o, t_c_obj *c);
+void	f_return_obj_normal(t_c_px *ca, t_c_obj *c, t_object *obj);
+t_coor	h_uvw(t_c_obj *c, t_model *m);
+// 
+void	find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
 /********************************
 		E
 ********************************/

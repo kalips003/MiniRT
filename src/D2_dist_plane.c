@@ -13,7 +13,8 @@
 #include "../inc/minirt.h"
 
 int			distance_from_plane(t_c_px *calcul, void *obj, int simple);
-static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_c_plane *c, int simple);
+static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_c_plane *c, \
+	int simple);
 static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -24,7 +25,7 @@ static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane);
 int	distance_from_plane(t_c_px *calcul, void *obj, int simple)
 {
 	t_c_plane	c;
-	t_plane			*plane;
+	t_plane		*plane;
 
 	plane = (t_plane *)obj;
 	c.top = -(ft_dot_p(&plane->O.view, (t_vect *)&calcul->c0) + plane->d);
@@ -40,7 +41,8 @@ int	distance_from_plane(t_c_px *calcul, void *obj, int simple)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_c_plane *c, int simple)
+static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_c_plane *c, \
+	int simple)
 {
 	if (simple)
 		return (1);
@@ -53,7 +55,8 @@ static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_c_plane *c, int simple
 	{
 		c->o_to_inter = vect_ab(&plane->O.c0, &calcul->inter);
 		c->u = ft_dot_p(&c->o_to_inter, &plane->O.right) / plane->param.gamma;
-		c->v = 1.0 - ft_dot_p(&c->o_to_inter, &plane->O.up) / plane->param.gamma;
+		c->v = 1.0 - ft_dot_p(&c->o_to_inter, &plane->O.up) / \
+			plane->param.gamma;
 	}
 	if (plane->param.c2.r >= 0)
 		if (((int)floor(c->u) + (int)floor(c->v)) % 2)
@@ -75,6 +78,7 @@ static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane)
 	if (plane->param.n_map)
 	{
 		normal_map = return_vect_img(plane->param.n_map, c->u, c->v);
+		normal_map.dy *= -1.0;
 		calcul->vn = mult_3x3_vect(&plane->O, &normal_map);
 		ft_normalize_vect(&calcul->vn);
 	}

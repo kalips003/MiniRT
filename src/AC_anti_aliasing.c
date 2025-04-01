@@ -20,7 +20,8 @@ int					ft_render_frame_aa(t_data *data, int sublim);
 static void			ft_anti_aliasing_aa(t_data *data);
 static unsigned int	ft_average_pixel_buff(t_img *buff, int x, int y);
 void				w_px_buff(t_img *buff, int x, int y, unsigned int color);
-static void			h_weight_color(t_img *buffer, int *xy, t_coor *rtrn, double scalar);
+static void			h_weight_color(t_img *buffer, int *xy, t_coor *rtrn, \
+	double scalar);
 
 ///////////////////////////////////////////////////////////////////////////////]
 int	ft_render_frame_aa(t_data *data, int sublim)

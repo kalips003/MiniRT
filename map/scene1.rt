@@ -15,14 +15,21 @@ L 						5,10,5 			0.71 					255,255,255
 # ob 0,-6,0 0,0,1 0.1 255,0,255 model/tree.obj T=0.5,1 C=10,10,10
 # ob -10,-6,0 0,0,1 0.1 255,0,255 model/tree.obj T=0,1 C=
 # ob -5,-5,-5 1,0,0 5 255,255,32 model/torus.obj
-# pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=1.0,500	### X=txt/t_ice.xpm N=txt/n_ice.xpm
-pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=1.0,500	### X=txt/t_ice.xpm
+
+# pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=1.0,500	### X=txt/n_ice.xpm N=txt/n_ice.xpm
+# pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=1.0,500	### X=txt/t_ice.xpm
+pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=0,10	### X=
+
+# sp -5,0,0	50	200,0,200		### T=0,1 # M=0 # C= # S=   ###  X=txt/t_brique.xpm N=txt/n_brique.xpm
+# pa 0,0,0	0,1,0	1,1,1  255,0,0		### T=0,1 # M=0 # C= # S=   ###
+
 # pl 0,-5,0	0,-1,0	255,255,255	###		T=0,7 # M=0 # C=0,0,0 # S=1.0,500	### N=txt/n_concrete_opengl.xpm A=txt/t_concrete.xpm
 # pl 0,-5,0	0,1,0	255,255,255 ###     X=txt/t_brique.xpm N=txt/n_brique.xpm A=txt/gkey4.xpm
 
 # ob 0,0,0 0,0,1 0.05 200,200,255 model/Reibeck_print1.obj C=0,0,0
 #  N=txt/n_brique.xpm 
-xi 0,0,0   0,0,-1  5	55,255,255	X=txt/default.xpm	###		T=0,1 # M=0 # C=255,0,0 # S=	###    N=txt/ground/n_ground.xpm
-sp -5,0,0	5	200,0,200		### T=0,1 # M=0 # C= # S=   ### N=txt/ground/n_ground.xpm
+xi 0,0,-5   0,0,-1  50	55,255,255	X=txt/default.xpm	###		T=0,1 # M=0 # C=255,0,0 # S=	###  N=txt/n_brique.xpm
+xi -3,0,0   0,0,-1  5	55,255,255	X=txt/t_brique.xpm	###		T=0,1 # M=0 # # S=	###    
+# xi -3,0,0   0,0,-1  5	55,255,255	X=txt/ground/n_ground.xpm	###		T=0,1 # M=0 # # S=	###    
 # O=txt/ground/ao_ground.xpm X=txt/ground/t_ground.xpm N=txt/ground/n_ground.xpm A= H=txt/ground/h_ground.xpm H=txt/ground/h_ground.xpm X=txt/ground/t_ground.xpm O=txt/ground/ao_ground.xpm
 # -------------------------------------------------------------------------------------------------------------------------------------------

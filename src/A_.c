@@ -12,29 +12,13 @@
 
 #include "../inc/minirt.h"
 
-
-///////////////////////////////////////////////////////////////////////////////]
-// rotate cam around obj, instead of rotating object
-// take the address of c->new_O / c->v_rotate as a t_obj
-void	ft_rotate_camera_vect_v3(t_c_px *calcul, t_obj2 *o, t_obj *c)
-{
-	c->c0 = new_moved_point(&calcul->c0, (t_vect *)&o->O.c0, -1.0);
-	c->c0 = (t_coor){
-		c->c0.x * o->O.right.dx + c->c0.y * o->O.up.dx + c->c0.z \
-			* o->O.view.dx,
-		c->c0.x * o->O.right.dy + c->c0.y * o->O.up.dy + c->c0.z \
-			* o->O.view.dy,
-		c->c0.x * o->O.right.dz + c->c0.y * o->O.up.dz + c->c0.z \
-			* o->O.view.dz};
-	c->view = (t_vect){
-		calcul->v.dx * o->O.right.dx + calcul->v.dy * o->O.up.dx \
-			+ calcul->v.dz * o->O.view.dx,
-		calcul->v.dx * o->O.right.dy + calcul->v.dy * o->O.up.dy \
-			+ calcul->v.dz * o->O.view.dy,
-		calcul->v.dx * o->O.right.dz + calcul->v.dy * o->O.up.dz \
-			+ calcul->v.dz * o->O.view.dz};
-	ft_normalize_vect(&c->view);
-}
+t_img	*parse_img(t_data *data, char *path);
+int		txt_already_exist(t_data *data, char *path, t_img **txt);
+t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);
+void	render_temp_added_obj(t_data *data, t_obj2 *obj_to_add);
+void	render_normal(t_data *data, t_c_px *calcul);
+int		clamp(int value, int min_v, int max_v);
+t_mat	*find_mat(char *mat_name, t_model *model);
 
 ///////////////////////////////////////////////////////////////////////////////]
 t_img	*parse_img(t_data *data, char *path)

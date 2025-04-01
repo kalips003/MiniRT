@@ -12,9 +12,11 @@
 
 #include "../inc/minirt.h"
 
-int			rtrn_top_stack_gamma(t_c_px *c, t_obj2 *coli, double *i_ior, double *r_ior);
+int			rtrn_top_stack_gamma(t_c_px *c, t_obj2 *coli, double *i_ior, \
+	double *r_ior);
 static int	where_in_stack(void **stack, void *colli, int ptr_stack);
-void		push_stack(void **stack, void *colli, int *ptr_stack, int max_stack_index);
+void		push_stack(void **stack, void *colli, int *ptr_stack, \
+	int max_stack_index);
 static int	pop_stack(void **stack, int to_pop, int *ptr_stack);
 
 ///////////////////////////////////////////////////////////////////////////////]

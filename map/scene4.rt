@@ -12,7 +12,7 @@ L 						0,0,20 			0.8 					255,255,255
 # xi 0,0,20   0,-1,0  15	55,255,255	X=txt/default.xpm	###		T=0,1 # M=0 # C= # S=1.0,500	### N=txt/n_brique.xpm A=
 # ob 0,0,0 1,0,0 15 255,0,255 model/cube.obj T= M= S=0,10  ### X=txt/t_earth.xpm
 ob -5,0,0 1,0,0 0.5 255,0,255 model/Pikachu.obj T= M= S=0,10  ### X=txt/t_earth.xpm
-ob 0,0,0 1,0,0 2 255,0,255 model/Pikachu.obj T= M= S=0,10  ### X=
+ob 0,0,0 1,0,0 2 255,0,255 model/Pikachu.obj T= M= S=0,10  ### X= 
 # ob 0,0,0 0,0,1 1 255,0,255 model/cube.obj T= M= S= X=test/wood_chess.xpm
 
 # sp 						0,0,20 			0.8 					255,255,255 T=0.8,1

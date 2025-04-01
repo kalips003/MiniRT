@@ -12,7 +12,6 @@
 
 #include "../inc/minirt.h"
 
-///////////////////////////////////////////////////////////////////////////////]
 void	ft_lighting_simple(t_data *data, t_c_px *c);
 void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*));
 int		shadow_tracing(t_data *data, t_c_px *calcul);
