@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/25 13:58:05 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 13:39:56 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_sphere_calc {
 	double 	b;
 	double 	c;
 
-	double	Δ;
+	double	delta;
 
 	double	det1;
 	double	det2;
@@ -62,7 +62,7 @@ typedef struct s_sphere_calc {
 	int		inside;
 	double	u;
 	double	v;
-} t_sphere_calc;
+} t_c_sphere;
 
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -97,8 +97,8 @@ typedef struct s_cylinder_calc_v1 {
 	double	b;
 	double	c;
 
-	double	Δ;
-} t_cylinder_calc_v1;
+	double	delta;
+} t_c_cyl2;
 
 typedef struct s_cylinder_calc_v2 {
 	double	det1;
@@ -109,7 +109,7 @@ typedef struct s_cylinder_calc_v2 {
 	int		inside;
 	t_coor	projec_point;
 	t_circle	circle;
-} t_cylinder_calc_v2;
+} t_c_cyl;
 
 ///////////////////////////////////////////////////////////////////////////////]
 // 	CONE
@@ -178,6 +178,10 @@ typedef struct s_obj_calc {
 	double	det;
 	t_bbox	*bbox;
 	double	size;
+	t_coor	uvw;
+	double	u;
+	double	v;	
+
 } t_c_obj;
 
 ///////////////////////////////////////////////////////////////////////////////]

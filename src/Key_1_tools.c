@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/31 08:18:34 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 09:54:53 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	direction_pad(int keysym, t_data *data)
 		move_point(xyz, &data->eye.c->O.right, -data->zoom);
 	else
 		return (0);
+	if (data->change_function == f_progressive_rt && data->change)
+		return (f_progressive_rt(data, NULL, 2), 0);
 	return (recalculate_obj_const(data->change_obj), 1);
 }
 
@@ -83,6 +85,8 @@ int	keys_wasd(int keysym, t_data *data)
 		rotation_obj(obj, &obj->view, DELTA_ROTA, -1);
 	else
 		return (0);
+	if (data->change_function == f_progressive_rt && data->change)
+		return (f_progressive_rt(data, NULL, 2), 0);
 	return (recalculate_obj_const(data->change_obj), 1);
 }
 

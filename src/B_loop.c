@@ -6,17 +6,17 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/31 06:33:21 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 13:33:34 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-int				ft_loop(t_data *data);
-static void		h_refresh_input_file(t_data *data, time_t time);
-int				ft_render_frame(t_data *data, int sublim);
-unsigned int	calc_px_color(t_data *data, t_c_px *c, int sublim);
-static unsigned int		h_bg_texture(t_data *data, t_c_px *calcul);
+int					ft_loop(t_data *data);
+static void			h_refresh_input_file(t_data *data, time_t time);
+int					ft_render_frame(t_data *data, int sublim);
+unsigned int		calc_px_color(t_data *data, t_c_px *c, int sublim);
+static unsigned int	h_bg_texture(t_data *data, t_c_px *calcul);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // main loop refresh if file is changed
@@ -66,9 +66,9 @@ static void	h_refresh_input_file(t_data *data, time_t time)
 // used to render while moving
 int	ft_render_frame(t_data *data, int sublim)
 {
-	int			x;
-	int			y;
 	t_c_px	c;
+	int		x;
+	int		y;
 
 	ft_memset(&c, 0, sizeof(t_c_px));
 	ini_stack(data, &c);
@@ -81,10 +81,10 @@ int	ft_render_frame(t_data *data, int sublim)
 		{
 			c.transparence_depth = 0;
 			c.reflected_depth = 0;
-			c.ao = 1.0;
 			c.v = v_cam(data, x, y, NOT_AA);
 			calc_px_color(data, &c, sublim);
-			w_px_buff(&data->buffer, x, y, c.mat.argb.r << 16 | c.mat.argb.g << 8 | c.mat.argb.b);
+			w_px_buff(&data->buffer, x, y, c.mat.argb.r << 16 \
+				| c.mat.argb.g << 8 | c.mat.argb.b);
 		}
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->buffer.img, 0, 0);
@@ -96,7 +96,7 @@ int	ft_render_frame(t_data *data, int sublim)
 // fills calcul.argb with the pixel color shaded of the intersection
 unsigned int	calc_px_color(t_data *data, t_c_px *c, int sublim)
 {
-	if (!ft_find_pixel_colision(data, c, NOT_SHADOWS, SET_DIST))
+	if (!find_coli(data, c, NOT_SHADOWS, SET_DIST))
 	{
 		if (data->bgl[0]->texture)
 			return (h_bg_texture(data, c));
@@ -106,9 +106,9 @@ unsigned int	calc_px_color(t_data *data, t_c_px *c, int sublim)
 		return (c->mat.argb.r << 16 | c->mat.argb.g << 8 | c->mat.argb.b);
 	}
 	else if (sublim == 2)
-		ft_lighting(data, c, shadow_tracing, sublim);
+		ft_lighting(data, c, shadow_tracing);
 	else if (sublim == 1)
-		ft_lighting(data, c, something_block_the_light, sublim);
+		ft_lighting(data, c, something_block_the_light);
 	else if (sublim == 0)
 		ft_lighting_simple(data, c);
 	return (c->mat.argb.r << 16 | c->mat.argb.g << 8 | c->mat.argb.b);

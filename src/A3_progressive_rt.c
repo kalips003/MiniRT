@@ -31,8 +31,13 @@ t_rgb	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce)
 
 	if (num_bounce > MAX_RAY_BOUNCE)
 		return ((t_rgb){0});
-	if (!ft_find_pixel_colision(data, calcul, NOT_SHADOWS, SET_DIST))
+	if (!find_coli(data, calcul, NOT_SHADOWS, SET_DIST))
 		return ((t_rgb){0});
+		// return ((t_rgb){
+		// 	(int)(round(data->bgl[0]->rgb.r * data->bgl[0]->ratio)),
+		// 	(int)(round(data->bgl[0]->rgb.g * data->bgl[0]->ratio)),
+		// 	(int)(round(data->bgl[0]->rgb.b * data->bgl[0]->ratio))
+		// });
 	if (calcul->mat.light > EPSILON)
 	{
 		rgb.r = (int)(round(calcul->mat.argb.r * calcul->mat.light));
@@ -49,7 +54,8 @@ t_rgb	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce)
 	rtrn.x = calcul->mat.argb.r * rgb.r / 255.0;
 	rtrn.y = calcul->mat.argb.g * rgb.g / 255.0;
 	rtrn.z = calcul->mat.argb.b * rgb.b / 255.0;
-	// printf("rgb: [%.3f,%.3f,%.3f]\n", rtrn.x, rtrn.y, rtrn.z);
+
+
 	t_rgb	rgb2;
 
 	rgb2.r = (int)round(rtrn.x);

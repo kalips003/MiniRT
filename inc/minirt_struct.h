@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/16 14:59:48 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 12:47:37 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ typedef struct s_calcul_px
 	int		stack_top;
 
 	t_mat2	mat;
-	t_light	eff_light;
-	double	ao;
+	t_light	eff_l;
 	// double	ratio;
 	double	r_diff;
 // 
@@ -151,5 +150,7 @@ typedef struct s_dico_pair2
 	char		*name;
 	t_ft_change	*exe;
 }	t_dico_pair2;
+
+typedef int	(*t_dist_of)(t_c_px*, void*, int);
 
 #endif

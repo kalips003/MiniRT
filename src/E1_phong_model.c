@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/19 13:06:17 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 10:25:31 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ int	ft_diffuse(t_data *data, t_c_px *c, t_light *light, \
 	c->dist_light = dist_two_points(&c->inter, &light->xyz);
 	c->v_light = vect_ab_norm(&c->inter, &light->xyz);
 	cos_angle = ft_dot_p(&c->v_light, &c->vn);
-	c->eff_light = *light;
+	c->eff_l = *light;
 	if (cos_angle < EPSILON || f_shadow(data, c))
 		return (0);
-	adj_i = c->eff_light.ratio * cos_angle;
+	adj_i = c->eff_l.ratio * cos_angle;
 	adj_i = SCALAR_LIGHT_DIST * adj_i / (1 + c->dist_light * c->dist_light);
 	adj_i = fmin(adj_i, 2.5);
-	c->diffuse.x += c->mat.argb.r * c->eff_light.color.r / 255.0 * adj_i;
-	c->diffuse.y += c->mat.argb.g * c->eff_light.color.g / 255.0 * adj_i;
-	c->diffuse.z += c->mat.argb.b * c->eff_light.color.b / 255.0 * adj_i;
+	c->diffuse.x += c->mat.argb.r * c->eff_l.rgb.r / 255.0 * adj_i;
+	c->diffuse.y += c->mat.argb.g * c->eff_l.rgb.g / 255.0 * adj_i;
+	c->diffuse.z += c->mat.argb.b * c->eff_l.rgb.b / 255.0 * adj_i;
 	return (1);
 }
 
@@ -65,10 +65,10 @@ void	ft_specular(t_c_px *c)
 	cos_angle = ft_dot_p(&c->v, &reflected_light);
 	if (cos_angle < EPSILON)
 		return ;
-	adj_i = c->mat.sp * c->eff_light.ratio * pow(cos_angle, c->mat.sh);
-	c->specular.x += c->eff_light.color.r * adj_i;
-	c->specular.y += c->eff_light.color.g * adj_i;
-	c->specular.z += c->eff_light.color.b * adj_i;
+	adj_i = c->mat.sp * c->eff_l.ratio * pow(cos_angle, c->mat.sh);
+	c->specular.x += c->eff_l.rgb.r * adj_i;
+	c->specular.y += c->eff_l.rgb.g * adj_i;
+	c->specular.z += c->eff_l.rgb.b * adj_i;
 }
 
 ///////////////////////////////////////////////////////////////////////////////]

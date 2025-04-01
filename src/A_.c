@@ -13,27 +13,6 @@
 #include "../inc/minirt.h"
 
 ///////////////////////////////////////////////////////////////////////////////]
-void	update_mat_w_txt(t_c_px *calcul, t_obj2 *obj, double u, double v)
-{
-	double	rough;
-	double	height;
-
-	if (obj->param.s_map)
-		calcul->mat.sp = return_alpha_img(obj->param.s_map, u, v) / 255.0;
-	if (obj->param.rough_map)
-	{
-		rough = return_alpha_img(obj->param.rough_map, u, v) / 255.0;
-		calcul->mat.sh = fmax(0.01, 2.0 / (rough * rough + 0.001) - 2.0);
-	}
-	if (obj->param.txt)
-		calcul->mat.argb = return_px_img(obj->param.txt, u, v);
-	if (obj->param.a_map)
-		calcul->mat.argb.a = return_alpha_img(obj->param.a_map, u, v);
-	if (obj->param.ao_map)
-		calcul->ao = return_alpha_img(obj->param.ao_map, u, v) / 255.0;
-}
-
-///////////////////////////////////////////////////////////////////////////////]
 t_img	*parse_img(t_data *data, char *path)
 {
 	t_img	*txt;
@@ -50,7 +29,8 @@ t_img	*parse_img(t_data *data, char *path)
 		txt->img = mlx_xpm_file_to_image(data->mlx, path, \
 			&txt->sz_x, &txt->sz_y);
 	if (!txt->img)
-		return (put(ERR8"Cant open sprite: %s\n", path), perror(RED"mlx"), NULL);
+		return (put(ERR8"Cant open sprite: %s\n", path), \
+			perror(RED"mlx"), NULL);
 	txt->addr = mlx_get_data_addr(txt->img, &txt->bpp, &txt->ll, &txt->end);
 	txt->path = str("%1s", path);
 	return (txt);
@@ -98,12 +78,11 @@ void	render_temp_added_obj(t_data *data, t_obj2 *obj_to_add)
 		return (printf(ERR7"??\n"), (void)0);
 	ft_render_frame_multi(data, RENDERING_LVL);
 	data->objects[i] = NULL;
-	// data->objects[i] = free_s(obj_to_add);
 }
 
 void	render_normal(t_data *data, t_c_px *calcul)
 {
-	t_arrow arrow;
+	t_arrow	arrow;
 
 	ft_memset(&arrow, 0, sizeof(t_arrow));
 	arrow.h = 1.0;
@@ -124,7 +103,6 @@ int	clamp(int value, int min_v, int max_v)
 	value = min(max_v, max(min_v, value));
 	return (value);
 }
-
 
 ///////////////////////////////////////////////////////////////////////////////]
 t_mat	*find_mat(char *mat_name, t_model *model)

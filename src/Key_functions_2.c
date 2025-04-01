@@ -93,9 +93,10 @@ void	f_render_normal_arrow(t_data *data, t_obj2 *obj, int k_or_loop)
 void	f_progressive_rt(t_data *data, t_obj2 *obj, int k_or_loop)
 {
 	(void)obj;
-	if (!k_or_loop)
+	if (k_or_loop != 1)
 	{
-		printf(C_451"Starting Progressive RT (Press Space)\n");
+		if (!k_or_loop)
+			printf(C_451"Starting Progressive RT (Press Space)\n");
 		clean_buffer(data);
 		*(int *)&data->ram = 0;
 		return ;

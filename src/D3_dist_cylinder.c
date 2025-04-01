@@ -6,29 +6,29 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:07:55 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/19 13:36:36 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 13:41:21 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
 int			distance_from_cylinder(t_c_px *calcul, void *obj, int simple);
-static int	h_dist_cylinder_1(t_c_px *c1, t_cylinder *cy, t_cylinder_calc_v2 *c2);
-static int	h_dist_cylinder_2(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c, int simple);
-static void	h_img_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c);
+static int	h_dist_cylinder_1(t_c_px *c1, t_cylinder *cy, t_c_cyl *c2);
+static int	h_dist_cylinder_2(t_c_px *calcul, t_cylinder *cylinder, t_c_cyl *c, int simple);
+static void	h_img_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_c_cyl *c);
 
-///////////////////////////////////////////////////////////////////////////////]///////////////////////////////////////////////////////////////////////////////]
+///////////////////////////////////////////////////////////////////////////////]
 int	distance_from_cylinder(t_c_px *calcul, void *obj, int simple)
 {
-	t_cylinder_calc_v2	c;
-	t_cylinder			*cy;
-	int	rtrn;
+	t_c_cyl		c;
+	t_cylinder	*cy;
+	int			rtrn;
 	
 	cy = (t_cylinder *)obj;
 	c.circle = (t_circle){CIRCLE, cy->O, cy->param, cy->radius};
 	rtrn = distance_from_circle(calcul, &c.circle, simple);
 	c.circle.O.c0 = new_moved_point(&cy->O.c0, &cy->O.view, cy->height);
-	c.circle.O.view = (t_vect){-c.circle.O.view.dx, -c.circle.O.view.dy, -c.circle.O.view.dz};
+	c.circle.O.view = scale_vect(c.circle.O.view, -1.0);
 	rtrn |= distance_from_circle(calcul, &c.circle, simple);
 	if (rtrn && simple)
 		return (1);
@@ -51,9 +51,9 @@ int	distance_from_cylinder(t_c_px *calcul, void *obj, int simple)
 ///////////////////////////////////////////////////////////////////////////////]
 // fills the t_cone_calc_v2 with intersection point
 // if no intersection, return 0
-static int	h_dist_cylinder_1(t_c_px *c1, t_cylinder *cy, t_cylinder_calc_v2 *c2)
+static int	h_dist_cylinder_1(t_c_px *c1, t_cylinder *cy, t_c_cyl *c2)
 {
-	t_cylinder_calc_v1	c;
+	t_c_cyl2	c;
 
 	c.A = c1->v.dx * cy->O.view.dx + c1->v.dy * cy->O.view.dy + c1->v.dz * cy->O.view.dz;
 	c.B = cy->O.view.dx * (c1->c0.x - cy->O.c0.x) + cy->O.view.dy * (c1->c0.y - cy->O.c0.y) + cy->O.view.dz * (c1->c0.z - cy->O.c0.z);
@@ -66,11 +66,11 @@ static int	h_dist_cylinder_1(t_c_px *c1, t_cylinder *cy, t_cylinder_calc_v2 *c2)
 	c.a = c.x0 * c.x0 + c.y0 * c.y0 + c.z0 * c.z0;
 	c.b = 2 * (c.x0 * c.x1 + c.y0 * c.y1 + c.z0 * c.z1);
 	c.c = c.x1 * c.x1 + c.y1 * c.y1 + c.z1 * c.z1 - cy->radius * cy->radius;
-	c.Δ = c.b * c.b - 4 * c.a * c.c;
-	if (c.Δ < EPSILON || fabs(c.a) < EPSILON)
+	c.delta = c.b * c.b - 4 * c.a * c.c;
+	if (c.delta < EPSILON || fabs(c.a) < EPSILON)
 		return (0);
-	c2->det1 = (-c.b + sqrt(c.Δ)) / (2 * c.a);
-	c2->det2 = (-c.b - sqrt(c.Δ)) / (2 * c.a);
+	c2->det1 = (-c.b + sqrt(c.delta)) / (2 * c.a);
+	c2->det2 = (-c.b - sqrt(c.delta)) / (2 * c.a);
 	c2->dist = h_smalest_delta(c2->det1, c2->det2);
 	c2->dist_h = c.A * c2->dist + c.B;
 	if (c2->dist < EPSILON || c2->dist_h > cy->height || c2->dist_h < 0.0)
@@ -79,7 +79,7 @@ static int	h_dist_cylinder_1(t_c_px *c1, t_cylinder *cy, t_cylinder_calc_v2 *c2)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_cylinder_2(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c, int simple)
+static int	h_dist_cylinder_2(t_c_px *calcul, t_cylinder *cylinder, t_c_cyl *c, int simple)
 {
 	if (simple)
 		return (1);
@@ -109,26 +109,24 @@ static int	h_dist_cylinder_2(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_ca
 ///////////////////////////////////////////////////////////////////////////////]
 // 		ATAN2 [−π,π][−π,π] > [0,1].
 // 		cosϕ=[1top,-1bot]	ACOS [0,π] > [0,1].
-static void	h_img_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_cylinder_calc_v2 *c)
+static void	h_img_cylinder(t_c_px *calcul, t_cylinder *cylinder, t_c_cyl *c)
 {
-	int	inside = (1 - 2 * c->inside);
-	double cosθ = ft_dot_p(&calcul->vn, &cylinder->O.up) * inside;
-	double sinθ = ft_dot_p(&calcul->vn, &cylinder->O.right) * inside;
-	double	l_θ = fmin(1.0, fmax(0.0, atan2(sinθ, cosθ)  / (2 * PI) + 0.5));
+	int		in = (1 - 2 * c->inside);
+	double	u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&calcul->vn, &cylinder->O.right) * in, ft_dot_p(&calcul->vn, &cylinder->O.up) * in)  / (2 * PI) + 0.5));
 	double	h = 1.0 - c->dist_h / cylinder->height;
 
 	if (cylinder->param.txt)
-		calcul->mat.argb = return_px_img(cylinder->param.txt, l_θ, h);
+		calcul->mat.argb = return_px_img(cylinder->param.txt, u, h);
 	if (cylinder->param.a_map)
-		calcul->mat.argb.a = return_alpha_img(cylinder->param.a_map, l_θ, h);
+		calcul->mat.argb.a = return_alpha_img(cylinder->param.a_map, u, h);
 	if (cylinder->param.n_map)
 	{
-		t_vect	normal_map = return_vect_img(cylinder->param.n_map, l_θ, h);
+		t_vect	normal_map = return_vect_img(cylinder->param.n_map, u, h);
 		t_obj	local;
 		local.view = calcul->vn;
 		local.up = cylinder->O.view;
 		local.right = ft_cross_product_norm(&local.up, &local.view);
-		normal_map.dx *= inside;
+		normal_map.dx *= in;
 
 		calcul->vn = (t_vect){
 			local.right.dx * normal_map.dx + local.up.dx * normal_map.dy + local.view.dx * normal_map.dz,

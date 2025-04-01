@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Y2_obj_parsing1.c                                  :+:      :+:    :+:   */
+/*   Parsing_prim1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/02/19 13:48:44 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 13:02:34 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,12 @@ int	parse_sp(t_data *data, char **raw_split)
 		return (1);
 	sphere->type = SPHERE;
 	if (ato_coor(raw_split[0], &sphere->O.c0)
-		|| ft_atof(raw_split[1], &sphere->radius)
+		|| ft_atof(raw_split[1], &sphere->r)
 		|| ato_argb(raw_split[2], &sphere->param.argb))
 		return (1);
-	if (sphere->radius < EPSILON)
+	if (sphere->r < EPSILON)
 		return (put(ERR1"(SPHERE OBJECT) too small\n"), 1);
-	sphere->radius /= 2;
+	sphere->r /= 2;
 	if (h_parse_vect_space(&sphere->O, NULL))
 		return (1);
 	return (0);

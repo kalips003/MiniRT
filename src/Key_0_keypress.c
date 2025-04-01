@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Ka_keypress.c                                      :+:      :+:    :+:   */
+/*   Key_0_keypress.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/30 10:55:49 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 09:56:07 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ int	mouse_move(int x, int y, void *d)
 				&data->eye.c->O.view, -dist_two_points(&data->eye.c->O.c0, \
 				&data->change_obj->O.c0));
 		create_vector_space(&data->eye.c->O);
-		ft_render_frame_multi(data, RENDER_MOVING_MOUSE);
+		if (data->change_function == f_progressive_rt && data->change)
+			f_progressive_rt(data, NULL, 2);
+		else
+			ft_render_frame_multi(data, RENDER_MOVING_MOUSE);
 		data->eye.clic_x = x;
 		data->eye.clic_y = y;
 	}
@@ -110,7 +113,10 @@ int	mouse_release(int button, int x, int y, void *d)
 				&data->eye.c->O.view, -dist_two_points(&data->eye.c->O.c0, \
 				&data->change_obj->O.c0));
 		create_vector_space(&data->eye.c->O);
-		ft_render_frame_multi(data, RENDERING_LVL);
+		if (data->change_function == f_progressive_rt && data->change)
+			f_progressive_rt(data, NULL, 2);
+		else
+			ft_render_frame_multi(data, RENDERING_LVL);
 	}
 	return (0);
 }

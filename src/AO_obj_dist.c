@@ -13,7 +13,6 @@
 #include "../inc/minirt.h"
 
 int		distance_from_object(t_c_px *calcul, void *object, int simple);
-int		h_distance_from_object(t_c_px *calcul, t_object *obj, t_c_obj *c, int simple);
 int		h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c);
 void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c);
 void	f_return_obj_normal(t_c_px *calcul, t_c_obj *c, t_object *obj);
@@ -66,28 +65,25 @@ int	h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c)
 ///////////////////////////////////////////////////////////////////////////////]
 void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 {
-	t_coor	uvw;
 	t_tri	*t;
 	t_vt	**vt;
-	double	u;
-	double	v;	
 	t_vect	normal_map;
 	t_obj	local_v_space;
 
-	uvw = h_uvw(calcul, c, obj->model);
+	c->uvw = h_uvw(calcul, c, obj->model);
 	t = c->t;
 	vt = obj->model->vt;
-	u = uvw.x * vt[t->vt[0]]->u + uvw.y * vt[t->vt[1]]->u + uvw.z * vt[t->vt[2]]->u;
-	v = uvw.x * vt[t->vt[0]]->v + uvw.y * vt[t->vt[1]]->v + uvw.z * vt[t->vt[2]]->v;
+	c->u = c->uvw.x * vt[t->vt[0]]->u + c->uvw.y * vt[t->vt[1]]->u + c->uvw.z * vt[t->vt[2]]->u;
+	c->v = c->uvw.x * vt[t->vt[0]]->v + c->uvw.y * vt[t->vt[1]]->v + c->uvw.z * vt[t->vt[2]]->v;
 	if (t->mat && t->mat->txt)
-		calcul->mat.argb = return_px_img(t->mat->txt, u, 1.0 - v);
+		calcul->mat.argb = return_px_img(t->mat->txt, c->u, 1.0 - c->v);
 	if (obj->param.txt)
-		calcul->mat.argb = return_px_img(obj->param.txt, u, v);
+		calcul->mat.argb = return_px_img(obj->param.txt, c->u, c->v);
 	if (obj->param.a_map)
-		calcul->mat.argb.a = return_alpha_img(obj->param.a_map, u, v);
+		calcul->mat.argb.a = return_alpha_img(obj->param.a_map, c->u, c->v);
 	if (obj->param.n_map)
 	{
-		normal_map = return_vect_img(obj->param.n_map, u, v);
+		normal_map = return_vect_img(obj->param.n_map, c->u, c->v);
 		local_v_space.view = calcul->vn;
 		create_vector_space(&local_v_space);
 		calcul->vn = mult_3x3_vect(&local_v_space, &normal_map);
@@ -97,31 +93,31 @@ void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 
 ///////////////////////////////////////////////////////////////////////////////]
 // calcul->v_normal = f_return_obj_normal
-void	f_return_obj_normal(t_c_px *calcul, t_c_obj *c, t_object *obj)
+void	f_return_obj_normal(t_c_px *ca, t_c_obj *c, t_object *obj)
 {
 	t_tri	*t;
 	t_coor	uvw;
 	t_vect	**vn;
 
 	t = c->t;
-	uvw = h_uvw(calcul, c, obj->model);
+	uvw = h_uvw(ca, c, obj->model);
 	vn = obj->model->vn;
 	if (c->t->vn[0] < 0)
-		calcul->vn = ft_cross_product_norm(&c->e1, &c->e2);
+		ca->vn = ft_cross_product_norm(&c->e1, &c->e2);
 	else
 	{
-		calcul->vn = (t_vect){
+		ca->vn = (t_vect){
 			uvw.x * vn[t->vn[0]]->dx + uvw.y * vn[t->vn[1]]->dx + uvw.z * vn[t->vn[2]]->dx,
 			uvw.x * vn[t->vn[0]]->dy + uvw.y * vn[t->vn[1]]->dy + uvw.z * vn[t->vn[2]]->dy,
 			uvw.x * vn[t->vn[0]]->dz + uvw.y * vn[t->vn[1]]->dz + uvw.z * vn[t->vn[2]]->dz
 		};
 	}
-	calcul->vn = (t_vect){
-		calcul->vn.dx * obj->O.right.dx + calcul->vn.dy * obj->O.right.dy + calcul->vn.dz * obj->O.right.dz,
-		calcul->vn.dx * obj->O.up.dx + calcul->vn.dy * obj->O.up.dy + calcul->vn.dz * obj->O.up.dz,
-		calcul->vn.dx * obj->O.view.dx + calcul->vn.dy * obj->O.view.dy + calcul->vn.dz * obj->O.view.dz
-	};
-	ft_normalize_vect(&calcul->vn);
+	ca->vn = (t_vect){ca->vn.dx * obj->O.right.dx + ca->vn.dy * \
+		obj->O.right.dy + ca->vn.dz * obj->O.right.dz, ca->vn.dx * \
+		obj->O.up.dx + ca->vn.dy * obj->O.up.dy + ca->vn.dz * obj->O.up.dz, \
+		ca->vn.dx * obj->O.view.dx + ca->vn.dy * obj->O.view.dy + ca->vn.dz \
+		* obj->O.view.dz};
+	ft_normalize_vect(&ca->vn);
 }
 
 // barycenter

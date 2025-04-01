@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/31 08:29:59 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 12:48:56 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	txt_already_exist(t_data *data, char *path, t_img **txt);
 t_img	*parse_img(t_data *data, char *path);
 t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);
 int	clamp(int value, int min_v, int max_v);
+int	is_there_txt(t_param *p);
 
 void	render_temp_added_obj(t_data *data, t_obj2 *obj_to_add);
 void	render_normal(t_data *data, t_c_px *calcul);
@@ -86,8 +87,9 @@ void		push_stack(void **stack, void *colli, int *ptr_stack, int max_stack_index)
 // 	(2)	multi-threads render
 int			ft_render_frame_multi(t_data *data, int sublim);
 // 	(B)	tools helper img
+void	update_mat_w_txt(t_c_px *calcul, t_obj2 *obj, double u, double v);
+int		is_there_txt(t_param *p);
 t_argb	return_px_img(t_img *img, double x, double y);
-t_argb	return_px_img_inverse(t_img *img, double x, double y);
 t_vect	return_vect_img(t_img *img, double x, double y);
 int		return_alpha_img(t_img *img, double x, double y);
 // 	(C)	anti aliasing
@@ -115,7 +117,7 @@ unsigned int	calc_px_color(t_data *data, t_c_px *c, int sublim);
 /********************************
 		C
 ********************************/
-int			ft_find_pixel_colision(t_data *data, t_c_px *c, int shadow, int set_dist);
+int			find_coli(t_data *data, t_c_px *c, int shadow, int set_dist);
 t_ini_stk	*ft_fill_stack_inside(t_data *data, t_c_px *c, t_ini_stk **top_list, t_ini_stk **ptr_list);
 int			something_block_the_light(t_data *data, t_c_px *c);
 /********************************
@@ -143,7 +145,7 @@ int	distance_from_sprite(t_c_px *calcul, void *obj, int simple);
 		E
 ********************************/
 void	ft_lighting_simple(t_data *data, t_c_px *c);
-void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*), int simple);
+void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*));
 int		shadow_tracing(t_data *data, t_c_px *calcul);
 int		ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights);
 int		something_block_the_light_simple(t_data *data, t_c_px *c);

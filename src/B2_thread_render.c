@@ -13,7 +13,7 @@
 #include "../inc/minirt.h"
 
 int			ft_render_frame_multi(t_data *data, int sublim);
-static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *calcul_tab, int sublim);
+static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *c_tab, int sublim);
 static void	*f_thread(void *calcul);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -34,7 +34,7 @@ int	ft_render_frame_multi(t_data *data, int sublim)
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *calcul_tab, int sublim)
+static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *c_tab, int sublim)
 {
 	pthread_t	threads[NUM_THREAD];
 	int			y;
@@ -42,13 +42,13 @@ static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *calcul_tab, int subli
 	y = -1;
 	while (++y < NUM_THREAD)
 	{
-		ft_memcpy(calcul_tab[y].inside, c->inside, sizeof(c->inside));
-		calcul_tab[y].stack_top = c->stack_top;
-		calcul_tab[y].c0 = c->c0;
-		calcul_tab[y].object = data;
-		calcul_tab[y].transparence_depth = y;
-		calcul_tab[y].reflected_depth = sublim;
-		if (pthread_create(&threads[y], NULL, f_thread, &calcul_tab[y]))
+		ft_memcpy(c_tab[y].inside, c->inside, sizeof(c->inside));
+		c_tab[y].stack_top = c->stack_top;
+		c_tab[y].c0 = c->c0;
+		c_tab[y].object = data;
+		c_tab[y].transparence_depth = y;
+		c_tab[y].reflected_depth = sublim;
+		if (pthread_create(&threads[y], NULL, f_thread, &c_tab[y]))
 		{
 			printf("Error creating thread for row %d\n", y);
 			break ;
@@ -79,7 +79,8 @@ static void	*f_thread(void *calcul)
 			c->transparence_depth = 0;
 			c->reflected_depth = 0;
 			c->v = v_cam(data, xy[X], xy[Y], NOT_AA);
-			w_px_buff(&data->buffer, xy[X], xy[Y], calc_px_color(data, c, sublim));
+			w_px_buff(&data->buffer, xy[X], xy[Y], \
+				calc_px_color(data, c, sublim));
 		}
 		xy[Y] += NUM_THREAD;
 	}

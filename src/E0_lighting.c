@@ -84,20 +84,20 @@ int	shadow_tracing(t_data *data, t_c_px *calcul)
 	c.c0 = new_moved_point(&calcul->inter, &calcul->vn, EPSILON);
 	c.v = calcul->v_light;
 	c.print = calcul->print + !!(calcul->print);
-	rgb = (t_coor){calcul->eff_light.color.r, calcul->eff_light.color.g, calcul->eff_light.color.b};
+	rgb = (t_coor){calcul->eff_l.rgb.r, calcul->eff_l.rgb.g, calcul->eff_l.rgb.b};
 	dist_l = calcul->dist_light;
 	c.dist = dist_l;
 	dot_l = 0.0;
 	b = 0;
 	while (c.dist > EPSILON)
 	{
-		if (ft_find_pixel_colision(data, &c, 0, 0))
+		if (find_coli(data, &c, 0, 0))
 		{
 			c.mat.tr = fmin(1.0, c.mat.argb.a / 255.0 + c.mat.tr);
 			if (c.mat.tr < EPSILON)
 				return (1);
 			c.mat.tr = sqrt(c.mat.tr);
-			calcul->eff_light.ratio *= c.mat.tr;
+			calcul->eff_l.ratio *= c.mat.tr;
 			rgb.x = rgb.x * c.mat.tr + c.mat.argb.r * (1.0 - c.mat.tr);
 			rgb.y = rgb.y * c.mat.tr + c.mat.argb.g * (1.0 - c.mat.tr);
 			rgb.z = rgb.z * c.mat.tr + c.mat.argb.b * (1.0 - c.mat.tr);
@@ -111,10 +111,10 @@ int	shadow_tracing(t_data *data, t_c_px *calcul)
 			break ;
 	}
 	if (b)
-		calcul->eff_light.ratio *= FAKE_REFR_SCALAR * pow(cos(dot_l), FAKE_REFR_POW);
-	calcul->eff_light.color.r = (int)min(255.0, max(0.0, floor(rgb.x)));
-	calcul->eff_light.color.g = (int)min(255.0, max(0.0, floor(rgb.y)));
-	calcul->eff_light.color.b = (int)min(255.0, max(0.0, floor(rgb.z)));
+		calcul->eff_l.ratio *= FAKE_REFR_SCALAR * pow(cos(dot_l), FAKE_REFR_POW);
+	calcul->eff_l.rgb.r = (int)min(255.0, max(0.0, floor(rgb.x)));
+	calcul->eff_l.rgb.g = (int)min(255.0, max(0.0, floor(rgb.y)));
+	calcul->eff_l.rgb.b = (int)min(255.0, max(0.0, floor(rgb.z)));
 	return (0);
 }
 
@@ -132,9 +132,9 @@ int	ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights)
 		return (0);
 	adj_i = lights->ratio * cos_angle;
 	adj_i = SCALAR_LIGHT_DIST * adj_i / (1 + c->dist_light * c->dist_light);
-	c->diffuse.x += c->mat.argb.r * lights->color.r / 255.0 * adj_i;
-	c->diffuse.y += c->mat.argb.g * lights->color.g / 255.0 * adj_i;
-	c->diffuse.z += c->mat.argb.b * lights->color.b / 255.0 * adj_i;
+	c->diffuse.x += c->mat.argb.r * lights->rgb.r / 255.0 * adj_i;
+	c->diffuse.y += c->mat.argb.g * lights->rgb.g / 255.0 * adj_i;
+	c->diffuse.z += c->mat.argb.b * lights->rgb.b / 255.0 * adj_i;
 	return (1);
 }
 
@@ -148,6 +148,6 @@ int	something_block_the_light_simple(t_data *data, t_c_px *c)
 	calcul.v = c->v_light;
 	calcul.dist = c->dist_light;
 	calcul.print = c->print + !!(c->print);
-	r = ft_find_pixel_colision(data, &calcul, 1, 0);
+	r = find_coli(data, &calcul, 1, 0);
 	return (r);
 }

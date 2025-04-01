@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/30 10:20:09 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 13:02:34 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_light
 {
 	t_coor	xyz;
 	double	ratio;
-	t_argb	color;
+	t_argb	rgb;
 }	t_light;
 
 ////////////////////////////////////////////]
@@ -67,7 +67,7 @@ typedef struct s_sphere
 	t_obj	O;
 	t_param	param;
 
-	double	radius;
+	double	r;
 }	t_sphere;
 
 // PLANE = pl

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   P1_parsing.c                                       :+:      :+:    :+:   */
+/*   Parsing_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 06:21:51 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/30 10:16:58 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 10:23:32 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	parse_l(t_data *data, char **raw_split)
 		return (put(ERR1"bad number of args (LIGHT SOURCE)\n"), 1);
 	if (ato_coor(raw_split[0], &light->xyz)
 		|| ft_atof(raw_split[1], &light->ratio)
-		|| ato_argb(raw_split[2], &light->color))
+		|| ato_argb(raw_split[2], &light->rgb))
 		return (1);
 	if (light->ratio < 0.0 || light->ratio > 1.0)
 		return (put(ERR1"(%s) light source ratio should be [0.0,1.0]\n", \
