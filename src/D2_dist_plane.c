@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 15:52:34 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:04:43 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_c_plane *c, int simple
 static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane)
 {
 	t_vect	normal_map;
-	// t_obj	local;
 
 	c->u = c->u - floor(c->u);
 	c->v = c->v - floor(c->v);
@@ -76,15 +75,7 @@ static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane)
 	if (plane->param.n_map)
 	{
 		normal_map = return_vect_img(plane->param.n_map, c->u, c->v);
-		// local.view = calcul->vn;
-		// local.right = plane->O.right;
-		// local.up = plane->O.up;
 		calcul->vn = mult_3x3_vect(&plane->O, &normal_map);
-		// calcul->vn = (t_vect){
-		// 	plane->O.right.dx * normal_map.dx + plane->O.up.dx * normal_map.dy + calcul->vn.dx * normal_map.dz,
-		// 	plane->O.right.dy * normal_map.dx + plane->O.up.dy * normal_map.dy + calcul->vn.dy * normal_map.dz,
-		// 	plane->O.right.dz * normal_map.dx + plane->O.up.dz * normal_map.dy + calcul->vn.dz * normal_map.dz,
-		// };
 		ft_normalize_vect(&calcul->vn);
 	}
 }
