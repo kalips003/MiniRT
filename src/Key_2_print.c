@@ -41,10 +41,13 @@ void	print_clic(t_data *data, int x, int y)
 	ini_stack(data, &c);
 	c.c0 = data->eye.c->O.c0;
 	c.print = 1;
+	c.data = data;
 	c.v = v_cam(data, x, y, NOT_AA);
 	h_print_1(data, &c, x, y);
 	if (c.object && data->change_function == f_render_normal_arrow)
 		render_normal(data, &c);
+	else if (c.object && data->change_function == f_render_v_space)
+		h_render_v_space_2(data, &c.object->O);
 	h_print_2(&c);
 	if (c.object == data->change_obj)
 		data->change_obj = NULL;

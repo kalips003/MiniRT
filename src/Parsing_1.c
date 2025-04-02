@@ -76,7 +76,8 @@ int	h_parse_vect_space(t_obj *obj, t_vect *view)
 		if (view->dx < -1.0 || view->dx > 1.0
 			|| view->dy < -1.0 || view->dy > 1.0
 			|| view->dz < -1.0 || view->dz > 1.0)
-			return (put(ERR1"Vector should be [-1.0,1.0]\n"), 1);
+			return (put(ERR1"Vector should be [-1.0,1.0]: (%f,%f,%f)\n", \
+				view->dx, view->dy, view->dz), 1);
 		ft_normalize_vect(view);
 		create_vector_space(obj);
 	}

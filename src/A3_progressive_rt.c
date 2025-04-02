@@ -22,7 +22,18 @@ int	ft_render_frame_multi_prog(t_data *data, int sublim);
 static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *calcul_tab, int sublim);
 static void	*f_thread2(void *calcul);
 
+static t_rgb	h_bg_texture(t_data *data, t_c_px *c)
+{
+	double	l_x;
+	double	l_y;
+	t_rgb	rgb;
 
+	l_x = fmin(1.0, fmax(0.0, atan2(c->v.dz, c->v.dx) / (2 * PI) + 0.5));
+	l_y = fmin(1.0, fmax(0.0, acos(c->v.dy) / PI));
+	c->mat.argb = return_px_img(data->bgl[0]->texture, l_x, l_y);
+	rgb = *(t_rgb *)&c->mat.argb.r;
+	return (rgb);
+}
 
 ///////////////////////////////////////////////////////////////////////////////]
 t_rgb	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce)
@@ -32,7 +43,11 @@ t_rgb	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce)
 	if (num_bounce > MAX_RAY_BOUNCE)
 		return ((t_rgb){0});
 	if (!find_coli(data, calcul, NOT_SHADOWS, SET_DIST))
+	{
+		if (!num_bounce && data->bgl[0]->texture)
+			return (h_bg_texture(data, calcul));
 		return ((t_rgb){0});
+	}
 		// return ((t_rgb){
 		// 	(int)(round(data->bgl[0]->rgb.r * data->bgl[0]->ratio)),
 		// 	(int)(round(data->bgl[0]->rgb.g * data->bgl[0]->ratio)),
@@ -51,9 +66,14 @@ t_rgb	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce)
 	c.v = random_ray(&c);
 	rgb = calculate_random_ray(data, &c, num_bounce + 1);
 	t_coor rtrn;
-	rtrn.x = calcul->mat.argb.r * rgb.r / 255.0;
-	rtrn.y = calcul->mat.argb.g * rgb.g / 255.0;
-	rtrn.z = calcul->mat.argb.b * rgb.b / 255.0;
+
+	// rtrn.x = sqrt((calcul->mat.argb.r / 255.0) * (rgb.r / 255.0)) * 255.0 * 2.0;
+	// rtrn.y = sqrt((calcul->mat.argb.g / 255.0) * (rgb.g / 255.0)) * 255.0 * 2.0;
+	// rtrn.z = sqrt((calcul->mat.argb.b / 255.0) * (rgb.b / 255.0)) * 255.0 * 2.0;
+
+	rtrn.x = calcul->mat.argb.r * rgb.r / 255.0 * 2.0;
+	rtrn.y = calcul->mat.argb.g * rgb.g / 255.0 * 2.0;
+	rtrn.z = calcul->mat.argb.b * rgb.b / 255.0 * 2.0;
 
 
 	t_rgb	rgb2;

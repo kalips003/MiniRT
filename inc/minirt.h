@@ -56,6 +56,8 @@ t_img	*parse_img(t_data *data, char *path);
 t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);
 int	clamp(int value, int min_v, int max_v);
 int	is_there_txt(t_param *p);
+void	h_render_v_space(t_data *data, t_c_px *calcul);
+void	h_render_v_space_2(t_data *data, t_obj *obj);
 
 void	render_temp_added_obj(t_data *data, t_obj2 *obj_to_add);
 void	render_normal(t_data *data, t_c_px *calcul);
@@ -180,6 +182,7 @@ void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_render_normal_arrow(t_data *data, t_obj2 *obj, int k_or_loop);
+void	f_render_v_space(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_progressive_rt(t_data *data, t_obj2 *obj, int k_or_loop);
 /********************************
 		P	Parsing

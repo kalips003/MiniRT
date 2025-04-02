@@ -22,6 +22,6 @@ L 						0,10,43 			    0.5 					255,255,255
 # pl 0,-5,0	0,1,0	255,255,255 ###     X=txt/t_brique.xpm N=txt/n_brique.xpm A=txt/gkey4.xpm
 pl 0,-5,0	0,1,0	200,200,255 ###  	S=0.1,10 T=0,15 X=txt/t_grass.xpm
 
-sp 0,0,0	5	200,0,200		### T= # M= # C= # S=   ### X= N= A=
-sp -10,0,0	3	255,255,255		### T= # M= # C= # S=   ### X= N= A= L=1
+sp 0,0,0	5	200,0,200		### T= # M= # C= # S=   ### X= N= A= X=txt/t_earth.xpm N=txt/n_earth.xpm A=
+sp -10,0,0	10	255,255,255		### T= # M= # C= # S=   ### X= N= A= L=2 X=txt/sun.xpm
 

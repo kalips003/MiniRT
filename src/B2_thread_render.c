@@ -48,6 +48,7 @@ static void	h_loop_thread(t_data *data, t_c_px *c, t_c_px *c_tab, int sublim)
 		c_tab[y].object = (t_obj2 *)data;
 		c_tab[y].transparence_depth = y;
 		c_tab[y].reflected_depth = sublim;
+		c_tab[y].data = data;
 		if (pthread_create(&threads[y], NULL, f_thread, &c_tab[y]))
 		{
 			printf("Error creating thread for row %d\n", y);

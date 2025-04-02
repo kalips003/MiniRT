@@ -28,7 +28,7 @@ static const t_dico_pair2	g_numpad_fuctions[] = {
 {"Toogle Cam: Vector / Quaternion", f_toogle_cam},
 {"Render the normal at clicked point", f_render_normal_arrow},
 {"Progressively does magic", f_progressive_rt},
-{"TEMP8", NULL},
+{"Render the vector space of the selected object", f_render_v_space},
 {"TEMP9", NULL}
 };
 

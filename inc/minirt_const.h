@@ -34,8 +34,8 @@
 # define MAX_MI_DEPTH 4
 # define MAX_RAY_BOUNCE 3
 
-# define SZ_Y 500
-# define SZ_X 600
+# define SZ_Y 800
+# define SZ_X 1000
 
 #define CIRCLE 0
 #define SPHERE 1

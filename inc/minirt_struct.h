@@ -69,6 +69,7 @@ typedef struct s_calcul_px
 
 	// bit for printing info
 	int	print;
+	t_data	*data;
 
 }	t_c_px;
 

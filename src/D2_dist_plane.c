@@ -62,15 +62,28 @@ static int	h_dist_plane(t_c_px *calcul, t_plane *plane, t_c_plane *c, \
 		if (((int)floor(c->u) + (int)floor(c->v)) % 2)
 			calcul->mat.argb = (t_argb){calcul->mat.argb.a, plane->param.c2.r, \
 				plane->param.c2.g, plane->param.c2.b};
-	h_img_plane(calcul, c, plane);
 	if (c->bot > EPSILON)
+	{
+		if (calcul->print == 1)
+			printf(C_321"calcul->vn before: [%.3f,%.3f,%.3f]\n", calcul->vn.dx, calcul->vn.dy, calcul->vn.dz);
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
+		if (calcul->print == 1)
+			printf(C_123"calcul->vn after: [%.3f,%.3f,%.3f]\n", calcul->vn.dx, calcul->vn.dy, calcul->vn.dz);
+	
+	}
+	h_img_plane(calcul, c, plane);
+	if (calcul->print == 1)
+	{
+		printf("c->bot: %.3f, we inverse? %d\n", c->bot, !!(c->bot > EPSILON));
+		printf("calcul->vn: [%.3f,%.3f,%.3f]\n", calcul->vn.dx, calcul->vn.dy, calcul->vn.dz);
+	}
 	return (1);
 }
 
 static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane)
 {
 	t_vect	normal_map;
+	t_obj	local;
 
 	c->u = c->u - floor(c->u);
 	c->v = c->v - floor(c->v);
@@ -78,7 +91,18 @@ static void	h_img_plane(t_c_px *calcul, t_c_plane *c, t_plane *plane)
 	if (plane->param.n_map)
 	{
 		normal_map = return_vect_img(plane->param.n_map, c->u, c->v);
-		normal_map.dy *= -1.0;
+		local.up = plane->O.up;
+		local.right = plane->O.right;
+		local.view = calcul->vn;
+		// if (calcul->print == 1)
+		// {
+		// 	t_argb a = return_px_img(plane->param.n_map, c->u, c->v);
+		// 	printf("c->in? %d; uv: [%.3f,%.3f]\n", c->in, c->u, c->v);
+		// 	printf(C_413"normal_map? [%.3f,%.3f,%.3f]\n", normal_map.dx, normal_map.dy, normal_map.dz);
+		// 	printf("argb: [%d,%d,%d,%d]\n", a.a, a.r, a.g, a.b);
+		// 	local.c0 = calcul->inter;
+		// 	h_render_v_space_2(calcul->data, &local);
+		// }
 		calcul->vn = mult_3x3_vect(&plane->O, &normal_map);
 		ft_normalize_vect(&calcul->vn);
 	}

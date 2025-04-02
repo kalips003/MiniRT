@@ -73,39 +73,8 @@ t_vect	mult_3x3_vect(t_obj *o3, t_vect *v)
 	return (rtrn);
 }
 
-void	render_temp_added_obj(t_data *data, t_obj2 *obj_to_add)
-{
-	int	i;
 
-	data->objects = expand_tab(data->objects, obj_to_add);
-	i = -1;
-	while (data->objects[++i])
-		if (data->objects[i] == obj_to_add)
-			break ;
-	if (!data->objects[i])
-		return (printf(ERR7"??\n"), (void)0);
-	ft_render_frame_multi(data, RENDERING_LVL);
-	data->objects[i] = NULL;
-}
-
-void	render_normal(t_data *data, t_c_px *calcul)
-{
-	t_arrow	arrow;
-
-	ft_memset(&arrow, 0, sizeof(t_arrow));
-	arrow.h = 1.0;
-	arrow.radius = 0.1;
-	arrow.param.argb = (t_argb){0, 255, 223, 0};
-	arrow.type = ARROW;
-	arrow.O.c0 = calcul->inter;
-	arrow.O.view = calcul->vn;
-	h_parse_vect_space(&arrow.O, &arrow.O.view);
-	recalculate_obj_const((t_obj2 *)&arrow);
-	arrow.param.light = 1.0;
-	arrow.param.c2.r = -1;
-	render_temp_added_obj(data, (t_obj2 *)&arrow);
-}
-
+///////////////////////////////////////////////////////////////////////////////]
 int	clamp(int value, int min_v, int max_v)
 {
 	value = min(max_v, max(min_v, value));

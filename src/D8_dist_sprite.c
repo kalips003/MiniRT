@@ -61,13 +61,14 @@ static int	h_dist_sprite(t_c_px *calcul, t_sprite *sprite, t_c_plane *c, \
 	calcul->vn = sprite->O.view;
 	c->in = 1;
 	if (c->bot > EPSILON)
-		c->in = -1;
+	{
+		c->in = 0;
+		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
+	}
 	h_img_sprite(calcul, c, sprite);
 	if (sprite->param.c2.r >= 0)
 		calcul->mat.argb = (t_argb){calcul->mat.argb.a, sprite->param.c2.r, \
 			sprite->param.c2.g, sprite->param.c2.b};
-	if (c->bot > EPSILON)
-		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
 	return (1);
 }
 
@@ -78,31 +79,31 @@ static void	h_img_sprite(t_c_px *calcul, t_c_plane *c, t_sprite *sprite)
 	double	text_y;
 	t_vect	normal_map;
 	t_obj	local;
+	double	in;
+
+	in = 1 - 2 * c->in;
 
 	text_x = c->u / sprite->size;
 	// text_y = 1.0 - c->v / (sprite->size * sprite->param.txt->sz_y
-	text_y = c->v / (sprite->size * sprite->param.txt->sz_y / sprite->param.txt->sz_x);
+	text_y = 1.0 - c->v / (sprite->size * sprite->param.txt->sz_y / sprite->param.txt->sz_x);
 	update_mat_w_txt(calcul, (t_obj2 *)sprite, text_x, text_y);
 	if (sprite->param.n_map)
 	{
+		normal_map = return_vect_img(sprite->param.n_map, text_x, text_y);
+		local.up = sprite->O.up;
+		local.right = sprite->O.right;
+		// local.right = scale_vect(local.right, in);
+		local.view = calcul->vn;
 		if (calcul->print == 1)
 		{
-			printf("in? %d uv: [%.3f,%.3f]\n", c->in, text_x, text_y);
-		
+			t_argb a = return_px_img(sprite->param.n_map, text_x, text_y);
+			printf("c->in? %d; in: %d; uv: [%.3f,%.3f]\n", c->in, in, text_x, text_y);
+			printf(C_413"normal_map? [%.3f,%.3f,%.3f]\n", normal_map.dx, normal_map.dy, normal_map.dz);
+			printf("argb: [%d,%d,%d,%d]\n", a.a, a.r, a.g, a.b);
+			local.c0 = calcul->inter;
+			h_render_v_space_2(calcul->data, &local);
 		}
-		normal_map = return_vect_img(sprite->param.n_map, text_x, text_y);
-		local = sprite->O;
-		// local.right = scale_vect(local.right, c->in * 1.0);
-		local.view = calcul->vn;
-		// normal_map.dx *= c->in;
-		// normal_map.dy *= c->in;
-		normal_map.dz *= c->in;
-		calcul->vn = mult_3x3_vect(&sprite->O, &normal_map);
-		// calcul->vn = (t_vect){
-		// 	sprite->O.right.dx * normal_map.dx + sprite->O.up.dx * normal_map.dy + calcul->vn.dx * normal_map.dz,
-		// 	sprite->O.right.dy * normal_map.dx + sprite->O.up.dy * normal_map.dy + calcul->vn.dy * normal_map.dz,
-		// 	sprite->O.right.dz * normal_map.dx + sprite->O.up.dz * normal_map.dy + calcul->vn.dz * normal_map.dz,
-		// };
+		calcul->vn = mult_3x3_vect(&local, &normal_map);
 		ft_normalize_vect(&calcul->vn);
 	}
 }
