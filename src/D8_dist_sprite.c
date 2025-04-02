@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/11 11:52:11 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/02 09:12:56 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	h_dist_sprite(t_c_px *calcul, t_sprite *sprite, t_c_plane *c, \
 		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
 	return (1);
 }
-/*
+
 ///////////////////////////////////////////////////////////////////////////////]
 static void	h_img_sprite(t_c_px *calcul, t_c_plane *c, t_sprite *sprite)
 {
@@ -104,4 +104,3 @@ static void	h_img_sprite(t_c_px *calcul, t_c_plane *c, t_sprite *sprite)
 		ft_normalize_vect(&calcul->vn);
 	}
 }
-*/

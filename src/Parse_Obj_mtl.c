@@ -103,6 +103,21 @@ static int	h_read_newmtl(t_data *data, int fd, t_mat *mat)
 ///////////////////////////////////////////////////////////////////////////////]
 // read one line of the newmtl: "	Kd 0.5880 0.5880 0.5880"
 // recieve the split of that line
+// 
+// Ns → Specular exponent (shininess)
+// Ni → Index of refraction
+// Tr → Transparency (alternative to d)
+// d → Dissolve (opacity, d = 1.0 - Tr)
+// Ka → Ambient color (RGB)
+// Kd → Diffuse color (RGB)
+// Ks → Specular color (RGB)
+// Ke → Emissive color (RGB, self-illumination)
+// map_Ka → Texture map for ambient color
+// map_Kd → Texture map for diffuse color
+// map_Ks → Texture map for specular color
+// map_Ns → Texture map for specular exponent
+// map_d → Texture map for dissolve (opacity)
+// map_bump / bump → Normal map (bump mapping)
 static int	h_mtl_param1(t_data *data, char **spl, t_mat *mat)
 {
 	int		err;
@@ -144,11 +159,8 @@ static int	h_mtl_param2(t_data *data, char **spl, t_mat *mat)
 	{
 		path = str("model/%1s", spl[1]);
 		mat->txt = parse_img(data, path);
-		if (!mat->txt)
-		{
+		if (!mat->txt && ++err)
 			printf(C_421"no txt?: %s\n", path);
-			err++;
-		}
 		free_s(path);
 	}
 	return (err);
