@@ -58,6 +58,7 @@ int	clamp(int value, int min_v, int max_v);
 int	is_there_txt(t_param *p);
 void	h_render_v_space(t_data *data, t_c_px *calcul);
 void	h_render_v_space_2(t_data *data, t_obj *obj);
+t_vect	random_ray(t_c_px *calcul);
 
 void	render_temp_added_obj(t_data *data, t_obj2 *obj_to_add);
 void	render_normal(t_data *data, t_c_px *calcul);
@@ -72,7 +73,7 @@ void	do_the_tree_splitting(t_model *model);
 
 // progressive
 int	ft_render_frame_multi_prog(t_data *data, int sublim);
-t_rgb	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce);
+t_coor	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce);
 t_vect	random_ray(t_c_px *calcul);
 void	clean_buffer(t_data *data);
 /********************************
@@ -281,3 +282,4 @@ void	destroy_models(t_data *data);
 
 
 #endif
+

@@ -32,7 +32,7 @@
 # define SPECULAR_ON_OFF 1
 # define MAX_TR_DEPTH 4
 # define MAX_MI_DEPTH 4
-# define MAX_RAY_BOUNCE 3
+# define MAX_RAY_BOUNCE 5
 
 # define SZ_Y 800
 # define SZ_X 1000
