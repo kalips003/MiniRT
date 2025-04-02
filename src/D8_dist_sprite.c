@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/02 09:12:56 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/02 09:49:34 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,15 @@ static void	h_img_sprite(t_c_px *calcul, t_c_plane *c, t_sprite *sprite)
 
 	text_x = c->u / sprite->size;
 	// text_y = 1.0 - c->v / (sprite->size * sprite->param.txt->sz_y
-	text_y = c->v / (sprite->size * sprite->param.txt->sz_y \
-		/ sprite->param.txt->sz_x);
+	text_y = c->v / (sprite->size * sprite->param.txt->sz_y / sprite->param.txt->sz_x);
 	update_mat_w_txt(calcul, (t_obj2 *)sprite, text_x, text_y);
 	if (sprite->param.n_map)
 	{
-		if (calcul->print == 1)	
+		if (calcul->print == 1)
+		{
 			printf("in? %d uv: [%.3f,%.3f]\n", c->in, text_x, text_y);
+		
+		}
 		normal_map = return_vect_img(sprite->param.n_map, text_x, text_y);
 		local = sprite->O;
 		// local.right = scale_vect(local.right, c->in * 1.0);

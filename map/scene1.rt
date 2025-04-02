@@ -29,8 +29,8 @@ pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=0,10	### X=
 # ob 0,0,0 0,0,1 0.05 200,200,255 model/Reibeck_print1.obj C=0,0,0
 #  N=txt/n_brique.xpm 
 # xi 0,0,-5   0,0,-1  50	55,255,255	X=txt/default.xpm	###		T=0,1 # M=0 # C=255,0,0 # S=	###  N=txt/n_brique.xpm
-xi -3,0,0   0,0,-1  5	55,255,255	X=txt/default.xpm	###		T=0,1 # M=0 # # S=	###    N=test/nmap_test.xpm
-xi 3,0,0   0,0,-1  5	55,255,255	X=test/nmap_test2.xpm	###		T=0,1 # M=0 # # S=	###    N=
+xi -3,0,0   0,0,-1  15	55,255,255	X=txt/default.xpm	###		T=0,1 # M=0 # # S=	###    N=test/nmap_test.xpm
+xi 3,0,0   0,0,-1  15	55,255,255	X=test/nmap_test.xpm	###		T=0,1 # M=0 # # S=	###    N=
 # xi -3,0,0   0,0,-1  5	55,255,255	X=txt/ground/n_ground.xpm	###		T=0,1 # M=0 # # S=	###    
 # O=txt/ground/ao_ground.xpm X=txt/ground/t_ground.xpm N=txt/ground/n_ground.xpm A= H=txt/ground/h_ground.xpm H=txt/ground/h_ground.xpm X=txt/ground/t_ground.xpm O=txt/ground/ao_ground.xpm
 # -------------------------------------------------------------------------------------------------------------------------------------------
