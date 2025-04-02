@@ -3,7 +3,7 @@
 C 						0,0,50           	0,0,-1				70
 C 						0,10,0           	0,-1,0				70
 # (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
-A 						0.3 					255,255,255			
+A 						0.3 					255,255,255			X=txt/starmap.xpm
 # (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
 L 						5,10,5 			0.71 					255,255,255
 # L 						-9,1,-8 			1 					255,255,255
@@ -18,8 +18,7 @@ L 						5,10,5 			0.71 					255,255,255
 
 # pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=1.0,500	### X=txt/n_ice.xpm N=txt/n_ice.xpm
 # pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=1.0,500	### X=txt/t_ice.xpm
-pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=255,0,0 # S=0,10	
-## X= N=test/nmap_test.xpm
+pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=255,0,0 # S=0,10	## X= N=test/nmap_test.xpm
 
 # sp -5,0,0	50	200,0,200		### T=0,1 # M=0 # C= # S=   ###  X=txt/t_brique.xpm N=txt/n_brique.xpm
 # pa 0,0,0	0,1,0	1,1,1  255,0,0		### T=0,1 # M=0 # C= # S=   ###

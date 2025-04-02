@@ -95,6 +95,8 @@ int	shadow_tracing(t_data *data, t_c_px *calcul)
 			c.mat.tr = fmin(1.0, c.mat.argb.a / 255.0 + c.mat.tr);
 			if (c.mat.tr < EPSILON)
 				return (1);
+			// if (c.object == calcul->object)
+			// 	return (1);
 			c.mat.tr = sqrt(c.mat.tr);
 			calcul->eff_l.ratio *= c.mat.tr;
 			rgb.x = rgb.x * c.mat.tr + c.mat.argb.r * (1.0 - c.mat.tr);
