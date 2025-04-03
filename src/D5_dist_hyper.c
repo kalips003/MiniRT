@@ -13,9 +13,9 @@
 #include "../inc/minirt.h"
 
 int			distance_from_hyper(t_c_px *calcul, void *obj, int simple);
-static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c, \
+static int	h_dist_para(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c, \
 	int simple);
-static void	h_img_para(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c);
+static void	h_img_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c);
 static void	h_normal_hyper(t_c_px *ca, t_hyper *hy, t_hyper_calc *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -45,12 +45,12 @@ int	distance_from_hyper(t_c_px *calcul, void *obj, int simple)
 	if (c.dist < EPSILON)
 		return (0);
 	if (c.dist < calcul->dist || calcul->dist < 0)
-		return (h_dist_hyper(calcul, hy, &c, simple));
+		return (h_dist_para(calcul, hy, &c, simple));
 	return (0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_hyper(t_c_px *ca, t_hyper *hy, t_hyper_calc *c, int simple)
+static int	h_dist_para(t_c_px *ca, t_hyper *hy, t_hyper_calc *c, int simple)
 {
 	double	in;
 
@@ -73,14 +73,14 @@ static int	h_dist_hyper(t_c_px *ca, t_hyper *hy, t_hyper_calc *c, int simple)
 		ca->vn = (t_vect){-ca->vn.dx, -ca->vn.dy, -ca->vn.dz};
 	}
 	if (is_there_txt(&hy->param))
-		h_img_para(ca, hy, c);
+		h_img_hyper(ca, hy, c);
 	return (1 + c->inside);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
 // 		ATAN2 [−π,π][−π,π] > [0,1].
 // 		cosϕ=[1top,-1bot]	ACOS [0,π] > [0,1].
-static void	h_img_para(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c)
+static void	h_img_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c)
 {
 	int		in;
 	double	u;

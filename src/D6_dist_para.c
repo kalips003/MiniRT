@@ -13,7 +13,7 @@
 #include "../inc/minirt.h"
 
 int			distance_from_para(t_c_px *calcul, void *obj, int simple);
-static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c, \
+static int	h_dist_para(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c, \
 	int simple);
 static void	h_img_para(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c);
 static void	h_normal_para(t_c_px *ca, t_hyper *para, t_hyper_calc *c);
@@ -41,16 +41,26 @@ int	distance_from_para(t_c_px *calcul, void *obj, int simple)
 	c.det1 = (-c.b + sqrt(c.delta)) / (2 * c.a);
 	c.det2 = (-c.b - sqrt(c.delta)) / (2 * c.a);
 	c.dist = h_smalest_delta(c.det1, c.det2);
-	if (c.dist <= 0.0)
+	if (c.dist < EPSILON)
 		return (0);
-	if (c.dist < calcul->dist || calcul->dist < 0.0)
-		return (h_dist_hyper(calcul, para, &c, simple));
+	if (c.dist < calcul->dist || calcul->dist < 0)
+		return (h_dist_para(calcul, para, &c, simple));
 	return (0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_hyper(t_c_px *ca, t_hyper *para, t_hyper_calc *c, int simple)
+static int	h_dist_para(t_c_px *ca, t_hyper *para, t_hyper_calc *c, int simple)
 {
+
+// 
+	t_coor	temp_inter;		
+	temp_inter = new_moved_point(&c->new_o, &c->rot_v, c->dist);
+	double dist_center = dist_two_points(&para->O.c0, &temp_inter);
+	if (ca->print == 1)
+		printf(C_052"dist_center: %.3f\n", dist_center);
+	if (dist_center > 5)
+		return (0);
+// 
 	if (simple)
 		return (1);
 	ca->dist = c->dist;
@@ -105,10 +115,10 @@ static void	h_img_para(t_c_px *calcul, t_hyper *pa, t_hyper_calc *c)
 static void	h_normal_para(t_c_px *ca, t_hyper *para, t_hyper_calc *c)
 {
 	t_coor	temp_inter;
-
-	temp_inter = new_moved_point(&c->new_o, &c->rot_v, c->dist);//
-	ca->vn = (t_vect){2.0 * temp_inter.x / c->a2, 2.0 \
-		* temp_inter.y / c->b2, -2.0 * temp_inter.z / c->c2};
+				
+	temp_inter = new_moved_point(&c->new_o, &c->rot_v, c->dist);
+	ca->vn = (t_vect){2.0 * temp_inter.x / c->a2, -2.0 \
+		* temp_inter.y / c->b2, -temp_inter.z / para->abc.z};
 	ca->vn = (t_vect){
 		ca->vn.dx * para->O.right.dx + ca->vn.dy * para->O.right.dy \
 			+ ca->vn.dz * para->O.right.dz,

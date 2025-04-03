@@ -2,9 +2,9 @@
 # (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
 # C 						0,0,50           	0,0,-1				70
 # C 						0,10,0           	0,-1,0				70
-C 						0,-4,70				0.000,0.000,-1.000		70
+C 						0,5,50				0.000,0.000,-1.000		70
 # (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
-A 						0.1 					255,255,255			
+A 						0.6 					255,255,255			X=txt/starmap.xpm
 # (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
 L 						0,8,10 			    0.3 					255,255,255
 # L 						0,-5,25 			0.81 					255,255,255
@@ -30,7 +30,7 @@ pl 0,-5,0	0,1,0	193,154,107 ###  	C=25,241,50 T=0,25
 
 # ob 0,5,0 1,0,0 5 255,0,255 ### model/cube2.obj X=txt/t_plants.xpm N=txt/n_plants.xpm A=
 # co 0,0,0 0,1,0   30    94.2  255,0,0		### C= S= T=0,1 M=  ### X= N=txt/n_brique.xpm  A= O= s= R=
-pa 0,0,0	0,1,0	1,1,1	 255,0,0		### C= S= T=0,1 M=  ### X= N= A= O= s= R=
+hy 0,0,0	0,1,0	5,1,10   1    255,0,0		### C=0,0,255 S= T=0,1 M=  ### X= N= A= O= s= R=
 
 # ob 0,10,43 0.73,0.15,0.67 0.05 255,255,255 ### model/ovni.obj T=0,0 X=txt/t_ovni.xpm
 # ob 0,10,43 0.73,0.15,0.67 0.05 255,255,255 ### model/ovni.obj T=0,0 X=txt/t_metal_1.xpm N=n_metal_1.xpm
