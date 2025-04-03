@@ -32,19 +32,15 @@ void	render_normal(t_data *data, t_c_px *calcul)
 {
 	t_arrow	arrow;
 
-
-
-
-
 	ft_memset(&arrow, 0, sizeof(t_arrow));
 	arrow.h = 1.0;
 	arrow.radius = 0.1;
 	arrow.param.argb = (t_argb){0, 255, 223, 0};
 	arrow.type = ARROW;
 	arrow.O.c0 = calcul->inter;
+	arrow.O.view = calcul->vn;
 	// arrow.O.view = random_ray(calcul);
 
-	arrow.O.view = calcul->vn;
 	h_parse_vect_space(&arrow.O, &arrow.O.view);
 	recalculate_obj_const((t_obj2 *)&arrow);
 	arrow.param.light = 1.0;

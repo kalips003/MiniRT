@@ -153,7 +153,7 @@ static void	h_img_cone(t_c_px *calcul, t_cone *cone, t_cone_calc_v2 *c)
 		local.right = ft_cross_product_norm(&cone->O.view, &local.view);
 		local.up = ft_cross_product_norm(&local.view, &local.right);
 		normal_map.dx *= in;
-		calcul->vn = mult_3x3_vect(&local, &calcul->vn);
+		calcul->vn = mult_3x3_vect(&local, &normal_map);
 		ft_normalize_vect(&calcul->vn);
 	}
 }
