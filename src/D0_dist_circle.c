@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 15:52:48 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/04 23:06:47 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ static void	h_img_circle(t_c_px *ca, t_circle *circle, t_circle_calc *c)
 	v = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&normal_map, &circle->O.right), \
 		ft_dot_p(&normal_map, &circle->O.up)) / (2 * PI) + 0.5));
 	u = c->dist_center / circle->radius;
+	if (ca->print == 1)
+		printf("txt?: %p\n", circle->param.txt);
 	update_mat_w_txt(ca, (t_obj2 *)circle, u, v);
 	if (circle->param.n_map)
 	{

@@ -22,7 +22,7 @@ all: $(NAME)
 # ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 # MAP = map/scene/space.rt
-MAP = map/scene4.rt
+MAP = map/scene/map2_tr.rt
 
 map: $(NAME)
 	@$(call random_shmol_cat, teshting ... $@: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), );

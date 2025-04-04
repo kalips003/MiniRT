@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/04 19:54:22 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/04 23:25:25 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	render_normal(t_data *data, t_c_px *calcul)
 	h_set_arrow(&arrow, calcul->inter, calcul->vn, (t_rgb){255, 223, 0});
 	arrow.h = 1.0;
 	arrow.radius = 0.1;
+	recalculate_obj_const((t_obj2 *)&arrow);
 	render_temp_added_obj(data, (t_obj2 *)&arrow);
 }
 
