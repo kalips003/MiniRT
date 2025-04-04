@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   P2_obj_parsing2.c                                  :+:      :+:    :+:   */
+/*   Parsing_prim2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/30 10:22:31 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/04 00:52:39 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,19 @@ int	parse_pa(t_data *data, char **raw_split)
 	if (!para)
 		return (put(ERRM), 2);
 	data->objects = expand_tab(data->objects, para);
-	if (tab_size(raw_split) < 4)
+	if (tab_size(raw_split) < 5)
 		return (put(ERR1"bad number of args (PARABOLOID OBJECT)\n"), 1);
-	if (parse_reste(data, &raw_split[4], &para->param))
+	if (parse_reste(data, &raw_split[5], &para->param))
 		return (1);
 	para->type = PARABOLOID;
 	if (ato_coor(raw_split[0], &para->O.c0)
 		|| ato_coor(raw_split[1], (t_coor*)&para->O.view)
 		|| ato_coor(raw_split[2], &para->abc)
-		|| ato_argb(raw_split[3], &para->param.argb))
+		|| ft_atof(raw_split[3], &para->radius)
+		|| ato_argb(raw_split[4], &para->param.argb))
 		return (1);
+	if (para->radius < EPSILON)
+		para->radius = INFINITY;
 	if (h_parse_vect_space(&para->O, &para->O.view))
 		return (1);
 	return (0);

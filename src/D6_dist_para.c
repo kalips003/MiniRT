@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   D5_dist_para.c                                     :+:      :+:    :+:   */
+/*   D6_dist_para.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 15:43:32 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/04 15:55:42 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	h_normal_para(t_c_px *ca, t_hyper *para, t_hyper_calc *c);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // hyperbolic paraboloid
-//	x²/a² - y²/b² = z/c
+//	y²/b² - x²/a² = z/c
 int	distance_from_para(t_c_px *calcul, void *obj, int simple)
 {
 	t_hyper_calc	c;
@@ -30,10 +30,10 @@ int	distance_from_para(t_c_px *calcul, void *obj, int simple)
 	c.a2 = para->abc.x * para->abc.x;
 	c.b2 = para->abc.y * para->abc.y;
 	ft_rotate_around_obj(calcul, (t_obj2 *)para, (t_obj *)&c.new_o);
-	c.a = c.rot_v.dx * c.rot_v.dx / c.a2 - c.rot_v.dy * c.rot_v.dy / c.b2;
-	c.b = 2 * (c.rot_v.dx * c.new_o.x / c.a2 - c.rot_v.dy * c.new_o.y / c.b2) \
+	c.a = c.rot_v.dy * c.rot_v.dy / c.b2 - c.rot_v.dx * c.rot_v.dx / c.a2;
+	c.b = 2 * c.rot_v.dy * c.new_o.y / c.b2 - 2.0 * c.rot_v.dx * c.new_o.x / c.a2 \
 		- c.rot_v.dz / para->abc.z;
-	c.c = c.new_o.x * c.new_o.x / c.a2 + c.new_o.y * c.new_o.y / c.b2 \
+	c.c = c.new_o.y * c.new_o.y / c.b2 - c.new_o.x * c.new_o.x / c.a2 \
 		- c.new_o.z / para->abc.z;
 	c.delta = c.b * c.b - 4 * c.a * c.c;
 	if (c.delta < EPSILON || fabs(c.a) < EPSILON)
@@ -51,21 +51,24 @@ int	distance_from_para(t_c_px *calcul, void *obj, int simple)
 ///////////////////////////////////////////////////////////////////////////////]
 static int	h_dist_para(t_c_px *ca, t_hyper *para, t_hyper_calc *c, int simple)
 {
-
+	if (simple)
+		return (1);
+				
 // 
+	t_coor	temp_inter2;
+	temp_inter2 = new_moved_point(&c->new_o, &c->rot_v, c->dist);
 	t_coor	temp_inter;		
-	temp_inter = new_moved_point(&c->new_o, &c->rot_v, c->dist);
+	temp_inter = new_moved_point(&ca->c0, &ca->v, c->dist);
 	double dist_center = dist_two_points(&para->O.c0, &temp_inter);
 	if (ca->print == 1)
 		printf(C_052"dist_center: %.3f\n", dist_center);
-	if (dist_center > 5)
+	if (fabs(temp_inter2.x) > para->radius || fabs(temp_inter2.y) > para->radius || fabs(temp_inter2.z) > para->radius)
 		return (0);
 // 
-	if (simple)
-		return (1);
 	ca->dist = c->dist;
 	ca->object = (void *)para;
-	ca->inter = new_moved_point(&ca->c0, &ca->v, ca->dist);
+	// ca->inter = new_moved_point(&ca->c0, &ca->v, c->dist);
+	ca->inter = temp_inter;
 	h_normal_para(ca, para, c);
 	ca->mat = *(t_mat2 *)&para->param;
 	if (!para->param.txt && para->param.c2.r >= 0)
@@ -117,7 +120,7 @@ static void	h_normal_para(t_c_px *ca, t_hyper *para, t_hyper_calc *c)
 	t_coor	temp_inter;
 				
 	temp_inter = new_moved_point(&c->new_o, &c->rot_v, c->dist);
-	ca->vn = (t_vect){2.0 * temp_inter.x / c->a2, -2.0 \
+	ca->vn = (t_vect){-2.0 * temp_inter.x / c->a2, 2.0 \
 		* temp_inter.y / c->b2, -temp_inter.z / para->abc.z};
 	ca->vn = (t_vect){
 		ca->vn.dx * para->O.right.dx + ca->vn.dy * para->O.right.dy \

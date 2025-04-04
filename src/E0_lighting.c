@@ -12,34 +12,8 @@
 
 #include "../inc/minirt.h"
 
-void	ft_lighting_simple(t_data *data, t_c_px *c);
 void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*));
 int		shadow_tracing(t_data *data, t_c_px *calcul);
-int		ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights);
-int		something_block_the_light_simple(t_data *data, t_c_px *c);
-
-///////////////////////////////////////////////////////////////////////////////]
-void	ft_lighting_simple(t_data *data, t_c_px *c)
-{
-	t_light	**lights;
-
-	if (c->object->param.light > EPSILON)
-	{
-		c->mat.argb = scale_argb(c->mat.argb, c->object->param.light);
-		return ;
-	}
-	c->diffuse = ft_ambient(data, c);
-	lights = data->light - 1;
-	while (++lights && *lights)
-	{
-		if (!ft_diffuse_simple(data, c, *lights))
-			continue ;
-	}
-	c->mat.argb.r = fmax(0, fmin(255, round(c->diffuse.x)));
-	c->mat.argb.g = fmax(0, fmin(255, round(c->diffuse.y)));
-	c->mat.argb.b = fmax(0, fmin(255, round(c->diffuse.z)));
-}
-
 ///////////////////////////////////////////////////////////////////////////////]
 void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*))
 {
@@ -71,7 +45,6 @@ void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*))
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-///////////////////////////////////////////////////////////////////////////////]
 int	shadow_tracing(t_data *data, t_c_px *calcul)
 {
 	t_c_px		c;
@@ -95,8 +68,6 @@ int	shadow_tracing(t_data *data, t_c_px *calcul)
 			c.mat.tr = fmin(1.0, c.mat.argb.a / 255.0 + c.mat.tr);
 			if (c.mat.tr < EPSILON)
 				return (1);
-			// if (c.object == calcul->object)
-			// 	return (1);
 			c.mat.tr = sqrt(c.mat.tr);
 			calcul->eff_l.ratio *= c.mat.tr;
 			rgb.x = rgb.x * c.mat.tr + c.mat.argb.r * (1.0 - c.mat.tr);
@@ -112,43 +83,114 @@ int	shadow_tracing(t_data *data, t_c_px *calcul)
 			break ;
 	}
 	if (b)
-		calcul->eff_l.ratio *= FAKE_REFR_SCALAR * pow(cos(dot_l), FAKE_REFR_POW);
+		calcul->eff_l.ratio *= FAKE_L_REFR * pow(cos(dot_l), FAKE_REFR_POW);
 	calcul->eff_l.rgb.r = (int)min(255.0, max(0.0, floor(rgb.x)));
 	calcul->eff_l.rgb.g = (int)min(255.0, max(0.0, floor(rgb.y)));
 	calcul->eff_l.rgb.b = (int)min(255.0, max(0.0, floor(rgb.z)));
 	return (0);
 }
 
-///////////////////////////////////////////////////////////////////////////////]
-///////////////////////////////////////////////////////////////////////////////]
-int	ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights)
-{
-	double	adj_i;
-	double	cos_angle;
 
-	c->dist_light = dist_two_points(&c->inter, &lights->xyz);
-	c->v_light = vect_ab_norm(&c->inter, &lights->xyz);
-	cos_angle = ft_dot_p(&c->v_light, &c->vn);
-	if (cos_angle < EPSILON || something_block_the_light_simple(data, c))
-		return (0);
-	adj_i = lights->ratio * cos_angle;
-	adj_i = SCALAR_LIGHT_DIST * adj_i / (1 + c->dist_light * c->dist_light);
-	c->diffuse.x += c->mat.argb.r * lights->rgb.r / 255.0 * adj_i;
-	c->diffuse.y += c->mat.argb.g * lights->rgb.g / 255.0 * adj_i;
-	c->diffuse.z += c->mat.argb.b * lights->rgb.b / 255.0 * adj_i;
-	return (1);
+// int			shadow_tracing(t_data *data, t_c_px *calcul);
+// static int	h_loop_1(t_data *data, t_c_px *calcul, t_c_px *c, t_coor *rgb);
+// static int	h_loop_2(t_c_px *calcul, t_c_px *c, t_coor *rgb, double **dbl);
+
+// ///////////////////////////////////////////////////////////////////////////////]
+// // int	shadow_tracing(t_data *data, t_c_px *calcul)
+// // {
+// // 	t_c_px		c;
+// // 	t_coor		rgb;
+
+// // 	c.c0 = new_moved_point(&calcul->inter, &calcul->vn, EPSILON);
+// // 	c.v = calcul->v_light;
+// // 	c.print = calcul->print + !!(calcul->print);
+// // 	rgb = (t_coor){calcul->eff_l.rgb.r, calcul->eff_l.rgb.g, calcul->eff_l.rgb.b};
+// // 	h_loop_1(data, calcul, &c, &rgb);
+// // 	calcul->eff_l.rgb.r = (int)min(255.0, max(0.0, floor(rgb.x)));
+// // 	calcul->eff_l.rgb.g = (int)min(255.0, max(0.0, floor(rgb.y)));
+// // 	calcul->eff_l.rgb.b = (int)min(255.0, max(0.0, floor(rgb.z)));
+// // 	return (0);
+// // }
+
+// int	shadow_tracing(t_data *data, t_c_px *calcul)
+// {
+// 	t_c_px		c;
+// 	t_coor		rgb;
+// 	double		dist_l;
+// 	double		dot_l;
+// 	int			b;
+
+// 	c.c0 = new_moved_point(&calcul->inter, &calcul->vn, EPSILON);
+// 	c.v = calcul->v_light;
+// 	c.print = calcul->print + !!(calcul->print);
+// 	rgb = (t_coor){calcul->eff_l.rgb.r, calcul->eff_l.rgb.g, calcul->eff_l.rgb.b};
+// 	dist_l = calcul->dist_light;
+// 	c.dist = dist_l;
+// 	dot_l = 0.0;
+// 	b = 0;
+// 	while (c.dist > EPSILON)
+// 	{
+// 		if (find_coli(data, &c, 0, 0))
+// 		{
+// 			if (h_loop_2(calcul, &c, &rgb, (double **){&dist_l, &dot_l, &b}))
+// 				return (1);
+// 		}
+// 		else
+// 			break ;
+// 	}
+// 	if (b)
+// 		calcul->eff_l.ratio *= FAKE_L_REFR * pow(cos(dot_l), FAKE_REFR_POW);
+// 	calcul->eff_l.rgb.r = (int)min(255.0, max(0.0, floor(rgb.x)));
+// 	calcul->eff_l.rgb.g = (int)min(255.0, max(0.0, floor(rgb.y)));
+// 	calcul->eff_l.rgb.b = (int)min(255.0, max(0.0, floor(rgb.z)));
+// 	return (0);
+// }
+
+static int	h_loop_1(t_data *data, t_c_px *calcul, t_c_px *c, t_coor *rgb)
+{
+	double	dist_l;
+	double	dot_l;
+	int		b;
+
+	dist_l = calcul->dist_light;
+	c->dist = dist_l;
+	dot_l = 0.0;
+	b = 0;
+	while (c->dist > EPSILON)
+	{
+		if (find_coli(data, c, 0, 0))
+		{
+			// if (h_loop_2(calcul, c, rgb, (double *[]){&dist_l, &dot_l, (double *)&b}))
+			if (h_loop_2(calcul, c, rgb, (double **){&dist_l, &dot_l, &b}))
+				return (1);
+
+		}
+		else
+			break ;
+	}
+	if (b)
+		calcul->eff_l.ratio *= FAKE_L_REFR * pow(cos(dot_l), FAKE_REFR_POW);
+	return (0);
 }
 
-///////////////////////////////////////////////////////////////////////////////]
-int	something_block_the_light_simple(t_data *data, t_c_px *c)
+// // dbl[0] = &dist_l
+// // dbl[1] = &dot_l
+// // dbl[2] = &b
+static int	h_loop_2(t_c_px *calcul, t_c_px *c, t_coor *rgb, double **dbl)
 {
-	t_c_px	calcul;
-	int		r;
-
-	calcul.c0 = new_moved_point(&c->inter, &c->vn, EPSILON);
-	calcul.v = c->v_light;
-	calcul.dist = c->dist_light;
-	calcul.print = c->print + !!(c->print);
-	r = find_coli(data, &calcul, 1, 0);
-	return (r);
+	c->mat.tr = fmin(1.0, c->mat.argb.a / 255.0 + c->mat.tr);
+	if (c->mat.tr < EPSILON)
+		return (1);
+	c->mat.tr = sqrt(c->mat.tr);
+	calcul->eff_l.ratio *= c->mat.tr;
+	rgb->x = rgb->x * c->mat.tr + c->mat.argb.r * (1.0 - c->mat.tr);
+	rgb->y = rgb->y * c->mat.tr + c->mat.argb.g * (1.0 - c->mat.tr);
+	rgb->z = rgb->z * c->mat.tr + c->mat.argb.b * (1.0 - c->mat.tr);
+	c->c0 = new_moved_point(&c->inter, &c->vn, -EPSILON);
+	*(dbl[0]) -= c->dist;
+	c->dist = *(dbl[0]);
+	*(dbl[1]) += acos(ft_dot_p(&calcul->v_light, &c->vn)) * \
+		(c->mat.gamma > 1.0 + EPSILON);
+	*((int *)(dbl[2])) += (c->mat.gamma > 1.0 + EPSILON);
+	return (0);
 }

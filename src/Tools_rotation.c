@@ -15,6 +15,7 @@
 t_vect	dbl_quaternion_rota(t_obj *obj, double angle_a, double angle_b);
 t_vect	quaternion_rota(t_vect *v, t_vect *axis_rota, double angle, int sign);
 void	rotation_obj(t_obj *obj, t_vect *axis_rota, double angle, int sign);
+t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);
 
 ///////////////////////////////////////////////////////////////////////////////]
 // return the rotated vector view object, around
@@ -86,4 +87,17 @@ void	rotation_obj(t_obj *obj, t_vect *axis_rota, double angle, int sign)
 	obj->view = new_view;
 	obj->up = new_up;
 	obj->right = new_right;
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+t_vect	mult_3x3_vect(t_obj *o3, t_vect *v)
+{
+	t_vect	rtrn;
+
+	rtrn = (t_vect){
+		v->dx * o3->right.dx + v->dy * o3->up.dx + v->dz * o3->view.dx,
+		v->dx * o3->right.dy + v->dy * o3->up.dy + v->dz * o3->view.dy,
+		v->dx * o3->right.dz + v->dy * o3->up.dz + v->dz * o3->view.dz
+	};
+	return (rtrn);
 }

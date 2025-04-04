@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   P3_param_parsing3_txt.c                            :+:      :+:    :+:   */
+/*   Parse_Param_txt.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/03/03 14:25:13 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/04 19:52:07 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	parse_rmap(t_data *data, char *path, t_param *obj);
 ///////////////////////////////////////////////////////////////////////////////]
 // (Normal Map) N=sphere_normal.xpm
 int	parse_nmap(t_data *data, char *path, t_param *obj)
-{	
+{
 	obj->n_map = parse_img(data, path);
 	if (!obj->n_map)
 		return (1);
@@ -31,7 +31,7 @@ int	parse_nmap(t_data *data, char *path, t_param *obj)
 ///////////////////////////////////////////////////////////////////////////////]
 // (Alpha Map) A=sphere_normal.xpm
 int	parse_amap(t_data *data, char *path, t_param *obj)
-{	
+{
 	obj->a_map = parse_img(data, path);
 	if (!obj->a_map)
 		return (1);
@@ -41,7 +41,7 @@ int	parse_amap(t_data *data, char *path, t_param *obj)
 ///////////////////////////////////////////////////////////////////////////////]
 // (Ambient Occlusion) O=ao_normal.xpm
 int	parse_ao(t_data *data, char *path, t_param *obj)
-{	
+{
 	obj->ao_map = parse_img(data, path);
 	if (!obj->ao_map)
 		return (1);
@@ -51,7 +51,7 @@ int	parse_ao(t_data *data, char *path, t_param *obj)
 ///////////////////////////////////////////////////////////////////////////////]
 // (Specular Map) s=sp_map.xpm
 int	parse_smap(t_data *data, char *path, t_param *obj)
-{	
+{
 	obj->s_map = parse_img(data, path);
 	if (!obj->s_map)
 		return (1);
@@ -61,7 +61,7 @@ int	parse_smap(t_data *data, char *path, t_param *obj)
 ///////////////////////////////////////////////////////////////////////////////]
 // (Roughness Map) R=r_map.xpm
 int	parse_rmap(t_data *data, char *path, t_param *obj)
-{	
+{
 	obj->rough_map = parse_img(data, path);
 	if (!obj->rough_map)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/01 16:00:34 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/04 20:14:46 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,52 +48,30 @@
 //
 ///////////////////////////////////////////////////////////////////////////////]
 
-
-///////////////////////////////////////////////////////////////////////////////]
-void	ft_rotate_around_obj(t_c_px *calcul, t_obj2 *o, t_obj *c);
-int	txt_already_exist(t_data *data, char *path, t_img **txt);
-t_img	*parse_img(t_data *data, char *path);
-t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);
-int	clamp(int value, int min_v, int max_v);
-int	is_there_txt(t_param *p);
-void	h_render_v_space(t_data *data, t_c_px *calcul);
-void	h_render_v_space_2(t_data *data, t_obj *obj);
-t_vect	random_ray(t_c_px *calcul);
-
-void	render_temp_added_obj(t_data *data, t_obj2 *obj_to_add);
-void	render_normal(t_data *data, t_c_px *calcul);
-
-
-t_vect	v_cam(t_data *data, int x, int y, int aa);
-t_vect	cam_vector(t_camera *cam, int x, int y, int aa);
-t_vect	cam_quaternion(t_data *data, int x, int y, int aa);
-
-// tree_bounding stuff
-void	do_the_tree_splitting(t_model *model);
-
-// progressive
-int	ft_render_frame_multi_prog(t_data *data, int sublim);
-t_coor	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce);
-t_vect	random_ray(t_c_px *calcul);
-void	clean_buffer(t_data *data);
 /********************************
 		A
 ********************************/
-// 	(1) inside what? stack - ini
+// A - Tools
+t_img	*parse_img(t_data *data, char *path);
+int		txt_already_exist(t_data *data, char *path, t_img **txt);
+int		clamp(int value, int min_v, int max_v);
+t_mat	*find_mat(char *mat_name, t_model *model);
+// A - Screen Control
+t_vect	v_cam(t_data *data, int x, int y, int aa);
+t_vect	cam_vector(t_camera *cam, int x, int y, int aa);
+t_vect	cam_quaternion(t_data *data, int x, int y, int aa);
+// A - 1 - ini stack inside what object?
 void		ini_stack(t_data *data, t_c_px *calcul);
 t_ini_stk	*add_link(t_ini_stk *first, t_ini_stk *to_add);
 t_ini_stk	*create_node(t_c_px *calcul);
-// 	(1) inside what? stack - operations
-int			rtrn_top_stack_gamma(t_c_px *calcul, t_obj2 *collision, double *incident_gamma, double *refracted_gamma);
-void		push_stack(void **stack, void *colli, int *ptr_stack, int max_stack_index);
-// 	(2)	multi-threads render
-int			ft_render_frame_multi(t_data *data, int sublim);
-// 	(B)	tools helper img
-void	update_mat_w_txt(t_c_px *calcul, t_obj2 *obj, double u, double v);
-int		is_there_txt(t_param *p);
-t_argb	return_px_img(t_img *img, double x, double y);
-t_vect	return_vect_img(t_img *img, double x, double y);
-int		return_alpha_img(t_img *img, double x, double y);
+// A - 1 - Stack operations
+int		rtrn_top_stack_gamma(t_c_px *c, t_obj2 *coli, double *i_ior, double *r_ior);
+void	push_stack(void **stack, void *colli, int *ptr_stack, int max_stack_index);
+// AB - Progressive RT
+int		ft_render_frame_multi_prog(t_data *data, int sublim);
+// AB - Progressive RT - Loop
+t_coor	calculate_random_ray(t_data *data, t_c_px *calcul, int num_bounce);
+void	clean_buffer(t_data *data);
 // 	(C)	anti aliasing
 int		ft_render_frame_aa(t_data *data, int sublim);
 void	w_px_buff(t_img *buff, int x, int y, unsigned int color);
@@ -103,6 +81,8 @@ void	w_px_buff(t_img *buff, int x, int y, unsigned int color);
 int		ft_loop(t_data *data);
 int		ft_render_frame(t_data *data, int sublim);
 unsigned int	calc_px_color(t_data *data, t_c_px *c, int sublim);
+// 	(2)	multi-threads render
+int		ft_render_frame_multi(t_data *data, int sublim);
 /********************************
 		C
 ********************************/
@@ -141,11 +121,11 @@ void	find_inter_tri(t_bbox *node, t_model *model, t_c_obj *c, t_c_px *calcul);
 /********************************
 		E
 ********************************/
-void	ft_lighting_simple(t_data *data, t_c_px *c);
+// E0
 void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*));
 int		shadow_tracing(t_data *data, t_c_px *calcul);
-int		ft_diffuse_simple(t_data *data, t_c_px *c, t_light *lights);
-int		something_block_the_light_simple(t_data *data, t_c_px *c);
+// simple
+void	ft_lighting_simple(t_data *data, t_c_px *c);
 // PHONG MODEL
 t_coor	ft_ambient(t_data *data, t_c_px *c);
 int		ft_diffuse(t_data *data, t_c_px *c, t_light *light, int (*f_shadow)(t_data*, t_c_px*));
@@ -185,6 +165,10 @@ void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_render_normal_arrow(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_render_v_space(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_progressive_rt(t_data *data, t_obj2 *obj, int k_or_loop);
+// tools
+void	render_normal(t_data *data, t_c_px *calcul);
+void	h_render_v_space(t_data *data, t_obj *obj);
+void	render_temp_added_obj(t_data *data, t_obj2 *obj_to_add);
 /********************************
 		P	Parsing
 ********************************/
@@ -252,6 +236,7 @@ void	recalculate_obj_const(t_obj2 *obj);
 t_vect	dbl_quaternion_rota(t_obj *obj, double angle_α, double angle_β);
 t_vect	quaternion_rota(t_vect *v, t_vect *axis_rota, double angle_α, int posi_neg);
 void	rotation_obj(t_obj *obj, t_vect *axis_rota, double angle_α, int posi_neg);
+t_vect	mult_3x3_vect(t_obj *o3, t_vect *v);
 // vector mouv
 void	move_point(t_coor* p, t_vect *v, double incre);
 t_coor	new_moved_point(t_coor* p, t_vect *v, double dist);
@@ -267,6 +252,12 @@ double	dist_two_points(t_coor *a, t_coor *b);
 t_vect	scale_vect(t_vect v, double scalar);
 t_coor	scale_point(t_coor p, double scalar);
 t_argb	scale_argb(t_argb argb, double scalar);
+// 	textures
+void	update_mat_w_txt(t_c_px *calcul, t_obj2 *obj, double u, double v);
+int		is_there_txt(t_param *p);
+t_argb	return_px_img(t_img *img, double x, double y);
+t_vect	return_vect_img(t_img *img, double x, double y);
+int		return_alpha_img(t_img *img, double x, double y);
 /********************************
 		Y
 ********************************/
@@ -280,6 +271,4 @@ int		end2(t_data *data);
 // 
 void	destroy_models(t_data *data);
 
-
 #endif
-

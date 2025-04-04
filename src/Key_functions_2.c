@@ -96,7 +96,7 @@ void	f_render_v_space(t_data *data, t_obj2 *obj, int k_or_loop)
 	(void)data;
 	(void)obj;
 	if (!k_or_loop)
-		printf(C_451"Click an Object to see the normal\n");
+		printf(C_451"Click an Object to see its vector space\n");
 }
 
 ///////////////////////////////////////////////////////////////////////////////]

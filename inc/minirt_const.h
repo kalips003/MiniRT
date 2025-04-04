@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/31 06:33:13 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/04 19:45:22 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@
 # define RENDER_MOVING_MOUSE 0
 # define PRINT_DEPTH 2
 
-# define FAKE_REFR_SCALAR 2
+# define FAKE_L_REFR 2
 # define FAKE_REFR_POW 2
 
 #define	NUM_THREAD	12

@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 15:50:15 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/04 19:58:31 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	print_clic(t_data *data, int x, int y)
 	if (c.object && data->change_function == f_render_normal_arrow)
 		render_normal(data, &c);
 	else if (c.object && data->change_function == f_render_v_space)
-		h_render_v_space_2(data, &c.object->O);
+		h_render_v_space(data, &c.object->O);
 	h_print_2(&c);
 	if (c.object == data->change_obj)
 		data->change_obj = NULL;
@@ -71,7 +71,7 @@ static void	h_print_1(t_data *data, t_c_px *c, int x, int y)
 		data->eye.c->O.right.dy, data->eye.c->O.right.dz);
 	printf(C_323"\nMouse clicked at (%d, %d)\tv: [%.3f,%.3f,%.3f]\n", x, y, \
 		c->v.dx, c->v.dy, c->v.dz);
-	printf(C_244"\n-------------------[INSIDE PRINT DATA]-------------------\n");
+	put(C_244"\n-------------------[INSIDE PRINT DATA]-------------------\n");
 	calc_px_color(data, c, PRINT_DEPTH);
 	printf(C_244"---------------------------------------------------------\n");
 }
@@ -87,7 +87,7 @@ static void	h_print_2(t_c_px *c)
 		obj = c->object;
 		o = &obj->O;
 		printf(C_142"\nOBJECT:\t\t%s", g_obj_names[obj->type]);
-		printf(C_533"\n\n\txyz \t[%.1f,%.1f,%.1f]\n", o->c0.x, o->c0.y, o->c0.z);
+		put(C_533"\n\n\txyz \t[%.1f,%.1f,%.1f]\n", o->c0.x, o->c0.y, o->c0.z);
 		printf(C_455"\n\tview \t[%.2f,%.2f,%.2f]\n", o->view.dx, o->view.dy, \
 			o->view.dz);
 		printf("\tup \t[% .2f,% .2f,% .2f]\n", o->up.dx, o->up.dy, o->up.dz);

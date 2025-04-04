@@ -6,14 +6,14 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 15:40:40 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/04 01:49:47 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
 int			distance_from_hyper(t_c_px *calcul, void *obj, int simple);
-static int	h_dist_para(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c, \
+static int	h_dist_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c, \
 	int simple);
 static void	h_img_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c);
 static void	h_normal_hyper(t_c_px *ca, t_hyper *hy, t_hyper_calc *c);
@@ -45,12 +45,12 @@ int	distance_from_hyper(t_c_px *calcul, void *obj, int simple)
 	if (c.dist < EPSILON)
 		return (0);
 	if (c.dist < calcul->dist || calcul->dist < 0)
-		return (h_dist_para(calcul, hy, &c, simple));
+		return (h_dist_hyper(calcul, hy, &c, simple));
 	return (0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
-static int	h_dist_para(t_c_px *ca, t_hyper *hy, t_hyper_calc *c, int simple)
+static int	h_dist_hyper(t_c_px *ca, t_hyper *hy, t_hyper_calc *c, int simple)
 {
 	double	in;
 
