@@ -70,6 +70,29 @@ static int	h_loop_2(t_c_px *calcul, t_c_px *c, t_coor *rgb, double *dbl)
 	dbl[2] += (c->mat.gamma > 1.0 + EPSILON);
 	return (0);
 }
+// , 
+static int	h_loop_1(t_data *data, t_c_px *calcul, t_c_px *c, t_coor *rgb)
+{
+	double		dpt[3];
+
+
+	dpt[0] = calcul->dist_light;
+	dpt[1] = 0.0;
+	dpt[2] = 0;
+	while (c->dist > EPSILON)
+	{
+		if (find_coli(data, c, 0, 0))
+		{
+			if (h_loop_2(calcul, c, rgb, dpt))
+				return (1);
+		}
+		else
+			break ;
+	}
+	if (dpt[2])
+		calcul->eff_l.ratio *= FAKE_L_REFR * pow(cos(dpt[1]), FAKE_REFR_POW);
+	return (0);
+}
 
 ///////////////////////////////////////////////////////////////////////////////]
 // d: [ 0 ] distance light 
@@ -98,7 +121,6 @@ int	shadow_tracing(t_data *data, t_c_px *calcul)
 	t_c_px		c;
 	t_coor		rgb;
 
-	double		dpt[3];
 	// double		dot_l;
 	// int			b;
 
@@ -106,20 +128,21 @@ int	shadow_tracing(t_data *data, t_c_px *calcul)
 	c.v = calcul->v_light;
 	c.print = calcul->print + !!(calcul->print);
 	rgb = (t_coor){calcul->eff_l.rgb.r, calcul->eff_l.rgb.g, calcul->eff_l.rgb.b};
-	dpt[0] = calcul->dist_light;
 	c.dist = calcul->dist_light;
-	dpt[1] = 0.0;
-	dpt[2] = 0;
-	while (c.dist > EPSILON)
-	{
-		if (find_coli(data, &c, 0, 0))
-		{
-			if (h_loop_2(calcul, &c, &rgb, dpt))
-				return (1);
 
 
-
-
+	if (h_loop_1(data, calcul, &c, &rgb))
+		return (1);
+	// double		dpt[3];
+	// dpt[0] = calcul->dist_light;
+	// dpt[1] = 0.0;
+	// dpt[2] = 0;
+	// while (c.dist > EPSILON)
+	// {
+	// 	if (find_coli(data, &c, 0, 0))
+	// 	{
+	// 		if (h_loop_2(calcul, &c, &rgb, dpt))
+	// 			return (1);
 
 
 			// c.mat.tr = fmin(1.0, c.mat.argb.a / 255.0 + c.mat.tr);
@@ -135,12 +158,12 @@ int	shadow_tracing(t_data *data, t_c_px *calcul)
 			// c.dist = dist_l;
 			// dot_l += acos(ft_dot_p(&calcul->v_light, &c.vn)) * (c.mat.gamma > 1.0 + EPSILON);
 			// b += (c.mat.gamma > 1.0 + EPSILON);
-		}
-		else
-			break ;
-	}
-	if (dpt[2])
-		calcul->eff_l.ratio *= FAKE_L_REFR * pow(cos(dpt[1]), FAKE_REFR_POW);
+	// 	}
+	// 	else
+	// 		break ;
+	// }
+	// if (dpt[2])
+	// 	calcul->eff_l.ratio *= FAKE_L_REFR * pow(cos(dpt[1]), FAKE_REFR_POW);
 	calcul->eff_l.rgb.r = (int)min(255.0, max(0.0, floor(rgb.x)));
 	calcul->eff_l.rgb.g = (int)min(255.0, max(0.0, floor(rgb.y)));
 	calcul->eff_l.rgb.b = (int)min(255.0, max(0.0, floor(rgb.z)));
@@ -203,29 +226,3 @@ int	shadow_tracing(t_data *data, t_c_px *calcul)
 // 	return (0);
 // }
 
-// static int	h_loop_1(t_data *data, t_c_px *calcul, t_c_px *c, t_coor *rgb)
-// {
-// 	double	dist_l;
-// 	double	dot_l;
-// 	int		b;
-
-// 	dist_l = calcul->dist_light;
-// 	c->dist = dist_l;
-// 	dot_l = 0.0;
-// 	b = 0;
-// 	while (c->dist > EPSILON)
-// 	{
-// 		if (find_coli(data, c, 0, 0))
-// 		{
-// 			// if (h_loop_2(calcul, c, rgb, (double *[]){&dist_l, &dot_l, (double *)&b}))
-// 			if (h_loop_2(calcul, c, rgb, (double **){&dist_l, &dot_l, &b}))
-// 				return (1);
-
-// 		}
-// 		else
-// 			break ;
-// 	}
-// 	if (b)
-// 		calcul->eff_l.ratio *= FAKE_L_REFR * pow(cos(dot_l), FAKE_REFR_POW);
-// 	return (0);
-// }
