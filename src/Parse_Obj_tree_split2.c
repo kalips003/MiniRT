@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/01 15:46:00 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/05 13:09:28 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_split_by_xyz(t_model *model, t_bbox *node, int xyz)
 
 	t.avg = find_median(node, xyz);
 	ft_find_smallest_biggest(model, node);
-	if (node->how_many_f < 5)
+	if (node->how_many_f < LEAF_NODE)
 		return ;
 	node->l = mem(0, sizeof(t_bbox));
 	node->r = mem(0, sizeof(t_bbox));

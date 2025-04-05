@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/04 19:45:22 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/05 13:09:25 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define MAX_TR_DEPTH 4
 # define MAX_MI_DEPTH 4
 # define MAX_RAY_BOUNCE 5
+# define LEAF_NODE 3
 
 # define SZ_Y 800
 # define SZ_X 1000
