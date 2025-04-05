@@ -17,7 +17,6 @@ void	f_move_obj(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_toogle_cam(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_render_normal_arrow(t_data *data, t_obj2 *obj, int k_or_loop);
 void	f_render_v_space(t_data *data, t_obj2 *obj, int k_or_loop);
-void	f_progressive_rt(t_data *data, t_obj2 *obj, int k_or_loop);
 
 ///////////////////////////////////////////////////////////////////////////////]
 void	f_set_color(t_data *data, t_obj2 *obj, int k_or_loop)
@@ -97,22 +96,4 @@ void	f_render_v_space(t_data *data, t_obj2 *obj, int k_or_loop)
 	(void)obj;
 	if (!k_or_loop)
 		printf(C_451"Click an Object to see its vector space\n");
-}
-
-///////////////////////////////////////////////////////////////////////////////]
-// progressive RT
-void	f_progressive_rt(t_data *data, t_obj2 *obj, int k_or_loop)
-{
-	(void)obj;
-	if (k_or_loop != 1)
-	{
-		if (!k_or_loop)
-			printf(C_451"Starting Progressive RT (Press Space)\n");
-		clean_buffer(data);
-		*(int *)&data->ram = 0;
-		return ;
-	}
-	ft_render_frame_multi_prog(data, RENDERING_LVL);
-	(*(int *)&data->ram)++;
-	printf("loop: %d\n", *(int *)&data->ram);
 }

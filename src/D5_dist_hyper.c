@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/04 01:49:47 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/05 12:40:26 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void	h_img_hyper(t_c_px *calcul, t_hyper *hy, t_hyper_calc *c)
 	update_mat_w_txt(calcul, (t_obj2 *)hy, u, v);
 	if (hy->param.n_map)
 	{
-		normal_map = return_vect_img(hy->param.n_map, u, v);//
+		normal_map = return_vect_img(hy->param.n_map, u, v);
 		local.view = calcul->vn;
 		local.right = ft_cross_product_norm(&hy->O.view, &local.view);
 		local.up = ft_cross_product_norm(&local.view, &local.right);

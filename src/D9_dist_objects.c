@@ -51,10 +51,10 @@ static int	h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c)
 	calcul->inter = new_moved_point(&calcul->c0, &calcul->v, c->dist);
 	f_return_obj_normal(calcul, c, obj);
 	in = (c->det < EPSILON);
+	if (in)
+		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};
 	if (c->t->vt[0] >= 0)
 		h_img_obj(calcul, obj, c);
-	if (in)
-		calcul->vn = (t_vect){-calcul->vn.dx, -calcul->vn.dy, -calcul->vn.dz};// not correct inverse
 	if (obj->param.c2.r >= 0 && !obj->param.txt)
 		calcul->mat.argb = h_obj_color2(calcul, c, obj->model);
 	return (1 + in);

@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 04:12:38 by kalipso           #+#    #+#             */
-/*   Updated: 2025/04/04 15:55:42 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/05 12:42:51 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	distance_from_para(t_c_px *calcul, void *obj, int simple)
 	c.b2 = para->abc.y * para->abc.y;
 	ft_rotate_around_obj(calcul, (t_obj2 *)para, (t_obj *)&c.new_o);
 	c.a = c.rot_v.dy * c.rot_v.dy / c.b2 - c.rot_v.dx * c.rot_v.dx / c.a2;
-	c.b = 2 * c.rot_v.dy * c.new_o.y / c.b2 - 2.0 * c.rot_v.dx * c.new_o.x / c.a2 \
-		- c.rot_v.dz / para->abc.z;
+	c.b = 2 * c.rot_v.dy * c.new_o.y / c.b2 - 2.0 * c.rot_v.dx * c.new_o.x / \
+		c.a2 - c.rot_v.dz / para->abc.z;
 	c.c = c.new_o.y * c.new_o.y / c.b2 - c.new_o.x * c.new_o.x / c.a2 \
 		- c.new_o.z / para->abc.z;
 	c.delta = c.b * c.b - 4 * c.a * c.c;
@@ -51,24 +51,17 @@ int	distance_from_para(t_c_px *calcul, void *obj, int simple)
 ///////////////////////////////////////////////////////////////////////////////]
 static int	h_dist_para(t_c_px *ca, t_hyper *para, t_hyper_calc *c, int simple)
 {
+	t_coor	temp_inter2;
+
 	if (simple)
 		return (1);
-				
-// 
-	t_coor	temp_inter2;
 	temp_inter2 = new_moved_point(&c->new_o, &c->rot_v, c->dist);
-	t_coor	temp_inter;		
-	temp_inter = new_moved_point(&ca->c0, &ca->v, c->dist);
-	double dist_center = dist_two_points(&para->O.c0, &temp_inter);
-	if (ca->print == 1)
-		printf(C_052"dist_center: %.3f\n", dist_center);
-	if (fabs(temp_inter2.x) > para->radius || fabs(temp_inter2.y) > para->radius || fabs(temp_inter2.z) > para->radius)
+	if (fabs(temp_inter2.x) > para->radius || fabs(temp_inter2.y) > \
+		para->radius || fabs(temp_inter2.z) > para->radius)
 		return (0);
-// 
 	ca->dist = c->dist;
 	ca->object = (void *)para;
-	// ca->inter = new_moved_point(&ca->c0, &ca->v, c->dist);
-	ca->inter = temp_inter;
+	ca->inter = new_moved_point(&ca->c0, &ca->v, c->dist);
 	h_normal_para(ca, para, c);
 	ca->mat = *(t_mat2 *)&para->param;
 	if (!para->param.txt && para->param.c2.r >= 0)
@@ -118,7 +111,7 @@ static void	h_img_para(t_c_px *calcul, t_hyper *pa, t_hyper_calc *c)
 static void	h_normal_para(t_c_px *ca, t_hyper *para, t_hyper_calc *c)
 {
 	t_coor	temp_inter;
-				
+
 	temp_inter = new_moved_point(&c->new_o, &c->rot_v, c->dist);
 	ca->vn = (t_vect){-2.0 * temp_inter.x / c->a2, 2.0 \
 		* temp_inter.y / c->b2, -temp_inter.z / para->abc.z};
