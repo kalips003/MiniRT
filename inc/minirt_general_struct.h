@@ -6,7 +6,7 @@
 /*   By: kalipso <kalipso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:55:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/25 01:29:52 by kalipso          ###   ########.fr       */
+/*   Updated: 2025/04/06 12:04:30 by kalipso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,11 @@ typedef struct s_mat
 
 	char	*name;
 	t_img	*txt;
+	t_img	*n_map;
+	t_img	*a_map;
+	t_img	*ao_map;
+	t_img	*s_map;
+	t_img	*rough_map;
 
 }	t_mat;
 

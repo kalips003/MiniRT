@@ -151,17 +151,27 @@ static int	h_mtl_param2(t_data *data, char **spl, t_mat *mat)
 {
 	int		err;
 	char	*path;
+	t_img	**img;
 
 	err = 0;
 	if (same_str(spl[0], "Ka"))
-		err = ft_atof(spl[1], &mat->ao);
-	else if (same_str(spl[0], "map_Kd"))
-	{
-		path = str("model/%1s", spl[1]);
-		mat->txt = parse_img(data, path);
-		if (!mat->txt && ++err)
-			printf(C_421"no txt?: %s\n", path);
-		free_s(path);
-	}
+		return (err = ft_atof(spl[1], &mat->ao), err);
+	if (same_str(spl[0], "map_Kd"))
+		img = &mat->txt;
+	else if (same_str(spl[0], "map_d"))
+		img = &mat->a_map;
+	else if (same_str(spl[0], "map_Ka"))
+		img = &mat->ao_map;
+	else if (same_str(spl[0], "map_Pr"))
+		img = &mat->rough_map;
+	else if (same_str(spl[0], "map_bump"))
+		img = &mat->n_map;
+	else
+		return (err);
+	path = str("model/%1s", spl[1]);
+	*img = parse_img(data, path);
+	if (!*img && ++err)
+		printf(C_421"no txt?: %s\n", path);
+	free_s(path);
 	return (err);
 }

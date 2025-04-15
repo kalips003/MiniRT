@@ -15,6 +15,8 @@
 int				distance_from_object(t_c_px *calcul, void *object, int simple);
 static int		h_closest_triangle(t_c_px *calcul, t_object *obj, t_c_obj *c);
 static void		h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c);
+static void		update_obj_w_txt(t_c_px *calcul, t_mat *mat, double u, \
+	double v);
 static t_argb	h_obj_color2(t_c_px *calcul, t_c_obj *c, t_model *m);
 
 ///////////////////////////////////////////////////////////////////////////////]
@@ -75,8 +77,9 @@ static void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 		+ c->uvw.z * vt[t->vt[2]]->u;
 	c->v = c->uvw.x * vt[t->vt[0]]->v + c->uvw.y * vt[t->vt[1]]->v \
 		+ c->uvw.z * vt[t->vt[2]]->v;
-	if (t->mat && t->mat->txt)
-		calcul->mat.argb = return_px_img(t->mat->txt, c->u, 1.0 - c->v);
+	// if (t->mat && t->mat->txt)
+	// 	calcul->mat.argb = return_px_img(t->mat->txt, c->u, 1.0 - c->v);
+	update_obj_w_txt(calcul, t->mat, c->u, 1.0 - c->v);
 	update_mat_w_txt(calcul, (t_obj2 *)obj, c->u, c->v);
 	if (obj->param.n_map)
 	{
@@ -86,6 +89,26 @@ static void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 		calcul->vn = mult_3x3_vect(&local_v_space, &normal_map);
 		ft_normalize_vect(&calcul->vn);
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////]
+static void	update_obj_w_txt(t_c_px *calcul, t_mat *mat, double u, double v)
+{
+	double	rough;
+
+	if (mat->s_map)
+		calcul->mat.sp = return_alpha_img(mat->s_map, u, v) / 255.0;
+	if (mat->rough_map)
+	{
+		rough = return_alpha_img(mat->rough_map, u, v) / 255.0;
+		calcul->mat.sh = fmax(0.01, 2.0 / (rough * rough + 0.001) - 2.0);
+	}
+	if (mat->txt)
+		calcul->mat.argb = return_px_img(mat->txt, u, v);
+	if (mat->a_map)
+		calcul->mat.argb.a = return_alpha_img(mat->a_map, u, v);
+	if (mat->ao_map)
+		calcul->mat.ao = return_alpha_img(mat->ao_map, u, v) / 255.0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////]
