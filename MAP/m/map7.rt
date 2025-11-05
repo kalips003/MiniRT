@@ -1,0 +1,25 @@
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
+C 						0,0,25           	0,0,-1				70
+C 						8.2,1.9,23.9   -0.323,-0.074,-0.943				70
+# (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+A 						0.7 					255,255,255 X=txt/starmap.xpm
+# (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+L 						10,10,15 			0.99 					255,255,255
+# L 						-8,5,15 			0.99 					255,255,255
+
+# (Specular, Shininess) S=[0-1.0][10-500+]	> [matte surface > perfect mirror] [rougher surface > polished surface]
+# 		[Wax] S=0.2,50 [Plastic] S=0.4,100 [Painted Metal] S=0.6,150 [Satin Finish] S=0.7,200 [Glossy Wood] S=0.8,300 
+#       [Shiny Ceramic] S=0.9,400 [Mirror-like Polished Metal] S=1.0,500 [Rock] S=0.1,10 [Bricks] S=0.2,20
+
+sp			-10,10,0		10			255,50,50   S=0.2,50
+sp			0,10,0			10			50,255,50   S=0.4,100
+sp			10,10,0			10			50,50,255   S=0.6,150 
+sp			-10,0,0			10			255,255,50  S=0.7,200
+sp			0,0,0			10			255,50,255  S=0.8,300 
+sp			10,0,0			10			50,255,255  S=0.2,20
+sp			-10,-10,0		10			255,150,50  S=0.9,400
+sp			0,-10,0			10			150,50,255  S=1.0,500
+sp			10,-10,0		10			50,150,255  S=0.1,10

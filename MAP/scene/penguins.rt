@@ -1,0 +1,35 @@
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# (C) Camera:			POSITION (xyz)		VECTOR [-1.0, 1.0]		FOV [0, 180]
+C 						0.0,16.0,98.0           	0,0,-1				70
+C 						0,10,0           	0,-1,0				70
+# (A) Ambient light:	BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+A 						0.6 					255,255,255			### X=model/txt/northern_lights2.xpm
+# (L) Light source:		POSITION (xyz)		BRIGHTNESS [0.0,1.0]	COLOR_rgb [0, 255]
+# L 						5,10,5 			    1 					    255,0,0
+# L 						5,10,-30 			1 					    0,0,255
+# L 						-50,10,-10           	1				        0,255,0
+L 						-5,5,0 				1 					255,255,255
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# ob 0,-7,0 0,0,1 1 255,0,255 model/rook.obj T=0,1 C=10,10,10
+# ob 5,-7,0 0,0,1 1 255,255,255 model/queen.obj T=0,1 C=
+# ob 0,-6,0 0,0,1 0.1 255,0,255 model/tree.obj T=0.5,1 C=10,10,10
+# ob -10,-6,0 0,0,1 0.1 255,0,255 model/tree.obj T=0,1 C=
+# ob -5,-5,-5 1,0,0 5 255,255,32 model/torus.obj
+pl 0,-5,0	0,-1,0	255,255,255	###		T=0,25 # M=0 # C=0,0,0 # S=0,10	### X=model/txt/t_ice.xpm N=model/txt/n_ice.xpm
+# pl 0,-5,0	0,-1,0	255,255,255	###		T=0,7 # M=0 # C=0,0,0 # S=1.0,500	### N=model/txt/n_concrete_opengl.xpm A=model/txt/t_concrete.xpm
+# pl 0,-5,0	0,1,0	255,255,255 ###     X=model/txt/t_brique.xpm N=model/txt/n_brique.xpm A=model/txt/gkey4.xpm
+
+# ob 0,5,0 1,0,0 5 255,0,255 ### model/cube2.obj X=model/txt/t_brique.xpm N=model/txt/n_brique.xpm A=texture/gkey4.xpm
+# ob 0,5,0 1,0,0 5 255,0,255 model/cube2.obj X=model/txt/t_brique.xpm N=txt/n_brique.xpm A=texture/gkey4.xpm
+# ob 0,5,0 1,0,0 5 255,0,255 model/cube2.obj X=model/txt/t_ice.xpm N=model/txt/n_ice.xpm A=model/txt/ao_ice.xpm
+
+ob 10,0,33			0,0,1				0.05 0,255,0		### model/penguin.obj	X=model/txt/t_penguin.xpm S=0.1,10
+ob -25,0,0			0,0,1				0.05 0,0,255		### model/penguin.obj	X=model/txt/t_penguin.xpm S=0.1,10
+ob 0,0,-10			0,0,1				0.05 255,0,0		### model/penguin.obj	X=model/txt/t_penguin.xpm S=0.1,10
+ob -45,0,-50		0,0,1				0.05 255,0,0		### model/penguin.obj	X=model/txt/t_penguin.xpm S=0.1,10
+ob 45,0,-50			1,0,1				0.05 255,0,0		### model/penguin.obj	X=model/txt/t_penguin.xpm S=0.1,10
+ob 0,55,-250		0,0,1				0.7  255,0,0		### model/penguin.obj	X=model/txt/t_penguin.xpm S=0.1,10
+ob -250,55,-550		0,0,1				0.7  255,0,0		### model/penguin.obj	X=model/txt/t_penguin.xpm S=0.1,10
+ob 350,521,-1650	0,0,1				6    255,0,0		### model/penguin.obj	T=0.5,1	X=model/txt/t_penguin.xpm S=0.1,10
+ob 150,145,-850		-0.48,-0.33,-0.81	45.5 255,255,255	### model/glacier.obj	X=model/txt/t_glacier.xpm N=model/txt/n_glacier.xpm
