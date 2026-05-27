@@ -2,7 +2,7 @@ NAME = minirt
 NAME_BONUS = minirt_b
 
 CC = cc
-FLAGS = -Wextra -Wall -g -fPIE -I$(HEADER_FOLDER)
+FLAGS = -g -fPIE -I$(HEADER_FOLDER)
 # FLAGS = -Wextra -Wall -Werror -g -fPIE -I$(HEADER_FOLDER)
 
 all: $(NAME)

@@ -83,10 +83,10 @@ static void	ini_mlx(t_data *data)
 		&data->buffer.ll, &data->buffer.end);
 	data->buff_aa.addr = mlx_get_data_addr(data->buff_aa.img, \
 		&data->buff_aa.bpp, &data->buff_aa.ll, &data->buff_aa.end);
-	mlx_loop_hook(data->mlx, &ft_loop, data);
-	mlx_hook(data->win, KeyPress, KeyPressMask, &key_press, data);
-	mlx_hook(data->win, ButtonPress, ButtonPressMask, &mouse_clic, data);
-	mlx_hook(data->win, ButtonRelease, ButtonReleaseMask, &mouse_release, data);
-	mlx_hook(data->win, MotionNotify, PointerMotionMask, &mouse_move, data);
-	mlx_hook(data->win, 17, 0, &end2, data);
+	mlx_loop_hook(data->mlx, (int (*)())ft_loop, data);
+	mlx_hook(data->win, KeyPress, KeyPressMask, (int (*)())key_press, data);
+	mlx_hook(data->win, ButtonPress, ButtonPressMask, (int (*)())mouse_clic, data);
+	mlx_hook(data->win, ButtonRelease, ButtonReleaseMask, (int (*)())mouse_release, data);
+	mlx_hook(data->win, MotionNotify, PointerMotionMask, (int (*)())mouse_move, data);
+	mlx_hook(data->win, 17, 0, (int (*)())end2, data);
 }
