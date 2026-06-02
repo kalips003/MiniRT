@@ -63,7 +63,6 @@ v: $(NAME)
 m: $(NAME)
 	-@for map in map/scene/*; do \
 		$(call random_shmol_cat, teshting ... $$map: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), ); \
-		$(call rules); \
 		./$(word 1, $^) $$map; \
 	done
 

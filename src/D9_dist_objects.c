@@ -77,10 +77,9 @@ static void	h_img_obj(t_c_px *calcul, t_object *obj, t_c_obj *c)
 		+ c->uvw.z * vt[t->vt[2]]->u;
 	c->v = c->uvw.x * vt[t->vt[0]]->v + c->uvw.y * vt[t->vt[1]]->v \
 		+ c->uvw.z * vt[t->vt[2]]->v;
-	// if (t->mat && t->mat->txt)
-	// 	calcul->mat.argb = return_px_img(t->mat->txt, c->u, 1.0 - c->v);
-	update_obj_w_txt(calcul, t->mat, c->u, 1.0 - c->v);
-	update_mat_w_txt(calcul, (t_obj2 *)obj, c->u, c->v);
+	if (t->mat && t->mat->txt)
+		calcul->mat.argb = return_px_img(t->mat->txt, c->u, 1.0 - c->v);
+	update_mat_w_txt(calcul, (t_obj2 *)obj, c->u, 1.0 - c->v);
 	if (obj->param.n_map)
 	{
 		normal_map = return_vect_img(obj->param.n_map, c->u, c->v);
