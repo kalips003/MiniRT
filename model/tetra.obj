@@ -1,5 +1,5 @@
 # File Created: Kali
-# mtllib cube.mtl
+# mtllib mtl/cube.mtl
 
 v 1 1 1
 v -1 -1 1

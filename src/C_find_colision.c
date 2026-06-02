@@ -52,12 +52,13 @@ int	find_coli(t_data *data, t_c_px *c, int shadow, int set_dist)
 	if (set_dist)
 		c->dist = -1.0;
 	rtrn = 0;
-	obj_ptr = data->objects - 1;
-	while (++obj_ptr && *obj_ptr)
+	obj_ptr = data->objects;
+	while (obj_ptr && *obj_ptr)
 	{
 		rtrn |= g_ft_dist_of[((t_obj2 *)*obj_ptr)->type](c, *obj_ptr, shadow);
 		if (rtrn && shadow)
 			return (1);
+		obj_ptr++;
 	}
 	return (rtrn);
 }
@@ -71,8 +72,8 @@ t_ini_stk	*ft_fill_stack_inside(t_data *data, t_c_px *c, \
 	void	**obj_ptr;
 	int		in;
 
-	obj_ptr = data->objects - 1;
-	while (++obj_ptr && *obj_ptr)
+	obj_ptr = data->objects;
+	while (obj_ptr && *obj_ptr)
 	{
 		c->dist = -1.0;
 		in = g_ft_dist_of[((t_obj2 *)*obj_ptr)->type](c, *obj_ptr, 0);
@@ -81,6 +82,7 @@ t_ini_stk	*ft_fill_stack_inside(t_data *data, t_c_px *c, \
 			*ptr_list = create_node(c);
 			*top_list = add_link(*top_list, *ptr_list);
 		}
+		obj_ptr++;
 	}
 	return (*top_list);
 }
@@ -97,7 +99,7 @@ int	something_block_the_light(t_data *data, t_c_px *c)
 	calcul.dist = c->dist_light;
 	calcul.print = c->print + !!(c->print);
 	obj_ptr = data->objects - 1;
-	while (++obj_ptr && *obj_ptr)
+	while (obj_ptr && *obj_ptr)
 	{
 		tr = ((t_obj2 *)*obj_ptr)->param.transparence;
 		if (g_ft_dist_of[((t_obj2 *)*obj_ptr)->type](&calcul, *obj_ptr, 1))
@@ -110,6 +112,7 @@ int	something_block_the_light(t_data *data, t_c_px *c)
 			c->eff_l.rgb.g *= ((t_obj2 *)*obj_ptr)->param.argb.g / 255.0 * tr;
 			c->eff_l.rgb.b *= ((t_obj2 *)*obj_ptr)->param.argb.b / 255.0 * tr;
 		}
+		obj_ptr++;
 	}
 	return (0);
 }

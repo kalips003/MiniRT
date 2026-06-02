@@ -1,6 +1,6 @@
 # Blender 4.3.2
 # www.blender.org
-mtllib rook.mtl
+mtllib mtl/rook.mtl
 o Rook.001
 v -0.000000 2.000000 -1.999999
 v 0.000000 7.759880 -1.145871

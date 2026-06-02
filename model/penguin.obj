@@ -1,6 +1,6 @@
 # This file uses feet as units for non-parametric coordinates.
 
-mtllib penguin.mtl
+mtllib mtl/penguin.mtl
 g default
 v -4.878478 79.087906 36.295799
 v -0.000003 75.876823 36.295799

@@ -1,0 +1,949 @@
+diff --color -r src/A1_ini_stack.c ../minirt_intra/src/A1_ini_stack.c
+27,28c27,28
+< 	c.c0 = data->eye.c->O.c0;
+< 	c.v = data->eye.c->O.view;
+---
+> 	c.c0 = data->eye.c->o.c0;
+> 	c.v = data->eye.c->o.view;
+diff --color -r src/AB_loop.c ../minirt_intra/src/AB_loop.c
+32c32
+< 	c.c0 = data->eye.c->O.c0;
+---
+> 	c.c0 = data->eye.c->o.c0;
+diff --color -r src/AC_anti_aliasing.c ../minirt_intra/src/AC_anti_aliasing.c
+34c34
+< 	c.c0 = data->eye.c->O.c0;
+---
+> 	c.c0 = data->eye.c->o.c0;
+diff --color -r src/A_screen_control.c ../minirt_intra/src/A_screen_control.c
+41c41
+< 	rtrn = cam->O.view;
+---
+> 	rtrn = cam->o.view;
+43,45c43,45
+< 		rtrn.dx + cx * cam->O.right.dx + cy * cam->O.up.dx,
+< 		rtrn.dy + cx * cam->O.right.dy + cy * cam->O.up.dy,
+< 		rtrn.dz + cx * cam->O.right.dz + cy * cam->O.up.dz,
+---
+> 		rtrn.dx + cx * cam->o.right.dx + cy * cam->o.up.dx,
+> 		rtrn.dy + cx * cam->o.right.dy + cy * cam->o.up.dy,
+> 		rtrn.dz + cx * cam->o.right.dz + cy * cam->o.up.dz,
+59c59
+< 	return (dbl_quaternion_rota(&data->eye.c->O, angle_a, angle_b));
+---
+> 	return (dbl_quaternion_rota(&data->eye.c->o, angle_a, angle_b));
+diff --color -r src/B2_thread_render.c ../minirt_intra/src/B2_thread_render.c
+29c29
+< 	c.c0 = data->eye.c->O.c0;
+---
+> 	c.c0 = data->eye.c->o.c0;
+diff --color -r src/B_loop.c ../minirt_intra/src/B_loop.c
+75c75
+< 	c.c0 = data->eye.c->O.c0;
+---
+> 	c.c0 = data->eye.c->o.c0;
+diff --color -r src/C_find_colision.c ../minirt_intra/src/C_find_colision.c
+55,56c55,56
+< 	obj_ptr = data->objects - 1;
+< 	while (++obj_ptr && *obj_ptr)
+---
+> 	obj_ptr = data->objects;
+> 	while (obj_ptr && *obj_ptr)
+60a61
+> 		obj_ptr++;
+74,75c75,76
+< 	obj_ptr = data->objects - 1;
+< 	while (++obj_ptr && *obj_ptr)
+---
+> 	obj_ptr = data->objects;
+> 	while (obj_ptr && *obj_ptr)
+83a85
+> 		obj_ptr++;
+99,100c101,102
+< 	obj_ptr = data->objects - 1;
+< 	while (++obj_ptr && *obj_ptr)
+---
+> 	obj_ptr = data->objects;
+> 	while (obj_ptr && *obj_ptr)
+112a115
+> 		obj_ptr++;
+diff --color -r src/D0_dist_circle.c ../minirt_intra/src/D0_dist_circle.c
+32,34c32,34
+< 	c.pl_cst = -ft_dot_p(&circle->O.view, (t_vect *)&circle->O.c0);
+< 	c.top = -(ft_dot_p(&circle->O.view, (t_vect *)&calcul->c0) + c.pl_cst);
+< 	c.bot = ft_dot_p(&circle->O.view, &calcul->v);
+---
+> 	c.pl_cst = -ft_dot_p(&circle->o.view, (t_vect *)&circle->o.c0);
+> 	c.top = -(ft_dot_p(&circle->o.view, (t_vect *)&calcul->c0) + c.pl_cst);
+> 	c.bot = ft_dot_p(&circle->o.view, &calcul->v);
+41c41
+< 	c.dist_center = dist_two_points(&c.inter_temp, &circle->O.c0);
+---
+> 	c.dist_center = dist_two_points(&c.inter_temp, &circle->o.c0);
+62c62
+< 	calcul->vn = circle->O.view;
+---
+> 	calcul->vn = circle->o.view;
+65c65
+< 	if (ft_dot_p(&calcul->v, &circle->O.view) > EPSILON)
+---
+> 	if (ft_dot_p(&calcul->v, &circle->o.view) > EPSILON)
+82,84c82,84
+< 	normal_map = vect_ab_norm(&circle->O.c0, &c->inter_temp);
+< 	v = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&normal_map, &circle->O.right), \
+< 		ft_dot_p(&normal_map, &circle->O.up)) / (2 * PI) + 0.5));
+---
+> 	normal_map = vect_ab_norm(&circle->o.c0, &c->inter_temp);
+> 	v = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&normal_map, &circle->o.right), \
+> 		ft_dot_p(&normal_map, &circle->o.up)) / (2 * PI) + 0.5));
+93,94c93,94
+< 		local.right = circle->O.right;
+< 		local.up = circle->O.up;
+---
+> 		local.right = circle->o.right;
+> 		local.up = circle->o.up;
+diff --color -r src/D1_dist_sphere.c ../minirt_intra/src/D1_dist_sphere.c
+30,32c30,32
+< 	c.x0 = calcul->c0.x - sphere->O.c0.x;
+< 	c.y0 = calcul->c0.y - sphere->O.c0.y;
+< 	c.z0 = calcul->c0.z - sphere->O.c0.z;
+---
+> 	c.x0 = calcul->c0.x - sphere->o.c0.x;
+> 	c.y0 = calcul->c0.y - sphere->o.c0.y;
+> 	c.z0 = calcul->c0.z - sphere->o.c0.z;
+58c58
+< 	calcul->vn = vect_ab_norm(&sphere->O.c0, &calcul->inter);
+---
+> 	calcul->vn = vect_ab_norm(&sphere->o.c0, &calcul->inter);
+62c62
+< 			ft_dot_p(&calcul->vn, &sphere->O.view) / 2 + 0.5);
+---
+> 			ft_dot_p(&calcul->vn, &sphere->o.view) / 2 + 0.5);
+84,86c84,86
+< 	c->u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&ca->vn, &sphere->O.right) \
+< 		* in, ft_dot_p(&ca->vn, &sphere->O.up) * in) / (2 * PI) + 0.5));
+< 	c->v = fmin(1.0, fmax(0.0, acos(ft_dot_p(&ca->vn, &sphere->O.view) \
+---
+> 	c->u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&ca->vn, &sphere->o.right) \
+> 		* in, ft_dot_p(&ca->vn, &sphere->o.up) * in) / (2 * PI) + 0.5));
+> 	c->v = fmin(1.0, fmax(0.0, acos(ft_dot_p(&ca->vn, &sphere->o.view) \
+93c93
+< 		local.right = ft_cross_product_norm(&sphere->O.view, &local.view);
+---
+> 		local.right = ft_cross_product_norm(&sphere->o.view, &local.view);
+diff --color -r src/D2_dist_plane.c ../minirt_intra/src/D2_dist_plane.c
+31,32c31,32
+< 	c.top = -(ft_dot_p(&plane->O.view, (t_vect *)&calcul->c0) + plane->d);
+< 	c.bot = ft_dot_p(&plane->O.view, &calcul->v);
+---
+> 	c.top = -(ft_dot_p(&plane->o.view, (t_vect *)&calcul->c0) + plane->d);
+> 	c.bot = ft_dot_p(&plane->o.view, &calcul->v);
+53c53
+< 	calcul->vn = plane->O.view;
+---
+> 	calcul->vn = plane->o.view;
+56,58c56,58
+< 		c->o_to_inter = vect_ab(&plane->O.c0, &calcul->inter);
+< 		c->u = ft_dot_p(&c->o_to_inter, &plane->O.right) / plane->param.gamma;
+< 		c->v = 1.0 - ft_dot_p(&c->o_to_inter, &plane->O.up) / \
+---
+> 		c->o_to_inter = vect_ab(&plane->o.c0, &calcul->inter);
+> 		c->u = ft_dot_p(&c->o_to_inter, &plane->o.right) / plane->param.gamma;
+> 		c->v = 1.0 - ft_dot_p(&c->o_to_inter, &plane->o.up) / \
+65d64
+< 	c->in = 0;
+67,70d65
+< 	{
+< 		c->in = 1;
+< 		if (calcul->print == 1)
+< 			printf(C_321"calcul->vn before: [%.3f,%.3f,%.3f]\n", calcul->vn.dx, calcul->vn.dy, calcul->vn.dz);
+72,75d66
+< 		if (calcul->print == 1)
+< 			printf(C_123"calcul->vn after: [%.3f,%.3f,%.3f]\n", calcul->vn.dx, calcul->vn.dy, calcul->vn.dz);
+< 	
+< 	}
+77,81d67
+< 	if (calcul->print == 1)
+< 	{
+< 		printf("c->bot: %.3f, we inverse? %d\n", c->bot, !!(c->bot > EPSILON));
+< 		printf("calcul->vn: [%.3f,%.3f,%.3f]\n", calcul->vn.dx, calcul->vn.dy, calcul->vn.dz);
+< 	}
+96,97c82,83
+< 		local.up = plane->O.up;
+< 		local.right = plane->O.right;
+---
+> 		local.up = plane->o.up;
+> 		local.right = plane->o.right;
+99,109d84
+< 		// if (c->in == 1)
+< 		// 	normal_map.dx *= -1;
+< 		if (calcul->print == 1)
+< 		{
+< 			t_argb a = return_px_img(plane->param.n_map, c->u, c->v);
+< 			printf("c->in? %d; uv: [%.3f,%.3f]\n", c->in, c->u, c->v);
+< 			printf(C_413"normal_map? [%.3f,%.3f,%.3f]\n", normal_map.dx, normal_map.dy, normal_map.dz);
+< 			printf("argb: [%d,%d,%d,%d]\n", a.a, a.r, a.g, a.b);
+< 			local.c0 = calcul->inter;
+< 			// h_render_v_space_2(calcul->data, &local);
+< 		}
+diff --color -r src/D3_dist_cylinder.c ../minirt_intra/src/D3_dist_cylinder.c
+29c29
+< 	c.circle = (t_circle){CIRCLE, cy->O, cy->param, cy->radius};
+---
+> 	c.circle = (t_circle){CIRCLE, cy->o, cy->param, cy->radius};
+31,32c31,32
+< 	c.circle.O.c0 = new_moved_point(&cy->O.c0, &cy->O.view, cy->height);
+< 	c.circle.O.view = scale_vect(c.circle.O.view, -1.0);
+---
+> 	c.circle.o.c0 = new_moved_point(&cy->o.c0, &cy->o.view, cy->height);
+> 	c.circle.o.view = scale_vect(c.circle.o.view, -1.0);
+37d36
+< 	{
+39,40d37
+< 		calcul->mat = *(t_mat2 *)&cy->param;
+< 	}
+55,63c52,60
+< 	c.A = ft_dot_p(&ca->v, &cy->O.view);
+< 	c.B = cy->O.view.dx * (ca->c0.x - cy->O.c0.x) + cy->O.view.dy * (ca->c0.y \
+< 		- cy->O.c0.y) + cy->O.view.dz * (ca->c0.z - cy->O.c0.z);
+< 	c.x0 = ca->v.dx - c.A * cy->O.view.dx;
+< 	c.y0 = ca->v.dy - c.A * cy->O.view.dy;
+< 	c.z0 = ca->v.dz - c.A * cy->O.view.dz;
+< 	c.x1 = ca->c0.x - c.B * cy->O.view.dx - cy->O.c0.x;
+< 	c.y1 = ca->c0.y - c.B * cy->O.view.dy - cy->O.c0.y;
+< 	c.z1 = ca->c0.z - c.B * cy->O.view.dz - cy->O.c0.z;
+---
+> 	c.u = ft_dot_p(&ca->v, &cy->o.view);
+> 	c.v = cy->o.view.dx * (ca->c0.x - cy->o.c0.x) + cy->o.view.dy * (ca->c0.y \
+> 		- cy->o.c0.y) + cy->o.view.dz * (ca->c0.z - cy->o.c0.z);
+> 	c.x0 = ca->v.dx - c.u * cy->o.view.dx;
+> 	c.y0 = ca->v.dy - c.u * cy->o.view.dy;
+> 	c.z0 = ca->v.dz - c.u * cy->o.view.dz;
+> 	c.x1 = ca->c0.x - c.v * cy->o.view.dx - cy->o.c0.x;
+> 	c.y1 = ca->c0.y - c.v * cy->o.view.dy - cy->o.c0.y;
+> 	c.z1 = ca->c0.z - c.v * cy->o.view.dz - cy->o.c0.z;
+73c70
+< 	c2->dist_h = c.A * c2->dist + c.B;
+---
+> 	c2->dist_h = c.u * c2->dist + c.v;
+88c85
+< 	c->projec_p = new_moved_point(&cylinder->O.c0, &cylinder->O.view, \
+---
+> 	c->projec_p = new_moved_point(&cylinder->o.c0, &cylinder->o.view, \
+116,117c113,114
+< 	u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&calcul->vn, &cylinder->O.right) \
+< 		* c->in, ft_dot_p(&calcul->vn, &cylinder->O.up) * c->in) \
+---
+> 	u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&calcul->vn, &cylinder->o.right) \
+> 		* c->in, ft_dot_p(&calcul->vn, &cylinder->o.up) * c->in) \
+125c122
+< 		local.up = cylinder->O.view;
+---
+> 		local.up = cylinder->o.view;
+diff --color -r src/D4_dist_cone.c ../minirt_intra/src/D4_dist_cone.c
+31c31
+< 	c.circle = (t_circle){CIRCLE, cone->O, cone->param, cone->radius};
+---
+> 	c.circle = (t_circle){CIRCLE, cone->o, cone->param, cone->radius};
+36d35
+< 	{
+38,39d36
+< 		calcul->mat = *(t_mat2 *)&cone->param;
+< 	}
+54,67c51,64
+< 	c.p = ft_dot_p(&ca->v, &co->O.view);
+< 	c.q = co->O.view.dx * (ca->c0.x - co->apex.x) + co->O.view.dy * (ca->c0.y \
+< 		- co->apex.y) + co->O.view.dz * (ca->c0.z - co->apex.z);
+< 	c.a1 = ca->v.dx - c.p * co->O.view.dx;
+< 	c.a2 = ca->v.dy - c.p * co->O.view.dy;
+< 	c.a3 = ca->v.dz - c.p * co->O.view.dz;
+< 	c.b1 = ca->c0.x - co->apex.x - c.q * co->O.view.dx;
+< 	c.b2 = ca->c0.y - co->apex.y - c.q * co->O.view.dy;
+< 	c.b3 = ca->c0.z - co->apex.z - c.q * co->O.view.dz;
+< 	c.A = c.a1 * c.a1 + c.a2 * c.a2 + c.a3 * c.a3 - co->slope * c.p * c.p;
+< 	c.B = 2 * (c.a1 * c.b1 + c.a2 * c.b2 + c.a3 * c.b3 - c.p * c.q * co->slope);
+< 	c.C = c.b1 * c.b1 + c.b2 * c.b2 + c.b3 * c.b3 - c.q * c.q * co->slope;
+< 	c.delta = c.B * c.B - 4 * c.A * c.C;
+< 	if (c.delta < EPSILON || fabs(c.A) < EPSILON)
+---
+> 	c.p = ft_dot_p(&ca->v, &co->o.view);
+> 	c.q = co->o.view.dx * (ca->c0.x - co->apex.x) + co->o.view.dy * (ca->c0.y \
+> 		- co->apex.y) + co->o.view.dz * (ca->c0.z - co->apex.z);
+> 	c.a1 = ca->v.dx - c.p * co->o.view.dx;
+> 	c.a2 = ca->v.dy - c.p * co->o.view.dy;
+> 	c.a3 = ca->v.dz - c.p * co->o.view.dz;
+> 	c.b1 = ca->c0.x - co->apex.x - c.q * co->o.view.dx;
+> 	c.b2 = ca->c0.y - co->apex.y - c.q * co->o.view.dy;
+> 	c.b3 = ca->c0.z - co->apex.z - c.q * co->o.view.dz;
+> 	c.a = c.a1 * c.a1 + c.a2 * c.a2 + c.a3 * c.a3 - co->slope * c.p * c.p;
+> 	c.b = 2 * (c.a1 * c.b1 + c.a2 * c.b2 + c.a3 * c.b3 - c.p * c.q * co->slope);
+> 	c.c = c.b1 * c.b1 + c.b2 * c.b2 + c.b3 * c.b3 - c.q * c.q * co->slope;
+> 	c.delta = c.b * c.b - 4 * c.a * c.c;
+> 	if (c.delta < EPSILON || fabs(c.a) < EPSILON)
+69,70c66,67
+< 	c.det1 = (-c.B + sqrt(c.delta)) / (2 * c.A);
+< 	c.det2 = (-c.B - sqrt(c.delta)) / (2 * c.A);
+---
+> 	c.det1 = (-c.b + sqrt(c.delta)) / (2 * c.a);
+> 	c.det2 = (-c.b - sqrt(c.delta)) / (2 * c.a);
+87c84
+< 	dot = -ft_dot_p(&cone->O.view, &c2->apex_to_camera);
+---
+> 	dot = -ft_dot_p(&cone->o.view, &c2->apex_to_camera);
+118c115
+< 	c->projec_point = new_moved_point(&cone->apex, &cone->O.view, \
+---
+> 	c->projec_point = new_moved_point(&cone->apex, &cone->o.view, \
+121c118
+< 	axis = ft_cross_product(&calcul->vn, &cone->O.view);
+---
+> 	axis = ft_cross_product(&calcul->vn, &cone->o.view);
+146,147c143,144
+< 	u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&calcul->vn, &cone->O.right) * in, \
+< 		ft_dot_p(&calcul->vn, &cone->O.up) * in) / (2 * PI) + 0.5));
+---
+> 	u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&calcul->vn, &cone->o.right) * in, \
+> 		ft_dot_p(&calcul->vn, &cone->o.up) * in) / (2 * PI) + 0.5));
+153c150
+< 		local.right = ft_cross_product_norm(&cone->O.view, &local.view);
+---
+> 		local.right = ft_cross_product_norm(&cone->o.view, &local.view);
+diff --color -r src/D5_dist_hyper.c ../minirt_intra/src/D5_dist_hyper.c
+66c66
+< 			ft_dot_p(&ca->vn, &hy->O.view) / 2 + 0.5);
+---
+> 			ft_dot_p(&ca->vn, &hy->o.view) / 2 + 0.5);
+92,94c92,94
+< 	u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&calcul->vn, &hy->O.right) * in, \
+< 		ft_dot_p(&calcul->vn, &hy->O.up) * in) / (2 * PI) + 0.5));
+< 	v = fmin(1.0, fmax(0.0, acos(ft_dot_p(&calcul->vn, &hy->O.view) * in) \
+---
+> 	u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&calcul->vn, &hy->o.right) * in, \
+> 		ft_dot_p(&calcul->vn, &hy->o.up) * in) / (2 * PI) + 0.5));
+> 	v = fmin(1.0, fmax(0.0, acos(ft_dot_p(&calcul->vn, &hy->o.view) * in) \
+101c101
+< 		local.right = ft_cross_product_norm(&hy->O.view, &local.view);
+---
+> 		local.right = ft_cross_product_norm(&hy->o.view, &local.view);
+118,123c118,123
+< 		ca->vn.dx * hy->O.right.dx + ca->vn.dy * hy->O.right.dy \
+< 			+ ca->vn.dz * hy->O.right.dz,
+< 		ca->vn.dx * hy->O.up.dx + ca->vn.dy * hy->O.up.dy \
+< 			+ ca->vn.dz * hy->O.up.dz,
+< 		ca->vn.dx * hy->O.view.dx + ca->vn.dy * hy->O.view.dy \
+< 			+ ca->vn.dz * hy->O.view.dz};
+---
+> 		ca->vn.dx * hy->o.right.dx + ca->vn.dy * hy->o.right.dy \
+> 			+ ca->vn.dz * hy->o.right.dz,
+> 		ca->vn.dx * hy->o.up.dx + ca->vn.dy * hy->o.up.dy \
+> 			+ ca->vn.dz * hy->o.up.dz,
+> 		ca->vn.dx * hy->o.view.dx + ca->vn.dy * hy->o.view.dy \
+> 			+ ca->vn.dz * hy->o.view.dz};
+diff --color -r src/D6_dist_para.c ../minirt_intra/src/D6_dist_para.c
+69c69
+< 			ft_dot_p(&ca->vn, &para->O.view) / 2 + 0.5);
+---
+> 			ft_dot_p(&ca->vn, &para->o.view) / 2 + 0.5);
+93,95c93,95
+< 	u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&calcul->vn, &pa->O.right) * in, \
+< 		ft_dot_p(&calcul->vn, &pa->O.up) * in) / (2 * PI) + 0.5));
+< 	v = fmin(1.0, fmax(0.0, acos(ft_dot_p(&calcul->vn, &pa->O.view) * in) \
+---
+> 	u = fmin(1.0, fmax(0.0, atan2(ft_dot_p(&calcul->vn, &pa->o.right) * in, \
+> 		ft_dot_p(&calcul->vn, &pa->o.up) * in) / (2 * PI) + 0.5));
+> 	v = fmin(1.0, fmax(0.0, acos(ft_dot_p(&calcul->vn, &pa->o.view) * in) \
+102c102
+< 		local.right = ft_cross_product_norm(&pa->O.view, &local.view);
+---
+> 		local.right = ft_cross_product_norm(&pa->o.view, &local.view);
+119,124c119,124
+< 		ca->vn.dx * para->O.right.dx + ca->vn.dy * para->O.right.dy \
+< 			+ ca->vn.dz * para->O.right.dz,
+< 		ca->vn.dx * para->O.up.dx + ca->vn.dy * para->O.up.dy \
+< 			+ ca->vn.dz * para->O.up.dz,
+< 		ca->vn.dx * para->O.view.dx + ca->vn.dy * para->O.view.dy \
+< 			+ ca->vn.dz * para->O.view.dz};
+---
+> 		ca->vn.dx * para->o.right.dx + ca->vn.dy * para->o.right.dy \
+> 			+ ca->vn.dz * para->o.right.dz,
+> 		ca->vn.dx * para->o.up.dx + ca->vn.dy * para->o.up.dy \
+> 			+ ca->vn.dz * para->o.up.dz,
+> 		ca->vn.dx * para->o.view.dx + ca->vn.dy * para->o.view.dy \
+> 			+ ca->vn.dz * para->o.view.dz};
+diff --color -r src/D7_dist_arrow.c ../minirt_intra/src/D7_dist_arrow.c
+25c25
+< 	c.cy = (t_cylinder){CYLINDER, arrow->O, arrow->param, arrow->xyz_other, \
+---
+> 	c.cy = (t_cylinder){CYLINDER, arrow->o, arrow->param, arrow->xyz_other, \
+27c27
+< 	c.co = (t_cone){CONE, arrow->O, arrow->param, arrow->h / 3, arrow->radius, \
+---
+> 	c.co = (t_cone){CONE, arrow->o, arrow->param, arrow->h / 3, arrow->radius, \
+30c30
+< 	c.co.O.c0 = new_moved_point(&c.co.O.c0, &arrow->O.view, arrow->h * 2 / 3);
+---
+> 	c.co.o.c0 = new_moved_point(&c.co.o.c0, &arrow->o.view, arrow->h * 2 / 3);
+diff --color -r src/D8_dist_sprite.c ../minirt_intra/src/D8_dist_sprite.c
+32,33c32,33
+< 	c.top = -(ft_dot_p(&sp->O.view, (t_vect *)&calcul->c0) + sp->d);
+< 	c.bot = ft_dot_p(&sp->O.view, &calcul->v);
+---
+> 	c.top = -(ft_dot_p(&sp->o.view, (t_vect *)&calcul->c0) + sp->d);
+> 	c.bot = ft_dot_p(&sp->o.view, &calcul->v);
+40,42c40,42
+< 	c.o_to_inter = vect_ab(&sp->O.c0, &inter);
+< 	c.u = ft_dot_p(&c.o_to_inter, &sp->O.right);
+< 	c.v = ft_dot_p(&c.o_to_inter, &sp->O.up);
+---
+> 	c.o_to_inter = vect_ab(&sp->o.c0, &inter);
+> 	c.u = ft_dot_p(&c.o_to_inter, &sp->o.right);
+> 	c.v = ft_dot_p(&c.o_to_inter, &sp->o.up);
+61c61
+< 	calcul->vn = sprite->O.view;
+---
+> 	calcul->vn = sprite->o.view;
+90,91c90,91
+< 		local.up = sprite->O.up;
+< 		local.right = sprite->O.right;
+---
+> 		local.up = sprite->o.up;
+> 		local.right = sprite->o.right;
+diff --color -r src/D9_dist_objects.c ../minirt_intra/src/D9_dist_objects.c
+18,19d17
+< static void		update_obj_w_txt(t_c_px *calcul, t_mat *mat, double u, \
+< 	double v);
+85c83
+< 		normal_map = return_vect_img(obj->param.n_map, c->u, c->v);
+---
+> 		normal_map = return_vect_img(obj->param.n_map, c->u, 1.0 - c->v);
+91,110d88
+< }
+< 
+< ///////////////////////////////////////////////////////////////////////////////]
+< static void	update_obj_w_txt(t_c_px *calcul, t_mat *mat, double u, double v)
+< {
+< 	double	rough;
+< 
+< 	if (mat->s_map)
+< 		calcul->mat.sp = return_alpha_img(mat->s_map, u, v) / 255.0;
+< 	if (mat->rough_map)
+< 	{
+< 		rough = return_alpha_img(mat->rough_map, u, v) / 255.0;
+< 		calcul->mat.sh = fmax(0.01, 2.0 / (rough * rough + 0.001) - 2.0);
+< 	}
+< 	if (mat->txt)
+< 		calcul->mat.argb = return_px_img(mat->txt, u, v);
+< 	if (mat->a_map)
+< 		calcul->mat.argb.a = return_alpha_img(mat->a_map, u, v);
+< 	if (mat->ao_map)
+< 		calcul->mat.ao = return_alpha_img(mat->ao_map, u, v) / 255.0;
+diff --color -r src/D9_help.c ../minirt_intra/src/D9_help.c
+25c25
+< 	c->c0 = new_moved_point(&calcul->c0, (t_vect *)&o->O.c0, -1.0);
+---
+> 	c->c0 = new_moved_point(&calcul->c0, (t_vect *)&o->o.c0, -1.0);
+27,32c27,32
+< 		c->c0.x * o->O.right.dx + c->c0.y * o->O.up.dx + c->c0.z \
+< 			* o->O.view.dx,
+< 		c->c0.x * o->O.right.dy + c->c0.y * o->O.up.dy + c->c0.z \
+< 			* o->O.view.dy,
+< 		c->c0.x * o->O.right.dz + c->c0.y * o->O.up.dz + c->c0.z \
+< 			* o->O.view.dz};
+---
+> 		c->c0.x * o->o.right.dx + c->c0.y * o->o.up.dx + c->c0.z \
+> 			* o->o.view.dx,
+> 		c->c0.x * o->o.right.dy + c->c0.y * o->o.up.dy + c->c0.z \
+> 			* o->o.view.dy,
+> 		c->c0.x * o->o.right.dz + c->c0.y * o->o.up.dz + c->c0.z \
+> 			* o->o.view.dz};
+34,39c34,39
+< 		calcul->v.dx * o->O.right.dx + calcul->v.dy * o->O.up.dx \
+< 			+ calcul->v.dz * o->O.view.dx,
+< 		calcul->v.dx * o->O.right.dy + calcul->v.dy * o->O.up.dy \
+< 			+ calcul->v.dz * o->O.view.dy,
+< 		calcul->v.dx * o->O.right.dz + calcul->v.dy * o->O.up.dz \
+< 			+ calcul->v.dz * o->O.view.dz};
+---
+> 		calcul->v.dx * o->o.right.dx + calcul->v.dy * o->o.up.dx \
+> 			+ calcul->v.dz * o->o.view.dx,
+> 		calcul->v.dx * o->o.right.dy + calcul->v.dy * o->o.up.dy \
+> 			+ calcul->v.dz * o->o.view.dy,
+> 		calcul->v.dx * o->o.right.dz + calcul->v.dy * o->o.up.dz \
+> 			+ calcul->v.dz * o->o.view.dz};
+89,93c89,93
+< 	ca->vn = (t_vect){ca->vn.dx * obj->O.right.dx + ca->vn.dy * \
+< 		obj->O.right.dy + ca->vn.dz * obj->O.right.dz, ca->vn.dx * \
+< 		obj->O.up.dx + ca->vn.dy * obj->O.up.dy + ca->vn.dz * obj->O.up.dz, \
+< 		ca->vn.dx * obj->O.view.dx + ca->vn.dy * obj->O.view.dy + ca->vn.dz \
+< 		* obj->O.view.dz};
+---
+> 	ca->vn = (t_vect){ca->vn.dx * obj->o.right.dx + ca->vn.dy * \
+> 		obj->o.right.dy + ca->vn.dz * obj->o.right.dz, ca->vn.dx * \
+> 		obj->o.up.dx + ca->vn.dy * obj->o.up.dy + ca->vn.dz * obj->o.up.dz, \
+> 		ca->vn.dx * obj->o.view.dx + ca->vn.dy * obj->o.view.dy + ca->vn.dz \
+> 		* obj->o.view.dz};
+diff --color -r src/E0_lighting.c ../minirt_intra/src/E0_lighting.c
+32,33c32,33
+< 	lights = data->light - 1;
+< 	while (++lights && *lights)
+---
+> 	lights = data->light;
+> 	while (lights && *lights)
+35c35
+< 		if (!ft_diffuse(data, c, *lights, f_shadow))
+---
+> 		if (!ft_diffuse(data, c, *lights, f_shadow) && ++lights)
+37a38
+> 		lights++;
+42,45c43,45
+< 		c->r_diff * c->diffuse.x + c->specular.x + c->reflected.x + c->behind.x,
+< 		c->r_diff * c->diffuse.y + c->specular.y + c->reflected.y + c->behind.y,
+< 		c->r_diff * c->diffuse.z + c->specular.z + c->reflected.z + c->behind.z
+< 	};
+---
+> 		c->r_diff * c->diffuse.x + c->specular.x + c->refl.x + c->behind.x,
+> 		c->r_diff * c->diffuse.y + c->specular.y + c->refl.y + c->behind.y,
+> 		c->r_diff * c->diffuse.z + c->specular.z + c->refl.z + c->behind.z};
+116,122d115
+< 	if (calcul->print == 1)
+< 	{
+< 		printf("dot: %.3f\n", dot);
+< 		printf("calcul->v_light: [%.3f,%.3f,%.3f]\n", calcul->v_light.dx, calcul->v_light.dy, calcul->v_light.dz);
+< 		printf("c->vn: [%.3f,%.3f,%.3f]\n", c->vn.dx, c->vn.dy, c->vn.dz);
+< 
+< 	}
+diff --color -r src/E0_lighting_simple.c ../minirt_intra/src/E0_lighting_simple.c
+30,31c30,31
+< 	lights = data->light - 1;
+< 	while (++lights && *lights)
+---
+> 	lights = data->light;
+> 	while (lights && *lights)
+34a35
+> 		lights++;
+diff --color -r src/E1_phong_model.c ../minirt_intra/src/E1_phong_model.c
+108,110c108,110
+< 		c->reflected.x = reflected.r * c->mat.mi;
+< 		c->reflected.y = reflected.g * c->mat.mi;
+< 		c->reflected.z = reflected.b * c->mat.mi;
+---
+> 		c->refl.x = reflected.r * c->mat.mi;
+> 		c->refl.y = reflected.g * c->mat.mi;
+> 		c->refl.z = reflected.b * c->mat.mi;
+114,116c114,116
+< 		c->reflected.x = c->mat.argb.r * c->mat.mi;
+< 		c->reflected.y = c->mat.argb.g * c->mat.mi;
+< 		c->reflected.z = c->mat.argb.b * c->mat.mi;
+---
+> 		c->refl.x = c->mat.argb.r * c->mat.mi;
+> 		c->refl.y = c->mat.argb.g * c->mat.mi;
+> 		c->refl.z = c->mat.argb.b * c->mat.mi;
+diff --color -r src/Key_0_keypress.c ../minirt_intra/src/Key_0_keypress.c
+79c79
+< 		data->eye.c->O.view = dbl_quaternion_rota(&data->eye.c->O, a, b);
+---
+> 		data->eye.c->o.view = dbl_quaternion_rota(&data->eye.c->o, a, b);
+81,84c81,84
+< 			data->eye.c->O.c0 = new_moved_point(&data->change_obj->O.c0, \
+< 				&data->eye.c->O.view, -dist_two_points(&data->eye.c->O.c0, \
+< 				&data->change_obj->O.c0));
+< 		create_vector_space(&data->eye.c->O);
+---
+> 			data->eye.c->o.c0 = new_moved_point(&data->change_obj->o.c0, \
+> 				&data->eye.c->o.view, -dist_two_points(&data->eye.c->o.c0, \
+> 				&data->change_obj->o.c0));
+> 		create_vector_space(&data->eye.c->o);
+110c110
+< 		data->eye.c->O.view = dbl_quaternion_rota(&data->eye.c->O, a, b);
+---
+> 		data->eye.c->o.view = dbl_quaternion_rota(&data->eye.c->o, a, b);
+112,115c112,115
+< 			data->eye.c->O.c0 = new_moved_point(&data->change_obj->O.c0, \
+< 				&data->eye.c->O.view, -dist_two_points(&data->eye.c->O.c0, \
+< 				&data->change_obj->O.c0));
+< 		create_vector_space(&data->eye.c->O);
+---
+> 			data->eye.c->o.c0 = new_moved_point(&data->change_obj->o.c0, \
+> 				&data->eye.c->o.view, -dist_two_points(&data->eye.c->o.c0, \
+> 				&data->change_obj->o.c0));
+> 		create_vector_space(&data->eye.c->o);
+diff --color -r src/Key_1_tools.c ../minirt_intra/src/Key_1_tools.c
+42c42
+< 		xyz = &data->change_obj->O.c0;
+---
+> 		xyz = &data->change_obj->o.c0;
+44c44
+< 		xyz = &data->eye.c->O.c0;
+---
+> 		xyz = &data->eye.c->o.c0;
+46c46
+< 		move_point(xyz, &data->eye.c->O.up, data->zoom);
+---
+> 		move_point(xyz, &data->eye.c->o.up, data->zoom);
+48c48
+< 		move_point(xyz, &data->eye.c->O.up, -data->zoom);
+---
+> 		move_point(xyz, &data->eye.c->o.up, -data->zoom);
+50c50
+< 		move_point(xyz, &data->eye.c->O.view, data->zoom);
+---
+> 		move_point(xyz, &data->eye.c->o.view, data->zoom);
+52c52
+< 		move_point(xyz, &data->eye.c->O.view, -data->zoom);
+---
+> 		move_point(xyz, &data->eye.c->o.view, -data->zoom);
+54c54
+< 		move_point(xyz, &data->eye.c->O.right, data->zoom);
+---
+> 		move_point(xyz, &data->eye.c->o.right, data->zoom);
+56c56
+< 		move_point(xyz, &data->eye.c->O.right, -data->zoom);
+---
+> 		move_point(xyz, &data->eye.c->o.right, -data->zoom);
+71c71
+< 		obj = &data->change_obj->O;
+---
+> 		obj = &data->change_obj->o;
+73c73
+< 		obj = &data->eye.c->O;
+---
+> 		obj = &data->eye.c->o;
+diff --color -r src/Key_2_print.c ../minirt_intra/src/Key_2_print.c
+42c42
+< 	c.c0 = data->eye.c->O.c0;
+---
+> 	c.c0 = data->eye.c->o.c0;
+50c50
+< 		h_render_v_space(data, &c.object->O);
+---
+> 		h_render_v_space(data, &c.object->o);
+64,71c64,71
+< 		data->eye.c->O.c0.x, data->eye.c->O.c0.y, data->eye.c->O.c0.z, \
+< 		data->eye.c->O.view.dx, data->eye.c->O.view.dy, data->eye.c->O.view.dz);
+< 	printf("\tview \t[% .2f,% .2f,% .2f]\n", data->eye.c->O.view.dx, \
+< 		data->eye.c->O.view.dy, data->eye.c->O.view.dz);
+< 	printf("\tup \t[% .2f,% .2f,% .2f]\n", data->eye.c->O.up.dx, \
+< 		data->eye.c->O.up.dy, data->eye.c->O.up.dz);
+< 	printf("\tright \t[% .2f,% .2f,% .2f]\n", data->eye.c->O.right.dx, \
+< 		data->eye.c->O.right.dy, data->eye.c->O.right.dz);
+---
+> 		data->eye.c->o.c0.x, data->eye.c->o.c0.y, data->eye.c->o.c0.z, \
+> 		data->eye.c->o.view.dx, data->eye.c->o.view.dy, data->eye.c->o.view.dz);
+> 	printf("\tview \t[% .2f,% .2f,% .2f]\n", data->eye.c->o.view.dx, \
+> 		data->eye.c->o.view.dy, data->eye.c->o.view.dz);
+> 	printf("\tup \t[% .2f,% .2f,% .2f]\n", data->eye.c->o.up.dx, \
+> 		data->eye.c->o.up.dy, data->eye.c->o.up.dz);
+> 	printf("\tright \t[% .2f,% .2f,% .2f]\n", data->eye.c->o.right.dx, \
+> 		data->eye.c->o.right.dy, data->eye.c->o.right.dz);
+88c88
+< 		o = &obj->O;
+---
+> 		o = &obj->o;
+diff --color -r src/Key_functions_2.c ../minirt_intra/src/Key_functions_2.c
+63c63
+< 		obj->O.c0 = new_moved_point(&obj->O.c0, (t_vect *)&data->ram, 1);
+---
+> 		obj->o.c0 = new_moved_point(&obj->o.c0, (t_vect *)&data->ram, 1);
+diff --color -r src/Key_functions_tools.c ../minirt_intra/src/Key_functions_tools.c
+81,82c81,82
+< 	arrow->O.view = v;
+< 	arrow->O.c0 = o;
+---
+> 	arrow->o.view = v;
+> 	arrow->o.c0 = o;
+86c86
+< 	if (h_parse_vect_space(&arrow->O, &arrow->O.view))
+---
+> 	if (h_parse_vect_space(&arrow->o, &arrow->o.view))
+Binary files src/obj/A1_ini_stack.o and ../minirt_intra/src/obj/A1_ini_stack.o differ
+Binary files src/obj/A1_stack_operation.o and ../minirt_intra/src/obj/A1_stack_operation.o differ
+Binary files src/obj/AB_loop.o and ../minirt_intra/src/obj/AB_loop.o differ
+Binary files src/obj/AB_progressive_rt.o and ../minirt_intra/src/obj/AB_progressive_rt.o differ
+Binary files src/obj/AC_anti_aliasing.o and ../minirt_intra/src/obj/AC_anti_aliasing.o differ
+Binary files src/obj/A_screen_control.o and ../minirt_intra/src/obj/A_screen_control.o differ
+Binary files src/obj/A_tools.o and ../minirt_intra/src/obj/A_tools.o differ
+Binary files src/obj/B2_thread_render.o and ../minirt_intra/src/obj/B2_thread_render.o differ
+Binary files src/obj/B_loop.o and ../minirt_intra/src/obj/B_loop.o differ
+Binary files src/obj/C_find_colision.o and ../minirt_intra/src/obj/C_find_colision.o differ
+Binary files src/obj/D0_dist_circle.o and ../minirt_intra/src/obj/D0_dist_circle.o differ
+Binary files src/obj/D1_dist_sphere.o and ../minirt_intra/src/obj/D1_dist_sphere.o differ
+Binary files src/obj/D2_dist_plane.o and ../minirt_intra/src/obj/D2_dist_plane.o differ
+Binary files src/obj/D3_dist_cylinder.o and ../minirt_intra/src/obj/D3_dist_cylinder.o differ
+Binary files src/obj/D4_dist_cone.o and ../minirt_intra/src/obj/D4_dist_cone.o differ
+Binary files src/obj/D5_dist_hyper.o and ../minirt_intra/src/obj/D5_dist_hyper.o differ
+Binary files src/obj/D6_dist_para.o and ../minirt_intra/src/obj/D6_dist_para.o differ
+Binary files src/obj/D7_dist_arrow.o and ../minirt_intra/src/obj/D7_dist_arrow.o differ
+Binary files src/obj/D8_dist_sprite.o and ../minirt_intra/src/obj/D8_dist_sprite.o differ
+Binary files src/obj/D9_dist_objects.o and ../minirt_intra/src/obj/D9_dist_objects.o differ
+Binary files src/obj/D9_help.o and ../minirt_intra/src/obj/D9_help.o differ
+Binary files src/obj/D9_tree_find.o and ../minirt_intra/src/obj/D9_tree_find.o differ
+Binary files src/obj/E0_lighting.o and ../minirt_intra/src/obj/E0_lighting.o differ
+Binary files src/obj/E0_lighting_simple.o and ../minirt_intra/src/obj/E0_lighting_simple.o differ
+Binary files src/obj/E1_phong_model.o and ../minirt_intra/src/obj/E1_phong_model.o differ
+Binary files src/obj/E2_refrac_reflec.o and ../minirt_intra/src/obj/E2_refrac_reflec.o differ
+Binary files src/obj/Key_0_keypress.o and ../minirt_intra/src/obj/Key_0_keypress.o differ
+Binary files src/obj/Key_1_tools.o and ../minirt_intra/src/obj/Key_1_tools.o differ
+Binary files src/obj/Key_2_print.o and ../minirt_intra/src/obj/Key_2_print.o differ
+Binary files src/obj/Key_functions_1.o and ../minirt_intra/src/obj/Key_functions_1.o differ
+Binary files src/obj/Key_functions_2.o and ../minirt_intra/src/obj/Key_functions_2.o differ
+Binary files src/obj/Key_functions_3.o and ../minirt_intra/src/obj/Key_functions_3.o differ
+Binary files src/obj/Key_functions_tools.o and ../minirt_intra/src/obj/Key_functions_tools.o differ
+Binary files src/obj/Parse_Objects_1.o and ../minirt_intra/src/obj/Parse_Objects_1.o differ
+Binary files src/obj/Parse_Objects_2.o and ../minirt_intra/src/obj/Parse_Objects_2.o differ
+Binary files src/obj/Parse_Obj_mtl.o and ../minirt_intra/src/obj/Parse_Obj_mtl.o differ
+Binary files src/obj/Parse_Obj_tree_split1.o and ../minirt_intra/src/obj/Parse_Obj_tree_split1.o differ
+Binary files src/obj/Parse_Obj_tree_split2.o and ../minirt_intra/src/obj/Parse_Obj_tree_split2.o differ
+Binary files src/obj/Parse_Param_1.o and ../minirt_intra/src/obj/Parse_Param_1.o differ
+Binary files src/obj/Parse_Param_2.o and ../minirt_intra/src/obj/Parse_Param_2.o differ
+Binary files src/obj/Parse_Param_txt.o and ../minirt_intra/src/obj/Parse_Param_txt.o differ
+Binary files src/obj/Parsing_1.o and ../minirt_intra/src/obj/Parsing_1.o differ
+Binary files src/obj/Parsing_prim1.o and ../minirt_intra/src/obj/Parsing_prim1.o differ
+Binary files src/obj/Parsing_prim2.o and ../minirt_intra/src/obj/Parsing_prim2.o differ
+Binary files src/obj/Tools_atof.o and ../minirt_intra/src/obj/Tools_atof.o differ
+Binary files src/obj/Tools_other.o and ../minirt_intra/src/obj/Tools_other.o differ
+Binary files src/obj/Tools_rotation.o and ../minirt_intra/src/obj/Tools_rotation.o differ
+Binary files src/obj/Tools_scaling.o and ../minirt_intra/src/obj/Tools_scaling.o differ
+Binary files src/obj/Tools_textures.o and ../minirt_intra/src/obj/Tools_textures.o differ
+Binary files src/obj/Tools_vect_mouv.o and ../minirt_intra/src/obj/Tools_vect_mouv.o differ
+Binary files src/obj/Tools_vect_ope.o and ../minirt_intra/src/obj/Tools_vect_ope.o differ
+Binary files src/obj/Y_init.o and ../minirt_intra/src/obj/Y_init.o differ
+Binary files src/obj/Z_exit_model.o and ../minirt_intra/src/obj/Z_exit_model.o differ
+Binary files src/obj/Z_exit.o and ../minirt_intra/src/obj/Z_exit.o differ
+diff --color -r src/Parse_Obj_mtl.c ../minirt_intra/src/Parse_Obj_mtl.c
+154d153
+< 	t_img	**img;
+158,175c157,165
+< 		return (err = ft_atof(spl[1], &mat->ao), err);
+< 	if (same_str(spl[0], "map_Kd"))
+< 		img = &mat->txt;
+< 	else if (same_str(spl[0], "map_d"))
+< 		img = &mat->a_map;
+< 	else if (same_str(spl[0], "map_Ka"))
+< 		img = &mat->ao_map;
+< 	else if (same_str(spl[0], "map_Pr"))
+< 		img = &mat->rough_map;
+< 	else if (same_str(spl[0], "map_bump"))
+< 		img = &mat->n_map;
+< 	else
+< 		return (err);
+< 	path = str("model/%1s", spl[1]);
+< 	*img = parse_img(data, path);
+< 	if (!*img && ++err)
+< 		printf(C_421"no txt?: %s\n", path);
+< 	free_s(path);
+---
+> 		err = ft_atof(spl[1], &mat->ao);
+> 	else if (same_str(spl[0], "map_Kd"))
+> 	{
+> 		path = str("model/%1s", spl[1]);
+> 		mat->txt = parse_img(data, path);
+> 		if (!mat->txt && ++err)
+> 			printf(C_421"no txt?: %s\n", path);
+> 		free_s(path);
+> 	}
+diff --color -r src/Parsing_1.c ../minirt_intra/src/Parsing_1.c
+159,160c159,160
+< 	if (err || ato_coor(raw_split[0], &camera->O.c0)
+< 		|| ato_coor(raw_split[1], (t_coor*)&camera->O.view))
+---
+> 	if (err || ato_coor(raw_split[0], &camera->o.c0)
+> 		|| ato_coor(raw_split[1], (t_coor*)&camera->o.view))
+165c165
+< 	if (h_parse_vect_space(&camera->O, &camera->O.view))
+---
+> 	if (h_parse_vect_space(&camera->o, &camera->o.view))
+diff --color -r src/Parsing_prim1.c ../minirt_intra/src/Parsing_prim1.c
+41,42c41,42
+< 	if (ato_coor(raw_split[0], &circle->O.c0)
+< 		|| ato_coor(raw_split[1], (t_coor*)&circle->O.view)
+---
+> 	if (ato_coor(raw_split[0], &circle->o.c0)
+> 		|| ato_coor(raw_split[1], (t_coor*)&circle->o.view)
+49c49
+< 	if (h_parse_vect_space(&circle->O, &circle->O.view))
+---
+> 	if (h_parse_vect_space(&circle->o, &circle->o.view))
+77,78c77,78
+< 	if (ato_coor(raw_split[0], &plane->O.c0)
+< 		|| ato_coor(raw_split[1], (t_coor*)&plane->O.view)
+---
+> 	if (ato_coor(raw_split[0], &plane->o.c0)
+> 		|| ato_coor(raw_split[1], (t_coor*)&plane->o.view)
+81c81
+< 	if (h_parse_vect_space(&plane->O, &plane->O.view))
+---
+> 	if (h_parse_vect_space(&plane->o, &plane->o.view))
+83c83
+< 	plane->d = -ft_dot_p(&plane->O.view, (t_vect *)&plane->O.c0);
+---
+> 	plane->d = -ft_dot_p(&plane->o.view, (t_vect *)&plane->o.c0);
+105c105
+< 	if (ato_coor(raw_split[0], &sphere->O.c0)
+---
+> 	if (ato_coor(raw_split[0], &sphere->o.c0)
+112c112
+< 	if (h_parse_vect_space(&sphere->O, NULL))
+---
+> 	if (h_parse_vect_space(&sphere->o, NULL))
+137,138c137,138
+< 	if (ato_coor(raw_split[0], &cylinder->O.c0)
+< 		|| ato_coor(raw_split[1], (t_coor *)&cylinder->O.view)
+---
+> 	if (ato_coor(raw_split[0], &cylinder->o.c0)
+> 		|| ato_coor(raw_split[1], (t_coor *)&cylinder->o.view)
+146c146
+< 	if (h_parse_vect_space(&cylinder->O, &cylinder->O.view))
+---
+> 	if (h_parse_vect_space(&cylinder->o, &cylinder->o.view))
+148,149c148,149
+< 	cylinder->xyz_other = new_moved_point(&cylinder->O.c0, \
+< 		&cylinder->O.view, cylinder->height);
+---
+> 	cylinder->xyz_other = new_moved_point(&cylinder->o.c0, \
+> 		&cylinder->o.view, cylinder->height);
+173,174c173,174
+< 	if (ato_coor(raw_split[0], &cone->O.c0)
+< 		|| ato_coor(raw_split[1], (t_coor *)&cone->O.view)
+---
+> 	if (ato_coor(raw_split[0], &cone->o.c0)
+> 		|| ato_coor(raw_split[1], (t_coor *)&cone->o.view)
+181c181
+< 	if (h_parse_vect_space(&cone->O, &cone->O.view))
+---
+> 	if (h_parse_vect_space(&cone->o, &cone->o.view))
+183c183
+< 	cone->apex = new_moved_point(&cone->O.c0, &cone->O.view, cone->h);
+---
+> 	cone->apex = new_moved_point(&cone->o.c0, &cone->o.view, cone->h);
+diff --color -r src/Parsing_prim2.c ../minirt_intra/src/Parsing_prim2.c
+41,42c41,42
+< 	if (ato_coor(raw_split[0], &arrow->O.c0)
+< 		|| ato_coor(raw_split[1], (t_coor *)&arrow->O.view)
+---
+> 	if (ato_coor(raw_split[0], &arrow->o.c0)
+> 		|| ato_coor(raw_split[1], (t_coor *)&arrow->o.view)
+49c49
+< 	if (h_parse_vect_space(&arrow->O, &arrow->O.view))
+---
+> 	if (h_parse_vect_space(&arrow->o, &arrow->o.view))
+75,76c75,76
+< 	if (ato_coor(raw_split[0], &hyp->O.c0)
+< 		|| ato_coor(raw_split[1], (t_coor*)&hyp->O.view)
+---
+> 	if (ato_coor(raw_split[0], &hyp->o.c0)
+> 		|| ato_coor(raw_split[1], (t_coor*)&hyp->o.view)
+83c83
+< 	if (h_parse_vect_space(&hyp->O, &hyp->O.view))
+---
+> 	if (h_parse_vect_space(&hyp->o, &hyp->o.view))
+107,108c107,108
+< 	if (ato_coor(raw_split[0], &para->O.c0)
+< 		|| ato_coor(raw_split[1], (t_coor*)&para->O.view)
+---
+> 	if (ato_coor(raw_split[0], &para->o.c0)
+> 		|| ato_coor(raw_split[1], (t_coor*)&para->o.view)
+115c115
+< 	if (h_parse_vect_space(&para->O, &para->O.view))
+---
+> 	if (h_parse_vect_space(&para->o, &para->o.view))
+142,143c142,143
+< 	if (ato_coor(raw_split[0], &sprite->O.c0)
+< 		|| ato_coor(raw_split[1], (t_coor*)&sprite->O.view)
+---
+> 	if (ato_coor(raw_split[0], &sprite->o.c0)
+> 		|| ato_coor(raw_split[1], (t_coor*)&sprite->o.view)
+147c147
+< 	if (h_parse_vect_space(&sprite->O, &sprite->O.view))
+---
+> 	if (h_parse_vect_space(&sprite->o, &sprite->o.view))
+149,150c149,150
+< 	sprite->d = -(sprite->O.view.dx * sprite->O.c0.x + sprite->O.view.dy \
+< 		* sprite->O.c0.y + sprite->O.view.dz * sprite->O.c0.z);
+---
+> 	sprite->d = -(sprite->o.view.dx * sprite->o.c0.x + sprite->o.view.dy \
+> 		* sprite->o.c0.y + sprite->o.view.dz * sprite->o.c0.z);
+174,175c174,175
+< 	if (ato_coor(raw_split[0], &obj->O.c0)
+< 		|| ato_coor(raw_split[1], (t_coor *)&obj->O.view)
+---
+> 	if (ato_coor(raw_split[0], &obj->o.c0)
+> 		|| ato_coor(raw_split[1], (t_coor *)&obj->o.view)
+184c184
+< 	if (h_parse_vect_space(&obj->O, &obj->O.view))
+---
+> 	if (h_parse_vect_space(&obj->o, &obj->o.view))
+diff --color -r src/Tools_other.c ../minirt_intra/src/Tools_other.c
+97c97
+< 		c->apex = new_moved_point(&obj->O.c0, &obj->O.view, c->h);
+---
+> 		c->apex = new_moved_point(&obj->o.c0, &obj->o.view, c->h);
+102,103c102,103
+< 		((t_cylinder *)obj)->xyz_other = new_moved_point(&obj->O.c0, \
+< 			&obj->O.view, ((t_cylinder *)obj)->height);
+---
+> 		((t_cylinder *)obj)->xyz_other = new_moved_point(&obj->o.c0, \
+> 			&obj->o.view, ((t_cylinder *)obj)->height);
+105c105
+< 		((t_plane *)obj)->d = -ft_dot_p(&obj->O.view, (t_vect *)&obj->O.c0);
+---
+> 		((t_plane *)obj)->d = -ft_dot_p(&obj->o.view, (t_vect *)&obj->o.c0);
+109,110c109,110
+< 		a->xyz_other = new_moved_point(&obj->O.c0, &obj->O.view, a->h * 2 / 3);
+< 		a->apex = new_moved_point(&obj->O.c0, &obj->O.view, a->h);
+---
+> 		a->xyz_other = new_moved_point(&obj->o.c0, &obj->o.view, a->h * 2 / 3);
+> 		a->apex = new_moved_point(&obj->o.c0, &obj->o.view, a->h);
+diff --color -r src/Tools_rotation.c ../minirt_intra/src/Tools_rotation.c
+29,33c29,33
+< 	c.cA = cos(angle_a / 2);
+< 	c.sA = sin(-angle_a / 2);
+< 	c.cB = cos(angle_b / 2);
+< 	c.sB = sin(-angle_b / 2);
+< 	c.Qw = c.cA * c.cB - c.sA * c.sB * (obj->right.dx * obj->up.dx + \
+---
+> 	c.ca = cos(angle_a / 2);
+> 	c.sa = sin(-angle_a / 2);
+> 	c.cb = cos(angle_b / 2);
+> 	c.sb = sin(-angle_b / 2);
+> 	c.qw = c.ca * c.cb - c.sa * c.sb * (obj->right.dx * obj->up.dx + \
+35,49c35,49
+< 	c.Qi = c.cB * c.sA * obj->up.dx + c.cA * c.sB * obj->right.dx + \
+< 		c.sA * c.sB * (obj->right.dy * obj->up.dz - obj->right.dz * obj->up.dy);
+< 	c.Qj = c.cB * c.sA * obj->up.dy + c.cA * c.sB * obj->right.dy + \
+< 		c.sA * c.sB * (obj->right.dz * obj->up.dx - obj->right.dx * obj->up.dz);
+< 	c.Qk = c.cB * c.sA * obj->up.dz + c.cA * c.sB * obj->right.dz + \
+< 		c.sA * c.sB * (obj->right.dx * obj->up.dy - obj->right.dy * obj->up.dx);
+< 	rotated.dx = obj->view.dx * (c.Qw * c.Qw + c.Qi * c.Qi - c.Qj * c.Qj - \
+< 		c.Qk * c.Qk) + 2 * obj->view.dy * (c.Qi * c.Qj - c.Qw * c.Qk) + 2 * \
+< 		obj->view.dz * (c.Qi * c.Qk + c.Qw * c.Qj);
+< 	rotated.dy = obj->view.dy * (c.Qw * c.Qw + c.Qj * c.Qj - c.Qi * c.Qi - \
+< 		c.Qk * c.Qk) + 2 * obj->view.dz * (c.Qj * c.Qk - c.Qw * c.Qi) + 2 * \
+< 		obj->view.dx * (c.Qi * c.Qj + c.Qw * c.Qk);
+< 	rotated.dz = obj->view.dz * (c.Qw * c.Qw + c.Qk * c.Qk - c.Qi * c.Qi - \
+< 		c.Qj * c.Qj) + 2 * obj->view.dx * (c.Qi * c.Qk - c.Qw * c.Qj) + 2 * \
+< 		obj->view.dy * (c.Qj * c.Qk + c.Qw * c.Qi);
+---
+> 	c.qi = c.cb * c.sa * obj->up.dx + c.ca * c.sb * obj->right.dx + \
+> 		c.sa * c.sb * (obj->right.dy * obj->up.dz - obj->right.dz * obj->up.dy);
+> 	c.qj = c.cb * c.sa * obj->up.dy + c.ca * c.sb * obj->right.dy + \
+> 		c.sa * c.sb * (obj->right.dz * obj->up.dx - obj->right.dx * obj->up.dz);
+> 	c.qk = c.cb * c.sa * obj->up.dz + c.ca * c.sb * obj->right.dz + \
+> 		c.sa * c.sb * (obj->right.dx * obj->up.dy - obj->right.dy * obj->up.dx);
+> 	rotated.dx = obj->view.dx * (c.qw * c.qw + c.qi * c.qi - c.qj * c.qj - \
+> 		c.qk * c.qk) + 2 * obj->view.dy * (c.qi * c.qj - c.qw * c.qk) + 2 * \
+> 		obj->view.dz * (c.qi * c.qk + c.qw * c.qj);
+> 	rotated.dy = obj->view.dy * (c.qw * c.qw + c.qj * c.qj - c.qi * c.qi - \
+> 		c.qk * c.qk) + 2 * obj->view.dz * (c.qj * c.qk - c.qw * c.qi) + 2 * \
+> 		obj->view.dx * (c.qi * c.qj + c.qw * c.qk);
+> 	rotated.dz = obj->view.dz * (c.qw * c.qw + c.qk * c.qk - c.qi * c.qi - \
+> 		c.qj * c.qj) + 2 * obj->view.dx * (c.qi * c.qk - c.qw * c.qj) + 2 * \
+> 		obj->view.dy * (c.qj * c.qk + c.qw * c.qi);
+diff --color -r src/Tools_textures.c ../minirt_intra/src/Tools_textures.c
+4c4
+< /*   Tools_textures.c                                   :+:      :+:    :+:   */
+---
+> /*   AB_helpers_img.c                                   :+:      :+:    :+:   */
+9c9
+< /*   Updated: 2025/04/06 12:21:10 by kalipso          ###   ########.fr       */
+---
+> /*   Updated: 2025/04/01 12:48:28 by kalipso          ###   ########.fr       */

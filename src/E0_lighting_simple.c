@@ -27,11 +27,12 @@ void	ft_lighting_simple(t_data *data, t_c_px *c)
 		return ;
 	}
 	c->diffuse = ft_ambient(data, c);
-	lights = data->light - 1;
-	while (++lights && *lights)
+	lights = data->light;
+	while (lights && *lights)
 	{
-		if (!ft_diffuse_simple(data, c, *lights))
+		if (!ft_diffuse_simple(data, c, *lights) && ++lights)
 			continue ;
+		lights++;
 	}
 	c->mat.argb.r = fmax(0, fmin(255, round(c->diffuse.x)));
 	c->mat.argb.g = fmax(0, fmin(255, round(c->diffuse.y)));

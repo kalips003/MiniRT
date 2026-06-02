@@ -1,6 +1,6 @@
 # Blender 4.3.2
 # www.blender.org
-mtllib queen.mtl
+mtllib mtl/queen.mtl
 o WhiteQueen
 v 0.000000 9.550341 -0.177502
 v 0.000000 9.212714 -0.287203

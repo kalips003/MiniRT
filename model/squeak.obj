@@ -1,7 +1,7 @@
 # File produced by Open Asset Import Library (http://www.assimp.sf.net)
 # (assimp v5.0.1588609223)
 
-mtllib result.mtl
+mtllib mtl/result.mtl
 
 # 5600 vertex positions
 v  -130.82666 212.62689 -216.9675

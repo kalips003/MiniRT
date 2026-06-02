@@ -1,0 +1,95 @@
+
+// ========================
+// REAL CHANGES (FILTERED)
+// ========================
+
+// [1] C_find_colision.c — pointer iteration bug fix
+// -------------------------------------------------
+// - Changed initialization and iteration of object list pointers.
+
+// Before:
+    obj_ptr = data->objects - 1;
+    while (++obj_ptr && *obj_ptr)
+
+// After:
+    obj_ptr = data->objects;
+    while (obj_ptr && *obj_ptr)
+        ...
+    obj_ptr++;
+
+// (Repeated in multiple loops)
+
+// Meaning:
+// - Fixes unsafe pointer pre-decrement pattern.
+// - Ensures proper traversal of object array/list.
+
+
+// [2] E0_lighting.c — light loop iteration fix
+// ---------------------------------------------
+// Before:
+    lights = data->light - 1;
+    while (++lights && *lights)
+
+// After:
+    lights = data->light;
+    while (lights && *lights)
+        ...
+    lights++;
+
+// Meaning:
+// - Fixes off-by-one / sentinel iteration bug.
+// - Ensures correct traversal of light array.
+
+
+// [3] E0_lighting_simple.c — same loop fix
+// ----------------------------------------
+// Before:
+    lights = data->light - 1;
+    while (++lights && *lights)
+
+// After:
+    lights = data->light;
+    while (lights && *lights)
+        lights++;
+
+// Meaning:
+// - Consistency fix with main lighting loop.
+
+
+// [4] D9_dist_objects.c — texture coordinate correction
+// ------------------------------------------------------
+// Before:
+    normal_map = return_vect_img(obj->param.n_map, c->u, c->v);
+
+// After:
+    normal_map = return_vect_img(obj->param.n_map, c->u, 1.0 - c->v);
+
+// Meaning:
+// - Fixes vertical UV mapping (texture flip on V axis).
+// - This is a real visual correction.
+
+
+// [5] Parse_Obj_mtl.c — material texture loading refactor
+// --------------------------------------------------------
+// Before:
+    // Generic handling of multiple texture maps via:
+    //     map_Kd, map_d, map_Ka, map_Pr, map_bump
+    // Using:
+        t_img **img;
+        *img = parse_img(...)
+
+// After:
+//     Only map_Kd handled:
+        mat->txt = parse_img(data, path);
+
+// Removed:
+// - alpha map
+// - roughness map
+// - ambient occlusion map
+// - bump map abstraction layer
+
+// Meaning:
+// - Simplification of material system.
+// - Reduced supported PBR-like features to base diffuse texture.
+
+

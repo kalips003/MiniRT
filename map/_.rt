@@ -22,8 +22,8 @@ cy 0,0,0 0,1,0   3    9.42  255,0,0		### C= S= T=0,1 M=  ### X= N= A= O= s= R=
 co 0,0,0 0,1,0   3    15  255,0,0		### C= S= T=0,1 M=  ### X= N= A= O= s= R=
 #   (hy) Hyperboloid:		POSITION (xyz)		VECTOR [-1.0, 1.0]		ABC [double]	RADIUS²		COLOR_rgb [0, 255]
 hy 0,0,0	0,1,0	1,1,1	1  255,0,0		### C= S= T=0,1 M=  ### X= N= A= O= s= R=
-#   (pa) Paraboloid:		POSITION (xyz)		VECTOR [-1.0, 1.0]		ABC [double]	COLOR_rgb [0, 255]
-pa 0,0,0	0,1,0	1,1,1	255,0,0		### C= S= T=0,1 M=  ### X= N= A= O= s= R=
+#   (pa) Paraboloid:		POSITION (xyz)		VECTOR [-1.0, 1.0]		ABC [double]	RADIUS      COLOR_rgb [0, 255]
+pa 0,0,0	0,1,0	1,1,1	1   255,0,0		### C= S= T=0,1 M=  ### X= N= A= O= s= R=
 #   (ar) Arrow:			POSITION (xyz)		VECTOR [-1.0, 1.0]		RADIUS		HEIGHT		COLOR_rgb [0, 255]
 ar 0,0,0 0,1,0   3    15  255,0,0		### C= S= T=0,1 M=  ### X= N= A= O= s= R=
 #   (cu) CUBE:			POSITION (xyz)		VECTOR [-1.0, 1.0]		SIZE		COLOR_rgb [0, 255]

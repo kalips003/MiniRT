@@ -1,6 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
-mtllib cow.mtl
+mtllib mtl/cow.mtl
 g default
 v -0.000000 7.362539 -4.519318
 v -0.000000 7.420104 -5.201727

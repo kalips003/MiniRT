@@ -1,6 +1,6 @@
 # Blender 4.3.2
 # www.blender.org
-mtllib pawn.mtl
+mtllib mtl/pawn.mtl
 o PrimaryWhitePawn.007
 v 0.000001 6.323977 -0.426096
 v 0.000001 5.513493 -0.689438

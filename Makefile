@@ -66,6 +66,12 @@ m: $(NAME)
 		./$(word 1, $^) $$map; \
 	done
 
+n: $(NAME)
+	-@for map in MAP/examples/*; do \
+		$(call random_shmol_cat, teshting ... $$map: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), ); \
+		./$(word 1, $^) $$map; \
+	done
+
 define rules
 	@printf "\n\033[1;35m=====================================\n"
 	@printf "           CONTROLS GUIDE            \n"

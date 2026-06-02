@@ -13,7 +13,7 @@ A 						0.2 					255,255,255
 # galaxy ball
 # L 10,10,10 		0.81 			234,43,198
 L -9,1,-8 		1 				255,255,255
-sp 0,0,0	10	230,15,0		### T=0.7,1 # M=0 # C= # S=   ### X=txt/starmap.xpm N= A=
+sp 0,0,0	10	230,15,0		### T=0.7,1 # M=0 # C= # S=   ### X=model/txt/starmap.xpm N= A=
 sp 0,0,0	5	230,15,0		### T=0,1 # M=0 # C= # S=   ### X=txt/t_earth.xpm N= A=
 
 

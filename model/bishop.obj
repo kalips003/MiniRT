@@ -1,6 +1,6 @@
 # Blender 4.3.2
 # www.blender.org
-mtllib bishop.mtl
+mtllib mtl/bishop.mtl
 o PrimaryWhiteBishop.001
 v 0.144620 9.732566 -0.144620
 v 0.144620 9.496403 -0.144620

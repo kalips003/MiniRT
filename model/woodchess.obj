@@ -1,10 +1,10 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
 # File Created: 12.01.2012 14:34:26
 
-mtllib 12931_WoodenChessPawnSideA_v1_l3.mtl
+mtllib mtl/wood_chess.mtl
 
 #
-# object 12931_WoodenChessPawnSideA
+# object wood_chess
 #
 
 v  -16.9216 -10.7316 0.0044

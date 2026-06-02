@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
 # File Created: 07.05.2017 16:56:35
 
-mtllib igloo.mtl
+mtllib mtl/igloo.mtl
 
 #
 # object Sphere001

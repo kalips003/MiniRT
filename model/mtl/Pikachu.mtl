@@ -1,6 +1,6 @@
 # Blender MTL File: ''
 # Material Count: 4
-newmtl PikachuDh_PikachuDh.png
+newmtl txt/PikachuDh_PikachuDh.png
 Ns 96.078431
 Ka 0.000000 0.000000 0.000000
 Kd 0.640000 0.640000 0.640000
@@ -8,10 +8,10 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd txt/PikachuDh.xpm
+map_Kd txt/PikachuDh.png
 
 
-newmtl PikachuEyeDh_PikachuEyeDh.png
+newmtl txt/PikachuEyeDh_PikachuEyeDh.png
 Ns 96.078431
 Ka 0.000000 0.000000 0.000000
 Kd 0.640000 0.640000 0.640000
@@ -19,10 +19,10 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd txt/PikachuEyeDh.xpm
+map_Kd model/txt/PikachuEyeDh.png
 
 
-newmtl PikachuHohoDh_PikachuHohoDh.png
+newmtl model/txt/PikachuHohoDh_PikachuHohoDh.png
 Ns 96.078431
 Ka 0.000000 0.000000 0.000000
 Kd 0.640000 0.640000 0.640000
@@ -30,10 +30,10 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd txt/PikachuHohoDh.xpm
+map_Kd model/txt/PikachuHohoDh.png
 
 
-newmtl PikachuMouthDh_PikachuMouthDh.png
+newmtl model/txt/PikachuMouthDh_PikachuMouthDh.png
 Ns 96.078431
 Ka 0.000000 0.000000 0.000000
 Kd 0.640000 0.640000 0.640000
@@ -41,6 +41,6 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd txt/PikachuMouthDh.xpm
+map_Kd model/txt/PikachuMouthDh.png
 
 

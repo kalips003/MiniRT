@@ -1,6 +1,6 @@
 # Noesis .obj export.
 #
-mtllib Pachirisu.mtl
+mtllib mtl/Pachirisu.mtl
 g
 v  0.697041 1.404017 0.457468
 v  0.740212 1.503605 0.469694
@@ -2703,7 +2703,7 @@ vn  -0.841872 0.488534 0.229317
 vn  -0.956343 0.218148 0.194472
 
 g rdmobj00
-usemtl PachirisuDh.png
+usemtl txt/PachirisuDh.png
 f  1/1/1 2/2/2 3/3/3
 f  4/4/4 5/5/5 6/6/6
 f  7/7/7 8/8/8 9/9/9

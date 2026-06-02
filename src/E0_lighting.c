@@ -29,12 +29,13 @@ void	ft_lighting(t_data *data, t_c_px *c, int (*f_shadow)(t_data*, t_c_px*))
 			(void)0);
 	c->diffuse = ft_ambient(data, c);
 	c->specular = (t_coor){0.0, 0.0, 0.0};
-	lights = data->light - 1;
-	while (++lights && *lights)
+	lights = data->light;
+	while (lights && *lights)
 	{
-		if (!ft_diffuse(data, c, *lights, f_shadow))
+		if (!ft_diffuse(data, c, *lights, f_shadow) && ++lights)
 			continue ;
 		ft_specular(c);
+    	lights++;
 	}
 	ft_refracted(data, c);
 	ft_reflected(data, c);

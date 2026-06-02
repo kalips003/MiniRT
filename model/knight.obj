@@ -1,6 +1,6 @@
 # Blender 4.3.2
 # www.blender.org
-mtllib knight.mtl
+mtllib mtl/knight.mtl
 o WhiteKnight.001
 v -0.899853 4.246714 -1.186698
 v -1.306708 4.246714 -0.204466

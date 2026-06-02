@@ -1,6 +1,6 @@
 # Blender 4.3.2
 # www.blender.org
-mtllib king.mtl
+mtllib mtl/king.mtl
 o WhiteKing
 v -0.567233 8.739027 0.567234
 v -1.590991 2.000000 1.590990
