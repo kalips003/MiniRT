@@ -21,6 +21,20 @@
 //
 ///////////////////////////////////////////////////////////////////////////////]
 
+# define SZ_X 1000
+# define SZ_Y 800
+
+# define SPECULAR_ON_OFF 1
+# define MAX_TR_DEPTH 4
+# define MAX_MI_DEPTH 4
+# define MAX_RAY_BOUNCE 5
+
+#define	NUM_THREAD	12
+
+///////////////////////////////////////////////////////////////////////////////]
+///////////////////////////////////////////////////////////////////////////////]
+///////////////////////////////////////////////////////////////////////////////]
+
 # define PI 3.14159265358979323846
 # define SQRT3 1.7320508075688771931766041
 # define EPSILON 1e-6
@@ -28,15 +42,7 @@
 
 # define SCALAR_LIGHT_DIST 200.0
 # define HEIGHT_MAP_DISPLACEMENT 5.0
-
-# define SPECULAR_ON_OFF 1
-# define MAX_TR_DEPTH 4
-# define MAX_MI_DEPTH 4
-# define MAX_RAY_BOUNCE 5
 # define LEAF_NODE 3
-
-# define SZ_Y 800
-# define SZ_X 1000
 
 #define CIRCLE 0
 #define SPHERE 1
@@ -68,8 +74,6 @@
 # define CALC_SHADOWS 1
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
-
-
 ///////////////////////////////////////////////////////////////////////////////]
 // # define ANTI_ALIASING 0
 # define RENDERING_LVL 2
@@ -80,7 +84,6 @@
 # define FAKE_L_REFR 2
 # define FAKE_REFR_POW 2
 
-#define	NUM_THREAD	12
 
 
 

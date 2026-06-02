@@ -67,7 +67,7 @@ m: $(NAME)
 	done
 
 n: $(NAME)
-	-@for map in MAP/examples/*; do \
+	-@for map in map/examples/*; do \
 		$(call random_shmol_cat, teshting ... $$map: miiniRT !!, 'hav fun ね? ($(word 1, $^))', $(CLS), ); \
 		./$(word 1, $^) $$map; \
 	done
@@ -95,6 +95,7 @@ define rules
 	@printf "  • Movement applies to selected object\n\n"
 
 	@printf "\033[1;36mMisc\033[0m\n"
+	@printf "  • (h) → Print help of functionalities\n"
 	@printf "  • (n) → toggle cameras\n"
 	@printf "  • Input file updates in real time\n\n"
 
